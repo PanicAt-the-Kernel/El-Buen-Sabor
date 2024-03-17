@@ -1,4 +1,4 @@
 # El-Buen-Sabor
-#Listado de Integrantes
-#Velasco Nicolas
-#Ribotta Martin
+### Listado de Integrantes
+- Velasco Nicolas
+- Ribotta Martin
