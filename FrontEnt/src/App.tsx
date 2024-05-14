@@ -1,9 +1,10 @@
 import { BrowserRouter,Routes,Route } from 'react-router-dom'
+import DashboardVistaInicio from './paginas/DashboardVistaInicio'
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/*RUTAS A DISTINTAS PAGINAS DEL FRONTEND */}
+        <Route index element={<DashboardVistaInicio />}/>
       </Routes>
     </BrowserRouter>
   )
