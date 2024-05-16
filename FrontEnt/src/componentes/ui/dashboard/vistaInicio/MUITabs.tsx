@@ -74,10 +74,10 @@ export default function MUITabs() {
         </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Aqui iran enlaces rapidos estilo dashboard de la sophi
+        Accesos Rapidos.
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Aqui iran las alertas de bajo stock
+        Alertas Bajo stock.
       </CustomTabPanel>
     </Box>
   );

@@ -49,7 +49,7 @@ function Sidebar({collapsed,setBroken,toggled}:SidebarProps) {
             Lista de Productos
           </MenuItem>
         </SubMenu>
-        <MenuItem icon={<PeopleIcon />}>
+        <MenuItem component={<a href="/empleados"></a>} icon={<PeopleIcon />}>
           Empleados
         </MenuItem>
         <MenuItem icon={<AttachMoneyIcon />}>
