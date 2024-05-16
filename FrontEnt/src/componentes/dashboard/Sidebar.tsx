@@ -38,7 +38,7 @@ function Sidebar({collapsed,setBroken,toggled}:SidebarProps) {
     >
       <Menu>
         <MenuItem component={<a href="/"></a>} icon={<HomeIcon />}>Inicio</MenuItem>
-        <MenuItem icon={<CorporateFareIcon />}>
+        <MenuItem component={<a href="/empresas"></a>} icon={<CorporateFareIcon />}>
           Empresa
         </MenuItem>
         <SubMenu label="Productos" icon={<FastfoodIcon />}>
