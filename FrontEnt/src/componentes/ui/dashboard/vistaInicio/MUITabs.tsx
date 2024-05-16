@@ -1,8 +1,9 @@
-import * as React from 'react';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import * as React from "react";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
+import { Grid, Paper } from "@mui/material";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -33,7 +34,7 @@ function CustomTabPanel(props: TabPanelProps) {
 function a11yProps(index: number) {
   return {
     id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
   };
 }
 
@@ -45,16 +46,32 @@ export default function MUITabs() {
   };
 
   return (
-    <Box sx={{ width: '100%' }}>
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+    <Box sx={{ width: "100%" }}>
+      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+        <Tabs
+          value={value}
+          onChange={handleChange}
+          aria-label="basic tabs example"
+          centered
+        >
           <Tab label="Estadisticas" {...a11yProps(0)} />
           <Tab label="Accesos Rapidos" {...a11yProps(1)} />
           <Tab label="Alertas de Stock" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        Aqui ira las estadisticas financieras
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Paper elevation={5}>
+              <img src={"/imgs/grafico1.png"} className="img-fluid" />
+            </Paper>
+          </Grid>
+          <Grid item xs={6}>
+            <Paper elevation={5}>
+              <img src={"/imgs/grafico2.png"} className="img-fluid" />
+            </Paper>
+          </Grid>
+        </Grid>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
         Aqui iran enlaces rapidos estilo dashboard de la sophi
