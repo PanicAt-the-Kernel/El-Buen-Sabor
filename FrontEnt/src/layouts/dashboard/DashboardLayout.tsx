@@ -23,13 +23,6 @@ const basilTheme = createTheme({
       dark:"#E7D59C",
       contrastText:"#000000"
     },
-  },
-  typography:{
-    fontFamily:[
-      'roboto',
-      'lekton',
-      'montserrat'
-    ].join(',')
   }
 });
 
@@ -65,7 +58,6 @@ function DashboardLayout({children}:DashboardLayoutTypes) {
         />
         <Box component="main">
           <Container>{/*AQUI IRAN LAS VISTAS DEL DASHBOARD */}
-            <h1>AQUI IRAN LOS COMPONENTES HIJOS</h1>
             {children}
           </Container>
         </Box>
