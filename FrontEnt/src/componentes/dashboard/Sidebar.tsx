@@ -37,7 +37,7 @@ function Sidebar({collapsed,setBroken,toggled}:SidebarProps) {
         toggled={toggled}
     >
       <Menu>
-        <MenuItem icon={<HomeIcon />}>Inicio</MenuItem>
+        <MenuItem component={<a href="/"></a>} icon={<HomeIcon />}>Inicio</MenuItem>
         <MenuItem icon={<CorporateFareIcon />}>
           Empresa
         </MenuItem>
@@ -45,7 +45,7 @@ function Sidebar({collapsed,setBroken,toggled}:SidebarProps) {
           <MenuItem icon={<CategoryIcon />}>
             Categorias
           </MenuItem>
-          <MenuItem icon={<MenuBookIcon />}>
+          <MenuItem component={<a href="/productos"></a>} icon={<MenuBookIcon />}>
             Lista de Productos
           </MenuItem>
         </SubMenu>
