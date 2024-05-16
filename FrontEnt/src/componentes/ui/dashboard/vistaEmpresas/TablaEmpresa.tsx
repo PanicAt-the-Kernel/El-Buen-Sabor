@@ -14,6 +14,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AgregarEmpresaModal from './AgregarEmpresaModal';
+import MostrarSucursalesModal from './MostrarSucursalesModal';
 
 interface Product {
   id: number;
@@ -26,7 +27,8 @@ interface Product {
 const TablaEmpresa: React.FC = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
-  const [open, setOpen] = useState(false);
+  const [openAgregar, setOpenAgregar] = useState(false);
+  const [openSucursal, setOpenSucursal] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -37,14 +39,20 @@ const TablaEmpresa: React.FC = () => {
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  const handleOpen = (product: Product) => {
+  const handleOpenAgregar = (product: Product) => {
     setEditingProduct(product);
-    setOpen(true);
+    setOpenAgregar(true);
+  };
+
+  const handleOpenSucursal = (product: Product) => {
+    setEditingProduct(product);
+    setOpenSucursal(true);
   };
 
   const handleClose = () => {
     setEditingProduct(null);
-    setOpen(false);
+    setOpenAgregar(false);
+    setOpenSucursal(false);
   };
 
   const handleSubmit = (nombre: string, razonSocial: string, cuil: string) => {
@@ -87,12 +95,12 @@ const TablaEmpresa: React.FC = () => {
                 <TableCell>{product.razonSocial}</TableCell>
                 <TableCell>{product.cuil}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpen(product)}>
+                  <IconButton onClick={() => handleOpenSucursal(product)}>
                     <VisibilityIcon />
                   </IconButton>
                 </TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpen(product)}>
+                  <IconButton onClick={() => handleOpenAgregar(product)}>
                     <EditIcon />
                   </IconButton>
                 </TableCell>
@@ -119,12 +127,19 @@ const TablaEmpresa: React.FC = () => {
       </TableContainer>
       {editingProduct && (
         <AgregarEmpresaModal
-          open={open}
+          open={openAgregar}
           onClose={handleClose}
           onSubmit={handleSubmit}
           initialNombre={editingProduct.nombre}
           initialRazonSocial={editingProduct.razonSocial}
           initialCuil={editingProduct.cuil.toString()}
+        />
+      )} 
+      {editingProduct && (
+        <MostrarSucursalesModal
+          open={openSucursal}
+          onClose={handleClose}
+          initialId={editingProduct.id}
         />
       )}
     </>
