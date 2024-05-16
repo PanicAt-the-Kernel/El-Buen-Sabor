@@ -6,6 +6,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  TablePagination,
   Paper,
   IconButton
 } from '@mui/material';
@@ -24,7 +25,14 @@ interface Product {
 const initialProducts: Product[] = [
   { id: 1, name: 'Harina para Pizzas Caseras "Morixe" x 1kg', price: 3400, quantity: 5, image: 'https://images.rappi.com.ar/products/cec5ed5c-02e4-4c70-896e-8a76e28501d6.jpg?e=webp&q=80&d=130x130' },
   { id: 2, name: 'Queso cremoso "Supercrem" x 1 kg', price: 3800, quantity: 3, image: 'https://images.pricely.ar/images/14/2505259000002.jpg' },
-  // Agrega más Insumos si es necesario
+  { id: 3, name: 'Tomate Perita en Lata x 400g', price: 2500, quantity: 10, image: 'https://images.rappi.com.ar/products/cec5ed5c-02e4-4c70-896e-8a76e28501d6.jpg?e=webp&q=80&d=130x130' },
+  { id: 4, name: 'Aceite de Oliva Extra Virgen "Olivenza" x 500ml', price: 6000, quantity: 8, image: 'https://images.rappi.com.ar/products/cec5ed5c-02e4-4c70-896e-8a76e28501d6.jpg?e=webp&q=80&d=130x130' },
+  { id: 5, name: 'Orégano Deshidratado "San Remo" x 10g', price: 1500, quantity: 15, image: 'https://images.rappi.com.ar/products/cec5ed5c-02e4-4c70-896e-8a76e28501d6.jpg?e=webp&q=80&d=130x130' },
+  { id: 6, name: 'Aceitunas Verdes Descarozadas x 500g', price: 4200, quantity: 6, image: 'https://images.rappi.com.ar/products/cec5ed5c-02e4-4c70-896e-8a76e28501d6.jpg?e=webp&q=80&d=130x130' },
+  { id: 7, name: 'Peperoni en Lonchas x 200g', price: 2900, quantity: 4, image: 'https://images.rappi.com.ar/products/cec5ed5c-02e4-4c70-896e-8a76e28501d6.jpg?e=webp&q=80&d=130x130' },
+  { id: 8, name: 'Mozzarella en Bloque x 500g', price: 4100, quantity: 7, image: 'https://images.rappi.com.ar/products/cec5ed5c-02e4-4c70-896e-8a76e28501d6.jpg?e=webp&q=80&d=130x130' },
+  { id: 9, name: 'Masa para Pizza 4 Quesos', price: 3700, quantity: 9, image: 'https://images.rappi.com.ar/products/cec5ed5c-02e4-4c70-896e-8a76e28501d6.jpg?e=webp&q=80&d=130x130' },
+  { id: 10, name: 'Salsa de Tomate Casera x 520g', price: 1900, quantity: 12, image: 'https://images.rappi.com.ar/products/cec5ed5c-02e4-4c70-896e-8a76e28501d6.jpg?e=webp&q=80&d=130x130' },
 ];
 
 const TablaInsumo: React.FC = () => {
@@ -48,7 +56,21 @@ const TablaInsumo: React.FC = () => {
     console.log('Cantidad:', cantidad);
     console.log('URL Imagen:', imgUrl);
     handleClose();
-};
+  };
+
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  //@ts-ignore
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  //@ts-ignore
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
 
   return (
     <>
@@ -56,18 +78,18 @@ const TablaInsumo: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell>Imagen</TableCell>
-              <TableCell>Nombre</TableCell>
-              <TableCell>Precio</TableCell>
-              <TableCell>Cantidad</TableCell>
-              <TableCell>Editar</TableCell>
-              <TableCell>Eliminar</TableCell>
+              <TableCell style={{ width: '10%' }}>Imagen</TableCell>
+              <TableCell style={{ width: '50%' }}>Nombre</TableCell>
+              <TableCell style={{ width: '10%' }}>Precio</TableCell>
+              <TableCell style={{ width: '10%' }}>Cantidad</TableCell>
+              <TableCell style={{ width: '5%' }}>Editar</TableCell>
+              <TableCell style={{ width: '5%' }}>Eliminar</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.map((product) => (
+            {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
               <TableRow key={product.id}>
-                <TableCell><img src={product.image} alt={product.name} style={{ width: '100px', height: '100px', objectFit: 'cover' }}/></TableCell>
+                <TableCell><img src={product.image} alt={product.name} style={{ width: '60px', height: '60px', objectFit: 'cover' }} /></TableCell>
                 <TableCell>{product.name}</TableCell>
                 <TableCell>${product.price}</TableCell>
                 <TableCell>{product.quantity}</TableCell>
@@ -87,6 +109,15 @@ const TablaInsumo: React.FC = () => {
             ))}
           </TableBody>
         </Table>
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25]}
+          component="div"
+          count={initialProducts.length}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          />
       </TableContainer>
       {editingProduct && (
         <AgregarInsumoModal 

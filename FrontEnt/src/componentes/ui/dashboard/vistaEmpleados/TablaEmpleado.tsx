@@ -30,10 +30,12 @@ function TablaEmpleado() {
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
+  //@ts-ignore
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
 
+  //@ts-ignore
   const handleChangeRowsPerPage = (event) => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
@@ -70,7 +72,8 @@ function TablaEmpleado() {
             </TableRow>
           )}
         </TableBody>
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
+      </Table>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', width: '100%' }}>
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
@@ -82,7 +85,6 @@ function TablaEmpleado() {
           sx={{ minWidth: 500 }}
         />
       </Box>
-      </Table>
     </TableContainer>
   );
 }
