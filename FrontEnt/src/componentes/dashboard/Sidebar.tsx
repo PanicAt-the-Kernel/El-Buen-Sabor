@@ -55,7 +55,7 @@ function Sidebar({collapsed,setBroken,toggled}:SidebarProps) {
         <MenuItem icon={<AttachMoneyIcon />}>
           Promociones
         </MenuItem>
-        <MenuItem icon={<ShoppingBasketIcon />}>
+        <MenuItem component={<a href="/insumos"></a>} icon={<ShoppingBasketIcon />}>
           Insumos
         </MenuItem>
       </Menu>

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
-import AgregarProductoModal from './AgregarProductoModal';
+import AgregarInsumoModal from './AgregarInsumoModal';
 
-function BotonAgregarProducto() {
+function BotonAgregarInsumo() {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -30,9 +30,9 @@ function BotonAgregarProducto() {
                 startIcon={<AddCircleIcon />}
                 onClick={handleOpen}
             >
-                Agregar Producto
+                Agregar Insumo
             </Button>
-            <AgregarProductoModal 
+            <AgregarInsumoModal 
                 open={open} 
                 onClose={handleClose} 
                 onSubmit={handleSubmit} 
@@ -45,4 +45,4 @@ function BotonAgregarProducto() {
     );
 }
 
-export default BotonAgregarProducto;
+export default BotonAgregarInsumo;

@@ -11,7 +11,7 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import AgregarProductoModal from './AgregarProductoModal';
+import AgregarInsumoModal from './AgregarInsumoModal';
 
 interface Product {
   id: number;
@@ -22,12 +22,12 @@ interface Product {
 }
 
 const initialProducts: Product[] = [
-  { id: 1, name: 'Pizza Muzarella', price: 3400, quantity: 5, image: 'https://lighthouseco.work/web/image/product.template/294/image_256/%5BPIZPORMUZ%5D%20Pizza%20Porci%C3%B3n?unique=d0bbb23' },
-  { id: 2, name: 'Pizza Caprese', price: 3800, quantity: 3, image: 'https://www.carriesexperimentalkitchen.com/wp-content/uploads/2017/02/Pizza.Margherita-horizontal-256x256.jpg' },
-  // Agrega más productos si es necesario
+  { id: 1, name: 'Harina para Pizzas Caseras "Morixe" x 1kg', price: 3400, quantity: 5, image: 'https://images.rappi.com.ar/products/cec5ed5c-02e4-4c70-896e-8a76e28501d6.jpg?e=webp&q=80&d=130x130' },
+  { id: 2, name: 'Queso cremoso "Supercrem" x 1 kg', price: 3800, quantity: 3, image: 'https://images.pricely.ar/images/14/2505259000002.jpg' },
+  // Agrega más Insumos si es necesario
 ];
 
-const TablaProducto: React.FC = () => {
+const TablaInsumo: React.FC = () => {
   const [products, setProducts] = useState<Product[]>(initialProducts);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   const [open, setOpen] = useState(false);
@@ -67,7 +67,7 @@ const TablaProducto: React.FC = () => {
           <TableBody>
             {products.map((product) => (
               <TableRow key={product.id}>
-                <TableCell><img src={product.image} alt={product.name} style={{ width: '100px', height: '100px', objectFit: 'cover' }} /></TableCell>
+                <TableCell><img src={product.image} alt={product.name} style={{ width: '100px', height: '100px', objectFit: 'cover' }}/></TableCell>
                 <TableCell>{product.name}</TableCell>
                 <TableCell>${product.price}</TableCell>
                 <TableCell>{product.quantity}</TableCell>
@@ -89,7 +89,7 @@ const TablaProducto: React.FC = () => {
         </Table>
       </TableContainer>
       {editingProduct && (
-        <AgregarProductoModal 
+        <AgregarInsumoModal 
         open={open} 
         onClose={handleClose} 
         onSubmit={handleSubmit} 
@@ -103,4 +103,4 @@ const TablaProducto: React.FC = () => {
   );
 };
 
-export default TablaProducto;
+export default TablaInsumo;
