@@ -26,9 +26,9 @@ const basilTheme = createTheme({
   },
   typography:{
     fontFamily:[
-      'roboto',
+      /*'roboto',
       'lekton',
-      'montserrat'
+      'montserrat'*/
     ].join(',')
   }
 });

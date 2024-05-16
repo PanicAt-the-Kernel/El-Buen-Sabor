@@ -4,21 +4,21 @@ import { Modal, Box, TextField, Typography, Stack, Button } from '@mui/material'
 interface AgregarProductoModalProps {
     open: boolean;
     onClose: () => void;
-    onSubmit: (nombre: string, precio: string, cantidad: string, imgUrl: string) => void;
+    onSubmit: (nombre: string, precio: string, tiempo: string, imgUrl: string) => void;
     initialNombre: string;
     initialPrecio: string;
-    initialCantidad: string;
+    initialTiempo: string;
     initialImgUrl: string;
 }
 
-const AgregarProductoModal: React.FC<AgregarProductoModalProps> = ({ open, onClose, onSubmit, initialNombre, initialPrecio, initialCantidad, initialImgUrl }) => {
+const AgregarProductoModal: React.FC<AgregarProductoModalProps> = ({ open, onClose, onSubmit, initialNombre, initialPrecio, initialTiempo, initialImgUrl }) => {
     const [nombre, setNombre] = useState(initialNombre);
     const [precio, setPrecio] = useState(initialPrecio);
-    const [cantidad, setCantidad] = useState(initialCantidad);
+    const [tiempo, setTiempo] = useState(initialTiempo);
     const [imgUrl, setImgUrl] = useState(initialImgUrl);
 
     const handleSubmit = () => {
-        onSubmit(nombre, precio, cantidad, imgUrl);
+        onSubmit(nombre, precio, tiempo, imgUrl);
     };
 
     return (
@@ -57,10 +57,10 @@ const AgregarProductoModal: React.FC<AgregarProductoModalProps> = ({ open, onClo
                         onChange={(e) => setPrecio(e.target.value)}
                     />
                     <TextField
-                        label="Cantidad"
+                        label="Tiempo estimado en minutos"
                         variant="outlined"
-                        value={cantidad}
-                        onChange={(e) => setCantidad(e.target.value)}
+                        value={tiempo}
+                        onChange={(e) => setTiempo(e.target.value)}
                     />
                     <TextField
                         label="URL Imagen"

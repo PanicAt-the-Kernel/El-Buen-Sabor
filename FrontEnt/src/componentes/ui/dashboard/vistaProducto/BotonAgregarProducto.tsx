@@ -14,10 +14,10 @@ function BotonAgregarProducto() {
         setOpen(false);
     };
 
-    const handleSubmit = (nombre: string, precio: string, cantidad: string, imgUrl: string) => {
+    const handleSubmit = (nombre: string, precio: string, tiempo: string, imgUrl: string) => {
         console.log('Nombre:', nombre);
         console.log('Precio:', precio);
-        console.log('Cantidad:', cantidad);
+        console.log('Tiempo:', tiempo);
         console.log('URL Imagen:', imgUrl);
         handleClose();
     };
@@ -38,7 +38,7 @@ function BotonAgregarProducto() {
                 onSubmit={handleSubmit} 
                 initialNombre="" 
                 initialPrecio="" 
-                initialCantidad="" 
+                initialTiempo="" 
                 initialImgUrl=""
             />
         </>
