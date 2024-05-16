@@ -1,4 +1,4 @@
-import BotonAgregarInsumo from "../componentes/ui/dashboard/vistaInsumos/BotonInsumoProducto";
+import BotonAgregarInsumo from "../componentes/ui/dashboard/vistaInsumos/BotonAgregarInsumo";
 import BuscarInsumo from "../componentes/ui/dashboard/vistaInsumos/BuscarInsumo";
 import TablaInsumo from "../componentes/ui/dashboard/vistaInsumos/TablaInsumo";
 import DashboardLayout from "../layouts/dashboard/DashboardLayout";
