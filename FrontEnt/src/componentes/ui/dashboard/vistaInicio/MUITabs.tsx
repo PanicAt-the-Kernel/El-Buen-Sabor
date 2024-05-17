@@ -3,7 +3,9 @@ import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import { Grid, Paper } from "@mui/material";
+import GraficosHolder from "./GraficosHolder";
+import CardHolder from "./CardHolder";
+import AlertaHolder from "./AlertaHolder";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -41,7 +43,7 @@ function a11yProps(index: number) {
 export default function MUITabs() {
   const [value, setValue] = React.useState(0);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+  const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
@@ -60,24 +62,13 @@ export default function MUITabs() {
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Paper elevation={5}>
-              <img src={"/imgs/grafico1.png"} className="img-fluid" />
-            </Paper>
-          </Grid>
-          <Grid item xs={6}>
-            <Paper elevation={5}>
-              <img src={"/imgs/grafico2.png"} className="img-fluid" />
-            </Paper>
-          </Grid>
-        </Grid>
+        <GraficosHolder />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        Accesos Rapidos.
+        <CardHolder />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        Alertas Bajo stock.
+        <AlertaHolder />
       </CustomTabPanel>
     </Box>
   );

@@ -23,13 +23,6 @@ const basilTheme = createTheme({
       dark:"#E7D59C",
       contrastText:"#000000"
     },
-  },
-  typography:{
-    fontFamily:[
-      /*'roboto',
-      'lekton',
-      'montserrat'*/
-    ].join(',')
   }
 });
 
