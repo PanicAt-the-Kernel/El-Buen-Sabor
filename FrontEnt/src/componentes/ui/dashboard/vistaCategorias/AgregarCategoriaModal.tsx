@@ -4,17 +4,15 @@ import { Modal, Box, TextField, Typography, Stack, Button } from '@mui/material'
 interface AgregarCategoriaModalProps {
     open: boolean;
     onClose: () => void;
-    onSubmit: (nombre: string, categoriaPadre: number | null) => void;
+    onSubmit: (nombre: string) => void;
     initialNombre: string;
-    initialCategoriaPadre: number | null;
 }
 
-const AgregarCategoriaModal: React.FC<AgregarCategoriaModalProps> = ({ open, onClose, onSubmit, initialNombre, initialCategoriaPadre }) => {
+const AgregarCategoriaModal: React.FC<AgregarCategoriaModalProps> = ({ open, onClose, onSubmit, initialNombre }) => {
     const [nombre, setNombre] = useState(initialNombre);
-    const [categoriaPadre, setCategoriaPadre] = useState(initialCategoriaPadre);
 
     const handleSubmit = () => {
-        onSubmit(nombre, categoriaPadre);
+        onSubmit(nombre);
     };
 
     return (
@@ -37,7 +35,7 @@ const AgregarCategoriaModal: React.FC<AgregarCategoriaModalProps> = ({ open, onC
                 }}
             >
                 <Typography variant="h6" id="modal-title" gutterBottom>
-                    Agregar Nuevo Categoria
+                    Agregar Nueva Categoria
                 </Typography>
                 <Stack spacing={2}>
                     <TextField
@@ -45,12 +43,6 @@ const AgregarCategoriaModal: React.FC<AgregarCategoriaModalProps> = ({ open, onC
                         variant="outlined"
                         value={nombre}
                         onChange={(e) => setNombre(e.target.value)}
-                    />
-                    <TextField
-                        label="Id Categoría Padre"
-                        variant="outlined"
-                        value={categoriaPadre}
-                        onChange={(e) => setCategoriaPadre(parseInt(e.target.value))}
                     />
                     <Button variant="contained" color="primary" onClick={handleSubmit}>
                         Guardar

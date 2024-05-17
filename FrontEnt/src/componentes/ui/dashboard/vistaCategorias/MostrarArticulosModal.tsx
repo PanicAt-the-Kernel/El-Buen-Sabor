@@ -17,38 +17,33 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-interface Domicilio {
-    calle: string;
-    numero: string;
-    cp: string;
-    piso?: string;
-    nroDpto?: string;
-    localidad: string;
+interface Articulo {
+    id: string;
+    denominacion: string;
+    precioVenta: string;
 }
 
-interface Sucursal {
-    id: number;
-    nombre: string;
-    horarioApertura: string;
-    horarioCierre: string;
-    domicilio: Domicilio;
+interface Categoria {
+    id: string;
+    denominacion: string;
+    articulos: Articulo[];
 }
 
-interface MostrarSucursalesModalProps {
+interface MostrarArticulosModalProps {
     open: boolean;
     onClose: () => void;
     initialId: number;
 }
 
-const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, onClose, initialId }) => {
-    const [sucursales, setSucursales] = useState<Sucursal[]>([]);
+const MostrarArticulosModal: React.FC<MostrarArticulosModalProps> = ({ open, onClose, initialId }) => {
+    const [articulos, setArticulos] = useState<Articulo[]>([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     useEffect(() => {
-        fetch(`https://buensabor-json-server.onrender.com/empresas/${initialId}/sucursales`)
+        fetch(`https://buensabor-json-server.onrender.com/categorias/${initialId}`)
             .then(response => response.json())
-            .then(data => setSucursales(data))
+            .then((data: Categoria) => setArticulos(data.articulos || []))
             .catch(error => console.error('Error fetching data:', error));
     }, [initialId]);
 
@@ -85,7 +80,7 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
                 color="primary"
                 startIcon={<AddCircleIcon />}
                 >
-                Agregar Sucursal
+                Agregar Artículo
                 </Button>
                 <p></p>
                 <TableContainer component={Paper} style={{ width: '100%' }}>
@@ -93,22 +88,18 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
                         <TableHead>
                             <TableRow>
                                 <TableCell>Id</TableCell>
-                                <TableCell>Nombre</TableCell>
-                                <TableCell>Horario de Apertura</TableCell>
-                                <TableCell>Horario de Cierre</TableCell>
-                                <TableCell>Domicilio</TableCell>
+                                <TableCell>Artículo</TableCell>
+                                <TableCell>Precio de Venta</TableCell>
                                 <TableCell>Editar</TableCell>
                                 <TableCell>Eliminar</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sucursales.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((sucursal) => (
-                                <TableRow key={sucursal.id}>
-                                    <TableCell>{sucursal.id}</TableCell>
-                                    <TableCell>{sucursal.nombre}</TableCell>
-                                    <TableCell>{sucursal.horarioApertura}</TableCell>
-                                    <TableCell>{sucursal.horarioCierre}</TableCell>
-                                    <TableCell>{`${sucursal.domicilio.calle} ${sucursal.domicilio.numero}, ${sucursal.domicilio.localidad.nombre}`}</TableCell>
+                            {articulos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((articulo) => (
+                                <TableRow key={articulo.id}>
+                                    <TableCell>{articulo.id}</TableCell>
+                                    <TableCell>{articulo.denominacion}</TableCell>
+                                    <TableCell>{articulo.precioVenta}</TableCell>
                                     <TableCell>
                                         <IconButton>
                                             <EditIcon />
@@ -126,7 +117,7 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={sucursales.length}
+                        count={articulos.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -138,4 +129,4 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
     );
 };
 
-export default MostrarSucursalesModal;
+export default MostrarArticulosModal;

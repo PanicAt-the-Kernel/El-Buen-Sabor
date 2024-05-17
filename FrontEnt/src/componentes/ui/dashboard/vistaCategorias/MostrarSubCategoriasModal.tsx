@@ -17,38 +17,32 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-interface Domicilio {
-    calle: string;
-    numero: string;
-    cp: string;
-    piso?: string;
-    nroDpto?: string;
-    localidad: string;
+interface SubCategoria {
+    id: string;
+    denominacion: string;
 }
 
-interface Sucursal {
-    id: number;
-    nombre: string;
-    horarioApertura: string;
-    horarioCierre: string;
-    domicilio: Domicilio;
+interface Categoria {
+    id: string;
+    denominacion: string;
+    subCategorias: SubCategoria[];
 }
 
-interface MostrarSucursalesModalProps {
+interface MostrarSubCategoriasModalProps {
     open: boolean;
     onClose: () => void;
     initialId: number;
 }
 
-const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, onClose, initialId }) => {
-    const [sucursales, setSucursales] = useState<Sucursal[]>([]);
+const MostrarSubCategoriasModal: React.FC<MostrarSubCategoriasModalProps> = ({ open, onClose, initialId }) => {
+    const [subCategorias, setSubCategorias] = useState<SubCategoria[]>([]);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
     useEffect(() => {
-        fetch(`https://buensabor-json-server.onrender.com/empresas/${initialId}/sucursales`)
+        fetch(`https://buensabor-json-server.onrender.com/categorias/${initialId}`)
             .then(response => response.json())
-            .then(data => setSucursales(data))
+            .then((data: Categoria) => setSubCategorias(data.subCategorias || []))
             .catch(error => console.error('Error fetching data:', error));
     }, [initialId]);
 
@@ -85,7 +79,7 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
                 color="primary"
                 startIcon={<AddCircleIcon />}
                 >
-                Agregar Sucursal
+                Agregar Subcategoría
                 </Button>
                 <p></p>
                 <TableContainer component={Paper} style={{ width: '100%' }}>
@@ -93,22 +87,16 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
                         <TableHead>
                             <TableRow>
                                 <TableCell>Id</TableCell>
-                                <TableCell>Nombre</TableCell>
-                                <TableCell>Horario de Apertura</TableCell>
-                                <TableCell>Horario de Cierre</TableCell>
-                                <TableCell>Domicilio</TableCell>
+                                <TableCell>Subcategoría</TableCell>
                                 <TableCell>Editar</TableCell>
                                 <TableCell>Eliminar</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sucursales.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((sucursal) => (
-                                <TableRow key={sucursal.id}>
-                                    <TableCell>{sucursal.id}</TableCell>
-                                    <TableCell>{sucursal.nombre}</TableCell>
-                                    <TableCell>{sucursal.horarioApertura}</TableCell>
-                                    <TableCell>{sucursal.horarioCierre}</TableCell>
-                                    <TableCell>{`${sucursal.domicilio.calle} ${sucursal.domicilio.numero}, ${sucursal.domicilio.localidad.nombre}`}</TableCell>
+                            {subCategorias.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((subCategoria) => (
+                                <TableRow key={subCategoria.id}>
+                                    <TableCell>{subCategoria.id}</TableCell>
+                                    <TableCell>{subCategoria.denominacion}</TableCell>
                                     <TableCell>
                                         <IconButton>
                                             <EditIcon />
@@ -126,7 +114,7 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={sucursales.length}
+                        count={subCategorias.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={handleChangePage}
@@ -138,4 +126,4 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
     );
 };
 
-export default MostrarSucursalesModal;
+export default MostrarSubCategoriasModal;
