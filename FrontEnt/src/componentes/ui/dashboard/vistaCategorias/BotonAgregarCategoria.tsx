@@ -14,9 +14,8 @@ function BotonAgregarCategoria() {
         setOpen(false);
     };
 
-    const handleSubmit = (nombre: string, categoriaPadre: number | null) => {
+    const handleSubmit = (nombre: string) => {
         console.log('Nombre:', nombre);
-        console.log('Categoria Padre:', categoriaPadre);
         handleClose();
     };
 
@@ -35,7 +34,6 @@ function BotonAgregarCategoria() {
                 onClose={handleClose} 
                 onSubmit={handleSubmit} 
                 initialNombre="" 
-                initialCategoriaPadre= {null} 
             />
         </>
     );

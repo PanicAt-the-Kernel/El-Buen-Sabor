@@ -21,7 +21,7 @@ interface Product {
   nombre: string;
   razonSocial: string;
   cuil: number;
-  categorias: { id: number, nombre: string, horarioApertura: string, horarioCierre: string }[];
+  sucursales: { id: number, nombre: string, horarioApertura: string, horarioCierre: string }[];
 }
 
 const TablaEmpresa: React.FC = () => {

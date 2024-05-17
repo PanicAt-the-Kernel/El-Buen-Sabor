@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Table,
   TableBody,
@@ -12,50 +12,58 @@ import {
 } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import AgregarCategoriaModal from './AgregarCategoriaModal';
+import MostrarSubCategoriasModal from './MostrarSubCategoriasModal';
+import MostrarArticulosModal from './MostrarArticulosModal';
 
 interface Category {
   id: number;
-  name: string;
-  parentCategory: number | null;
+  denominacion: string;
 }
 
-const initialCategories = [
-  { id: 1, name: 'Categoría 1', parentCategory: null },
-  { id: 2, name: 'Categoría 2', parentCategory: null },
-  { id: 3, name: 'Subcategoría 1.1', parentCategory: 1 },
-  { id: 4, name: 'Subcategoría 1.2', parentCategory: 1 },
-  { id: 5, name: 'Subcategoría 1.3', parentCategory: 1 },
-  { id: 6, name: 'Subcategoría 2.1', parentCategory: 2 },
-  { id: 7, name: 'Subcategoría 2.2', parentCategory: 2 },
-  { id: 8, name: 'Subcategoría 2.3', parentCategory: 2 },
-  { id: 9, name: 'Subcategoría 2.4', parentCategory: 2 },
-  { id: 10, name: 'Subcategoría 2.5', parentCategory: 2 },
-];
-
 const TablaCategoria: React.FC = () => {
-  const [categories, setCategories] = useState<Category[]>(initialCategories);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
-  const [open, setOpen] = useState(false);
+  const [openCat, setOpenCat] = useState(false);
+  const [openSubCat, setOpenSubCat] = useState(false);
+  const [openArticulos, setOpenArticulos] = useState(false);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  
+  useEffect(() => {
+    fetch('https://buensabor-json-server.onrender.com/categorias')
+      .then(response => response.json())
+      .then(data => setCategories(data))
+      .catch(error => console.error('Error fetching data:', error));
+  }, []);
 
-  const handleOpen = (category: Category) => {
+  const handleOpenCat = (category: Category) => {
     setEditingCategory(category);
-    setOpen(true);
+    setOpenCat(true);
+  };
+
+  const handleOpenSubCat = (category: Category) => {
+    setEditingCategory(category);
+    setOpenSubCat(true);
+  };
+
+  const handleOpenArticulos = (category: Category) => {
+    setEditingCategory(category);
+    setOpenArticulos(true);
   };
 
   const handleClose = () => {
     setEditingCategory(null);
-    setOpen(false);
+    setOpenCat(false);
+    setOpenSubCat(false);
+    setOpenArticulos(false);
   };
 
-  const handleSubmit = (nombre: string, categoriaPadre: number | null) => {
+  const handleSubmit = (nombre: string) => {
     console.log('Nombre:', nombre);
-    console.log('Categoria Padre:', categoriaPadre);
     handleClose();
   };
-
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
 
   //@ts-ignore
   const handleChangePage = (event, newPage) => {
@@ -74,21 +82,31 @@ const TablaCategoria: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell style={{ width: '6%' }}>Id</TableCell>
+              <TableCell style={{ width: '5%' }}>Id</TableCell>
               <TableCell style={{ width: '40%' }}>Nombre</TableCell>
-              <TableCell style={{ width: '40%' }}>Categoría Padre</TableCell>
-              <TableCell style={{ width: '7%' }}>Editar</TableCell>
-              <TableCell style={{ width: '7%' }}>Eliminar</TableCell>
+              <TableCell style={{ width: '40%' }}>Ver/Editar Subcategorías</TableCell>
+              <TableCell style={{ width: '5%' }}>Ver/Editar Artículos</TableCell>
+              <TableCell style={{ width: '5%' }}>Editar</TableCell>
+              <TableCell style={{ width: '5%' }}>Eliminar</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {categories.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((category) => (
               <TableRow key={category.id}>
                 <TableCell>{category.id}</TableCell>
-                <TableCell>{category.name}</TableCell>
-                <TableCell>{categories.find(cat => cat.id === category.parentCategory)?.name}</TableCell>
+                <TableCell>{category.denominacion}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpen(category)}>
+                  <IconButton onClick={() => handleOpenSubCat(category)}>
+                    <VisibilityIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell>
+                  <IconButton onClick={() => handleOpenArticulos(category)}>
+                    <VisibilityIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell>
+                  <IconButton onClick={() => handleOpenCat(category)}>
                     <EditIcon />
                   </IconButton>
                 </TableCell>
@@ -106,7 +124,7 @@ const TablaCategoria: React.FC = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={initialCategories.length}
+          count={categories.length}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
@@ -115,11 +133,24 @@ const TablaCategoria: React.FC = () => {
       </TableContainer>
       {editingCategory && (
         <AgregarCategoriaModal 
-        open={open} 
+        open={openCat} 
         onClose={handleClose} 
         onSubmit={handleSubmit} 
-        initialNombre={editingCategory.name}
-        initialCategoriaPadre={editingCategory.parentCategory}
+        initialNombre={editingCategory.denominacion}
+        />
+      )}
+      {editingCategory && (
+        <MostrarSubCategoriasModal 
+        open={openSubCat} 
+        onClose={handleClose} 
+        initialId={editingCategory.id}
+        />
+      )}
+      {editingCategory && (
+        <MostrarArticulosModal 
+        open={openArticulos} 
+        onClose={handleClose} 
+        initialId={editingCategory.id}
         />
       )}
     </>
