@@ -37,15 +37,15 @@ function Sidebar({ collapsed, setBroken, toggled }: SidebarProps) {
       toggled={toggled}
     >
       <Menu>
-        <MenuItem icon={<HomeIcon />}>Inicio</MenuItem>
-        <MenuItem icon={<CorporateFareIcon />}>Empresa</MenuItem>
+        <MenuItem component={<a href="/"></a>} icon={<HomeIcon />}>Inicio</MenuItem>
+        <MenuItem component={<a href="/empresas"></a>} icon={<CorporateFareIcon />}>Empresas</MenuItem>
         <SubMenu label="Productos" icon={<FastfoodIcon />}>
-          <MenuItem icon={<CategoryIcon />}>Categorias</MenuItem>
-          <MenuItem icon={<MenuBookIcon />}>Lista de Productos</MenuItem>
+          <MenuItem component={<a href="/categorias"></a>} icon={<CategoryIcon />}>Categorias</MenuItem>
+          <MenuItem component={<a href="/productos"></a>} icon={<MenuBookIcon />}>Lista de Productos</MenuItem>
         </SubMenu>
-        <MenuItem icon={<PeopleIcon />}>Empleados</MenuItem>
+        <MenuItem component={<a href="/empleados"></a>} icon={<PeopleIcon />}>Empleados</MenuItem>
         <MenuItem icon={<AttachMoneyIcon />}>Promociones</MenuItem>
-        <MenuItem icon={<ShoppingBasketIcon />}>Insumos</MenuItem>
+        <MenuItem component={<a href="/insumos"></a>} icon={<ShoppingBasketIcon />}>Insumos</MenuItem>
       </Menu>
     </SidebarPro>
   );
