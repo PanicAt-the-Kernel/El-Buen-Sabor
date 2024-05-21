@@ -16,6 +16,7 @@ import {
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
 
 interface Articulo {
     id: string;
@@ -46,15 +47,6 @@ const MostrarArticulosModal: React.FC<MostrarArticulosModalProps> = ({ open, onC
             .then((data: Categoria) => setArticulos(data.articulos || []))
             .catch(error => console.error('Error fetching data:', error));
     }, [initialId]);
-
-    const handleChangePage = (event: unknown, newPage: number) => {
-        setPage(newPage);
-    };
-
-    const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setRowsPerPage(parseInt(event.target.value, 10));
-        setPage(0);
-    };
 
     return (
         <Modal
@@ -120,8 +112,8 @@ const MostrarArticulosModal: React.FC<MostrarArticulosModalProps> = ({ open, onC
                         count={articulos.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
-                        onPageChange={handleChangePage}
-                        onRowsPerPageChange={handleChangeRowsPerPage}
+                        onPageChange={(event, newPage) => handleChangePage(event, newPage, setPage)}
+                        onRowsPerPageChange={(event) => handleChangeRowsPerPage(event, setRowsPerPage, setPage)}
                     />
                 </TableContainer>
             </Box>

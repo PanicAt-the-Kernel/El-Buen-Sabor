@@ -13,6 +13,7 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AgregarProductoModal from './AgregarProductoModal';
+import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
 
 interface Product {
   id: number;
@@ -52,16 +53,6 @@ const TablaProducto: React.FC = () => {
     console.log('Tiempo:', tiempo);
     console.log('URL Imagen:', imgUrl);
     handleClose();
-  };
-
-  //@ts-ignore
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  //@ts-ignore
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   return (
@@ -107,8 +98,8 @@ const TablaProducto: React.FC = () => {
               count={products.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
+              onPageChange={(event, newPage) => handleChangePage(event, newPage, setPage)}
+              onRowsPerPageChange={(event) => handleChangeRowsPerPage(event, setRowsPerPage, setPage)}
             />
       </TableContainer>
       {editingProduct && (

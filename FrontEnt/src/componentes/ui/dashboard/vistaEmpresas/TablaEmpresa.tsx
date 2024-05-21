@@ -15,8 +15,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import AgregarEmpresaModal from './AgregarEmpresaModal';
 import MostrarSucursalesModal from './MostrarSucursalesModal';
+import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
 
-interface Product {
+interface Empresa {
   id: number;
   nombre: string;
   razonSocial: string;
@@ -25,8 +26,8 @@ interface Product {
 }
 
 const TablaEmpresa: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [empresas, setEmpresas] = useState<Empresa[]>([]);
+  const [editingEmpresa, setEditingEmpresa] = useState<Empresa | null>(null);
   const [openAgregar, setOpenAgregar] = useState(false);
   const [openSucursal, setOpenSucursal] = useState(false);
   const [page, setPage] = useState(0);
@@ -35,22 +36,22 @@ const TablaEmpresa: React.FC = () => {
   useEffect(() => {
     fetch('https://buensabor-json-server.onrender.com/empresas')
       .then(response => response.json())
-      .then(data => setProducts(data))
+      .then(data => setEmpresas(data))
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  const handleOpenAgregar = (product: Product) => {
-    setEditingProduct(product);
+  const handleOpenAgregar = (empresa: Empresa) => {
+    setEditingEmpresa(empresa);
     setOpenAgregar(true);
   };
 
-  const handleOpenSucursal = (product: Product) => {
-    setEditingProduct(product);
+  const handleOpenSucursal = (empresa: Empresa) => {
+    setEditingEmpresa(empresa);
     setOpenSucursal(true);
   };
 
   const handleClose = () => {
-    setEditingProduct(null);
+    setEditingEmpresa(null);
     setOpenAgregar(false);
     setOpenSucursal(false);
   };
@@ -60,16 +61,6 @@ const TablaEmpresa: React.FC = () => {
     console.log('Razón Social:', razonSocial);
     console.log('Cuil:', cuil);
     handleClose();
-  };
-
-  //@ts-ignore
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  //@ts-ignore
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   return (
@@ -88,25 +79,25 @@ const TablaEmpresa: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
-              <TableRow key={product.id}>
-                <TableCell>{product.id}</TableCell>
-                <TableCell>{product.nombre}</TableCell>
-                <TableCell>{product.razonSocial}</TableCell>
-                <TableCell>{product.cuil}</TableCell>
+            {empresas.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((empresa) => (
+              <TableRow key={empresa.id}>
+                <TableCell>{empresa.id}</TableCell>
+                <TableCell>{empresa.nombre}</TableCell>
+                <TableCell>{empresa.razonSocial}</TableCell>
+                <TableCell>{empresa.cuil}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpenSucursal(product)}>
+                  <IconButton onClick={() => handleOpenSucursal(empresa)}>
                     <VisibilityIcon />
                   </IconButton>
                 </TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpenAgregar(product)}>
+                  <IconButton onClick={() => handleOpenAgregar(empresa)}>
                     <EditIcon />
                   </IconButton>
                 </TableCell>
                 <TableCell>
                   <IconButton onClick={() => {
-                    // Lógica para eliminar un Empresa
+                    // Lógica para eliminar una empresa
                   }}>
                     <DeleteIcon />
                   </IconButton>
@@ -118,28 +109,28 @@ const TablaEmpresa: React.FC = () => {
         <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={products.length}
+              count={empresas.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
+              onPageChange={(event, newPage) => handleChangePage(event, newPage, setPage)}
+              onRowsPerPageChange={(event) => handleChangeRowsPerPage(event, setRowsPerPage, setPage)}
             />
       </TableContainer>
-      {editingProduct && (
+      {editingEmpresa && (
         <AgregarEmpresaModal
           open={openAgregar}
           onClose={handleClose}
           onSubmit={handleSubmit}
-          initialNombre={editingProduct.nombre}
-          initialRazonSocial={editingProduct.razonSocial}
-          initialCuil={editingProduct.cuil.toString()}
+          initialNombre={editingEmpresa.nombre}
+          initialRazonSocial={editingEmpresa.razonSocial}
+          initialCuil={editingEmpresa.cuil.toString()}
         />
       )} 
-      {editingProduct && (
+      {editingEmpresa && (
         <MostrarSucursalesModal
           open={openSucursal}
           onClose={handleClose}
-          initialId={editingProduct.id}
+          initialId={editingEmpresa.id}
         />
       )}
     </>

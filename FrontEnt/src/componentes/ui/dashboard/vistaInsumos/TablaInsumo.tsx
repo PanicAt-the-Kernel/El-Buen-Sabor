@@ -13,8 +13,9 @@ import {
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AgregarInsumoModal from './AgregarInsumoModal';
+import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
 
-interface Product {
+interface Insumo {
   id: number;
   denominacion: string;
   precioVenta: number;
@@ -23,8 +24,8 @@ interface Product {
 }
 
 const TablaInsumo: React.FC = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
+  const [insumos, setInsumos] = useState<Insumo[]>([]);
+  const [editingInsumo, setEditingInsumo] = useState<Insumo | null>(null);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -32,17 +33,17 @@ const TablaInsumo: React.FC = () => {
   useEffect(() => {
     fetch('https://buensabor-json-server.onrender.com/articulosInsumos')
       .then(response => response.json())
-      .then(data => setProducts(data))
+      .then(data => setInsumos(data))
       .catch(error => console.error('Error fetching data:', error));
   }, []);
 
-  const handleOpen = (product: Product) => {
-    setEditingProduct(product);
+  const handleOpen = (insumo: Insumo) => {
+    setEditingInsumo(insumo);
     setOpen(true);
   };
 
   const handleClose = () => {
-    setEditingProduct(null);
+    setEditingInsumo(null);
     setOpen(false);
   };
 
@@ -52,16 +53,6 @@ const TablaInsumo: React.FC = () => {
     console.log('Cantidad:', cantidad);
     console.log('URL Imagen:', imgUrl);
     handleClose();
-  };
-
-  //@ts-ignore
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-  //@ts-ignore
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
   };
 
   return (
@@ -79,14 +70,14 @@ const TablaInsumo: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
-              <TableRow key={product.id}>
-                <TableCell><img src={product.imagenes[0].url} alt={product.denominacion} style={{ width: '60px', height: '60px', objectFit: 'cover' }} /></TableCell>
-                <TableCell>{product.denominacion}</TableCell>
-                <TableCell>${product.precioVenta}</TableCell>
-                <TableCell>{product.stockActual}</TableCell>
+            {insumos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((insumo) => (
+              <TableRow key={insumo.id}>
+                <TableCell><img src={insumo.imagenes[0].url} alt={insumo.denominacion} style={{ width: '60px', height: '60px', objectFit: 'cover' }} /></TableCell>
+                <TableCell>{insumo.denominacion}</TableCell>
+                <TableCell>${insumo.precioVenta}</TableCell>
+                <TableCell>{insumo.stockActual}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpen(product)}>
+                  <IconButton onClick={() => handleOpen(insumo)}>
                     <EditIcon />
                   </IconButton>
                 </TableCell>
@@ -104,22 +95,22 @@ const TablaInsumo: React.FC = () => {
         <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={products.length}
+              count={insumos.length}
               rowsPerPage={rowsPerPage}
               page={page}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
+              onPageChange={(event, newPage) => handleChangePage(event, newPage, setPage)}
+              onRowsPerPageChange={(event) => handleChangeRowsPerPage(event, setRowsPerPage, setPage)}
             />
       </TableContainer>
-      {editingProduct && (
+      {editingInsumo && (
         <AgregarInsumoModal
           open={open}
           onClose={handleClose}
           onSubmit={handleSubmit}
-          initialNombre={editingProduct.denominacion}
-          initialPrecio={editingProduct.precioVenta.toString()}
-          initialCantidad={editingProduct.stockActual.toString()}
-          initialImgUrl={editingProduct.imagenes[0].url}
+          initialNombre={editingInsumo.denominacion}
+          initialPrecio={editingInsumo.precioVenta.toString()}
+          initialCantidad={editingInsumo.stockActual.toString()}
+          initialImgUrl={editingInsumo.imagenes[0].url}
         />
       )}
     </>
