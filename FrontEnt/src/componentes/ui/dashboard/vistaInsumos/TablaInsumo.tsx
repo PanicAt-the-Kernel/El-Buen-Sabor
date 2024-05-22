@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -14,30 +14,17 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import AgregarInsumoModal from './AgregarInsumoModal';
 import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
-
-interface Insumo {
-  id: number;
-  denominacion: string;
-  precioVenta: number;
-  stockActual: number;
-  imagenes: { id: number, url: string }[];
-}
+import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
+import { getAllArticulosInsumos } from '../../../../servicios/vistaInicio/FuncionesAPI';
 
 const TablaInsumo: React.FC = () => {
-  const [insumos, setInsumos] = useState<Insumo[]>([]);
-  const [editingInsumo, setEditingInsumo] = useState<Insumo | null>(null);
+  const { data : insumos } = getAllArticulosInsumos();
+  const [editingInsumo, setEditingInsumo] = useState<ArticuloInsumo | null>(null);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
-  useEffect(() => {
-    fetch('https://buensabor-json-server.onrender.com/articulosInsumos')
-      .then(response => response.json())
-      .then(data => setInsumos(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
-
-  const handleOpen = (insumo: Insumo) => {
+  const handleOpen = (insumo: ArticuloInsumo) => {
     setEditingInsumo(insumo);
     setOpen(true);
   };
@@ -70,7 +57,7 @@ const TablaInsumo: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {insumos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((insumo) => (
+            {insumos?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((insumo) => (
               <TableRow key={insumo.id}>
                 <TableCell><img src={insumo.imagenes[0].url} alt={insumo.denominacion} style={{ width: '60px', height: '60px', objectFit: 'cover' }} /></TableCell>
                 <TableCell>{insumo.denominacion}</TableCell>
@@ -95,7 +82,7 @@ const TablaInsumo: React.FC = () => {
         <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={insumos.length}
+              count={insumos?.length || 0}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={(event, newPage) => handleChangePage(event, newPage, setPage)}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     Table,
     TableBody,
@@ -17,36 +17,17 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
-
-interface Articulo {
-    id: string;
-    denominacion: string;
-    precioVenta: string;
-}
-
-interface Categoria {
-    id: string;
-    denominacion: string;
-    articulos: Articulo[];
-}
+import ArticuloManufacturado from '../../../../entidades/ArticuloManufacturado';
 
 interface MostrarArticulosModalProps {
     open: boolean;
     onClose: () => void;
-    initialId: number;
+    articulos: ArticuloManufacturado[];
 }
 
-const MostrarArticulosModal: React.FC<MostrarArticulosModalProps> = ({ open, onClose, initialId }) => {
-    const [articulos, setArticulos] = useState<Articulo[]>([]);
+const MostrarArticulosModal: React.FC<MostrarArticulosModalProps> = ({ open, onClose, articulos }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-
-    useEffect(() => {
-        fetch(`https://buensabor-json-server.onrender.com/categorias/${initialId}`)
-            .then(response => response.json())
-            .then((data: Categoria) => setArticulos(data.articulos || []))
-            .catch(error => console.error('Error fetching data:', error));
-    }, [initialId]);
 
     return (
         <Modal
@@ -87,7 +68,7 @@ const MostrarArticulosModal: React.FC<MostrarArticulosModalProps> = ({ open, onC
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {articulos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((articulo) => (
+                            {articulos.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((articulo : ArticuloManufacturado) => (
                                 <TableRow key={articulo.id}>
                                     <TableCell>{articulo.id}</TableCell>
                                     <TableCell>{articulo.denominacion}</TableCell>

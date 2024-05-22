@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     Table,
     TableBody,
@@ -17,35 +17,17 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
-
-interface SubCategoria {
-    id: string;
-    denominacion: string;
-}
-
-interface Categoria {
-    id: string;
-    denominacion: string;
-    subCategorias: SubCategoria[];
-}
+import Categoria from '../../../../entidades/Categoria';
 
 interface MostrarSubCategoriasModalProps {
     open: boolean;
     onClose: () => void;
-    initialId: number;
+    subCategorias: Categoria[];
 }
 
-const MostrarSubCategoriasModal: React.FC<MostrarSubCategoriasModalProps> = ({ open, onClose, initialId }) => {
-    const [subCategorias, setSubCategorias] = useState<SubCategoria[]>([]);
+const MostrarSubCategoriasModal: React.FC<MostrarSubCategoriasModalProps> = ({ open, onClose, subCategorias }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-
-    useEffect(() => {
-        fetch(`https://buensabor-json-server.onrender.com/categorias/${initialId}`)
-            .then(response => response.json())
-            .then((data: Categoria) => setSubCategorias(data.subCategorias || []))
-            .catch(error => console.error('Error fetching data:', error));
-    }, [initialId]);
 
     return (
         <Modal
@@ -85,7 +67,7 @@ const MostrarSubCategoriasModal: React.FC<MostrarSubCategoriasModalProps> = ({ o
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {subCategorias.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((subCategoria) => (
+                            {subCategorias.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((subCategoria : Categoria) => (
                                 <TableRow key={subCategoria.id}>
                                     <TableCell>{subCategoria.id}</TableCell>
                                     <TableCell>{subCategoria.denominacion}</TableCell>

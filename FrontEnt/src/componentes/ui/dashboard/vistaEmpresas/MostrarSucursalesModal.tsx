@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
     Table,
     TableBody,
@@ -17,45 +17,17 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
-
-interface Localidad {
-    nombre: string;
-}
-
-interface Domicilio {
-    calle: string;
-    numero: string;
-    cp: string;
-    piso?: string;
-    nroDpto?: string;
-    localidad: Localidad;
-}
-
-interface Sucursal {
-    id: number;
-    nombre: string;
-    horarioApertura: string;
-    horarioCierre: string;
-    domicilio: Domicilio;
-}
+import Sucursal from '../../../../entidades/Sucursal';
 
 interface MostrarSucursalesModalProps {
     open: boolean;
     onClose: () => void;
-    initialId: number;
+    sucursales: Sucursal[];
 }
 
-const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, onClose, initialId }) => {
-    const [sucursales, setSucursales] = useState<Sucursal[]>([]);
+const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, onClose, sucursales }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
-
-    useEffect(() => {
-        fetch(`https://buensabor-json-server.onrender.com/empresas/${initialId}/sucursales`)
-            .then(response => response.json())
-            .then(data => setSucursales(data))
-            .catch(error => console.error('Error fetching data:', error));
-    }, [initialId]);
 
     return (
         <Modal

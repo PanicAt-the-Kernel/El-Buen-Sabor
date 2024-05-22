@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import {
-  Button,
   Paper,
   Table,
   TableBody,
@@ -10,7 +9,11 @@ import {
   TableRow,
   TablePagination,
   Box,
+  IconButton,
 } from '@mui/material';
+import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
+import EditIcon from '@mui/icons-material/Edit'
+import DeleteIcon from '@mui/icons-material/Delete';
 
 function TablaEmpleado() {
   const employees = [
@@ -29,18 +32,6 @@ function TablaEmpleado() {
 
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  //@ts-ignore
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  //@ts-ignore
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, employees.length - page * rowsPerPage);
 
   return (
@@ -51,7 +42,8 @@ function TablaEmpleado() {
             <TableCell style={{ width: '5%' }}>ID</TableCell>
             <TableCell style={{ width: '45%' }}>Nombre</TableCell> 
             <TableCell style={{ width: '30%' }}>Cargo</TableCell>
-            <TableCell style={{ width: '20%' }}>Actions</TableCell>
+            <TableCell style={{ width: '5%' }}>Editar</TableCell>
+            <TableCell style={{ width: '5%' }}>Eliminar</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -60,10 +52,18 @@ function TablaEmpleado() {
               <TableCell style={{ width: '5%' }}>{employee.id}</TableCell>
               <TableCell style={{ width: '45%' }}>{employee.name}</TableCell>
               <TableCell style={{ width: '30%' }}>{employee.position}</TableCell>
-              <TableCell style={{ width: '20%' }}>
-                <Button color="primary">Editar</Button>
-                <Button color="secondary">Eliminar</Button>
-              </TableCell>
+              <TableCell>
+                  <IconButton onClick={() => {}}>
+                  <EditIcon />
+                  </IconButton>
+                </TableCell>
+                <TableCell>
+                  <IconButton onClick={() => {
+                    // Lógica para eliminar una empresa
+                  }}>
+                    <DeleteIcon />
+                  </IconButton>
+                </TableCell>
             </TableRow>
           ))}
           {emptyRows > 0 && (
@@ -80,8 +80,8 @@ function TablaEmpleado() {
           count={employees.length}
           rowsPerPage={rowsPerPage}
           page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+          onPageChange={(event, newPage) => handleChangePage(event, newPage, setPage)}
+          onRowsPerPageChange={(event) => handleChangeRowsPerPage(event, setRowsPerPage, setPage)}
           sx={{ minWidth: 500 }}
         />
       </Box>

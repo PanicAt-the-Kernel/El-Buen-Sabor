@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -17,27 +17,17 @@ import AgregarCategoriaModal from './AgregarCategoriaModal';
 import MostrarSubCategoriasModal from './MostrarSubCategoriasModal';
 import MostrarArticulosModal from './MostrarArticulosModal';
 import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
-
-interface Categoria {
-  id: number;
-  denominacion: string;
-}
+import Categoria from '../../../../entidades/Categoria';
+import { getAllCategorias } from '../../../../servicios/vistaInicio/FuncionesAPI';
 
 const TablaCategoria: React.FC = () => {
-  const [categorias, setCategorias] = useState<Categoria[]>([]);
+  const { data : categorias } = getAllCategorias();
   const [editingCategoria, setEditingCategoria] = useState<Categoria | null>(null);
   const [openCat, setOpenCat] = useState(false);
   const [openSubCat, setOpenSubCat] = useState(false);
   const [openArticulos, setOpenArticulos] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  
-  useEffect(() => {
-    fetch('https://buensabor-json-server.onrender.com/categorias')
-      .then(response => response.json())
-      .then(data => setCategorias(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
 
   const handleOpenCat = (categoria: Categoria) => {
     setEditingCategoria(categoria);
@@ -81,22 +71,22 @@ const TablaCategoria: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {categorias.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((categoria) => (
-              <TableRow key={categoria.id}>
-                <TableCell>{categoria.id}</TableCell>
-                <TableCell>{categoria.denominacion}</TableCell>
+            {categorias?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item: Categoria) => (
+              <TableRow key={item.id}>
+                <TableCell>{item.id}</TableCell>
+                <TableCell>{item.denominacion}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpenSubCat(categoria)}>
+                  <IconButton onClick={() => handleOpenSubCat(item)}>
                     <VisibilityIcon />
                   </IconButton>
                 </TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpenArticulos(categoria)}>
+                  <IconButton onClick={() => handleOpenArticulos(item)}>
                     <VisibilityIcon />
                   </IconButton>
                 </TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpenCat(categoria)}>
+                  <IconButton onClick={() => handleOpenCat(item)}>
                     <EditIcon />
                   </IconButton>
                 </TableCell>
@@ -114,7 +104,7 @@ const TablaCategoria: React.FC = () => {
         <TablePagination
           rowsPerPageOptions={[5, 10, 25]}
           component="div"
-          count={categorias.length}
+          count={categorias?.length || 0}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={(event, newPage) => handleChangePage(event, newPage, setPage)}
@@ -133,14 +123,14 @@ const TablaCategoria: React.FC = () => {
         <MostrarSubCategoriasModal 
         open={openSubCat} 
         onClose={handleClose} 
-        initialId={editingCategoria.id}
+        subCategorias={editingCategoria.subCategorias}
         />
       )}
       {editingCategoria && (
         <MostrarArticulosModal 
         open={openArticulos} 
         onClose={handleClose} 
-        initialId={editingCategoria.id}
+        articulos={editingCategoria.articulos}
         />
       )}
     </>

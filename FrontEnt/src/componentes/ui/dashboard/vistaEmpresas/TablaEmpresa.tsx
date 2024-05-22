@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -16,29 +16,16 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import AgregarEmpresaModal from './AgregarEmpresaModal';
 import MostrarSucursalesModal from './MostrarSucursalesModal';
 import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
-
-interface Empresa {
-  id: number;
-  nombre: string;
-  razonSocial: string;
-  cuil: number;
-  sucursales: { id: number, nombre: string, horarioApertura: string, horarioCierre: string }[];
-}
+import { getAllEmpresas } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import Empresa from '../../../../entidades/Empresa';
 
 const TablaEmpresa: React.FC = () => {
-  const [empresas, setEmpresas] = useState<Empresa[]>([]);
+  const { data : empresas } = getAllEmpresas();
   const [editingEmpresa, setEditingEmpresa] = useState<Empresa | null>(null);
   const [openAgregar, setOpenAgregar] = useState(false);
   const [openSucursal, setOpenSucursal] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-
-  useEffect(() => {
-    fetch('https://buensabor-json-server.onrender.com/empresas')
-      .then(response => response.json())
-      .then(data => setEmpresas(data))
-      .catch(error => console.error('Error fetching data:', error));
-  }, []);
 
   const handleOpenAgregar = (empresa: Empresa) => {
     setEditingEmpresa(empresa);
@@ -79,7 +66,7 @@ const TablaEmpresa: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {empresas.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((empresa) => (
+            {empresas?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((empresa) => (
               <TableRow key={empresa.id}>
                 <TableCell>{empresa.id}</TableCell>
                 <TableCell>{empresa.nombre}</TableCell>
@@ -109,7 +96,7 @@ const TablaEmpresa: React.FC = () => {
         <TablePagination
               rowsPerPageOptions={[5, 10, 25]}
               component="div"
-              count={empresas.length}
+              count={empresas?.length || 0}
               rowsPerPage={rowsPerPage}
               page={page}
               onPageChange={(event, newPage) => handleChangePage(event, newPage, setPage)}
@@ -130,7 +117,7 @@ const TablaEmpresa: React.FC = () => {
         <MostrarSucursalesModal
           open={openSucursal}
           onClose={handleClose}
-          initialId={editingEmpresa.id}
+          sucursales={editingEmpresa.sucursales}
         />
       )}
     </>
