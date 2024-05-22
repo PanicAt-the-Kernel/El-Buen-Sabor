@@ -1,6 +1,8 @@
 import { IconButton, Box, AppBar, Toolbar, Typography} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
 import LogoutIcon from '@mui/icons-material/Logout';
+import { useGlobalState } from '../../contexto/GlobalStateProvider';
+
 interface AppHeaderTypes{
   setCollapse:(item:boolean)=>void;
   setToggle:(item:boolean)=>void;
@@ -9,6 +11,8 @@ interface AppHeaderTypes{
   toggled:boolean;
 }
 function AppHeader({broken,setCollapse,setToggle,collapsed,toggled}:AppHeaderTypes) {
+  const { selectedEmpresaNombre, selectedSucursalNombre } = useGlobalState();
+  
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="sticky">
@@ -37,6 +41,9 @@ function AppHeader({broken,setCollapse,setToggle,collapsed,toggled}:AppHeaderTyp
           <Box component="img" src="/imgs/Icono.svg" sx={{width:70,margin:1}}/>
           <Typography variant="h6" component="div" sx={{flexGrow:1}}>
             El Buen Sabor Dashboard
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 2, textAlign: 'center' }}>
+            {selectedEmpresaNombre} - {selectedSucursalNombre} {/* Mostrar el nombre de la empresa y la sucursal */}
           </Typography>
           <Box sx={{flexGrow:1}}></Box>
           <IconButton title="Logout" color="inherit">
