@@ -117,7 +117,7 @@ const TablaEmpresa: React.FC = () => {
         <MostrarSucursalesModal
           open={openSucursal}
           onClose={handleClose}
-          sucursales={editingEmpresa.sucursales}
+          empresa={editingEmpresa}
         />
       )}
     </>
