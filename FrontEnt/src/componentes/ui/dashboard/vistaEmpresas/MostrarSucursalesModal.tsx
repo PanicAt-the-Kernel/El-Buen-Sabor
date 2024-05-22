@@ -17,15 +17,15 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
-import Sucursal from '../../../../entidades/Sucursal';
+import Empresa from '../../../../entidades/Empresa';
 
 interface MostrarSucursalesModalProps {
     open: boolean;
     onClose: () => void;
-    sucursales: Sucursal[];
+    empresa: Empresa;
 }
 
-const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, onClose, sucursales }) => {
+const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, onClose, empresa }) => {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -42,7 +42,7 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 700,
+                    width: 900,
                     bgcolor: 'background.paper',
                     boxShadow: 24,
                     p: 4,
@@ -60,6 +60,7 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
                     <Table>
                         <TableHead>
                             <TableRow>
+                                <TableCell>Elegir</TableCell>
                                 <TableCell>Id</TableCell>
                                 <TableCell>Nombre</TableCell>
                                 <TableCell>Horario de Apertura</TableCell>
@@ -70,8 +71,17 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {sucursales.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((sucursal) => (
+                            {empresa.sucursales.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((sucursal) => (
                                 <TableRow key={sucursal.id}>
+                                    <TableCell>
+                                        <Button
+                                            variant="contained"
+                                            color="primary"
+                                            onClick={() => {}}
+                                        >
+                                            Elegir Sucursal
+                                        </Button>
+                                    </TableCell>
                                     <TableCell>{sucursal.id}</TableCell>
                                     <TableCell>{sucursal.nombre}</TableCell>
                                     <TableCell>{sucursal.horarioApertura}</TableCell>
@@ -94,7 +104,7 @@ const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, o
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={sucursales.length}
+                        count={empresa.sucursales.length}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={(event, newPage) => handleChangePage(event, newPage, setPage)}
