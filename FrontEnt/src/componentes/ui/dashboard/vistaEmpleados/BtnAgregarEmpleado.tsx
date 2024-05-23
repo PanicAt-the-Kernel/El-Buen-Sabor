@@ -1,12 +1,15 @@
-
-import { Stack } from "@mui/material"
+import AddCircleIcon from '@mui/icons-material/AddCircle';
 import Button from "@mui/material/Button"
 
 function BtnAgregarEmpleado() {
-    return(
-        <Stack>
-            <Button variant="contained" color="primary">Agregar Empleado</Button>
-        </Stack>
+    return (
+        <Button
+            variant="contained"
+            color="primary"
+            startIcon={<AddCircleIcon />}
+        >
+            Agregar
+        </Button>
     )
 }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     Table,
     TableBody,
@@ -25,7 +25,7 @@ interface MostrarSucursalesModalProps {
     empresa: Empresa;
 }
 
-const MostrarSucursalesModal: React.FC<MostrarSucursalesModalProps> = ({ open, onClose, empresa }) => {
+function MostrarSucursalesModal({ open, onClose, empresa } : MostrarSucursalesModalProps) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Box, FormControl, Input, Stack } from "@mui/material";
-import BotonAgregarProducto from './BotonAgregarProducto';
-import TablaProducto from './TablaProducto';
+import BtnAgregarEmpleado from './BtnAgregarEmpleado';
+import TablaEmpleado from './TablaEmpleado';
 
-function BuscarProducto() {
+function BuscadorEmpleado() {
     const [nombre, setNombre] = useState('');
 
     const handleBuscar = (e: React.FormEvent) => {
@@ -16,20 +16,20 @@ function BuscarProducto() {
                 <form onSubmit={handleBuscar}>
                     <FormControl fullWidth margin="normal">
                         <Input
-                            placeholder="Buscar producto"
-                            id="nombreProducto"
+                            placeholder="Buscar empleado"
+                            id="nombreEmpleado"
                             value={nombre}
                             onChange={(e) => setNombre(e.target.value)}
                             sx={{ width: '300px' }}
                         />
                     </FormControl>
                 </form>
-                <BotonAgregarProducto />
+                <BtnAgregarEmpleado />
             </Stack>
             <p></p>
-            <TablaProducto busqueda={nombre} />
+            <TablaEmpleado busqueda={nombre} />
         </Box>
     );
 }
 
-export default BuscarProducto
+export default BuscadorEmpleado

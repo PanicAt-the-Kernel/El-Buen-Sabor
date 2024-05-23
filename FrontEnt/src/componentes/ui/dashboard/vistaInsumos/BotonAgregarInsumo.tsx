@@ -30,7 +30,7 @@ function BotonAgregarInsumo() {
                 startIcon={<AddCircleIcon />}
                 onClick={handleOpen}
             >
-                Agregar Insumo
+                Agregar
             </Button>
             <AgregarInsumoModal 
                 open={open} 

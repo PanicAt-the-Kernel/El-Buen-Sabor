@@ -15,7 +15,11 @@ import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios
 import EditIcon from '@mui/icons-material/Edit'
 import DeleteIcon from '@mui/icons-material/Delete';
 
-function TablaEmpleado() {
+interface TablaEmpleadosProps {
+  busqueda: string;
+}
+
+function TablaEmpleado({ busqueda }: TablaEmpleadosProps) {
   const employees = [
     { id: 1, name: 'Juan Pérez', position: 'Cocinero' },
     { id: 2, name: 'Ana Gómez', position: 'Gerente' },
@@ -34,6 +38,12 @@ function TablaEmpleado() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, employees.length - page * rowsPerPage);
 
+  const empleadosFiltrados = employees?.filter((item) => {
+    return (
+      (busqueda === '' || item.name.toLowerCase().includes(busqueda.toLowerCase()))
+    );
+  });
+
   return (
     <TableContainer component={Paper}>
       <Table>
@@ -47,7 +57,7 @@ function TablaEmpleado() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {employees.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((employee) => (
+          {empleadosFiltrados.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((employee) => (
             <TableRow key={employee.id}>
               <TableCell style={{ width: '5%' }}>{employee.id}</TableCell>
               <TableCell style={{ width: '45%' }}>{employee.name}</TableCell>

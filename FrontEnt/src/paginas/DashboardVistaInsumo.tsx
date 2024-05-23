@@ -1,18 +1,12 @@
-import BotonAgregarInsumo from "../componentes/ui/dashboard/vistaInsumos/BotonAgregarInsumo";
 import BuscarInsumo from "../componentes/ui/dashboard/vistaInsumos/BuscarInsumo";
-import TablaInsumo from "../componentes/ui/dashboard/vistaInsumos/TablaInsumo";
 import DashboardLayout from "../layouts/dashboard/DashboardLayout";
 
 function DashboardVistaInsumo(){
     return(
         <DashboardLayout>
             <p></p>
-            <h1>Lista de insumos</h1>
+            <h2>Lista de Insumos</h2>
             <BuscarInsumo />
-            <p></p>
-            <BotonAgregarInsumo/>
-            <p></p>
-            <TablaInsumo/>
         </DashboardLayout>
     )
 }

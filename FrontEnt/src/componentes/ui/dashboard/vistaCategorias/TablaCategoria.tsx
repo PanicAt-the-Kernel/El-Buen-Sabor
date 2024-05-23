@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -20,7 +20,11 @@ import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios
 import Categoria from '../../../../entidades/Categoria';
 import { getAllCategorias } from '../../../../servicios/vistaInicio/FuncionesAPI';
 
-const TablaCategoria: React.FC = () => {
+interface TablaCategoriasProps {
+  busqueda: string;
+}
+
+function TablaCategoria({ busqueda }: TablaCategoriasProps) {
   const { data : categorias } = getAllCategorias();
   const [editingCategoria, setEditingCategoria] = useState<Categoria | null>(null);
   const [openCat, setOpenCat] = useState(false);
@@ -28,6 +32,12 @@ const TablaCategoria: React.FC = () => {
   const [openArticulos, setOpenArticulos] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const categoriasFiltradas = categorias?.filter((item: Categoria) => {
+    return (
+      (busqueda === '' || item.denominacion.toLowerCase().includes(busqueda.toLowerCase()))
+    );
+  });
 
   const handleOpenCat = (categoria: Categoria) => {
     setEditingCategoria(categoria);
@@ -62,16 +72,16 @@ const TablaCategoria: React.FC = () => {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell style={{ width: '5%' }}>Id</TableCell>
+              <TableCell style={{ width: '15%' }}>Id</TableCell>
               <TableCell style={{ width: '40%' }}>Nombre</TableCell>
-              <TableCell style={{ width: '40%' }}>Ver/Editar Subcategorías</TableCell>
-              <TableCell style={{ width: '5%' }}>Ver/Editar Artículos</TableCell>
+              <TableCell style={{ width: '15%' }}>Ver/Editar Subcategorías</TableCell>
+              <TableCell style={{ width: '20%' }}>Ver/Editar Artículos</TableCell>
               <TableCell style={{ width: '5%' }}>Editar</TableCell>
               <TableCell style={{ width: '5%' }}>Eliminar</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {categorias?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item: Categoria) => (
+            {categoriasFiltradas?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((item: Categoria) => (
               <TableRow key={item.id}>
                 <TableCell>{item.id}</TableCell>
                 <TableCell>{item.denominacion}</TableCell>
@@ -130,7 +140,7 @@ const TablaCategoria: React.FC = () => {
         <MostrarArticulosModal 
         open={openArticulos} 
         onClose={handleClose} 
-        articulos={editingCategoria.articulos}
+        articulos={editingCategoria.articulosManofacturado}
         />
       )}
     </>

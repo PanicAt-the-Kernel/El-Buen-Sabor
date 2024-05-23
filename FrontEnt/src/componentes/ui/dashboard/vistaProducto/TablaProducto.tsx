@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -17,12 +17,22 @@ import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios
 import { getAllArticulosManufacturados } from '../../../../servicios/vistaInicio/FuncionesAPI';
 import ArticuloManufacturado from '../../../../entidades/ArticuloManufacturado';
 
-const TablaProducto: React.FC = () => {
+interface TablaProductosProps {
+  busqueda: string;
+}
+
+function TablaProducto({ busqueda }: TablaProductosProps) {
   const { data : products } = getAllArticulosManufacturados();
   const [editingProduct, setEditingProduct] = useState<ArticuloManufacturado | null>(null);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const productosFiltrados = products?.filter((item: ArticuloManufacturado) => {
+    return (
+      (busqueda === '' || item.denominacion.toLowerCase().includes(busqueda.toLowerCase()))
+    );
+  });
 
   const handleOpen = (product: ArticuloManufacturado) => {
     setEditingProduct(product);
@@ -57,7 +67,7 @@ const TablaProducto: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {products?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
+            {productosFiltrados?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((product) => (
               <TableRow key={product.id}>
                 <TableCell><img src={product.imagenes[0].url} alt={product.denominacion} style={{ width: '60px', height: '60px', objectFit: 'cover' }} /></TableCell>
                 <TableCell>{product.denominacion}</TableCell>

@@ -7,32 +7,32 @@ import ArticuloManufacturado from "../../entidades/ArticuloManufacturado";
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export function getAllEmpresas(): SWRResponse<Empresa[], any, any> {
-    return useSWR<Empresa[]>(`https://buensabor-json-server.onrender.com/empresas`, fetcher);
+    return useSWR<Empresa[]>(`https://traza-compartida.onrender.com/empresa`, fetcher);
 }
 
 export function getAllCategorias(): SWRResponse<Categoria[], any, any> {
-    return useSWR<Categoria[]>(`https://buensabor-json-server.onrender.com/categorias`, fetcher);
+    return useSWR<Categoria[]>(`https://traza-compartida.onrender.com/categoria`, fetcher);
 }
 
 export function getAllArticulosManufacturados(): SWRResponse<ArticuloManufacturado[], any, any> {
-    return useSWR<ArticuloManufacturado[]>(`https://buensabor-json-server.onrender.com/articulosManufacturados`, fetcher);
+    return useSWR<ArticuloManufacturado[]>(`https://traza-compartida.onrender.com/articuloManufacturado`, fetcher);
 }
 
 export function getAllArticulosInsumos(): SWRResponse<ArticuloInsumo[], any, any> {
-    return useSWR<ArticuloInsumo[]>(`https://buensabor-json-server.onrender.com/articulosInsumos`, fetcher);
+    return useSWR<ArticuloInsumo[]>(`https://traza-compartida.onrender.com/articuloInsumo`, fetcher);
 }
 
 export function getAllInsumos(): SWRResponse<any, any, any> {
-    return useSWR<ArticuloInsumo[]>(`https://buensabor-json-server.onrender.com/articulosInsumos`, fetcher);
+    return useSWR<ArticuloInsumo[]>(`https://traza-compartida.onrender.com/articuloInsumo`, fetcher);
 }
 
 /*
-save categoria
-search categoria
-save empresa
-search empresa
-save articuloManufacturado
-search articuloManufacturado
-save articuloInsumo
-search articuloInsumo
+Hacer
+save/edit empresa
+save/edit sucursal
+
+Pendientes
+save/edit categoria
+save/edit articuloManufacturado
+save/edit articuloInsumo
 */

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     Table,
     TableBody,
@@ -25,7 +25,7 @@ interface MostrarArticulosModalProps {
     articulos: ArticuloManufacturado[];
 }
 
-const MostrarArticulosModal: React.FC<MostrarArticulosModalProps> = ({ open, onClose, articulos }) => {
+function MostrarArticulosModal({ open, onClose, articulos } : MostrarArticulosModalProps) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal, Box, TextField, Typography, Stack, Button } from '@mui/material';
 
 interface AgregarProductoModalProps {
@@ -11,7 +11,7 @@ interface AgregarProductoModalProps {
     initialImgUrl: string;
 }
 
-const AgregarProductoModal: React.FC<AgregarProductoModalProps> = ({ open, onClose, onSubmit, initialNombre, initialPrecio, initialTiempo, initialImgUrl }) => {
+function AgregarProductoModal({ open, onClose, onSubmit, initialNombre, initialPrecio, initialTiempo, initialImgUrl } : AgregarProductoModalProps) {
     const [nombre, setNombre] = useState(initialNombre);
     const [precio, setPrecio] = useState(initialPrecio);
     const [tiempo, setTiempo] = useState(initialTiempo);

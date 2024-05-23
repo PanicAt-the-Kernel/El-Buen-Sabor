@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     Table,
     TableBody,
@@ -25,7 +25,7 @@ interface MostrarSubCategoriasModalProps {
     subCategorias: Categoria[];
 }
 
-const MostrarSubCategoriasModal: React.FC<MostrarSubCategoriasModalProps> = ({ open, onClose, subCategorias }) => {
+function MostrarSubCategoriasModal({ open, onClose, subCategorias } : MostrarSubCategoriasModalProps) {
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
 

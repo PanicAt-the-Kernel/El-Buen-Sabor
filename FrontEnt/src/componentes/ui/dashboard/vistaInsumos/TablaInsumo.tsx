@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -17,12 +17,22 @@ import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios
 import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
 import { getAllArticulosInsumos } from '../../../../servicios/vistaInicio/FuncionesAPI';
 
-const TablaInsumo: React.FC = () => {
+interface TablaCategoriasProps {
+  busqueda: string;
+}
+
+function TablaInsumo ({ busqueda }: TablaCategoriasProps) {
   const { data : insumos } = getAllArticulosInsumos();
   const [editingInsumo, setEditingInsumo] = useState<ArticuloInsumo | null>(null);
   const [open, setOpen] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const insumosFiltrados = insumos?.filter((item: ArticuloInsumo) => {
+    return (
+      (busqueda === '' || item.denominacion.toLowerCase().includes(busqueda.toLowerCase()))
+    );
+  });
 
   const handleOpen = (insumo: ArticuloInsumo) => {
     setEditingInsumo(insumo);
@@ -57,7 +67,7 @@ const TablaInsumo: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {insumos?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((insumo) => (
+            {insumosFiltrados?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((insumo) => (
               <TableRow key={insumo.id}>
                 <TableCell><img src={insumo.imagenes[0].url} alt={insumo.denominacion} style={{ width: '60px', height: '60px', objectFit: 'cover' }} /></TableCell>
                 <TableCell>{insumo.denominacion}</TableCell>

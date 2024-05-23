@@ -30,7 +30,7 @@ function BotonAgregarProducto() {
                 startIcon={<AddCircleIcon />}
                 onClick={handleOpen}
             >
-                Agregar Producto
+                Agregar
             </Button>
             <AgregarProductoModal 
                 open={open} 

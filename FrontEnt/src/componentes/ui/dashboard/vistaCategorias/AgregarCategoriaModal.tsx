@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal, Box, TextField, Typography, Stack, Button } from '@mui/material';
 
 interface AgregarCategoriaModalProps {
@@ -8,7 +8,7 @@ interface AgregarCategoriaModalProps {
     initialNombre: string;
 }
 
-const AgregarCategoriaModal: React.FC<AgregarCategoriaModalProps> = ({ open, onClose, onSubmit, initialNombre }) => {
+function AgregarCategoriaModal({ open, onClose, onSubmit, initialNombre }: AgregarCategoriaModalProps) {
     const [nombre, setNombre] = useState(initialNombre);
 
     const handleSubmit = () => {

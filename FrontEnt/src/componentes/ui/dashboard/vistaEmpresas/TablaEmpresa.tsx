@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   Table,
   TableBody,
@@ -19,13 +19,23 @@ import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios
 import { getAllEmpresas } from '../../../../servicios/vistaInicio/FuncionesAPI';
 import Empresa from '../../../../entidades/Empresa';
 
-const TablaEmpresa: React.FC = () => {
+interface TablaProductosProps {
+  busqueda: string;
+}
+
+function TablaEmpresa({ busqueda }: TablaProductosProps) {
   const { data : empresas } = getAllEmpresas();
   const [editingEmpresa, setEditingEmpresa] = useState<Empresa | null>(null);
   const [openAgregar, setOpenAgregar] = useState(false);
   const [openSucursal, setOpenSucursal] = useState(false);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
+
+  const empresasFiltradas = empresas?.filter((item: Empresa) => {
+    return (
+      (busqueda === '' || item.nombre.toLowerCase().includes(busqueda.toLowerCase()))
+    );
+  });
 
   const handleOpenAgregar = (empresa: Empresa) => {
     setEditingEmpresa(empresa);
@@ -66,7 +76,7 @@ const TablaEmpresa: React.FC = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {empresas?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((empresa) => (
+            {empresasFiltradas?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((empresa) => (
               <TableRow key={empresa.id}>
                 <TableCell>{empresa.id}</TableCell>
                 <TableCell>{empresa.nombre}</TableCell>

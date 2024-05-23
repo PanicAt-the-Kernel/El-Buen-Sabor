@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal, Box, TextField, Typography, Stack, Button } from '@mui/material';
 
 interface AgregarEmpresaModalProps {
@@ -10,7 +10,7 @@ interface AgregarEmpresaModalProps {
     initialCuil: string;
 }
 
-const AgregarEmpresaModal: React.FC<AgregarEmpresaModalProps> = ({ open, onClose, onSubmit, initialNombre, initialRazonSocial, initialCuil }) => {
+function AgregarEmpresaModal({ open, onClose, onSubmit, initialNombre, initialRazonSocial, initialCuil } : AgregarEmpresaModalProps) {
     const [nombre, setNombre] = useState(initialNombre);
     const [razonSocial, setRazonSocial] = useState(initialRazonSocial);
     const [cuil, setCuil] = useState(initialCuil);
