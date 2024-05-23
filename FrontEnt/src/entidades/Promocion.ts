@@ -11,7 +11,7 @@ class Promocion {
     eliminado: boolean = false;
     horaHasta: string = '';
     descripcionDescuento: string = '';
-    precioPromocial: number = 0;
+    precioPromocional: number = 0;
     tipoPromocion: string = '';
     articulosManufacturados: ArticuloManufacturado[] = [];
     articuloInsumos: ArticuloInsumo[] = [];

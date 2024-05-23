@@ -43,7 +43,7 @@ function TablaCategoria({ busqueda }: TablaCategoriasProps) {
     setEditingCategoria(categoria);
     setOpenCat(true);
   };
-
+/*
   const handleOpenSubCat = (categoria: Categoria) => {
     setEditingCategoria(categoria);
     setOpenSubCat(true);
@@ -53,7 +53,7 @@ function TablaCategoria({ busqueda }: TablaCategoriasProps) {
     setEditingCategoria(categoria);
     setOpenArticulos(true);
   };
-
+*/
   const handleClose = () => {
     setEditingCategoria(null);
     setOpenCat(false);
@@ -86,12 +86,12 @@ function TablaCategoria({ busqueda }: TablaCategoriasProps) {
                 <TableCell>{item.id}</TableCell>
                 <TableCell>{item.denominacion}</TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpenSubCat(item)}>
+                  <IconButton /*onClick={() => handleOpenSubCat(item)}*/>
                     <VisibilityIcon />
                   </IconButton>
                 </TableCell>
                 <TableCell>
-                  <IconButton onClick={() => handleOpenArticulos(item)}>
+                  <IconButton /*onClick={() => handleOpenArticulos(item)}*/>
                     <VisibilityIcon />
                   </IconButton>
                 </TableCell>
