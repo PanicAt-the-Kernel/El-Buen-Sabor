@@ -31,6 +31,36 @@ export function getAllInsumos(): SWRResponse<any, any, any> {
     return useSWR<ArticuloInsumo[]>(`https://traza-compartida.onrender.com/articuloInsumo`, fetcher);
 }
 
+//FUNCIONES SAVE
+export async function saveEmpresa(nombre:string,razonSocial:string,cuil:string){
+    //Construir el objeto
+    let empresa = new Empresa();
+    empresa.nombre=nombre;
+    empresa.razonSocial=razonSocial;
+    empresa.cuil=Number(cuil);
+
+    //Preparar llamada
+    let options={
+        mode:'cors' as RequestMode,
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(empresa)
+    }
+    try{
+        const response = await fetch("https://traza-compartida.onrender.com/empresa",options);
+        if(response.ok){
+            alert("Empresa Guardada");
+        }else{
+            alert(response.status);
+            console.log(response.status);
+        }
+    }catch{
+        alert("Error CORS")
+        console.log("La promesa fallo")
+    }
+}
 /*
 Hacer
 save/edit empresa
