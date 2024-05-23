@@ -7,6 +7,7 @@ class Domicilio {
     cp : number = 0; 
     piso : string = ''; 
     nroDepto : string = '';  
+    eliminado: boolean = false;
     localidad: Localidad = new Localidad;
 }
 

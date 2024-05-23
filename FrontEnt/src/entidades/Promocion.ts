@@ -8,6 +8,7 @@ class Promocion {
     fechaDesde: string = '';
     fechaHasta: string = '';
     horaDesde: string = '';
+    eliminado: boolean = false;
     horaHasta: string = '';
     descripcionDescuento: string = '';
     precioPromocial: number = 0;
