@@ -8,6 +8,7 @@ class Pedido {
     horaEstimadaFinalizacion: string = '';
     total: number = 0;
     totalCosto: number = 0;
+    eliminado: boolean = false;
     estado: string = ''; 
     tipoEnvio: string = ''; 
     formaPago: string = ''; 

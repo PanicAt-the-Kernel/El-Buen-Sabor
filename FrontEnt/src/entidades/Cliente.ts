@@ -7,6 +7,7 @@ class Cliente {
     apellido: string = ''; 
     telefono: number = 0; 
     email: string = ''; 
+    eliminado: boolean = false;
     usuario: Usuario = new Usuario; 
     pedidos: Pedido[] = [];
 }
