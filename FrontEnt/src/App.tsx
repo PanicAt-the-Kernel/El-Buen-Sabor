@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import DashboardVistaInicio from "./paginas/DashboardVistaInicio";
 import DashboardVistaProducto from "./paginas/DashboardVistaProducto";
 import DashboardVistaEmpleado from "./paginas/DashboardVistaEmpleado";
 import DashboardVistaInsumo from "./paginas/DashboardVistaInsumo";
@@ -7,6 +6,10 @@ import DashboardVistaCategoria from "./paginas/DashboardVistaCategoria";
 import DashboardVistaEmpresa from "./paginas/DashboardVistaEmpresa";
 import DashboardVistaPromocion from "./paginas/DashboardVistaPromocion";
 import { ThemeProvider, createTheme } from "@mui/material";
+
+import "@fontsource/montserrat"
+import "@fontsource/lekton"
+import "@fontsource/roboto"
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
   palette: {
@@ -23,14 +26,20 @@ const basilTheme = createTheme({
       contrastText: "#000000",
     },
   },
+  typography:{
+    fontFamily:[
+      "montserrat",
+      "lekton",
+      "roboto"
+    ].join(","),
+  }
 });
 function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={basilTheme}>
         <Routes>
-          <Route index element={<DashboardVistaInicio />} />
-          <Route path="/empresas" element={<DashboardVistaEmpresa />} />
+          <Route index element={<DashboardVistaEmpresa />} />
           <Route path="/categorias" element={<DashboardVistaCategoria />} />
           <Route path="/productos" element={<DashboardVistaProducto />} />
           <Route path="/empleados" element={<DashboardVistaEmpleado />} />

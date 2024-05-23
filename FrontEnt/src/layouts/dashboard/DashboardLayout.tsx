@@ -27,7 +27,11 @@ function DashboardSidebar({ children }: DashboardSidebarTypes) {
           </Typography>
         </Toolbar>
       </AppBar>
-      <Container>{children}</Container>
+      <Box component="main">
+        <Container>
+          {children}
+        </Container>
+      </Box>
     </>
   );
 }

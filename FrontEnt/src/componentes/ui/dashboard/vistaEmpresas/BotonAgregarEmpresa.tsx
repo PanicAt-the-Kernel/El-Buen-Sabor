@@ -29,7 +29,7 @@ function BotonAgregarEmpresa() {
                 startIcon={<AddCircleIcon />}
                 onClick={handleOpen}
             >
-                Agregar
+                Agregar Empresa
             </Button>
             <AgregarEmpresaModal 
                 open={open} 
