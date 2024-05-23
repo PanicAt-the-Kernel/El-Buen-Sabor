@@ -16,7 +16,7 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import AgregarEmpresaModal from './AgregarEmpresaModal';
 import MostrarSucursalesModal from './MostrarSucursalesModal';
 import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
-import { getAllEmpresas } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { editEmpresa, getAllEmpresas } from '../../../../servicios/vistaInicio/FuncionesAPI';
 import Empresa from '../../../../entidades/Empresa';
 
 interface TablaProductosProps {
@@ -54,10 +54,11 @@ function TablaEmpresa({ busqueda }: TablaProductosProps) {
   };
 
   const handleSubmit = (nombre: string, razonSocial: string, cuil: string) => {
-    console.log('Nombre:', nombre);
-    console.log('Razón Social:', razonSocial);
-    console.log('Cuil:', cuil);
-    handleClose();
+    //LLAMADA API EDITAR EMPRESA
+    if(editingEmpresa!=null){
+      editEmpresa(editingEmpresa.id,nombre,razonSocial,cuil);
+      handleClose();
+    }
   };
 
   return (
