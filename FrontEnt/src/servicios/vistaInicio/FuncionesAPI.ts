@@ -4,6 +4,7 @@ import Categoria from "../../entidades/Categoria";
 import Empresa from "../../entidades/Empresa";
 import ArticuloManufacturado from "../../entidades/ArticuloManufacturado";
 import Sucursal from "../../entidades/Sucursal";
+import Promocion from "../../entidades/Promocion";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -21,6 +22,10 @@ export function getAllCategorias(): SWRResponse<Categoria[], any, any> {
 
 export function getAllArticulosManufacturados(): SWRResponse<ArticuloManufacturado[], any, any> {
     return useSWR<ArticuloManufacturado[]>(`https://traza-compartida.onrender.com/articuloManufacturado`, fetcher);
+}
+
+export function getAllPromociones(): SWRResponse<Promocion[], any, any> {
+    return useSWR<Promocion[]>(`https://buensabor-json-server.onrender.com/promociones`, fetcher);
 }
 
 export function getAllArticulosInsumos(): SWRResponse<ArticuloInsumo[], any, any> {

@@ -44,7 +44,7 @@ function Sidebar({ collapsed, setBroken, toggled }: SidebarProps) {
           <MenuItem component={<a href="/productos"></a>} icon={<MenuBookIcon />}>Lista de Productos</MenuItem>
         </SubMenu>
         <MenuItem component={<a href="/empleados"></a>} icon={<PeopleIcon />}>Empleados</MenuItem>
-        <MenuItem icon={<AttachMoneyIcon />}>Promociones</MenuItem>
+        <MenuItem component={<a href="/promociones"></a>} icon={<AttachMoneyIcon />}>Promociones</MenuItem>
         <MenuItem component={<a href="/insumos"></a>} icon={<ShoppingBasketIcon />}>Insumos</MenuItem>
       </Menu>
     </SidebarPro>

@@ -5,6 +5,7 @@ import DashboardVistaEmpleado from './paginas/DashboardVistaEmpleado'
 import DashboardVistaInsumo from './paginas/DashboardVistaInsumo'
 import DashboardVistaCategoria from './paginas/DashboardVistaCategoria'
 import DashboardVistaEmpresa from './paginas/DashboardVistaEmpresa'
+import DashboardVistaPromocion from './paginas/DashboardVistaPromocion'
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path='/categorias' element={<DashboardVistaCategoria />}/>
         <Route path='/productos' element={<DashboardVistaProducto />}/>
         <Route path='/empleados' element={<DashboardVistaEmpleado />}/>
+        <Route path='/promociones' element={<DashboardVistaPromocion />}/>
         <Route path='/insumos' element={<DashboardVistaInsumo />}/>
       </Routes>
     </BrowserRouter>
