@@ -1,68 +1,34 @@
 import {
+  AppBar,
   Box,
   Container,
   CssBaseline,
-  ThemeProvider,
-  createTheme,
+  Toolbar,
+  Typography,
 } from "@mui/material";
-import AppHeader from "../../componentes/dashboard/AppHeader";
-import Sidebar from "../../componentes/dashboard/Sidebar";
-import { ReactNode, useState } from "react";
-//PALETA DE COLORES DEL PROYECTO
-const basilTheme = createTheme({
-  palette: {
-    primary: {
-      main: "#356859",
-      light: "#B9E4C9",
-      dark: "#37966F",
-      contrastText:"#ffffff"
-    },
-    secondary: {
-      main: "#FD5523",
-      light: "#FFFBE6",
-      dark:"#E7D59C",
-      contrastText:"#000000"
-    },
-  }
-});
+import { ReactNode } from "react";
 
-interface DashboardLayoutTypes{
-  children:ReactNode;
+interface DashboardSidebarTypes {
+  children: ReactNode;
 }
-function DashboardLayout({children}:DashboardLayoutTypes) {
-  const [collapsed, setCollapsed] = useState(false);
-  const [toggled, setToggled] = useState(false);
-  const [broken, setBroken] = useState(false);
-
+function DashboardSidebar({ children }: DashboardSidebarTypes) {
   return (
-    <ThemeProvider theme={basilTheme}>
+    <>
       <CssBaseline />
-      <AppHeader
-        collapsed={collapsed}
-        setCollapse={setCollapsed}
-        broken={broken}
-        setToggle={setToggled}
-        toggled={toggled}
-      />
-      <Box
-        sx={{
-          display: "flex",
-          height: "calc(100%-64px)",
-          backgroundColor:basilTheme.palette.secondary.light
-        }}
-      >
-        <Sidebar
-          collapsed={collapsed}
-          toggled={toggled}
-          setBroken={setBroken}
-        />
-        <Box component="main">
-          <Container>{/*AQUI IRAN LAS VISTAS DEL DASHBOARD */}
-            {children}
-          </Container>
-        </Box>
-      </Box>
-    </ThemeProvider>
+      <AppBar position="sticky">
+        <Toolbar disableGutters>
+          <Box
+            component="img"
+            src="/imgs/Icono.svg"
+            sx={{ width: 80, margin: 1 }}
+          />
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            El Buen Sabor Dashboard
+          </Typography>
+        </Toolbar>
+      </AppBar>
+      <Container>{children}</Container>
+    </>
   );
 }
-export default DashboardLayout;
+export default DashboardSidebar;
