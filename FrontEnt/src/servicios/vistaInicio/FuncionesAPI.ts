@@ -3,11 +3,16 @@ import ArticuloInsumo from "../../entidades/ArticuloInsumo";
 import Categoria from "../../entidades/Categoria";
 import Empresa from "../../entidades/Empresa";
 import ArticuloManufacturado from "../../entidades/ArticuloManufacturado";
+import Sucursal from "../../entidades/Sucursal";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 export function getAllEmpresas(): SWRResponse<Empresa[], any, any> {
     return useSWR<Empresa[]>(`https://traza-compartida.onrender.com/empresa`, fetcher);
+}
+
+export function getSucursalesEmpresa(idEmpresa: number): SWRResponse<Sucursal[], any, any> {
+    return useSWR<Sucursal[]>(`https://traza-compartida.onrender.com/sucursal/empresa/${idEmpresa}`, fetcher);
 }
 
 export function getAllCategorias(): SWRResponse<Categoria[], any, any> {

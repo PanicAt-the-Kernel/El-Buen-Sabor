@@ -63,6 +63,9 @@ function AgregarEmpresaModal({ open, onClose, onSubmit, initialNombre, initialRa
                     <Button variant="contained" color="primary" onClick={handleSubmit}>
                         Guardar
                     </Button>
+                    <Button variant="contained" color="secondary" onClick={onClose}>
+                        Cancelar
+                    </Button>
                 </Stack>
             </Box>
         </Modal>

@@ -13,11 +13,14 @@ import {
     Button,
     IconButton
 } from '@mui/material';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
 import Empresa from '../../../../entidades/Empresa';
+import { getSucursalesEmpresa } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import BotonAgregarSucursal from './BotonAgregarSucursal';
+import Sucursal from '../../../../entidades/Sucursal';
+import AgregarSucursalModal from './AgregarSucursalModal';
 
 interface MostrarSucursalesModalProps {
     open: boolean;
@@ -25,9 +28,25 @@ interface MostrarSucursalesModalProps {
     empresa: Empresa;
 }
 
-function MostrarSucursalesModal({ open, onClose, empresa } : MostrarSucursalesModalProps) {
+function MostrarSucursalesModal({ open, onClose, empresa }: MostrarSucursalesModalProps) {
+    const { data: sucursales } = getSucursalesEmpresa(empresa.id);
+    const [editingSucursal, setEditingSucursal] = useState<Sucursal | null>(null);
+    const [openSucursal, setOpenSucursal] = useState(false);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
+
+    const handleOpen = (sucursal: Sucursal) => {
+        setEditingSucursal(sucursal);
+        setOpenSucursal(true);
+    };
+
+    const handleClose = () => {
+        setOpenSucursal(false);
+    };
+
+    const handleSubmit = () => {
+        handleClose();
+    };
 
     return (
         <Modal
@@ -48,13 +67,7 @@ function MostrarSucursalesModal({ open, onClose, empresa } : MostrarSucursalesMo
                     p: 4,
                 }}
             >
-                <Button
-                variant="contained"
-                color="primary"
-                startIcon={<AddCircleIcon />}
-                >
-                Agregar Sucursal
-                </Button>
+                <BotonAgregarSucursal />
                 <p></p>
                 <TableContainer component={Paper} style={{ width: '100%' }}>
                     <Table>
@@ -71,13 +84,13 @@ function MostrarSucursalesModal({ open, onClose, empresa } : MostrarSucursalesMo
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {empresa.sucursales.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((sucursal) => (
+                            {sucursales?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((sucursal) => (
                                 <TableRow key={sucursal.id}>
                                     <TableCell>
                                         <Button
                                             variant="contained"
                                             color="primary"
-                                            onClick={() => {}}
+                                            onClick={() => { }}
                                         >
                                             Elegir Sucursal
                                         </Button>
@@ -88,7 +101,7 @@ function MostrarSucursalesModal({ open, onClose, empresa } : MostrarSucursalesMo
                                     <TableCell>{sucursal.horarioCierre}</TableCell>
                                     <TableCell>{`${sucursal.domicilio.calle} ${sucursal.domicilio.numero}, ${sucursal.domicilio.localidad.nombre}`}</TableCell>
                                     <TableCell>
-                                        <IconButton>
+                                        <IconButton onClick={() => handleOpen(sucursal)}>
                                             <EditIcon />
                                         </IconButton>
                                     </TableCell>
@@ -104,13 +117,26 @@ function MostrarSucursalesModal({ open, onClose, empresa } : MostrarSucursalesMo
                     <TablePagination
                         rowsPerPageOptions={[5, 10, 25]}
                         component="div"
-                        count={empresa.sucursales.length}
+                        count={sucursales?.length || 0}
                         rowsPerPage={rowsPerPage}
                         page={page}
                         onPageChange={(event, newPage) => handleChangePage(event, newPage, setPage)}
                         onRowsPerPageChange={(event) => handleChangeRowsPerPage(event, setRowsPerPage, setPage)}
                     />
                 </TableContainer>
+                {editingSucursal && (
+                    <AgregarSucursalModal
+                        open={openSucursal}
+                        onClose={handleClose}
+                        onSubmit={handleSubmit}
+                        iNombre={editingSucursal.nombre}
+                        iHoraApertura={editingSucursal.horarioApertura}
+                        iHoraCierre={editingSucursal.horarioCierre}
+                        iEsCasaMatriz={editingSucursal.esCasaMatriz}
+                        iDomicilio={editingSucursal.domicilio.calle}
+                        iEmpresa={editingSucursal.empresa.nombre}
+                    />
+                )}
             </Box>
         </Modal>
     );

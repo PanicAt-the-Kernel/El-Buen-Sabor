@@ -71,6 +71,9 @@ function AgregarProductoModal({ open, onClose, onSubmit, initialNombre, initialP
                     <Button variant="contained" color="primary" onClick={handleSubmit}>
                         Guardar
                     </Button>
+                    <Button variant="contained" color="secondary" onClick={onClose}>
+                        Cancelar
+                    </Button>
                 </Stack>
             </Box>
         </Modal>
