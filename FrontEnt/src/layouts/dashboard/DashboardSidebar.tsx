@@ -10,7 +10,7 @@ function DashboardSidebar({ children }: DashboardSidebarTypes) {
   const [collapsed, setCollapsed] = useState(false);
   const [toggled, setToggled] = useState(false);
   const [broken, setBroken] = useState(false);
-  const basilTheme= useTheme();
+  const basilTheme = useTheme();
   return (
     <>
       <CssBaseline />
@@ -34,10 +34,7 @@ function DashboardSidebar({ children }: DashboardSidebarTypes) {
           setBroken={setBroken}
         />
         <Box component="main">
-          <Container>
-            {/*AQUI IRAN LAS VISTAS DEL DASHBOARD */}
-            {children}
-          </Container>
+          <Container>{children}</Container>
         </Box>
       </Box>
     </>

@@ -11,7 +11,7 @@ import { ReactNode } from "react";
 interface DashboardSidebarTypes {
   children: ReactNode;
 }
-function DashboardSidebar({ children }: DashboardSidebarTypes) {
+function DashboardLayout({ children }: DashboardSidebarTypes) {
   return (
     <>
       <CssBaseline />
@@ -28,11 +28,9 @@ function DashboardSidebar({ children }: DashboardSidebarTypes) {
         </Toolbar>
       </AppBar>
       <Box component="main">
-        <Container>
-          {children}
-        </Container>
+        <Container>{children}</Container>
       </Box>
     </>
   );
 }
-export default DashboardSidebar;
+export default DashboardLayout;
