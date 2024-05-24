@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, FormControl, Input, Stack } from "@mui/material";
 import BotonAgregarEmpresa from "./BotonAgregarEmpresa";
-import TablaEmpresa from "./TablaEmpresa";
+import Grilla from "./Grilla";
 
 function BuscarEmpresa() {
   const [nombre, setNombre] = useState("");
@@ -21,7 +21,7 @@ function BuscarEmpresa() {
         }}
         alignItems="center"
       >
-        <form onSubmit={handleBuscar}>
+        <Box component="form" onSubmit={handleBuscar}>
           <FormControl fullWidth margin="normal">
             <Input
               placeholder="Buscar empresa"
@@ -31,11 +31,10 @@ function BuscarEmpresa() {
               sx={{ width: "300px" }}
             />
           </FormControl>
-        </form>
+        </Box>
         <BotonAgregarEmpresa />
       </Stack>
-      <p></p>
-      <TablaEmpresa busqueda={nombre} />
+      <Grilla busqueda={nombre} />
     </Box>
   );
 }
