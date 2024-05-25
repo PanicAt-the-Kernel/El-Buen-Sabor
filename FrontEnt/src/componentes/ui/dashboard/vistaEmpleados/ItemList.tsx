@@ -24,7 +24,7 @@ export default function ItemList({ nombre, cargo }: ItemListTypes) {
     <>
       <ListItem
         secondaryAction={
-          <IconButton edge="end" aria-label="action">
+          <IconButton edge="end" aria-label="Editar">
             <Edit />
           </IconButton>
         }

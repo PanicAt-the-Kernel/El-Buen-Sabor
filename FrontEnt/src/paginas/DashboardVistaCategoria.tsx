@@ -7,7 +7,7 @@ function DashboardVistaCategoria() {
     <DashboardSidebar>
       <Grid container>
         <Grid item xs={12} sm={12} md={4}>
-          <Typography variant="h4" sx={{ marginTop: 2, textAlign:"center"}}>
+          <Typography variant="h4" sx={{ marginTop: 2, textAlign: "center" }}>
             Lista de Categorias
           </Typography>
         </Grid>
