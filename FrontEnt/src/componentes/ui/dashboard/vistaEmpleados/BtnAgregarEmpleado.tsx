@@ -8,7 +8,7 @@ function BtnAgregarEmpleado() {
             color="primary"
             startIcon={<AddCircleIcon />}
         >
-            Agregar
+            Agregar Empleado
         </Button>
     )
 }

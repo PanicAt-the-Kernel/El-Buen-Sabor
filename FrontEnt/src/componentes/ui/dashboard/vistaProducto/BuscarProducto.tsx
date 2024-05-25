@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, FormControl, Input, Stack } from "@mui/material";
 import BotonAgregarProducto from "./BotonAgregarProducto";
-import TablaProducto from "./TablaProducto";
 import GrillaProducto from "./GrillaProducto";
 
 function BuscarProducto() {
