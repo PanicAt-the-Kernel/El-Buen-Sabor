@@ -11,7 +11,7 @@ import {
 interface AgregarEmpresaModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (nombre: string, precio: string, tiempo: string) => void;
+  onSubmit: (nombre: string, razonSocial: string, cuil: string) => void;
   initialNombre: string;
   initialRazonSocial: string;
   initialCuil: string;

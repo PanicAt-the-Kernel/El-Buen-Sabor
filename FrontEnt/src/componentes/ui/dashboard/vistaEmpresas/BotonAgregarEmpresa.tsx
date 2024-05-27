@@ -2,6 +2,7 @@ import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarEmpresaModal from './AgregarEmpresaModal';
+import { saveEmpresa } from '../../../../servicios/vistaInicio/FuncionesAPI';
 
 function BotonAgregarEmpresa() {
     const [open, setOpen] = useState(false);
@@ -15,9 +16,8 @@ function BotonAgregarEmpresa() {
     };
 
     const handleSubmit = (nombre: string, razonSocial: string, cuil: string) => {
-        console.log('Nombre:', nombre);
-        console.log('Precio:', razonSocial);
-        console.log('Tiempo:', cuil);
+        //LLAMADA A FUNCION API SAVE
+        saveEmpresa(nombre,razonSocial,cuil);
         handleClose();
     };
 
