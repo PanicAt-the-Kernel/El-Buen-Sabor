@@ -15,7 +15,7 @@ function BotonAgregarEmpresa() {
         setOpen(false);
     };
 
-    const handleSubmit = (nombre: string, razonSocial: string, cuil: string) => {
+    const handleSubmit = (nombre: string, razonSocial: string, cuil: number) => {
         //LLAMADA A FUNCION API SAVE
         saveEmpresa(nombre,razonSocial,cuil);
         handleClose();

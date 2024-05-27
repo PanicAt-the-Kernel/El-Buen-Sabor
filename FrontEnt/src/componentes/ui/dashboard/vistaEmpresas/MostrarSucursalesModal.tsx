@@ -1,26 +1,17 @@
 import { useState } from 'react';
 import {
-    Table,
-    TableBody,
-    TableCell,
-    TableContainer,
-    TableHead,
-    TableRow,
-    TablePagination,
-    Paper,
     Modal,
     Box,
-    Button,
-    IconButton
+    Grid,
+    Button
 } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { handleChangePage, handleChangeRowsPerPage } from '../../../../servicios/Paginacion';
 import Empresa from '../../../../entidades/Empresa';
 import { getSucursalesEmpresa } from '../../../../servicios/vistaInicio/FuncionesAPI';
 import BotonAgregarSucursal from './BotonAgregarSucursal';
 import Sucursal from '../../../../entidades/Sucursal';
 import AgregarSucursalModal from './AgregarSucursalModal';
+import ItemGrilla from './ItemGrilla';
+import { Edit, Info } from '@mui/icons-material';
 
 interface MostrarSucursalesModalProps {
     open: boolean;
@@ -28,12 +19,10 @@ interface MostrarSucursalesModalProps {
     empresa: Empresa;
 }
 
-function MostrarSucursalesModal({ open, onClose, empresa }: MostrarSucursalesModalProps) {
+export default function MostrarSucursalesModal({ open, onClose, empresa }: MostrarSucursalesModalProps) {
     const { data: sucursales } = getSucursalesEmpresa(empresa.id);
     const [editingSucursal, setEditingSucursal] = useState<Sucursal | null>(null);
     const [openSucursal, setOpenSucursal] = useState(false);
-    const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
 
     const handleOpen = (sucursal: Sucursal) => {
         setEditingSucursal(sucursal);
@@ -57,73 +46,40 @@ function MostrarSucursalesModal({ open, onClose, empresa }: MostrarSucursalesMod
         >
             <Box
                 sx={{
-                    position: 'absolute',
-                    top: '50%',
-                    left: '50%',
-                    transform: 'translate(-50%, -50%)',
-                    width: 900,
-                    bgcolor: 'background.paper',
+                    position: "absolute",
+                    top: "50%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    bgcolor: "background.paper",
                     boxShadow: 24,
                     p: 4,
+                    minWidth: 360,
+                    maxWidth: '90vw', // Para que la modal no sea demasiado ancha en pantallas pequeñas
+                    maxHeight: '90vh', // Limitar la altura máxima al 90% de la altura de la ventana
+                    overflow: 'auto', // Hacer que el contenido dentro del Box sea desplazable
                 }}
             >
                 <BotonAgregarSucursal />
-                <p></p>
-                <TableContainer component={Paper} style={{ width: '100%' }}>
-                    <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell>Elegir</TableCell>
-                                <TableCell>Id</TableCell>
-                                <TableCell>Nombre</TableCell>
-                                <TableCell>Horario de Apertura</TableCell>
-                                <TableCell>Horario de Cierre</TableCell>
-                                <TableCell>Domicilio</TableCell>
-                                <TableCell>Editar</TableCell>
-                                <TableCell>Eliminar</TableCell>
-                            </TableRow>
-                        </TableHead>
-                        <TableBody>
-                            {sucursales?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((sucursal) => (
-                                <TableRow key={sucursal.id}>
-                                    <TableCell>
-                                        <Button
-                                            variant="contained"
-                                            color="primary"
-                                            onClick={() => { }}
-                                        >
-                                            Elegir Sucursal
-                                        </Button>
-                                    </TableCell>
-                                    <TableCell>{sucursal.id}</TableCell>
-                                    <TableCell>{sucursal.nombre}</TableCell>
-                                    <TableCell>{sucursal.horarioApertura}</TableCell>
-                                    <TableCell>{sucursal.horarioCierre}</TableCell>
-                                    <TableCell>{`${sucursal.domicilio.calle} ${sucursal.domicilio.numero}, ${sucursal.domicilio.localidad.nombre}`}</TableCell>
-                                    <TableCell>
-                                        <IconButton onClick={() => handleOpen(sucursal)}>
-                                            <EditIcon />
-                                        </IconButton>
-                                    </TableCell>
-                                    <TableCell>
-                                        <IconButton>
-                                            <DeleteIcon />
-                                        </IconButton>
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                        </TableBody>
-                    </Table>
-                    <TablePagination
-                        rowsPerPageOptions={[5, 10, 25]}
-                        component="div"
-                        count={sucursales?.length || 0}
-                        rowsPerPage={rowsPerPage}
-                        page={page}
-                        onPageChange={(event, newPage) => handleChangePage(event, newPage, setPage)}
-                        onRowsPerPageChange={(event) => handleChangeRowsPerPage(event, setRowsPerPage, setPage)}
-                    />
-                </TableContainer>
+                <Grid
+                    container
+                    spacing={1}
+                    sx={{
+                        marginTop: 2,
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}>
+                    {sucursales?.map((item: Sucursal) => (
+                        <ItemGrilla
+                            nombre={item.nombre}
+                            descripcion={item.domicilio.calle + " " + item.domicilio.numero + " - " + item.domicilio.localidad.nombre}
+                            info={"Horario: " + item.horarioApertura + " a " + item.horarioCierre}
+                            urlImagen="/imgs/empresa.jpg"
+                        >
+                            <Button size="small" variant="contained" color="info" startIcon={<Info />}>Ingresar</Button>
+                            <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpen(item)}>Editar</Button>
+                        </ItemGrilla>
+                    ))}
+                </Grid>
                 {editingSucursal && (
                     <AgregarSucursalModal
                         open={openSucursal}
@@ -138,8 +94,6 @@ function MostrarSucursalesModal({ open, onClose, empresa }: MostrarSucursalesMod
                     />
                 )}
             </Box>
-        </Modal>
+        </Modal >
     );
-};
-
-export default MostrarSucursalesModal;
+}

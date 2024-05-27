@@ -29,7 +29,7 @@ export default function ListContainerEmpleado({
   });
   return (
     <Paper elevation={5} sx={{marginTop:2}}>
-      <List sx={{ backgroundColor: "white" }}>
+      <List sx={{ backgroundColor: "white", overflow: 'auto', maxHeight: 700 }}>
         {empleadosFiltrados.map((item) => (
           <ItemList nombre={item.name} cargo={item.position} />
         ))}

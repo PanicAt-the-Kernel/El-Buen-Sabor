@@ -3,7 +3,6 @@ import {
   Modal,
   Box,
   TextField,
-  Typography,
   Stack,
   Button,
 } from "@mui/material";
@@ -11,7 +10,7 @@ import {
 interface AgregarEmpresaModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (nombre: string, razonSocial: string, cuil: string) => void;
+  onSubmit: (nombre: string, razonSocial: string, cuil: number) => void;
   initialNombre: string;
   initialRazonSocial: string;
   initialCuil: string;
@@ -30,7 +29,7 @@ function AgregarEmpresaModal({
   const [cuil, setCuil] = useState(initialCuil);
 
   const handleSubmit = () => {
-    onSubmit(nombre, razonSocial, cuil);
+    onSubmit(nombre, razonSocial, Number(cuil));
   };
 
   return (
@@ -52,14 +51,6 @@ function AgregarEmpresaModal({
           p: 4,
         }}
       >
-        <Typography
-          variant="h6"
-          id="modal-title"
-          gutterBottom
-          textAlign={"center"}
-        >
-          Agregar Nueva Empresa
-        </Typography>
         <Box component="form" autoComplete="off" onSubmit={(e)=>{
             e.preventDefault();
             handleSubmit();

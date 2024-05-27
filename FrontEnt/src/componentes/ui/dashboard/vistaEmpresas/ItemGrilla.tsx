@@ -13,6 +13,7 @@ import { ReactNode } from "react";
 interface ItemGrillaTypes {
   nombre: string; //Nombre de empresa o sucursal
   descripcion: string; //Datos de interes a mostrar de la empresa o sucursal
+  info: string;
   children: ReactNode;
   urlImagen:string;
 }
@@ -21,11 +22,12 @@ export default function ItemGrilla({
   nombre,
   descripcion,
   children,
+  info,
   urlImagen
 }: ItemGrillaTypes) {
   return (
-    <Grid item xs={12} sm={12} md={3} sx={{marginBottom:2}}>
-      <Card sx={{ maxWidth: 380, textAlign: "center" }}>
+    <Grid item sx={{marginBottom:2}}>
+      <Card sx={{ width: 340, textAlign: "center" }}>
         <CardMedia
           sx={{ height: 260}}
           image={urlImagen}
@@ -36,6 +38,9 @@ export default function ItemGrilla({
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {descripcion}
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            {info}
           </Typography>
         </CardContent>
         <CardActions sx={{ justifyContent: "center" }}>{children}</CardActions>

@@ -67,6 +67,38 @@ export async function saveEmpresa(nombre:string,razonSocial:string,cuil:number){
         alert("Error CORS, Revisa la URL o el back esta mal configurado")
     }
 }
+
+export async function editEmpresa(id:number,nombre:string,razonSocial:string,cuil:number){
+    //Construir el objeto
+    let empresa=new Empresa();
+    empresa.id=id;
+    empresa.nombre=nombre;
+    empresa.razonSocial=razonSocial;
+    empresa.cuil=cuil;
+
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(empresa)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch(`https://traza-compartida.onrender.com/empresa/${id}`,options);
+        if(response.ok){
+            alert("Empresa editada correctamente");
+        }else{
+            alert("Error HTTP: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado")
+    }
+}
+
 /*
 Hacer
 save/edit empresa
