@@ -1,10 +1,10 @@
 import { Grid, Typography } from "@mui/material";
 import BuscarEmpresa from "../componentes/ui/dashboard/vistaEmpresas/BuscarEmpresa";
-import DashboardLayout from "../layouts/dashboard/DashboardLayout";
+import DashboardSidebar from "../layouts/dashboard/DashboardSidebar";
 
 function DashboardVistaEmpresa() {
   return (
-    <DashboardLayout>
+    <DashboardSidebar>
       <Grid container>
         <Grid item xs={12} sm={12} md={4}>
           <Typography variant="h4" sx={{ marginTop: 2, textAlign:"center" }}>
@@ -15,7 +15,7 @@ function DashboardVistaEmpresa() {
           <BuscarEmpresa />
         </Grid>
       </Grid>
-    </DashboardLayout>
+    </DashboardSidebar>
   );
 }
 export default DashboardVistaEmpresa;

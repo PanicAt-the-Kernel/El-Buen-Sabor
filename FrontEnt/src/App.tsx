@@ -10,6 +10,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
+import DashboardVistaInformes from "./paginas/DashboardVistaInformes";
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
   palette: {
@@ -41,6 +42,7 @@ function App() {
         <Routes>
           <Route index element={<DashboardVistaEmpresa />} />
           <Route path="/categorias" element={<DashboardVistaCategoria />} />
+          <Route path="/informes" element={<DashboardVistaInformes />} />
           <Route path="/productos" element={<DashboardVistaProducto />} />
           <Route path="/empleados" element={<DashboardVistaEmpleado />} />
           <Route path="/promociones" element={<DashboardVistaPromocion />} />
