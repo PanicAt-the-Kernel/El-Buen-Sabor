@@ -8,6 +8,7 @@ import Promocion from "../../entidades/Promocion";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
+//FUNCIONES GET ALL
 export function getAllEmpresas(): SWRResponse<Empresa[], any, any> {
     return useSWR<Empresa[]>(`https://traza-compartida.onrender.com/empresa`, fetcher);
 }
@@ -36,17 +37,17 @@ export function getAllInsumos(): SWRResponse<any, any, any> {
     return useSWR<ArticuloInsumo[]>(`https://traza-compartida.onrender.com/articuloInsumo`, fetcher);
 }
 
-//FUNCIONES SAVE
-export async function saveEmpresa(nombre:string,razonSocial:string,cuil:string){
+//FUNCIONES SAVES
+export async function saveEmpresa(nombre:string,razonSocial:string,cuil:number){
     //Construir el objeto
-    let empresa = new Empresa();
+    let empresa=new Empresa();
     empresa.nombre=nombre;
     empresa.razonSocial=razonSocial;
-    empresa.cuil=Number(cuil);
+    empresa.cuil=cuil;
 
-    //Preparar llamada
+    //Preparar llamada api
     let options={
-        mode:'cors' as RequestMode,
+        mode:"cors" as RequestMode,
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -56,46 +57,14 @@ export async function saveEmpresa(nombre:string,razonSocial:string,cuil:string){
 
     //Manejo de errores
     try{
-        const response = await fetch("https://traza-compartida.onrender.com/empresa",options);
+        let response = await fetch("https://traza-compartida.onrender.com/empresa",options);
         if(response.ok){
-            alert("Empresa Guardada");
-        }else{
-            alert(response.status);
-            console.log(response.status);
-        }
-    }catch{
-        alert("Error CORS")
-        console.log("La promesa fallo")
-    }
-}
-export async function editEmpresa(id:number,nombre:string,razonSocial:string,cuil:string){
-    //Construir el objeto
-    let empresa = new Empresa();
-    empresa.id=id;
-    empresa.nombre=nombre;
-    empresa.razonSocial=razonSocial;
-    empresa.cuil=Number(cuil);
-
-    //Preparar llamada
-    let options={
-        mode:'cors' as RequestMode,
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify(empresa)
-    }
-
-    //Manejo de errores
-    try{
-        const response = await fetch(`https://traza-compartida.onrender.com/empresa/${id}`,options);
-        if(response.ok){
-            alert("Empresa Editada");
+            alert("Empresa Agregada");
         }else{
             alert("Error HTTP: "+response.status);
         }
     }catch{
-        alert("Error CORS")
+        alert("Error CORS, Revisa la URL o el back esta mal configurado")
     }
 }
 /*

@@ -30,12 +30,7 @@ function AgregarEmpresaModal({
   const [cuil, setCuil] = useState(initialCuil);
 
   const handleSubmit = () => {
-    //ENVIAR DATOS DEL FORMULARIO
     onSubmit(nombre, razonSocial, cuil);
-    //LIMPIAR CAMPOS FORMULARIO 
-    setNombre('');
-    setRazonSocial('');
-    setCuil('');
   };
 
   return (
@@ -51,23 +46,24 @@ function AgregarEmpresaModal({
           top: "50%",
           left: "50%",
           transform: "translate(-50%, -50%)",
-          width: 400,
+          minWidth: 325,
           bgcolor: "background.paper",
           boxShadow: 24,
           p: 4,
         }}
       >
-        <Typography variant="h6" id="modal-title" gutterBottom>
+        <Typography
+          variant="h6"
+          id="modal-title"
+          gutterBottom
+          textAlign={"center"}
+        >
           Agregar Nueva Empresa
         </Typography>
-        <Box
-          component="form"
-          onSubmit={(e) => {
+        <Box component="form" autoComplete="off" onSubmit={(e)=>{
             e.preventDefault();
             handleSubmit();
-          }}
-          autoComplete="off"
-        >
+        }}>
           <Stack spacing={2}>
             <TextField
               required
@@ -89,13 +85,14 @@ function AgregarEmpresaModal({
               variant="outlined"
               value={cuil}
               onChange={(e) => setCuil(e.target.value)}
+              type="number"
               inputProps={{
                 step:1,
                 min:1,
                 max:99999999
               }}
             />
-            <Button variant="contained" color="primary" type='submit'>
+            <Button variant="contained" color="primary" type="submit">
               Guardar
             </Button>
             <Button variant="contained" color="secondary" onClick={onClose}>

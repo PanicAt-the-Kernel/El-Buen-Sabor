@@ -27,7 +27,7 @@ function BotonAgregarCategoria() {
                 startIcon={<AddCircleIcon />}
                 onClick={handleOpen}
             >
-                Agregar
+                Agregar Categoria
             </Button>
             <AgregarCategoriaModal 
                 open={open} 

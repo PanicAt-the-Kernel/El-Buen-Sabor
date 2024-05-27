@@ -1,13 +1,13 @@
+import { Typography } from "@mui/material";
 import BuscarInsumo from "../componentes/ui/dashboard/vistaInsumos/BuscarInsumo";
-import DashboardLayout from "../layouts/dashboard/DashboardLayout";
+import DashboardSidebar from "../layouts/dashboard/DashboardSidebar";
 
-function DashboardVistaInsumo(){
-    return(
-        <DashboardLayout>
-            <p></p>
-            <h2>Lista de Insumos</h2>
-            <BuscarInsumo />
-        </DashboardLayout>
-    )
+function DashboardVistaInsumo() {
+  return (
+    <DashboardSidebar>
+      <Typography variant="h4" sx={{marginTop:2}}>Lista de Insumos</Typography>
+      <BuscarInsumo />
+    </DashboardSidebar>
+  );
 }
 export default DashboardVistaInsumo;
