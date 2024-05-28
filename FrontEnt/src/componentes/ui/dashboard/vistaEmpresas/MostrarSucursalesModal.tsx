@@ -6,7 +6,7 @@ import {
     Button
 } from '@mui/material';
 import Empresa from '../../../../entidades/Empresa';
-import { getSucursalesEmpresa } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { editSucursal, getSucursalesEmpresa } from '../../../../servicios/vistaInicio/FuncionesAPI';
 import BotonAgregarSucursal from './BotonAgregarSucursal';
 import Sucursal from '../../../../entidades/Sucursal';
 import AgregarSucursalModal from './AgregarSucursalModal';
@@ -16,11 +16,11 @@ import { Edit, Info } from '@mui/icons-material';
 interface MostrarSucursalesModalProps {
     open: boolean;
     onClose: () => void;
-    empresa: Empresa;
+    iEmpresa: Empresa;
 }
 
-export default function MostrarSucursalesModal({ open, onClose, empresa }: MostrarSucursalesModalProps) {
-    const { data: sucursales } = getSucursalesEmpresa(empresa.id);
+export default function MostrarSucursalesModal({ open, onClose, iEmpresa }: MostrarSucursalesModalProps) {
+    const { data: sucursales } = getSucursalesEmpresa(iEmpresa.id);
     const [editingSucursal, setEditingSucursal] = useState<Sucursal | null>(null);
     const [openSucursal, setOpenSucursal] = useState(false);
 
@@ -33,9 +33,13 @@ export default function MostrarSucursalesModal({ open, onClose, empresa }: Mostr
         setOpenSucursal(false);
     };
 
-    const handleSubmit = () => {
-        handleClose();
-    };
+    const handleSubmit = (sucursal: Sucursal, empresa: Empresa, idLocalidad: number) => {
+        //LLAMADA API EDITAR EMPRESA
+        if (editingSucursal != null) {
+          editSucursal(sucursal, empresa, idLocalidad);
+          handleClose();
+        }
+      };
 
     return (
         <Modal
@@ -59,7 +63,7 @@ export default function MostrarSucursalesModal({ open, onClose, empresa }: Mostr
                     overflow: 'auto', // Hacer que el contenido dentro del Box sea desplazable
                 }}
             >
-                <BotonAgregarSucursal />
+                <BotonAgregarSucursal iEmpresa={iEmpresa} />
                 <Grid
                     container
                     spacing={1}
@@ -70,9 +74,11 @@ export default function MostrarSucursalesModal({ open, onClose, empresa }: Mostr
                     }}>
                     {sucursales?.map((item: Sucursal) => (
                         <ItemGrilla
+                            key={item.id}
                             nombre={item.nombre}
                             descripcion={item.domicilio.calle + " " + item.domicilio.numero + " - " + item.domicilio.localidad.nombre}
                             info={"Horario: " + item.horarioApertura + " a " + item.horarioCierre}
+                            info2={`¿Es casa matriz?: ${item.esCasaMatriz ? "Sí" : "No"}`}
                             urlImagen="/imgs/empresa.jpg"
                         >
                             <Button size="small" variant="contained" color="info" startIcon={<Info />}>Ingresar</Button>
@@ -85,12 +91,8 @@ export default function MostrarSucursalesModal({ open, onClose, empresa }: Mostr
                         open={openSucursal}
                         onClose={handleClose}
                         onSubmit={handleSubmit}
-                        iNombre={editingSucursal.nombre}
-                        iHoraApertura={editingSucursal.horarioApertura}
-                        iHoraCierre={editingSucursal.horarioCierre}
-                        iEsCasaMatriz={editingSucursal.esCasaMatriz}
-                        iDomicilio={editingSucursal.domicilio.calle}
-                        iEmpresa={editingSucursal.empresa.nombre}
+                        iSucursal={editingSucursal}
+                        iEmpresa={iEmpresa}
                     />
                 )}
             </Box>

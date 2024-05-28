@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, FormControl, Input, Stack } from "@mui/material";
 import BotonAgregarEmpresa from "./BotonAgregarEmpresa";
-import Grilla from "./Grilla";
+import Grilla from "./GrillaEmpresa";
 
 function BuscarEmpresa() {
   const [nombre, setNombre] = useState("");

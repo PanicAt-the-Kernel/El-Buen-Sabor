@@ -17,10 +17,9 @@ export default function Grilla({ busqueda }: GrillaProps) {
   const [openEditar, setOpenEditar] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
 
-  const handleSubmit = (nombre: string, razonSocial: string, cuil: number) => {
-    //LLAMADA API EDITAR EMPRESA
+  const handleSubmit = (empresa: Empresa) => {
     if (editingEmpresa != null) {
-      editEmpresa(editingEmpresa.id, nombre, razonSocial, cuil);
+      editEmpresa(empresa);
       handleClose();
     }
   };
@@ -57,9 +56,11 @@ export default function Grilla({ busqueda }: GrillaProps) {
       }} spacing={1}>
         {empresasFiltradas?.map((item: Empresa) => (
           <ItemGrilla
+            key={item.id}
             nombre={item.nombre}
             descripcion={"Razón social: " + item.razonSocial}
             info={"CUIT: " + item.cuil.toString()}
+            info2={""}
             urlImagen="/imgs/empresa.jpg"
           >
             <Button size="small" variant="contained" color="info" startIcon={<Info />} onClick={() => handleOpenInfo(item)}>Sucursales</Button>
@@ -72,16 +73,14 @@ export default function Grilla({ busqueda }: GrillaProps) {
           open={openEditar}
           onClose={handleClose}
           onSubmit={handleSubmit}
-          initialNombre={editingEmpresa.nombre}
-          initialRazonSocial={editingEmpresa.razonSocial}
-          initialCuil={editingEmpresa.cuil.toString()}
+          iEmpresa={editingEmpresa}
         />
       )}
       {editingEmpresa && (
         <MostrarSucursalesModal
           open={openInfo}
           onClose={handleClose}
-          empresa={editingEmpresa}
+          iEmpresa={editingEmpresa}
         />
       )}
     </>
