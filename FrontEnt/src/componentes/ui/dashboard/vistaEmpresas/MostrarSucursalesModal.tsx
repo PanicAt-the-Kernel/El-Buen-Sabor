@@ -30,16 +30,17 @@ export default function MostrarSucursalesModal({ open, onClose, iEmpresa }: Most
     };
 
     const handleClose = () => {
+        setEditingSucursal(null);
         setOpenSucursal(false);
     };
 
     const handleSubmit = (sucursal: Sucursal, empresa: Empresa, idLocalidad: number) => {
         //LLAMADA API EDITAR EMPRESA
         if (editingSucursal != null) {
-          editSucursal(sucursal, empresa, idLocalidad);
-          handleClose();
+            editSucursal(sucursal, empresa, idLocalidad);
+            handleClose();
         }
-      };
+    };
 
     return (
         <Modal
@@ -81,7 +82,7 @@ export default function MostrarSucursalesModal({ open, onClose, iEmpresa }: Most
                             info2={`¿Es casa matriz?: ${item.esCasaMatriz ? "Sí" : "No"}`}
                             urlImagen="/imgs/empresa.jpg"
                         >
-                            <Button size="small" variant="contained" color="info" startIcon={<Info />}>Ingresar</Button>
+                            <Button component="a" href="/productos"  size="small" variant="contained" color="info" startIcon={<Info />}>Ingresar</Button>
                             <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpen(item)}>Editar</Button>
                         </ItemGrilla>
                     ))}
