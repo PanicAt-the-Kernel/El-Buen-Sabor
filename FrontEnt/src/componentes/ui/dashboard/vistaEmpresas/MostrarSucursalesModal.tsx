@@ -87,7 +87,7 @@ export default function MostrarSucursalesModal({ open, onClose, iEmpresa }: Most
                         </ItemGrilla>
                     ))}
                 </Grid>
-                {editingSucursal && (
+                {openSucursal && editingSucursal && (
                     <AgregarSucursalModal
                         open={openSucursal}
                         onClose={handleClose}

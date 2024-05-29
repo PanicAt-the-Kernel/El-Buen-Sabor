@@ -31,12 +31,14 @@ function BotonAgregarEmpresa() {
             >
                 Agregar empresa
             </Button>
-            <AgregarEmpresaModal 
-                open={open} 
-                onClose={handleClose} 
-                onSubmit={handleSubmit} 
-                iEmpresa={new Empresa}
-            />
+            {open && (
+                <AgregarEmpresaModal
+                    open={open}
+                    onClose={handleClose}
+                    onSubmit={handleSubmit}
+                    iEmpresa={new Empresa}
+                />
+            )}
         </>
     );
 }

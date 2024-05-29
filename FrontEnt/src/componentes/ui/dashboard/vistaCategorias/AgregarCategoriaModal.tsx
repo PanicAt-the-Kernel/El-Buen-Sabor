@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import { Modal, Box, TextField, Typography, Stack, Button } from '@mui/material';
+import Categoria from '../../../../entidades/Categoria';
 
 interface AgregarCategoriaModalProps {
     open: boolean;
     onClose: () => void;
-    onSubmit: (nombre: string) => void;
-    initialNombre: string;
+    onSubmit: (categoria: Categoria) => void;
+    iCategoria: Categoria;
 }
 
-function AgregarCategoriaModal({ open, onClose, onSubmit, initialNombre }: AgregarCategoriaModalProps) {
-    const [nombre, setNombre] = useState(initialNombre);
+function AgregarCategoriaModal({ open, onClose, onSubmit, iCategoria }: AgregarCategoriaModalProps) {
+    const [categoria, setCategoria] = useState<Categoria>(iCategoria);
 
     const handleSubmit = () => {
-        onSubmit(nombre);
+        onSubmit(categoria);
     };
 
     return (
@@ -34,23 +35,32 @@ function AgregarCategoriaModal({ open, onClose, onSubmit, initialNombre }: Agreg
                     p: 4,
                 }}
             >
-                <Typography variant="h6" id="modal-title" gutterBottom>
-                    Agregar Nueva Categoria
-                </Typography>
-                <Stack spacing={2}>
-                    <TextField
-                        label="Nombre"
-                        variant="outlined"
-                        value={nombre}
-                        onChange={(e) => setNombre(e.target.value)}
-                    />
-                    <Button variant="contained" color="primary" onClick={handleSubmit}>
-                        Guardar
-                    </Button>
-                    <Button variant="contained" color="secondary" onClick={onClose}>
-                        Cancelar
-                    </Button>
-                </Stack>
+                <Box
+                    component="form"
+                    autoComplete="off"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSubmit();
+                    }}
+                >
+                    <Typography variant="h6" id="modal-title" gutterBottom>
+                        Agregar Nueva Categoria
+                    </Typography>
+                    <Stack spacing={2}>
+                        <TextField
+                            label="Nombre"
+                            variant="outlined"
+                            value={categoria.denominacion}
+                            onChange={(e) => setCategoria({ ...categoria, denominacion: e.target.value })}
+                        />
+                        <Button variant="contained" color="primary" type="submit">
+                            Guardar
+                        </Button>
+                        <Button variant="contained" color="secondary" onClick={onClose}>
+                            Cancelar
+                        </Button>
+                    </Stack>
+                </Box>
             </Box>
         </Modal>
     );

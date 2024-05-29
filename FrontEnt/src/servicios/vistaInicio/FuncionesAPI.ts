@@ -40,9 +40,14 @@ export function getAllPaises(): SWRResponse<Pais[], any, any> {
     return useSWR<Pais[]>(`https://traza-compartida.onrender.com/pais`, fetcher);
 }
 
+
 //FUNCIONES GET X ID
 export function getSucursalesEmpresa(idEmpresa: number): SWRResponse<Sucursal[], any, any> {
     return useSWR<Sucursal[]>(`https://traza-compartida.onrender.com/sucursal/empresa/${idEmpresa}`, fetcher);
+}
+
+export function getSucursalId(idSucursal: number): SWRResponse<Sucursal[], any, any> {
+    return useSWR<Sucursal[]>(`https://traza-compartida.onrender.com/sucursal/${idSucursal}`, fetcher);
 }
 
 export function getProvinciasIdPais(idPais: number): SWRResponse<Provincia[], any, any> {
@@ -55,6 +60,14 @@ export function getLocalidadesIdProvincia(idProvincia: number): SWRResponse<Loca
 
 export function getLocalidadesId(idLocalidad: number): SWRResponse<Localidad[], any, any> {
     return useSWR<Localidad[]>(`https://traza-compartida.onrender.com/localidad/${idLocalidad}`, fetcher);
+}
+
+export function getCategoriasIdSucursal(idSucursal: number): SWRResponse<Categoria[], any, any> {
+    return useSWR<Categoria[]>(`https://traza-compartida.onrender.com/categoria/sucursal/${idSucursal}`, fetcher);
+}
+
+export function getCategoriaId(idCategoria: number): SWRResponse<Categoria, any, any> {
+    return useSWR<Categoria>(`https://traza-compartida.onrender.com/categoria/${idCategoria}`, fetcher);
 }
 
 //FUNCIONES SAVE
@@ -123,6 +136,47 @@ export async function saveSucursal(sucursal: Sucursal, empresa: Empresa, idLocal
     }
 }
 
+export async function saveCategoria(categoria: Categoria, idSucursal: number){
+    //Traer sucursal
+    let sucursal;
+    try {
+        const response = await fetch(`https://traza-compartida.onrender.com/sucursal/${idSucursal}`);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        sucursal = await response.json();
+    } catch (error) {
+        //@ts-ignore
+        alert(`Error obteniendo la sucursal: ${error.message}`);
+        return;
+    }
+
+    categoria.sucursales.push(sucursal);
+
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(categoria)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch("https://traza-compartida.onrender.com/categoria",options);
+        if(response.ok){
+            alert("Categoría agregada correctamente.");
+        }else{
+            alert("Error al agregar categoría: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
+
 //FUNCIONES EDIT
 export async function editEmpresa(empresa: Empresa){
     //Preparar llamada api
@@ -188,9 +242,30 @@ export async function editSucursal(sucursal: Sucursal, empresa: Empresa, idLocal
     }
 }
 
-/*
-Hacer
-save/edit categoria
+export async function editCategoria(categoria: Categoria){
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(categoria)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch(`https://traza-compartida.onrender.com/categoria/${categoria.id}`,options);
+        if(response.ok){
+            alert("Categoría editada correctamente.");
+        }else{
+            alert("Error al editar categoría: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
+/*Hacer
 save/edit articuloManufacturado
-save/edit articuloInsumo
-*/
+save/edit articuloInsumo*/

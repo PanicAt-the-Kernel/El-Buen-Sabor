@@ -6,7 +6,7 @@ function DashboardVistaEmpresa() {
   return (
     <DashboardSidebar>
       <Grid container>
-        <Grid item xs={12} sm={12} md={4}>
+        <Grid item>
           <Typography variant="h4" sx={{ marginTop: 2, textAlign:"center" }}>
             Lista de Empresas
           </Typography>

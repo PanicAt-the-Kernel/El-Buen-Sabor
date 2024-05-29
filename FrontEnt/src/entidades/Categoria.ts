@@ -1,12 +1,10 @@
-import ArticuloInsumo from "./ArticuloInsumo";
-import ArticuloManufacturado from "./ArticuloManufacturado";
+import Articulo from "./Articulo";
 import Sucursal from "./Sucursal";
 
 class Categoria {
     id: number = 0;
     denominacion: string = '';
-    articulosManofacturado: ArticuloManufacturado[] = [];
-    articulosInsumo: ArticuloInsumo[] = [];
+    articulos: Articulo[] = [];
     subCategorias: Categoria[] = [];
     eliminado:boolean = false;
     sucursales: Sucursal[] = [];

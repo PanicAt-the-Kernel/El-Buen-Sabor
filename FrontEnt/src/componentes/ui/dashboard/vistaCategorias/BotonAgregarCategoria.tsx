@@ -2,20 +2,19 @@ import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarCategoriaModal from './AgregarCategoriaModal';
+import Categoria from '../../../../entidades/Categoria';
+import { saveCategoria } from '../../../../servicios/vistaInicio/FuncionesAPI';
 
 function BotonAgregarCategoria() {
     const [open, setOpen] = useState(false);
+    const idSucursal = 1;
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
+    const handleOpen = () => setOpen(true);
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const handleClose = () => setOpen(false);
 
-    const handleSubmit = (nombre: string) => {
-        console.log('Nombre:', nombre);
+    const handleSubmit = (categoria: Categoria) => {
+        saveCategoria(categoria, idSucursal);
         handleClose();
     };
 
@@ -29,12 +28,14 @@ function BotonAgregarCategoria() {
             >
                 Agregar Categoria
             </Button>
-            <AgregarCategoriaModal 
-                open={open} 
-                onClose={handleClose} 
-                onSubmit={handleSubmit} 
-                initialNombre="" 
-            />
+            {open && (
+                <AgregarCategoriaModal
+                    open={open}
+                    onClose={handleClose}
+                    onSubmit={handleSubmit}
+                    iCategoria={new Categoria}
+                />
+            )}
         </>
     );
 }

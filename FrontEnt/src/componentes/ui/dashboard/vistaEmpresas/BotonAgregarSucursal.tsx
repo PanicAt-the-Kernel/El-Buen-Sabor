@@ -36,13 +36,16 @@ function BotonAgregarSucursal({ iEmpresa }: BotonAgregarSucursalProps) {
             >
                 Agregar sucursal
             </Button>
-            <AgregarSucursalModal
-                open={open}
-                onClose={handleClose}
-                onSubmit={handleSubmit}
-                iSucursal={new Sucursal}
-                iEmpresa={iEmpresa}
-            />
+
+            {open && (
+                <AgregarSucursalModal
+                    open={open}
+                    onClose={handleClose}
+                    onSubmit={handleSubmit}
+                    iSucursal={new Sucursal}
+                    iEmpresa={iEmpresa}
+                />
+            )}
         </>
     );
 }

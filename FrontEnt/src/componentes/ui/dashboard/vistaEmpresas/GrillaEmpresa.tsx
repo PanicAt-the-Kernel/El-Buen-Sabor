@@ -20,7 +20,7 @@ export default function Grilla({ busqueda }: GrillaProps) {
   const handleSubmit = (empresa: Empresa) => {
     if (editingEmpresa != null) {
       editEmpresa(empresa);
-      handleClose();
+      handleCloseEditar();
     }
   };
 
@@ -29,14 +29,18 @@ export default function Grilla({ busqueda }: GrillaProps) {
     setOpenEditar(true);
   };
 
+  const handleCloseEditar = () => {
+    setEditingEmpresa(null);
+    setOpenEditar(false);
+  };
+
   const handleOpenInfo = (empresa: Empresa) => {
     setEditingEmpresa(empresa);
     setOpenInfo(true);
   };
 
-  const handleClose = () => {
+  const handleCloseInfo = () => {
     setEditingEmpresa(null);
-    setOpenEditar(false);
     setOpenInfo(false);
   };
 
@@ -68,18 +72,18 @@ export default function Grilla({ busqueda }: GrillaProps) {
           </ItemGrilla>
         ))}
       </Grid>
-      {editingEmpresa && (
+      {openEditar && editingEmpresa && (
         <AgregarEmpresaModal
           open={openEditar}
-          onClose={handleClose}
+          onClose={handleCloseEditar}
           onSubmit={handleSubmit}
           iEmpresa={editingEmpresa}
         />
       )}
-      {editingEmpresa && (
+      {openInfo && editingEmpresa && (
         <MostrarSucursalesModal
           open={openInfo}
-          onClose={handleClose}
+          onClose={handleCloseInfo}
           iEmpresa={editingEmpresa}
         />
       )}
