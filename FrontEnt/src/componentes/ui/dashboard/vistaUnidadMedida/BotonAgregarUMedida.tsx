@@ -1,18 +1,19 @@
 import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
-import AgregarProductoModal from './AgregarProductoModal';
-import ArticuloManufacturado from '../../../../entidades/ArticuloManufacturado';
-import { saveArticuloManufacturado } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import AgregarUnidadMedidaModal from './AgregarUMedidaModal';
+import UnidadMedida from '../../../../entidades/UnidadMedida';
+import { saveUnidadMedida } from '../../../../servicios/vistaInicio/FuncionesAPI';
 
-function BotonAgregarProducto() {
+function BotonAgregarUnidadMedida() {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
+
     const handleClose = () => setOpen(false);
 
-    const handleSubmit = (articuloM: ArticuloManufacturado) => {
-        saveArticuloManufacturado(articuloM);
+    const handleSubmit = (unidadmedida: UnidadMedida) => {
+        saveUnidadMedida(unidadmedida);
         handleClose();
     };
 
@@ -24,18 +25,18 @@ function BotonAgregarProducto() {
                 startIcon={<AddCircleIcon />}
                 onClick={handleOpen}
             >
-                Agregar producto
+                Agregar Unidad de Medida
             </Button>
             {open && (
-                <AgregarProductoModal
+                <AgregarUnidadMedidaModal
                     open={open}
                     onClose={handleClose}
                     onSubmit={handleSubmit}
-                    iArticuloM={new ArticuloManufacturado}
+                    iUnidadMedida={new UnidadMedida}
                 />
             )}
         </>
     );
 }
 
-export default BotonAgregarProducto;
+export default BotonAgregarUnidadMedida;

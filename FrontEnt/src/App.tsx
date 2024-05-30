@@ -11,6 +11,7 @@ import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
 import DashboardVistaInformes from "./paginas/DashboardVistaInformes";
+import DashboardVistaUMedida from "./paginas/DashboardVistaUMedida";
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
   palette: {
@@ -47,6 +48,7 @@ function App() {
           <Route path="/empleados" element={<DashboardVistaEmpleado />} />
           <Route path="/promociones" element={<DashboardVistaPromocion />} />
           <Route path="/insumos" element={<DashboardVistaInsumo />} />
+          <Route path="/uDeMedida" element={<DashboardVistaUMedida />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

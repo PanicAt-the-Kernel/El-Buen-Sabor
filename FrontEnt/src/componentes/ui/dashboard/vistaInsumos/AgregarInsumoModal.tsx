@@ -1,24 +1,25 @@
 import { useState } from 'react';
-import { Modal, Box, TextField, Typography, Stack, Button } from '@mui/material';
+import { Modal, Box, TextField, Stack, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox } from '@mui/material';
+import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
+import { getAllUnidadMedida, getCategoriasIdSucursal } from '../../../../servicios/vistaInicio/FuncionesAPI';
 
 interface AgregarInsumoModalProps {
     open: boolean;
     onClose: () => void;
-    onSubmit: (nombre: string, precio: string, cantidad: string, imgUrl: string) => void;
-    initialNombre: string;
-    initialPrecio: string;
-    initialCantidad: string;
-    initialImgUrl: string;
+    onSubmit: (insumo: ArticuloInsumo) => void;
+    iInsumo: ArticuloInsumo;
 }
 
-function AgregarInsumoModal({ open, onClose, onSubmit, initialNombre, initialPrecio, initialCantidad, initialImgUrl } : AgregarInsumoModalProps) {
-    const [nombre, setNombre] = useState(initialNombre);
-    const [precio, setPrecio] = useState(initialPrecio);
-    const [cantidad, setCantidad] = useState(initialCantidad);
-    const [imgUrl, setImgUrl] = useState(initialImgUrl);
+function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoModalProps) {
+    const idSucursal = 1;
+    const [insumo, setInsumo] = useState<ArticuloInsumo>(iInsumo);
+    const [unidadMedida, setUnidadMedida] = useState(insumo.unidadMedida.id);
+    const [categoria, setCategoria] = useState(insumo.categoria.id);
+    const { data: unidadesMedida } = getAllUnidadMedida();
+    const { data: categorias } = getCategoriasIdSucursal(idSucursal);
 
     const handleSubmit = () => {
-        onSubmit(nombre, precio, cantidad, imgUrl);
+        onSubmit(insumo);
     };
 
     return (
@@ -38,43 +39,108 @@ function AgregarInsumoModal({ open, onClose, onSubmit, initialNombre, initialPre
                     bgcolor: 'background.paper',
                     boxShadow: 24,
                     p: 4,
+                    overflow: 'auto',
+                    maxHeight: 600
                 }}
             >
-                <Typography variant="h6" id="modal-title" gutterBottom>
-                    Agregar Nuevo Insumo
-                </Typography>
-                <Stack spacing={2}>
-                    <TextField
-                        label="Nombre"
-                        variant="outlined"
-                        value={nombre}
-                        onChange={(e) => setNombre(e.target.value)}
-                    />
-                    <TextField
-                        label="Precio"
-                        variant="outlined"
-                        value={precio}
-                        onChange={(e) => setPrecio(e.target.value)}
-                    />
-                    <TextField
-                        label="Cantidad"
-                        variant="outlined"
-                        value={cantidad}
-                        onChange={(e) => setCantidad(e.target.value)}
-                    />
-                    <TextField
-                        label="URL Imagen"
-                        variant="outlined"
-                        value={imgUrl}
-                        onChange={(e) => setImgUrl(e.target.value)}
-                    />
-                    <Button variant="contained" color="primary" onClick={handleSubmit}>
-                        Guardar
-                    </Button>
-                    <Button variant="contained" color="secondary" onClick={onClose}>
-                        Cancelar
-                    </Button>
-                </Stack>
+                <Box
+                    component="form"
+                    autoComplete="off"
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSubmit();
+                    }}
+                >
+                    <Stack spacing={2}>
+                        <TextField
+                            required
+                            label="Nombre"
+                            variant="outlined"
+                            value={insumo.denominacion}
+                            onChange={(e) => setInsumo({ ...insumo, denominacion: e.target.value })}
+                        />
+                        <TextField
+                            required
+                            label="Precio de venta"
+                            variant="outlined"
+                            value={insumo.precioVenta}
+                            onChange={(e) => setInsumo({ ...insumo, precioVenta: parseInt(e.target.value) })}
+                        />
+                        <FormControl variant="outlined">
+                            <InputLabel id="uMedida-label">Unidad de medida</InputLabel>
+                            <Select
+                                labelId="uMedida-label"
+                                value={unidadMedida}
+                                onChange={(e) => setUnidadMedida(e.target.value as number)}
+                                label="Unidad de medida"
+                            >
+                                {unidadesMedida?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+                                    .map((unidadMedida) => (
+                                        <MenuItem key={unidadMedida.id} value={unidadMedida.id}>
+                                            {unidadMedida.denominacion}
+                                        </MenuItem>
+                                    ))}
+                            </Select>
+                        </FormControl>
+                        <FormControl variant="outlined">
+                            <InputLabel id="categoria-label">Categoría</InputLabel>
+                            <Select
+                                labelId="categoria-label"
+                                value={categoria}
+                                onChange={(e) => setCategoria(e.target.value as number)}
+                                label="Categoria"
+                            >
+                                {categorias?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+                                    .map((categoria) => (
+                                        <MenuItem key={categoria.id} value={categoria.id}>
+                                            {categoria.denominacion}
+                                        </MenuItem>
+                                    ))}
+                            </Select>
+                        </FormControl>
+                        <TextField
+                            label="Precio de compra"
+                            variant="outlined"
+                            value={insumo.precioCompra}
+                            onChange={(e) => setInsumo({ ...insumo, precioCompra: parseInt(e.target.value) })}
+                        />
+                        <TextField
+                            label="Stock Actual"
+                            variant="outlined"
+                            value={insumo.stockActual}
+                            onChange={(e) => setInsumo({ ...insumo, stockActual: parseInt(e.target.value) })}
+                        />
+                        <TextField
+                            label="Stock Mínimo"
+                            variant="outlined"
+                            value={insumo.stockMinimo}
+                            onChange={(e) => setInsumo({ ...insumo, stockMinimo: parseInt(e.target.value) })}
+                        />
+                        <TextField
+                            label="Stock Máximo"
+                            variant="outlined"
+                            value={insumo.stockMaximo}
+                            onChange={(e) => setInsumo({ ...insumo, stockMaximo: parseInt(e.target.value) })}
+                        />
+                        <FormControlLabel
+                            control={
+                                <Checkbox
+                                    checked={insumo.esParaElaborar}
+                                    onChange={(e) => setInsumo({ ...insumo, esParaElaborar: e.target.checked })}
+                                    name="esParaElaborar"
+                                    color="primary"
+                                />
+                            }
+                            label="Es para elaborar"
+                        />
+                        <Button variant="contained" color="primary" type="submit" sx={{ marginTop: 10 }}>
+                            Guardar
+                        </Button>
+                        <Button variant="contained" color="secondary" onClick={onClose}>
+                            Cancelar
+                        </Button>
+                    </Stack>
+                </Box>
             </Box>
         </Modal>
     );

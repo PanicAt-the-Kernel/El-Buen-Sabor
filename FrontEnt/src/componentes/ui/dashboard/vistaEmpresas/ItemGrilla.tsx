@@ -31,7 +31,7 @@ export default function ItemGrilla({
     <Grid item sx={{marginBottom:2}}>
       <Card sx={{ width: 320, textAlign: "center" }}>
         <CardMedia
-          sx={{ height: 260}}
+          sx={{ height: 260, margin: 1}}
           image={urlImagen}
         />
         <CardContent>

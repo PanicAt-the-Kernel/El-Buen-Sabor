@@ -8,6 +8,7 @@ import Promocion from "../../entidades/Promocion";
 import Pais from "../../entidades/Pais";
 import Provincia from "../../entidades/Provincia";
 import Localidad from "../../entidades/Localidad";
+import UnidadMedida from "../../entidades/UnidadMedida";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -38,6 +39,10 @@ export function getAllInsumos(): SWRResponse<any, any, any> {
 
 export function getAllPaises(): SWRResponse<Pais[], any, any> {
     return useSWR<Pais[]>(`https://traza-compartida.onrender.com/pais`, fetcher);
+}
+
+export function getAllUnidadMedida(): SWRResponse<UnidadMedida[], any, any> {
+    return useSWR<UnidadMedida[]>(`https://traza-compartida.onrender.com/unidadMedida`, fetcher);
 }
 
 
@@ -176,6 +181,77 @@ export async function saveCategoria(categoria: Categoria, idSucursal: number){
     }
 }
 
+export async function saveArticuloManufacturado(articulo: ArticuloManufacturado){
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(articulo)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch("https://traza-compartida.onrender.com/articuloManufacturado",options);
+        if(response.ok){
+            alert("Artículo agregado correctamente.");
+        }else{
+            alert("Error al agregar artículo: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
+export async function saveArticuloInsumo(articulo: ArticuloInsumo){
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(articulo)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch("https://traza-compartida.onrender.com/articuloInsumo",options);
+        if(response.ok){
+            alert("Artículo agregado correctamente.");
+        }else{
+            alert("Error al agregar artículo: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
+export async function saveUnidadMedida(uMedida: UnidadMedida){
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(uMedida)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch("https://traza-compartida.onrender.com/unidadMedida",options);
+        if(response.ok){
+            alert("Unidad de medida agregada correctamente.");
+        }else{
+            alert("Error al agregar unidad de medida: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
 
 //FUNCIONES EDIT
 export async function editEmpresa(empresa: Empresa){
@@ -266,6 +342,74 @@ export async function editCategoria(categoria: Categoria){
     }
 }
 
-/*Hacer
-save/edit articuloManufacturado
-save/edit articuloInsumo*/
+export async function editArticuloManufacturado(articulo: ArticuloManufacturado){
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(articulo)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch(`https://traza-compartida.onrender.com/articuloManufacturado/${articulo.id}`,options);
+        if(response.ok){
+            alert("Artículo editado correctamente.");
+        }else{
+            alert("Error al editar artículo: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
+export async function editArticuloInsumo(articulo: ArticuloInsumo){
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(articulo)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch(`https://traza-compartida.onrender.com/articuloInsumo/${articulo.id}`,options);
+        if(response.ok){
+            alert("Artículo editado correctamente.");
+        }else{
+            alert("Error al editar artículo: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
+export async function editUnidadMedida(uMedida: UnidadMedida){
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(uMedida)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch(`https://traza-compartida.onrender.com/unidadMedida/${uMedida.id}`,options);
+        if(response.ok){
+            alert("Unidad de medida editada correctamente.");
+        }else{
+            alert("Error al agregar unidad de medida: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
