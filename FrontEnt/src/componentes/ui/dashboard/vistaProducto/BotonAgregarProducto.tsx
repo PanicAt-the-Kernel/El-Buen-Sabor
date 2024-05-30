@@ -2,23 +2,17 @@ import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarProductoModal from './AgregarProductoModal';
+import ArticuloManufacturado from '../../../../entidades/ArticuloManufacturado';
+import { saveArticuloManufacturado } from '../../../../servicios/vistaInicio/FuncionesAPI';
 
 function BotonAgregarProducto() {
     const [open, setOpen] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const handleSubmit = (nombre: string, precio: string, tiempo: string, imgUrl: string) => {
-        console.log('Nombre:', nombre);
-        console.log('Precio:', precio);
-        console.log('Tiempo:', tiempo);
-        console.log('URL Imagen:', imgUrl);
+    const handleSubmit = (articuloM: ArticuloManufacturado) => {
+        saveArticuloManufacturado(articuloM);
         handleClose();
     };
 
@@ -30,17 +24,16 @@ function BotonAgregarProducto() {
                 startIcon={<AddCircleIcon />}
                 onClick={handleOpen}
             >
-                Agregar Producto
+                Agregar producto
             </Button>
-            <AgregarProductoModal 
-                open={open} 
-                onClose={handleClose} 
-                onSubmit={handleSubmit} 
-                initialNombre="" 
-                initialPrecio="" 
-                initialTiempo="" 
-                initialImgUrl=""
-            />
+            {open && (
+                <AgregarProductoModal
+                    open={open}
+                    onClose={handleClose}
+                    onSubmit={handleSubmit}
+                    iArticuloM={new ArticuloManufacturado}
+                />
+            )}
         </>
     );
 }

@@ -1,36 +1,19 @@
 import { useState } from "react";
-import {
-  Modal,
-  Box,
-  TextField,
-  Typography,
-  Stack,
-  Button,
-} from "@mui/material";
+import { Modal, Box, TextField, Stack, Button } from "@mui/material";
+import Empresa from "../../../../entidades/Empresa";
 
 interface AgregarEmpresaModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (nombre: string, razonSocial: string, cuil: string) => void;
-  initialNombre: string;
-  initialRazonSocial: string;
-  initialCuil: string;
+  onSubmit: (empresa: Empresa) => void;
+  iEmpresa: Empresa;
 }
 
-function AgregarEmpresaModal({
-  open,
-  onClose,
-  onSubmit,
-  initialNombre,
-  initialRazonSocial,
-  initialCuil,
-}: AgregarEmpresaModalProps) {
-  const [nombre, setNombre] = useState(initialNombre);
-  const [razonSocial, setRazonSocial] = useState(initialRazonSocial);
-  const [cuil, setCuil] = useState(initialCuil);
+function AgregarEmpresaModal({ open, onClose, onSubmit, iEmpresa }: AgregarEmpresaModalProps) {
+  const [empresa, setEmpresa] = useState<Empresa>(iEmpresa);
 
   const handleSubmit = () => {
-    onSubmit(nombre, razonSocial, cuil);
+    onSubmit(empresa);
   };
 
   return (
@@ -52,44 +35,40 @@ function AgregarEmpresaModal({
           p: 4,
         }}
       >
-        <Typography
-          variant="h6"
-          id="modal-title"
-          gutterBottom
-          textAlign={"center"}
-        >
-          Agregar Nueva Empresa
-        </Typography>
-        <Box component="form" autoComplete="off" onSubmit={(e)=>{
+        <Box
+          component="form"
+          autoComplete="off"
+          onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
-        }}>
+          }}
+        >
           <Stack spacing={2}>
             <TextField
               required
               label="Nombre"
               variant="outlined"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
+              value={empresa.nombre}
+              onChange={(e) => setEmpresa({ ...empresa, nombre: e.target.value })}
             />
             <TextField
               required
               label="Razón Social"
               variant="outlined"
-              value={razonSocial}
-              onChange={(e) => setRazonSocial(e.target.value)}
+              value={empresa.razonSocial}
+              onChange={(e) => setEmpresa({ ...empresa, razonSocial: e.target.value })}
             />
             <TextField
               required
               label="CUIL"
               variant="outlined"
-              value={cuil}
-              onChange={(e) => setCuil(e.target.value)}
+              value={empresa.cuil}
+              onChange={(e) => setEmpresa({ ...empresa, cuil: Number(e.target.value) })}
               type="number"
               inputProps={{
-                step:1,
-                min:1,
-                max:99999999
+                step: 1,
+                min: 1,
+                max: 99999999
               }}
             />
             <Button variant="contained" color="primary" type="submit">

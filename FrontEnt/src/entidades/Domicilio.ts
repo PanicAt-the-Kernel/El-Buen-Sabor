@@ -5,8 +5,8 @@ class Domicilio {
     calle : string = '';
     numero : number = 0;
     cp : number = 0; 
-    piso : string = ''; 
-    nroDepto : string = '';  
+    piso : number = 0; 
+    nroDepto : number = 0;  
     eliminado: boolean = false;
     localidad: Localidad = new Localidad;
 }

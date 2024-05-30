@@ -1,20 +1,19 @@
 import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
-import AgregarCategoriaModal from './AgregarCategoriaModal';
-import Categoria from '../../../../entidades/Categoria';
-import { saveCategoria } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import AgregarUnidadMedidaModal from './AgregarUMedidaModal';
+import UnidadMedida from '../../../../entidades/UnidadMedida';
+import { saveUnidadMedida } from '../../../../servicios/vistaInicio/FuncionesAPI';
 
-function BotonAgregarCategoria() {
+function BotonAgregarUnidadMedida() {
     const [open, setOpen] = useState(false);
-    const idSucursal = 1;
 
     const handleOpen = () => setOpen(true);
 
     const handleClose = () => setOpen(false);
 
-    const handleSubmit = (categoria: Categoria) => {
-        saveCategoria(categoria, idSucursal);
+    const handleSubmit = (unidadmedida: UnidadMedida) => {
+        saveUnidadMedida(unidadmedida);
         handleClose();
     };
 
@@ -26,18 +25,18 @@ function BotonAgregarCategoria() {
                 startIcon={<AddCircleIcon />}
                 onClick={handleOpen}
             >
-                Agregar Categoria
+                Agregar Unidad de Medida
             </Button>
             {open && (
-                <AgregarCategoriaModal
+                <AgregarUnidadMedidaModal
                     open={open}
                     onClose={handleClose}
                     onSubmit={handleSubmit}
-                    iCategoria={new Categoria}
+                    iUnidadMedida={new UnidadMedida}
                 />
             )}
         </>
     );
 }
 
-export default BotonAgregarCategoria;
+export default BotonAgregarUnidadMedida;

@@ -11,8 +11,9 @@ import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
 import ShoppingBasketIcon from "@mui/icons-material/ShoppingBasket";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import CategoryIcon from "@mui/icons-material/Category";
-import HomeIcon from "@mui/icons-material/Home";
+import BarChartIcon from '@mui/icons-material/BarChart';
 import { useTheme } from "@emotion/react";
+import { Straighten } from "@mui/icons-material";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -37,15 +38,16 @@ function Sidebar({ collapsed, setBroken, toggled }: SidebarProps) {
       toggled={toggled}
     >
       <Menu>
-        <MenuItem component={<a href="/"></a>} icon={<HomeIcon />}>Inicio</MenuItem>
-        <MenuItem component={<a href="/empresas"></a>} icon={<CorporateFareIcon />}>Empresas</MenuItem>
-        <SubMenu label="Productos" icon={<FastfoodIcon />}>
+        <MenuItem component={<a href="/"></a>} icon={<CorporateFareIcon />}>Empresas</MenuItem>
+        <MenuItem component={<a href="/informes"></a>} icon={<BarChartIcon />}>Informes</MenuItem>
+        <SubMenu label="Artículos" icon={<FastfoodIcon />}>
           <MenuItem component={<a href="/categorias"></a>} icon={<CategoryIcon />}>Categorias</MenuItem>
-          <MenuItem component={<a href="/productos"></a>} icon={<MenuBookIcon />}>Lista de Productos</MenuItem>
+          <MenuItem component={<a href="/insumos"></a>} icon={<ShoppingBasketIcon />}>Insumos</MenuItem>
+          <MenuItem component={<a href="/productos"></a>} icon={<MenuBookIcon />}>Manufacturados</MenuItem>
+          <MenuItem component={<a href="/uDeMedida"></a>} icon={<Straighten />}>U. de medida</MenuItem>
         </SubMenu>
         <MenuItem component={<a href="/empleados"></a>} icon={<PeopleIcon />}>Empleados</MenuItem>
         <MenuItem component={<a href="/promociones"></a>} icon={<AttachMoneyIcon />}>Promociones</MenuItem>
-        <MenuItem component={<a href="/insumos"></a>} icon={<ShoppingBasketIcon />}>Insumos</MenuItem>
       </Menu>
     </SidebarPro>
   );

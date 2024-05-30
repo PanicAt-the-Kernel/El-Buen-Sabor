@@ -3,21 +3,17 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarEmpresaModal from './AgregarEmpresaModal';
 import { saveEmpresa } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import Empresa from '../../../../entidades/Empresa';
 
 function BotonAgregarEmpresa() {
     const [open, setOpen] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
+    const handleOpen = () => setOpen(true);
 
-    const handleClose = () => {
-        setOpen(false);
-    };
+    const handleClose = () => setOpen(false);
 
-    const handleSubmit = (nombre: string, razonSocial: string, cuil: string) => {
-        //LLAMADA A FUNCION API SAVE
-        saveEmpresa(nombre,razonSocial,cuil);
+    const handleSubmit = (empresa: Empresa) => {
+        saveEmpresa(empresa);
         handleClose();
     };
 
@@ -29,16 +25,16 @@ function BotonAgregarEmpresa() {
                 startIcon={<AddCircleIcon />}
                 onClick={handleOpen}
             >
-                Agregar Empresa
+                Agregar empresa
             </Button>
-            <AgregarEmpresaModal 
-                open={open} 
-                onClose={handleClose} 
-                onSubmit={handleSubmit} 
-                initialNombre="" 
-                initialRazonSocial="" 
-                initialCuil=""
-            />
+            {open && (
+                <AgregarEmpresaModal
+                    open={open}
+                    onClose={handleClose}
+                    onSubmit={handleSubmit}
+                    iEmpresa={new Empresa}
+                />
+            )}
         </>
     );
 }

@@ -2,23 +2,17 @@ import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarInsumoModal from './AgregarInsumoModal';
+import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
+import { saveArticuloInsumo } from '../../../../servicios/vistaInicio/FuncionesAPI';
 
 function BotonAgregarInsumo() {
     const [open, setOpen] = useState(false);
 
-    const handleOpen = () => {
-        setOpen(true);
-    };
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
 
-    const handleClose = () => {
-        setOpen(false);
-    };
-
-    const handleSubmit = (nombre: string, precio: string, cantidad: string, imgUrl: string) => {
-        console.log('Nombre:', nombre);
-        console.log('Precio:', precio);
-        console.log('Cantidad:', cantidad);
-        console.log('URL Imagen:', imgUrl);
+    const handleSubmit = (insumo: ArticuloInsumo) => {
+        saveArticuloInsumo(insumo);
         handleClose();
     };
 
@@ -30,17 +24,16 @@ function BotonAgregarInsumo() {
                 startIcon={<AddCircleIcon />}
                 onClick={handleOpen}
             >
-                Agregar
+                Agregar insumo
             </Button>
+            {open && (
             <AgregarInsumoModal 
                 open={open} 
                 onClose={handleClose} 
                 onSubmit={handleSubmit} 
-                initialNombre="" 
-                initialPrecio="" 
-                initialCantidad="" 
-                initialImgUrl=""
+                iInsumo={new ArticuloInsumo}
             />
+            )}
         </>
     );
 }

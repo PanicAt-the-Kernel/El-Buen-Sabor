@@ -1,19 +1,19 @@
 import { useState } from 'react';
 import { Modal, Box, TextField, Typography, Stack, Button } from '@mui/material';
-import Categoria from '../../../../entidades/Categoria';
+import UnidadMedida from '../../../../entidades/UnidadMedida';
 
-interface AgregarCategoriaModalProps {
+interface AgregarUnidadMedidaModalProps {
     open: boolean;
     onClose: () => void;
-    onSubmit: (categoria: Categoria) => void;
-    iCategoria: Categoria;
+    onSubmit: (unidadmedida: UnidadMedida) => void;
+    iUnidadMedida: UnidadMedida;
 }
 
-function AgregarCategoriaModal({ open, onClose, onSubmit, iCategoria }: AgregarCategoriaModalProps) {
-    const [categoria, setCategoria] = useState<Categoria>(iCategoria);
+function AgregarUnidadMedidaModal({ open, onClose, onSubmit, iUnidadMedida }: AgregarUnidadMedidaModalProps) {
+    const [unidadMedida, setUnidadMedida] = useState<UnidadMedida>(iUnidadMedida);
 
     const handleSubmit = () => {
-        onSubmit(categoria);
+        onSubmit(unidadMedida);
     };
 
     return (
@@ -44,14 +44,14 @@ function AgregarCategoriaModal({ open, onClose, onSubmit, iCategoria }: AgregarC
                     }}
                 >
                     <Typography variant="h6" id="modal-title" gutterBottom>
-                        Agregar Nueva Categoria
+                        Agregar Unidad Medida
                     </Typography>
                     <Stack spacing={2}>
                         <TextField
                             label="Nombre"
                             variant="outlined"
-                            value={categoria.denominacion}
-                            onChange={(e) => setCategoria({ ...categoria, denominacion: e.target.value })}
+                            value={unidadMedida.denominacion}
+                            onChange={(e) => setUnidadMedida({ ...unidadMedida, denominacion: e.target.value })}
                         />
                         <Button variant="contained" color="primary" type="submit">
                             Guardar
@@ -66,4 +66,4 @@ function AgregarCategoriaModal({ open, onClose, onSubmit, iCategoria }: AgregarC
     );
 };
 
-export default AgregarCategoriaModal;
+export default AgregarUnidadMedidaModal;

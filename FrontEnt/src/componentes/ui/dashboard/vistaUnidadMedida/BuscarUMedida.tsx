@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Box, FormControl, Input, Stack } from "@mui/material";
-import BotonAgregarEmpresa from "./BotonAgregarEmpresa";
-import Grilla from "./GrillaEmpresa";
+import BotonAgregarUnidadMedida from "./BotonAgregarUMedida";
+import ListContainerUnidadMedida from "./ListContainerUMedida";
 
-function BuscarEmpresa() {
+function BuscarUnidadMedida() {
   const [nombre, setNombre] = useState("");
 
   const handleBuscar = (e: React.FormEvent) => {
@@ -19,24 +19,24 @@ function BuscarEmpresa() {
           sm: 1,
           md: 2,
         }}
-        alignItems="center"
+        alignItems={'center'}
       >
         <Box component="form" onSubmit={handleBuscar}>
           <FormControl fullWidth margin="normal">
             <Input
-              placeholder="Buscar empresa"
-              id="nombreEmpresa"
+              placeholder="Buscar unidad de medida"
+              id="nombreUnidadMedida"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
               sx={{ width: "300px" }}
             />
           </FormControl>
         </Box>
-        <BotonAgregarEmpresa />
+        <BotonAgregarUnidadMedida />
       </Stack>
-      <Grilla busqueda={nombre} />
+        <ListContainerUnidadMedida busqueda={nombre}/>
     </Box>
   );
 }
 
-export default BuscarEmpresa;
+export default BuscarUnidadMedida;

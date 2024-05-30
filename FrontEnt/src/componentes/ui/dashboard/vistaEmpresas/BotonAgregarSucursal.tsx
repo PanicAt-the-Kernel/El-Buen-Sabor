@@ -2,8 +2,15 @@ import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarSucursalModal from './AgregarSucursalModal';
+import { saveSucursal } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import Empresa from '../../../../entidades/Empresa';
+import Sucursal from '../../../../entidades/Sucursal';
 
-function BotonAgregarSucursal() {
+interface BotonAgregarSucursalProps {
+    iEmpresa: Empresa;
+}
+
+function BotonAgregarSucursal({ iEmpresa }: BotonAgregarSucursalProps) {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => {
@@ -14,7 +21,8 @@ function BotonAgregarSucursal() {
         setOpen(false);
     };
 
-    const handleSubmit = () => {
+    const handleSubmit = (sucursal: Sucursal, empresa: Empresa, idLocalidad: number) => {
+        saveSucursal(sucursal, empresa, idLocalidad);
         handleClose();
     };
 
@@ -28,17 +36,16 @@ function BotonAgregarSucursal() {
             >
                 Agregar sucursal
             </Button>
-            <AgregarSucursalModal 
-                open={open} 
-                onClose={handleClose} 
-                onSubmit={handleSubmit} 
-                iNombre="" 
-                iHoraApertura="" 
-                iHoraCierre=""
-                iEsCasaMatriz={false}
-                iDomicilio=""
-                iEmpresa=""
-            />
+
+            {open && (
+                <AgregarSucursalModal
+                    open={open}
+                    onClose={handleClose}
+                    onSubmit={handleSubmit}
+                    iSucursal={new Sucursal}
+                    iEmpresa={iEmpresa}
+                />
+            )}
         </>
     );
 }
