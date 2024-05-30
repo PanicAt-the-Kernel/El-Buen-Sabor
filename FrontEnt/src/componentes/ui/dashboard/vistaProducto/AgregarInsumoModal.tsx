@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Checkbox, Button, Paper } from '@mui/material';
+import { Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableRow, Checkbox, Button, Paper } from '@mui/material';
 import ArticuloManufacturadoDetalle from '../../../../entidades/ArticuloManufacturadoDetalle';
 import { getAllArticulosInsumos } from '../../../../servicios/vistaInicio/FuncionesAPI';
 import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
@@ -15,7 +15,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarI
     const [selectedInsumos, setSelectedInsumos] = useState<ArticuloManufacturadoDetalle[]>([]);
     const { data: articulosDatos } = getAllArticulosInsumos();
     const [nombreArticulo, setNombreArticulo] = useState<string>('');
-    const [nombreCategoria, setNombreCategoria] = useState<string>('');
+    //const [nombreCategoria, setNombreCategoria] = useState<string>('');
 
     const handleSelectInsumo = (insumo: ArticuloInsumo) => {
         const isAlreadySelected = filasActuales.some(fila => fila.articuloInsumo.id === insumo.id);
@@ -48,8 +48,8 @@ function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarI
 
     const insumosFiltrados = articulosDatos?.filter((item: ArticuloInsumo) => {
         return (
-            (nombreArticulo === '' || item.denominacion.toLowerCase().includes(nombreArticulo.toLowerCase())) &&
-            (nombreCategoria === '' || item.categoria.denominacion.toLowerCase().includes(nombreCategoria.toLowerCase()))
+            (nombreArticulo === '' || item.denominacion.toLowerCase().includes(nombreArticulo.toLowerCase())) //&&
+            //(nombreCategoria === '' || item.categoria.denominacion.toLowerCase().includes(nombreCategoria.toLowerCase()))
         );
     });
 
@@ -66,50 +66,40 @@ function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarI
                     boxShadow: 24,
                     p: 4,
                     overflow: 'auto',
-                    maxHeight: 580
+                    height: 620
                 }}>
-                <Typography variant="h6" component="h2" sx={{ mb: 2 }}>
-                    Seleccionar Insumos
-                </Typography>
-                <Box sx={{ mb: 2 }}>
+                
+                <Box sx={{ mb: 1 }}>
                     <TextField
                         label="Buscar por nombre"
                         variant="outlined"
                         fullWidth
                         value={nombreArticulo}
                         onChange={(e) => setNombreArticulo(e.target.value)}
-                        sx={{ mb: 2 }}
-                    />
-                    <TextField
-                        label="Buscar por categoría"
-                        variant="outlined"
-                        fullWidth
-                        value={nombreCategoria}
-                        onChange={(e) => setNombreCategoria(e.target.value)}
+  
                     />
                 </Box>
-                <TableContainer component={Paper}>
+                <Typography variant="h6" component="h2" sx={{ mb: 1 }}>
+                    Seleccionar insumos
+                </Typography>
+                <TableContainer component={Paper} sx={{
+                    overflow: 'auto',
+                    height: 390
+                }}>
                     <Table>
-                        <TableHead>
-                            <TableRow>
-                                <TableCell align="center">Elegir</TableCell>
-                                <TableCell align="center">Imagen</TableCell>
-                                <TableCell align="center">Denominación</TableCell>
-                            </TableRow>
-                        </TableHead>
                         <TableBody>
                             {insumosFiltrados?.map((item: ArticuloInsumo) => (
                                 <TableRow key={item.id}>
-                                    <TableCell align="center">
+                                    <TableCell align="center" style={{ width: '5%' }}>
                                         <Checkbox
                                             checked={selectedInsumos.some(selected => selected.articuloInsumo.id === item.id)}
                                             onChange={() => handleSelectInsumo(item)}
                                         />
                                     </TableCell>
-                                    <TableCell align="center">
+                                    <TableCell align="center" style={{ width: '45%' }}>
                                         <img src={item.imagenes[0].url} width="100%" alt={item.denominacion} />
                                     </TableCell>
-                                    <TableCell align="center">{item.denominacion}</TableCell>
+                                    <TableCell align="center" style={{ width: '50%' }}>{item.denominacion}</TableCell>
                                 </TableRow>
                             ))}
                         </TableBody>

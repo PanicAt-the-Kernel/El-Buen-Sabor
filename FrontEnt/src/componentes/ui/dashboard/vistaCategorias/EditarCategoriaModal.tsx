@@ -14,18 +14,36 @@ interface EditarCategoriaModalProps {
 
 function EditarCategoriaModal({ open, onClose, onSubmit, iCategoria }: EditarCategoriaModalProps) {
     const [categoria, setCategoria] = useState<Categoria>(iCategoria);
+    const [listaSubCategorias, setListaSubCategorias] = useState<Categoria[]>(iCategoria.subCategorias);
+    const [listaSucursales, setListaSucursales] = useState<Sucursal[]>(iCategoria.sucursales);
     const [openSubCat, setOpenSubCat] = useState(false);
     const [openSucursales, setOpenSucursales] = useState(false);
 
     const handleOpenSubCat = () => setOpenSubCat(true);
     const handleCloseSubCat = () => setOpenSubCat(false);
 
+    const handleSubmitModalSubCat = (nuevasSubCat: Categoria[]) => {
+        setListaSubCategorias(nuevasSubCat);
+        setOpenSubCat(false);
+    };
+
     const handleOpenSucursales = () => setOpenSucursales(true);
     const handleCloseSucursales = () => setOpenSucursales(false);
 
-    const handleSubmit = (subCategorias: Categoria[], sucursales: Sucursal[]) => {
-        const categoriaActualizada: Categoria = { ...categoria, subCategorias, sucursales };
-        onSubmit(categoriaActualizada);
+    const handleSubmitModalSucursales = (nuevasSucursales: Sucursal[]) => {
+        setListaSucursales(nuevasSucursales);
+        setOpenSucursales(false);
+    };
+
+    const handleSubmit = () => {
+        const updatedCategoria = {
+            ...categoria,
+            subCategorias: listaSubCategorias,
+            sucursales: listaSucursales,
+        };
+
+        setCategoria(updatedCategoria);
+        onSubmit(updatedCategoria);
     };
 
     return (
@@ -52,7 +70,7 @@ function EditarCategoriaModal({ open, onClose, onSubmit, iCategoria }: EditarCat
                     autoComplete="off"
                     onSubmit={(e) => {
                         e.preventDefault();
-                        handleSubmit(categoria.subCategorias, categoria.sucursales);
+                        handleSubmit();
                     }}
                 >
                     <Typography variant="h6" id="modal-title" gutterBottom>
@@ -82,7 +100,7 @@ function EditarCategoriaModal({ open, onClose, onSubmit, iCategoria }: EditarCat
                         <EditarSubCategModal
                             open={openSubCat}
                             onClose={handleCloseSubCat}
-                            onSubmit={(subCategorias) => handleSubmit(subCategorias, categoria.sucursales)}
+                            onSubmit={handleSubmitModalSubCat}
                             iCategoria={categoria}
                         />
                     )}
@@ -90,7 +108,7 @@ function EditarCategoriaModal({ open, onClose, onSubmit, iCategoria }: EditarCat
                         <EditarSucursalesModal
                             open={openSucursales}
                             onClose={handleCloseSucursales}
-                            onSubmit={(sucursales) => handleSubmit(categoria.subCategorias, sucursales)}
+                            onSubmit={handleSubmitModalSucursales}
                             iCategoria={categoria}
                         />
                     )}

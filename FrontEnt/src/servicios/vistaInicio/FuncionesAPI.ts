@@ -170,7 +170,7 @@ export async function saveCategoria(categoria: Categoria, idSucursal: number){
 
     //Manejo de errores
     try{
-        let response = await fetch("https://traza-compartida.onrender.com/categoria",options);
+        let response = await fetch("https://traza-compartida.onrender.com/categoria/padre",options);
         if(response.ok){
             alert("Categoría agregada correctamente.");
         }else{
@@ -331,7 +331,7 @@ export async function editCategoria(categoria: Categoria){
 
     //Manejo de errores
     try{
-        let response = await fetch(`https://traza-compartida.onrender.com/categoria/${categoria.id}`,options);
+        let response = await fetch(`https://traza-compartida.onrender.com/categoria/padre/${categoria.id}`,options);
         if(response.ok){
             alert("Categoría editada correctamente.");
         }else{

@@ -1,4 +1,4 @@
-//import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
     Paper,
     Modal,
@@ -11,10 +11,10 @@ import {
     ListItemText,
     Button
 } from '@mui/material';
-import Sucursal from '../../../../entidades/Sucursal';
 import Categoria from '../../../../entidades/Categoria';
-import { getCategoriaId, getSucursalesEmpresa } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { getSucursalesEmpresa } from '../../../../servicios/vistaInicio/FuncionesAPI';
 import { Add, Remove } from '@mui/icons-material';
+import Sucursal from '../../../../entidades/Sucursal';
 
 interface EditarSucursalesModalProps {
     open: boolean;
@@ -24,41 +24,47 @@ interface EditarSucursalesModalProps {
 }
 
 function EditarSucursalesModal({ open, onClose, onSubmit, iCategoria }: EditarSucursalesModalProps) {
-    //const [sucursales, setSucursales] = useState<Sucursal[] | null>(null);
-    let sucursales: Sucursal[] | null = [];
-    const { data: categoriaFull } = getCategoriaId(iCategoria.id);
-    console.log(categoriaFull);
-    if (categoriaFull) {
-        //setSucursales(categoriaFull.sucursales);
-        sucursales = categoriaFull.sucursales;
-    }
+    const [sucursales, setSucursales] = useState<Sucursal[]>(iCategoria.sucursales);
+    const [sucursalesNoAgreg, setSucursalesNoAgreg] = useState<Sucursal[]>([]);
     const idEmpresa = 1;
-    const { data: allSucursales } = getSucursalesEmpresa(idEmpresa);
-    //setSubSucursals(iSubSucursals);
-
-    const sucursalesNoAgreg = allSucursales?.filter((sucursal: Sucursal) =>
-        !sucursales?.some((suc: Sucursal) => suc.id === sucursal.id)
-    );
+    const { data: sucursalesEmp } = getSucursalesEmpresa(idEmpresa);
+    
+    useEffect(() => {
+        if (sucursalesEmp) {
+            const sucuAux = sucursalesEmp.filter((sucursal: Sucursal) =>
+                !sucursales.some((suc: Sucursal) => suc.id === sucursal.id)
+            );
+            setSucursalesNoAgreg(sucuAux);
+        }
+    }, [sucursalesEmp, sucursales]);
 
     const handleAgregarSucursal = (sucursal: Sucursal) => {
-        sucursales.push(sucursal);
-
+        setSucursales((prev) => [...prev, sucursal]);
+        setSucursalesNoAgreg((prev) => prev.filter((cat) => cat.id !== sucursal.id));
     };
 
     const handleEliminarSucursal = (sucursal: Sucursal) => {
-        if (sucursalesNoAgreg) {
-            sucursalesNoAgreg.push(sucursal);
-        }
+        setSucursales((prev) => prev.filter((cat) => cat.id !== sucursal.id));
+        setSucursalesNoAgreg((prev) => [...prev, sucursal]);
     };
 
     const handleSubmit = () => {
         onSubmit(sucursales);
+        setSucursales([]);
+        setSucursalesNoAgreg([]);
+        onClose();
+    };
+
+    const handleClose = () => {
+        setSucursales([]);
+        setSucursalesNoAgreg([]);
+        onClose();
     };
 
     return (
         <Modal
             open={open}
-            onClose={onClose}
+            onClose={handleClose}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
         >
@@ -127,7 +133,7 @@ function EditarSucursalesModal({ open, onClose, onSubmit, iCategoria }: EditarSu
                             ))}
                         </List>
                     </Paper>
-                    <Button variant="contained" color="primary" type="submit" style={{ margin: 25 }}>
+                    <Button variant="contained" color="primary" onClick={handleSubmit} style={{ margin: 25 }}>
                         Guardar
                     </Button>
                     <Button variant="contained" color="secondary" onClick={onClose} style={{ margin: 25}}>

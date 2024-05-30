@@ -12,7 +12,7 @@ import {
     Button
 } from '@mui/material';
 import Categoria from '../../../../entidades/Categoria';
-import { getCategoriaId, getCategoriasIdSucursal } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { getCategoriasIdSucursal } from '../../../../servicios/vistaInicio/FuncionesAPI';
 import { Add, Remove } from '@mui/icons-material';
 
 interface EditarSubCategoriasModalProps {
@@ -23,34 +23,20 @@ interface EditarSubCategoriasModalProps {
 }
 
 function EditarSubCategoriasModal({ open, onClose, onSubmit, iCategoria }: EditarSubCategoriasModalProps) {
-    const [subCategorias, setSubCategorias] = useState<Categoria[]>([]);
+    const [subCategorias, setSubCategorias] = useState<Categoria[]>(iCategoria.subCategorias);
     const [subCatNoAgreg, setSubCatNoAgreg] = useState<Categoria[]>([]);
     const idSucursal = 1;
+    const { data: categoriasSuc } = getCategoriasIdSucursal(idSucursal);
 
     useEffect(() => {
-        const fetchCategoriaFull = async () => {
-            const { data: categoriaFull } = await getCategoriaId(iCategoria.id);
-            if (categoriaFull) {
-                setSubCategorias(categoriaFull.subCategorias);
-            }
-        };
-
-        fetchCategoriaFull();
-    }, [iCategoria.id]);
-
-    useEffect(() => {
-        const fetchAllCategorias = async () => {
-            const { data: allCategorias } = await getCategoriasIdSucursal(idSucursal);
-            if (allCategorias) {
-                const subCatAux = allCategorias.filter((categoria: Categoria) =>
-                    !subCategorias.some((catSuc: Categoria) => catSuc.id === categoria.id)
-                );
-                setSubCatNoAgreg(subCatAux);
-            }
-        };
-
-        fetchAllCategorias();
-    }, [subCategorias]);
+        if (categoriasSuc) {
+            const subCatAux = categoriasSuc.filter((categoria: Categoria) =>
+                categoria.id !== iCategoria.id &&
+                !subCategorias.some((catSuc: Categoria) => catSuc.id === categoria.id)
+            );
+            setSubCatNoAgreg(subCatAux);
+        }
+    }, [categoriasSuc, subCategorias]);
 
     const handleAgregarCategoria = (categoria: Categoria) => {
         setSubCategorias((prev) => [...prev, categoria]);
@@ -64,12 +50,21 @@ function EditarSubCategoriasModal({ open, onClose, onSubmit, iCategoria }: Edita
 
     const handleSubmit = () => {
         onSubmit(subCategorias);
+        setSubCategorias([]);
+        setSubCatNoAgreg([]);
+        onClose();
+    };
+
+    const handleClose = () => {
+        setSubCategorias([]);
+        setSubCatNoAgreg([]);
+        onClose();
     };
 
     return (
         <Modal
             open={open}
-            onClose={onClose}
+            onClose={handleClose}
             aria-labelledby="modal-title"
             aria-describedby="modal-description"
         >
@@ -85,64 +80,54 @@ function EditarSubCategoriasModal({ open, onClose, onSubmit, iCategoria }: Edita
                     p: 4,
                 }}
             >
-                <Box
-                    component="form"
-                    autoComplete="off"
-                    onSubmit={(e) => {
-                        e.preventDefault();
-                        handleSubmit();
-                    }}
-                >
-                    <Paper elevation={5} sx={{ marginTop: 2 }}>
-                        <Typography variant="h6" sx={{ padding: 2, backgroundColor: "#f5f5f5" }}>
-                            Subcategorías
-                        </Typography>
-                        <List sx={{ backgroundColor: "white" }}>
-                            {subCategorias?.map((item: Categoria) => (
-                                <ListItem
-                                    key={item.id}
-                                    secondaryAction={
-                                        <Stack direction="row" spacing={2}>
-                                            <IconButton edge="end" aria-label="Eliminar" onClick={() => handleEliminarCategoria(item)}>
-                                                <Remove />
-                                            </IconButton>
-                                        </Stack>
-                                    }
-                                >
-                                    <ListItemText primary={item.denominacion} />
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Paper>
-                    <Paper elevation={5} sx={{ marginTop: 2 }}>
-                        <Typography variant="h6" sx={{ padding: 2, backgroundColor: "#f5f5f5" }}>
-                            Agregar subcategorías
-                        </Typography>
-                        <List sx={{ backgroundColor: "white" }}>
-                            {subCatNoAgreg?.map((item: Categoria) => (
-                                <ListItem
-                                    key={item.id}
-                                    secondaryAction={
-                                        <Stack direction="row" spacing={2}>
-                                            <IconButton edge="end" aria-label="Eliminar" onClick={() => handleAgregarCategoria(item)}>
-                                                <Add />
-                                            </IconButton>
-                                        </Stack>
-                                    }
-                                >
-                                    <ListItemText primary={item.denominacion} />
-                                </ListItem>
-                            ))}
-                        </List>
-                    </Paper>
-                    <Button variant="contained" color="primary" type="submit" style={{ margin: 25 }}>
-                        Guardar
-                    </Button>
-                    <Button variant="contained" color="secondary" onClick={onClose} style={{ margin: 25}}>
-                        Cancelar
-                    </Button>
-                </Box>
-
+                <Paper elevation={5} sx={{ marginTop: 2 }}>
+                    <Typography variant="h6" sx={{ padding: 2, backgroundColor: "#f5f5f5" }}>
+                        Subcategorías
+                    </Typography>
+                    <List sx={{ backgroundColor: "white" }}>
+                        {subCategorias?.map((item: Categoria) => (
+                            <ListItem
+                                key={item.id}
+                                secondaryAction={
+                                    <Stack direction="row" spacing={2}>
+                                        <IconButton edge="end" aria-label="Eliminar" onClick={() => handleEliminarCategoria(item)}>
+                                            <Remove />
+                                        </IconButton>
+                                    </Stack>
+                                }
+                            >
+                                <ListItemText primary={item.denominacion} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </Paper>
+                <Paper elevation={5} sx={{ marginTop: 2 }}>
+                    <Typography variant="h6" sx={{ padding: 2, backgroundColor: "#f5f5f5" }}>
+                        Agregar subcategorías
+                    </Typography>
+                    <List sx={{ backgroundColor: "white" }}>
+                        {subCatNoAgreg?.map((item: Categoria) => (
+                            <ListItem
+                                key={item.id}
+                                secondaryAction={
+                                    <Stack direction="row" spacing={2}>
+                                        <IconButton edge="end" aria-label="Eliminar" onClick={() => handleAgregarCategoria(item)}>
+                                            <Add />
+                                        </IconButton>
+                                    </Stack>
+                                }
+                            >
+                                <ListItemText primary={item.denominacion} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </Paper>
+                <Button variant="contained" color="primary" onClick={handleSubmit} style={{ margin: 25 }}>
+                    Guardar
+                </Button>
+                <Button variant="contained" color="secondary" onClick={onClose} style={{ margin: 25 }}>
+                    Cancelar
+                </Button>
             </Box>
         </Modal>
     );

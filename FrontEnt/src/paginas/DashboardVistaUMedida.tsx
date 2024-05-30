@@ -8,7 +8,7 @@ function DashboardVistaUMedida() {
       <Grid container>
         <Grid item>
           <Typography variant="h4" sx={{ marginTop: 2, textAlign: "center" }}>
-            Lista de UMedidas
+            Lista de Unidades de Medida
           </Typography>
         </Grid>
         <Grid item xs={12} sm={12} md={12}>

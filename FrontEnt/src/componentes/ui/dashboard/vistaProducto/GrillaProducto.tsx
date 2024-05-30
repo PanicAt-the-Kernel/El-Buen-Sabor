@@ -39,9 +39,9 @@ export default function GrillaProducto({ busqueda }: GrillaProductoTypes) {
 
   const handleSubmit = (articuloM: ArticuloManufacturado) => {
     if (editingArtMan != null) {
-    editArticuloManufacturado(articuloM);
-    handleCloseEditar();
-  }
+      editArticuloManufacturado(articuloM);
+      handleCloseEditar();
+    }
   };
 
   const artManuFiltrados = articuloManufacturados?.filter(
@@ -57,6 +57,7 @@ export default function GrillaProducto({ busqueda }: GrillaProductoTypes) {
       <Grid container sx={{ marginTop: 2 }} spacing={1}>
         {artManuFiltrados?.map((item: ArticuloManufacturado) => (
           <ItemGrillaProducto
+            key={item.id}
             nombre={item.denominacion}
             urlImagen={item.imagenes[0].url}
             precio={"$" + item.precioVenta + ".00"}

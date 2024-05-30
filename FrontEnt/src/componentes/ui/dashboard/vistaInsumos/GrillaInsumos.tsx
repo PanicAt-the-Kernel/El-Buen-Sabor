@@ -55,8 +55,9 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
       <Grid container sx={{ marginTop: 2 }} spacing={1}>
         {insumosFiltrados?.map((item: ArticuloInsumo) => (
           <ItemGrillaInsumos
+            key={item.id}
             denominacion={item.denominacion}
-            stockActual={"Stock actual: " + item.stockActual + " " + item.unidadMedida.denominacion}
+            stockActual={"Stock actual: " + item.stockActual + " " + item.unidadMedida.denominacion.toLowerCase()}
             precioCompra={"Precio de compra: $" + item.precioCompra}
             urlImagen={item.imagenes[0].url}
           >
@@ -65,7 +66,7 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
           </ItemGrillaInsumos>
         ))}
       </Grid>
-      {editingInsumo && (
+      {openEditar && editingInsumo && (
         <AgregarInsumoModal
           open={openEditar}
           onClose={handleCloseEditar}

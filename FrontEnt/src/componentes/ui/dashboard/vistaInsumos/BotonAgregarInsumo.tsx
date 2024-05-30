@@ -26,12 +26,14 @@ function BotonAgregarInsumo() {
             >
                 Agregar insumo
             </Button>
+            {open && (
             <AgregarInsumoModal 
                 open={open} 
                 onClose={handleClose} 
                 onSubmit={handleSubmit} 
                 iInsumo={new ArticuloInsumo}
             />
+            )}
         </>
     );
 }

@@ -15,29 +15,45 @@ interface AgregarProductoModalProps {
 function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarProductoModalProps) {
     const idSucursal = 1;
     const [articuloM, setArticuloM] = useState<ArticuloManufacturado>(iArticuloM);
-    const [unidadMedida, setUnidadMedida] = useState(articuloM.unidadMedida.id);
-    const [categoria, setCategoria] = useState(articuloM.categoria.id);
+    const [unidadMedidaL, setUnidadMedida] = useState(articuloM.unidadMedida.id);
+    const [categoriaL, setCategoria] = useState(articuloM.categoria.id);
     const { data: unidadesMedida } = getAllUnidadMedida();
     const { data: categorias } = getCategoriasIdSucursal(idSucursal);
-    const [tablaFila, setTablaFila] = useState<ArticuloManufacturadoDetalle[]>(iArticuloM.articuloManufacturadoDetalles);
+    const [tablaDetalle, setTablaDetalle] = useState<ArticuloManufacturadoDetalle[]>(iArticuloM.articuloManufacturadoDetalles);
     const [openInsumos, setOpenInsumos] = useState(false);
 
     const handleOpenInsumos = () => setOpenInsumos(true);
     const handleCloseInsumos = () => setOpenInsumos(false);
 
     const handleSubmit = () => {
-        onSubmit(articuloM);
+        const selectedCategoria = categorias?.find(cat => cat.id === categoriaL);
+        const selectedUMedida = unidadesMedida?.find(um => um.id === unidadMedidaL);
+
+        if (!selectedCategoria || !selectedUMedida) {
+            console.error("La categoría o unidad de medida seleccionados son inválidos.");
+            return;
+        }
+
+        const updatedProducto = {
+            ...articuloM,
+            categoria: selectedCategoria,
+            unidadMedida: selectedUMedida,
+            articuloManufacturadoDetalles: tablaDetalle,
+        };
+
+        setArticuloM(updatedProducto);
+        onSubmit(updatedProducto);
     };
 
     function removeInsumo(id: number) {
-        setTablaFila((filasActuales) =>
+        setTablaDetalle((filasActuales) =>
             filasActuales.filter((item) => item.articuloInsumo.id !== id)
         );
     }
 
     const handleSubmitModal = (nuevosInsumos: ArticuloManufacturadoDetalle[]) => {
         // Aquí puedes manejar los insumos seleccionados como desees
-        setTablaFila([...tablaFila, ...nuevosInsumos]);
+        setTablaDetalle([...tablaDetalle, ...nuevosInsumos]);
         setOpenInsumos(false);
     };
 
@@ -89,7 +105,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             <InputLabel id="uMedida-label">Unidad de medida</InputLabel>
                             <Select
                                 labelId="uMedida-label"
-                                value={unidadMedida}
+                                value={unidadMedidaL}
                                 onChange={(e) => setUnidadMedida(e.target.value as number)}
                                 label="Unidad de medida"
                             >
@@ -105,7 +121,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             <InputLabel id="categoria-label">Categoría</InputLabel>
                             <Select
                                 labelId="categoria-label"
-                                value={categoria}
+                                value={categoriaL}
                                 onChange={(e) => setCategoria(e.target.value as number)}
                                 label="Categoria"
                             >
@@ -134,6 +150,8 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             variant="outlined"
                             value={articuloM.preparacion}
                             onChange={(e) => setArticuloM({ ...articuloM, preparacion: e.target.value })}
+                            multiline
+                            rows={3}
                         />
                         <Button variant="contained" color="info" onClick={handleOpenInsumos}>
                             Agregar insumos
@@ -143,7 +161,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                                 open={openInsumos}
                                 onClose={handleCloseInsumos}
                                 onSubmit={handleSubmitModal}
-                                filasActuales={tablaFila}
+                                filasActuales={tablaDetalle}
                             />
                         )}
                         <TableContainer component={Paper} className="form-group mt-3">
@@ -159,7 +177,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {tablaFila.map((fila, index) => (
+                                    {tablaDetalle.map((fila, index) => (
                                         <TableRow key={fila.articuloInsumo.id}>
                                             <TableCell>{fila.articuloInsumo.denominacion}</TableCell>
                                             <TableCell>
@@ -170,9 +188,9 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                                                     onChange={(e) => {
                                                         const newCantidad = parseFloat(e.target.value);
                                                         if (newCantidad > 0) {
-                                                            const newTablaFila = [...tablaFila];
-                                                            newTablaFila[index] = { ...newTablaFila[index], cantidad: newCantidad };
-                                                            setTablaFila(newTablaFila);
+                                                            const newTablaDetalle = [...tablaDetalle];
+                                                            newTablaDetalle[index] = { ...newTablaDetalle[index], cantidad: newCantidad };
+                                                            setTablaDetalle(newTablaDetalle);
                                                         } else {
                                                             alert("La cantidad debe ser un número positivo mayor a 0");
                                                         }

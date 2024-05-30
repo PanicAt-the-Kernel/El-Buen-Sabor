@@ -13,13 +13,28 @@ interface AgregarInsumoModalProps {
 function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoModalProps) {
     const idSucursal = 1;
     const [insumo, setInsumo] = useState<ArticuloInsumo>(iInsumo);
-    const [unidadMedida, setUnidadMedida] = useState(insumo.unidadMedida.id);
-    const [categoria, setCategoria] = useState(insumo.categoria.id);
+    const [unidadMedidaL, setUnidadMedida] = useState(insumo.unidadMedida.id);
+    const [categoriaL, setCategoria] = useState(insumo.categoria.id);
     const { data: unidadesMedida } = getAllUnidadMedida();
     const { data: categorias } = getCategoriasIdSucursal(idSucursal);
 
     const handleSubmit = () => {
-        onSubmit(insumo);
+        const selectedCategoria = categorias?.find(cat => cat.id === categoriaL);
+        const selectedUMedida = unidadesMedida?.find(um => um.id === unidadMedidaL);
+
+        if (!selectedCategoria || !selectedUMedida) {
+            console.error("La categoría o unidad de medida seleccionados son inválidos.");
+            return;
+        }
+
+        const updatedInsumo = {
+            ...insumo,
+            categoria: selectedCategoria,
+            unidadMedida: selectedUMedida,
+        };
+
+        setInsumo(updatedInsumo);
+        onSubmit(updatedInsumo);
     };
 
     return (
@@ -70,7 +85,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             <InputLabel id="uMedida-label">Unidad de medida</InputLabel>
                             <Select
                                 labelId="uMedida-label"
-                                value={unidadMedida}
+                                value={unidadMedidaL}
                                 onChange={(e) => setUnidadMedida(e.target.value as number)}
                                 label="Unidad de medida"
                             >
@@ -86,7 +101,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             <InputLabel id="categoria-label">Categoría</InputLabel>
                             <Select
                                 labelId="categoria-label"
-                                value={categoria}
+                                value={categoriaL}
                                 onChange={(e) => setCategoria(e.target.value as number)}
                                 label="Categoria"
                             >
@@ -105,12 +120,6 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             onChange={(e) => setInsumo({ ...insumo, precioCompra: parseInt(e.target.value) })}
                         />
                         <TextField
-                            label="Stock Actual"
-                            variant="outlined"
-                            value={insumo.stockActual}
-                            onChange={(e) => setInsumo({ ...insumo, stockActual: parseInt(e.target.value) })}
-                        />
-                        <TextField
                             label="Stock Mínimo"
                             variant="outlined"
                             value={insumo.stockMinimo}
@@ -121,6 +130,12 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             variant="outlined"
                             value={insumo.stockMaximo}
                             onChange={(e) => setInsumo({ ...insumo, stockMaximo: parseInt(e.target.value) })}
+                        />
+                        <TextField
+                            label="Stock Actual"
+                            variant="outlined"
+                            value={insumo.stockActual}
+                            onChange={(e) => setInsumo({ ...insumo, stockActual: parseInt(e.target.value) })}
                         />
                         <FormControlLabel
                             control={
