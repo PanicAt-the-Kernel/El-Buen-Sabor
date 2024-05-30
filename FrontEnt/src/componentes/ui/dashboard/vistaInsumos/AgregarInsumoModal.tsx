@@ -1,7 +1,9 @@
 import { useState } from 'react';
-import { Modal, Box, TextField, Stack, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox } from '@mui/material';
+import { Modal, Box, TextField, Stack, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Grid, IconButton, Snackbar, Alert } from '@mui/material';
 import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
 import { getAllUnidadMedida, getCategoriasIdSucursal } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import Imagen from '../../../../entidades/Imagen';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 interface AgregarInsumoModalProps {
     open: boolean;
@@ -15,8 +17,10 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
     const [insumo, setInsumo] = useState<ArticuloInsumo>(iInsumo);
     const [unidadMedidaL, setUnidadMedida] = useState(insumo.unidadMedida.id);
     const [categoriaL, setCategoria] = useState(insumo.categoria.id);
+    const [imagenesL, setImagenesL] = useState<Imagen[]>(insumo.imagenes);
     const { data: unidadesMedida } = getAllUnidadMedida();
     const { data: categorias } = getCategoriasIdSucursal(idSucursal);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
 
     const handleSubmit = () => {
         const selectedCategoria = categorias?.find(cat => cat.id === categoriaL);
@@ -31,10 +35,56 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
             ...insumo,
             categoria: selectedCategoria,
             unidadMedida: selectedUMedida,
+            imagenes: imagenesL,
         };
 
         setInsumo(updatedInsumo);
         onSubmit(updatedInsumo);
+    };
+
+    const handleImageUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const files = event.target.files;
+        if (!files) return;
+        if ((files.length + imagenesL.length) > 3) {
+            setOpenSnackbar(true);
+            return;
+        }
+
+        const uploadPromises = Array.from(files).map(async (file) => {
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('upload_preset', 'grupardo'); // Reemplaza 'your_cloudinary_upload_preset' con tu preset de Cloudinary
+            const response = await fetch('https://api.cloudinary.com/v1_1/dafcqvadi/image/upload', {
+                method: 'POST',
+                body: formData,
+            });
+            const data = await response.json();
+            return data.secure_url;
+        });
+
+        try {
+            const urls = await Promise.all(uploadPromises);
+            const newImages = urls.map(url => {
+                const imagen = new Imagen();
+                imagen.id = 0;
+                imagen.url = url;
+                imagen.eliminado = false;
+                return imagen;
+            });
+            setImagenesL([...imagenesL, ...newImages]);
+        } catch (error) {
+            console.error('Error uploading images:', error);
+        }
+    };
+
+    const handleDeleteImage = (index: number) => {
+        const updatedImages = [...imagenesL];
+        updatedImages.splice(index, 1);
+        setImagenesL(updatedImages);
+    };
+
+    const handleCloseSnackbar = () => {
+        setOpenSnackbar(false);
     };
 
     return (
@@ -113,6 +163,35 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                                     ))}
                             </Select>
                         </FormControl>
+                        <input
+                            type="file"
+                            accept="image/*"
+                            multiple
+                            style={{ display: 'none' }}
+                            id="file-upload"
+                            onChange={handleImageUpload}
+                        />
+                        <label htmlFor="file-upload">
+                            <Button variant="contained" component="span">
+                                Agregar Imagen
+                            </Button>
+                        </label>
+                        {/* Visualización de las imágenes */}
+                        <Grid container spacing={1}>
+                            {imagenesL.map((imagen, index) => (
+                                <Grid item key={index} marginBottom={2}>
+                                    <img src={imagen.url} alt={`Imagen ${index}`} style={{ maxWidth: 200 }} />
+                                    <IconButton aria-label="eliminar" onClick={() => handleDeleteImage(index)}>
+                                        <DeleteIcon />
+                                    </IconButton>
+                                </Grid>
+                            ))}
+                        </Grid>
+                        <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar}>
+                            <Alert elevation={6} variant="filled" onClose={handleCloseSnackbar} severity="error">
+                                No puedes seleccionar más de 3 imágenes.
+                            </Alert>
+                        </Snackbar>
                         <TextField
                             label="Precio de compra"
                             variant="outlined"
