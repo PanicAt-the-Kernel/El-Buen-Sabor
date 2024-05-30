@@ -58,7 +58,8 @@ export default function Grilla({ busqueda }: GrillaProps) {
         justifyContent: "center",
         alignItems: "center",
       }} spacing={1}>
-        {empresasFiltradas?.map((item: Empresa) => (
+        {empresasFiltradas?.sort((a, b) => a.nombre.localeCompare(b.nombre))
+        .map((item: Empresa) => (
           <ItemGrilla
             key={item.id}
             nombre={item.nombre}

@@ -96,7 +96,8 @@ function EditarSucursalesModal({ open, onClose, onSubmit, iCategoria }: EditarSu
                             Sucursales
                         </Typography>
                         <List sx={{ backgroundColor: "white" }}>
-                            {sucursales?.map((item: Sucursal) => (
+                            {sucursales?.sort((a, b) => a.nombre.localeCompare(b.nombre))
+                            .map((item: Sucursal) => (
                                 <ListItem
                                     key={item.id}
                                     secondaryAction={
@@ -117,7 +118,8 @@ function EditarSucursalesModal({ open, onClose, onSubmit, iCategoria }: EditarSu
                             Agregar sucursales
                         </Typography>
                         <List sx={{ backgroundColor: "white" }}>
-                            {sucursalesNoAgreg?.map((item: Sucursal) => (
+                            {sucursalesNoAgreg?.sort((a, b) => a.nombre.localeCompare(b.nombre))
+                            .map((item: Sucursal) => (
                                 <ListItem
                                     key={item.id}
                                     secondaryAction={
