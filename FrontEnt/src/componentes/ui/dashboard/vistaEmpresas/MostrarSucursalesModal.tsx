@@ -73,8 +73,12 @@ export default function MostrarSucursalesModal({ open, onClose, iEmpresa }: Most
                         justifyContent: "center",
                         alignItems: "center",
                     }}>
+
+
+
                     {sucursales?.sort((a, b) => a.nombre.localeCompare(b.nombre))
                     .map((item: Sucursal) => (
+
                         <ItemGrilla
                             key={item.id}
                             nombre={item.nombre}

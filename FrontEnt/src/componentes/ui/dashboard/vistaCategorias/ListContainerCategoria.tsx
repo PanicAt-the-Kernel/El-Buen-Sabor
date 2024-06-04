@@ -56,8 +56,12 @@ export default function ListContainerCategoria({ busqueda }: ListContainerCatego
           Categorías de la sucursal
         </Typography>
         <List sx={{ backgroundColor: "white" }}>
+
+
+
           {categoriasSucFiltradas?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
           .map((item: Categoria) => (
+
             <ListItem
               key={item.id}
               secondaryAction={
@@ -79,8 +83,12 @@ export default function ListContainerCategoria({ busqueda }: ListContainerCatego
           Categorías de otras sucursales
         </Typography>
         <List sx={{ backgroundColor: "white" }}>
+
+
+
           {categoriasNoSucFiltradas?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
           .map((item: Categoria) => (
+
             <ListItem
               key={item.id}
               secondaryAction={

@@ -20,6 +20,7 @@ const basilTheme = createTheme({
       light: "#B9E4C9",
       dark: "#37966F",
       contrastText: "#ffffff",
+
     },
     secondary: {
       main: "#FD5523",

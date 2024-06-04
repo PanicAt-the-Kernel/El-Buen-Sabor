@@ -85,8 +85,12 @@ function EditarSubCategoriasModal({ open, onClose, onSubmit, iCategoria }: Edita
                         Subcategorías
                     </Typography>
                     <List sx={{ backgroundColor: "white" }}>
+
+
+
                         {subCategorias?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
                         .map((item: Categoria) => (
+
                             <ListItem
                                 key={item.id}
                                 secondaryAction={
@@ -107,8 +111,12 @@ function EditarSubCategoriasModal({ open, onClose, onSubmit, iCategoria }: Edita
                         Agregar subcategorías
                     </Typography>
                     <List sx={{ backgroundColor: "white" }}>
+
+
+
                         {subCatNoAgreg?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
                         .map((item: Categoria) => (
+
                             <ListItem
                                 key={item.id}
                                 secondaryAction={

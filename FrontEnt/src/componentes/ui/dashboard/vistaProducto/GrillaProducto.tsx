@@ -55,8 +55,12 @@ export default function GrillaProducto({ busqueda }: GrillaProductoTypes) {
   return (
     <>
       <Grid container sx={{ marginTop: 2 }} spacing={1}>
+
+
+
         {artManuFiltrados?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
         .map((item: ArticuloManufacturado) => (
+
           <ItemGrillaProducto
             key={item.id}
             nombre={item.denominacion}

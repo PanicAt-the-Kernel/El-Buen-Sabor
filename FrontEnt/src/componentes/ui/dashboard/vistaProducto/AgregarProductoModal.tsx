@@ -256,8 +256,12 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
+
+
+
                                     {tablaDetalle.sort((a, b) => a.articuloInsumo.denominacion.localeCompare(b.articuloInsumo.denominacion))
                                     .map((fila, index) => (
+
                                         <TableRow key={fila.articuloInsumo.id}>
                                             <TableCell>{fila.articuloInsumo.denominacion}</TableCell>
                                             <TableCell>
