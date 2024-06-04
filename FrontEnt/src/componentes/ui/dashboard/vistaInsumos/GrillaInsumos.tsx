@@ -53,8 +53,12 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
   return (
     <>
       <Grid container sx={{ marginTop: 2 }} spacing={1}>
+
+
+
         {insumosFiltrados?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
         .map((item: ArticuloInsumo) => (
+
           <ItemGrillaInsumos
             key={item.id}
             denominacion={item.denominacion}
