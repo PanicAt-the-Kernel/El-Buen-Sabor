@@ -3,7 +3,6 @@ import BuscarPromocion from "../componentes/ui/dashboard/vistaPromocion/BuscarPr
 import DashboardSidebar from "../layouts/dashboard/DashboardSidebar";
 
 function DashboardVistaPromocion() {
-<<<<<<< HEAD
   return (
     <DashboardSidebar>
       <Grid container>
@@ -16,14 +15,5 @@ function DashboardVistaPromocion() {
       </Grid>
     </DashboardSidebar>
   );
-=======
-    return (
-        <DashboardSidebar>
-            <p></p>
-            <h2>Lista de Promociones</h2>
-            <BuscarPromocion />
-        </DashboardSidebar>
-    )
->>>>>>> ce2812ab8f11319ea2d17e7cfc8c9585a3a122bb
 }
 export default DashboardVistaPromocion;

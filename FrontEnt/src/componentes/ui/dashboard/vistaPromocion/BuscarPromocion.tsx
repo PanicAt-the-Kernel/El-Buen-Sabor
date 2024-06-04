@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, FormControl, Input, Stack } from "@mui/material";
 import BotonAgregarPromocion from "./BotonAgregarPromocion";
-import TablaPromocion from "./TablaPromocion";
 import GrillaPromocion from "./GrillaPromocion";
 
 function BuscarPromocion() {
