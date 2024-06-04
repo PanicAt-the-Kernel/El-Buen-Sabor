@@ -64,7 +64,9 @@ function TablaPromocion({ busqueda }: TablaPromocionsProps) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {promocionesFiltradas?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((promocion) => (
+            {promocionesFiltradas?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+            .map((promocion) => (
               <TableRow key={promocion.id}>
                 <TableCell>{promocion.denominacion}</TableCell>
                 <TableCell>{promocion.descripcionDescuento}</TableCell>

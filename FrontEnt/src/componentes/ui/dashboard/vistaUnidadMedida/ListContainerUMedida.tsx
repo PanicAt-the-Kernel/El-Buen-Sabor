@@ -45,7 +45,12 @@ export default function ListContainerUnidadMedida({ busqueda }: ListContainerUni
           Unidades de medida
         </Typography>
         <List sx={{ backgroundColor: "white" }}>
-          {unidadMedidaFiltradas?.map((item: UnidadMedida) => (
+
+
+
+          {unidadMedidaFiltradas?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+          .map((item: UnidadMedida) => (
+
             <ListItem
               key={item.id}
               secondaryAction={

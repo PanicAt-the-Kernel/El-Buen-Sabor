@@ -88,7 +88,12 @@ function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarI
                 }}>
                     <Table>
                         <TableBody>
-                            {insumosFiltrados?.map((item: ArticuloInsumo) => (
+
+
+
+                            {insumosFiltrados?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+                            .map((item: ArticuloInsumo) => (
+
                                 <TableRow key={item.id}>
                                     <TableCell align="center" style={{ width: '5%' }}>
                                         <Checkbox

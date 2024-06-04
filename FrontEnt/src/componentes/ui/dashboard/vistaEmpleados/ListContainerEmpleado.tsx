@@ -30,7 +30,12 @@ export default function ListContainerEmpleado({
   return (
     <Paper elevation={5} sx={{marginTop:2}}>
       <List sx={{ backgroundColor: "white", overflow: 'auto', maxHeight: 700 }}>
-        {empleadosFiltrados.map((item) => (
+
+
+
+        {empleadosFiltrados.sort((a, b) => a.name.localeCompare(b.name))
+        .map((item) => (
+
           <ItemList nombre={item.name} cargo={item.position} />
         ))}
       </List>

@@ -44,18 +44,23 @@ export default function GrillaProducto({ busqueda }: GrillaProductoTypes) {
     }
   };
 
-  const artManuFiltrados = articuloManufacturados?.filter(
-    (item: ArticuloManufacturado) => {
+  const artManuFiltrados = articuloManufacturados?.filter((item: ArticuloManufacturado) => {
       return (
         busqueda == "" ||
         item.denominacion.toLowerCase().includes(busqueda.toLowerCase())
       );
     }
   );
+  
   return (
     <>
       <Grid container sx={{ marginTop: 2 }} spacing={1}>
-        {artManuFiltrados?.map((item: ArticuloManufacturado) => (
+
+
+
+        {artManuFiltrados?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+        .map((item: ArticuloManufacturado) => (
+
           <ItemGrillaProducto
             key={item.id}
             nombre={item.denominacion}

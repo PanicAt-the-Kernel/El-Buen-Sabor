@@ -43,7 +43,7 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
     }
   };
 
-  const insumosFiltrados = insumos?.filter((item: ArticuloInsumo) => {
+  const insumosFiltrados: ArticuloInsumo[] = insumos?.filter((item: ArticuloInsumo) => {
     return (
       busqueda === "" ||
       item.denominacion.toLowerCase().includes(busqueda.toLowerCase())
@@ -53,7 +53,12 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
   return (
     <>
       <Grid container sx={{ marginTop: 2 }} spacing={1}>
-        {insumosFiltrados?.map((item: ArticuloInsumo) => (
+
+
+
+        {insumosFiltrados?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+        .map((item: ArticuloInsumo) => (
+
           <ItemGrillaInsumos
             key={item.id}
             denominacion={item.denominacion}
