@@ -13,6 +13,7 @@ import "@fontsource/roboto"
 import DashboardVistaInformes from "./paginas/DashboardVistaInformes";
 import DashboardVistaUMedida from "./paginas/DashboardVistaUMedida";
 import VistaLogin from "./paginas/cliente/VistaLogin";
+import VistaRegister from "./paginas/cliente/VistaRegister";
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
   palette: {
@@ -52,6 +53,7 @@ function App() {
           <Route path="/insumos" element={<DashboardVistaInsumo />} />
           <Route path="/uDeMedida" element={<DashboardVistaUMedida />} />
           <Route path="/login" element={<VistaLogin />} />
+          <Route path="/register" element={<VistaRegister />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
