@@ -1,8 +1,9 @@
 class Usuario {
     id: number = 0;
-    username: string = '';
-    auth0ID: string = '';
-    rol:string = '';
     eliminado: boolean = false;
+    password: string = '';
+    auth0Id: string = '';
+    userName: string = '';
+    rol:string = '';
 }
 export default Usuario;
