@@ -38,7 +38,7 @@ export default function GrillaProducto(/*{ busqueda }: GrillaProductoTypes*/) {
           .map((item: Categoria) => (
             <GrillaCategoria
               key={item.id}
-              idCategoria={item.id}
+              idCategoria={data.indexOf(item)+1}
             />
           ))}
       </Grid>

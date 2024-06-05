@@ -1,13 +1,11 @@
-import ArticuloInsumo from "./ArticuloInsumo";
-import ArticuloManufacturado from "./ArticuloManufacturado";
+import Articulo from "./Articulo";
 
 class DetallePedido {
     id: number = 0;
     cantidad: number = 0; 
-    subtotal: number = 0;
+    subTotal: number = 0;
     eliminado: boolean = false;
-    articuloManufacturado: ArticuloManufacturado = new ArticuloManufacturado;
-    articuloInsumo: ArticuloInsumo = new ArticuloInsumo;
+    articulo: Articulo = new Articulo;
 }
 
 export default DetallePedido;

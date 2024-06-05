@@ -1,8 +1,9 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
+import DetallePedido from "../entidades/DetallePedido";
 import Articulo from "../entidades/Articulo";
 
 interface CarritoTypes {
-  carrito: Articulo[];
+  carrito: DetallePedido[];
   addCarrito: (item: Articulo) => void;
   removeItemCarrito: (item: Articulo) => void;
   vaciarCarrito: () => void;
@@ -19,14 +20,14 @@ export const CarritoContext = createContext<CarritoTypes>({
 });
 
 export const CarritoProvider = ({ children }: { children: ReactNode }) => {
-  const [carrito, setCarrito] = useState<Articulo[]>([]);
+  const [carrito, setCarrito] = useState<DetallePedido[]>([]);
   const [totalPedido, setTotalPedido] = useState<number>(0);
 
   useEffect(() => {
     const calcularTotal = () => {
       let total: number = 0;
-      carrito.forEach((item: Articulo) => {
-        total += item.cantidad * item.precioVenta;
+      carrito.forEach((item: DetallePedido) => {
+        total += item.cantidad * item.articulo.precioVenta;
       });
       setTotalPedido(total);
     };
@@ -36,35 +37,40 @@ export const CarritoProvider = ({ children }: { children: ReactNode }) => {
 
   const addCarrito = (item: Articulo) => {
     const estaEnCarrito = carrito.find(
-      (itemCarrito) => itemCarrito.id === item.id
+      (itemCarrito) => itemCarrito.articulo.id === item.id
     );
 
     if (estaEnCarrito) {
       setCarrito(
         carrito.map((itemCarrito) =>
-          itemCarrito.id === item.id
-            ? { ...itemCarrito, cantidad: itemCarrito.cantidad + 1 }
+          itemCarrito.articulo.id === item.id
+            ? { ...itemCarrito, cantidad: itemCarrito.cantidad + 1, subTotal: itemCarrito.cantidad*item.precioVenta }
             : itemCarrito
         )
       );
     } else {
-      setCarrito([...carrito, { ...item, cantidad: 1 }]);
+      const newItem = new DetallePedido;
+      newItem.id = 0;
+      newItem.articulo = item;
+      newItem.cantidad = 1;
+      newItem.subTotal = item.precioVenta
+      setCarrito([...carrito,  newItem ]);
     }
   };
 
   const removeItemCarrito = (item: Articulo) => {
     const estaEnCarrito = carrito.find(
-      (itemCarrito) => itemCarrito.id === item.id
+      (itemCarrito) => itemCarrito.articulo.id === item.id
     );
 
     if (estaEnCarrito) {
       if (estaEnCarrito.cantidad === 1) {
-        setCarrito(carrito.filter((itemCarrito) => itemCarrito.id !== item.id));
+        setCarrito(carrito.filter((itemCarrito) => itemCarrito.articulo.id !== item.id));
       } else {
         setCarrito(
           carrito.map((itemCarrito) =>
             itemCarrito.id === item.id
-              ? { ...itemCarrito, cantidad: itemCarrito.cantidad - 1 }
+              ? { ...itemCarrito, cantidad: itemCarrito.cantidad - 1, subTotal: itemCarrito.cantidad*item.precioVenta }
               : itemCarrito
           )
         );

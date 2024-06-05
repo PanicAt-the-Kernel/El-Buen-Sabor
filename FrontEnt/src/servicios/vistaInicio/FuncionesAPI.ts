@@ -9,6 +9,7 @@ import Pais from "../../entidades/Pais";
 import Provincia from "../../entidades/Provincia";
 import Localidad from "../../entidades/Localidad";
 import UnidadMedida from "../../entidades/UnidadMedida";
+import Pedido from "../../entidades/Pedido";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -51,8 +52,8 @@ export function getSucursalesEmpresa(idEmpresa: number): SWRResponse<Sucursal[],
     return useSWR<Sucursal[]>(`https://traza-compartida.onrender.com/sucursal/empresa/${idEmpresa}`, fetcher);
 }
 
-export function getSucursalId(idSucursal: number): SWRResponse<Sucursal[], any, any> {
-    return useSWR<Sucursal[]>(`https://traza-compartida.onrender.com/sucursal/${idSucursal}`, fetcher);
+export function getSucursalId(idSucursal: number): SWRResponse<Sucursal, any, any> {
+    return useSWR<Sucursal>(`https://traza-compartida.onrender.com/sucursal/${idSucursal}`, fetcher);
 }
 
 export function getProvinciasIdPais(idPais: number): SWRResponse<Provincia[], any, any> {
@@ -74,6 +75,24 @@ export function getCategoriasIdSucursal(idSucursal: number): SWRResponse<Categor
 export function getCategoriaId(idCategoria: number): SWRResponse<Categoria, any, any> {
     //return useSWR<Categoria>(`https://traza-compartida.onrender.com/categoria/${idCategoria}`, fetcher);
     return useSWR<Categoria>(`https://buensabor-json-server.onrender.com/categorias/${idCategoria}`, fetcher);
+}
+
+export async function getSucursalIdF(idSucursal: number): Promise<Sucursal> {
+    const url = `https://buensabor-json-server.onrender.com/sucursal/${idSucursal}`;
+    
+    try {
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+        
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('There has been a problem with your fetch operation:', error);
+        return new Sucursal;
+    }
 }
 
 //FUNCIONES SAVE
@@ -252,6 +271,32 @@ export async function saveUnidadMedida(uMedida: UnidadMedida){
     }catch{
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
+}
+
+export async function savePedido(pedido: Pedido, setTotalPedido: (total: number) => void, vaciarCarrrito: () => void){
+    //Llamada a API
+    let options = {
+        mode: 'cors' as RequestMode,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(pedido)
+    }
+
+        //Manejo de errores
+        try{
+            let response = await fetch("https://magniback.onrender.com/pedidos",options);
+            if(response.ok){
+                alert("Pedido cargado correctamente.");
+                vaciarCarrrito();
+                setTotalPedido(0);
+            }else{
+                alert("Error al cargar pedido: "+response.status);
+            }
+        }catch{
+            alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+        }
 }
 
 //FUNCIONES EDIT

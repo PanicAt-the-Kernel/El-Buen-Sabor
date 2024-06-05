@@ -7,9 +7,10 @@ import ListItemText from "@mui/material/ListItemText";
 import { Avatar, Button, ListItemAvatar, Stack, Typography } from "@mui/material";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import { Add, Remove, RemoveShoppingCart } from "@mui/icons-material";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
-//import Pedido from "../../../../entidades/Pedido";
+import { savePedido } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import Pedido from "../../../../entidades/Pedido";
 
 interface DrawerTypes {
   estado: boolean;
@@ -17,9 +18,29 @@ interface DrawerTypes {
 }
 
 export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
+  //const sucursal: Sucursal = await getSucursalIdF(1);
   const { carrito, vaciarCarrito, totalPedido, setTotalPedido, removeItemCarrito, addCarrito } = useContext(CarritoContext);
-  //const [pedido, setPedido] = useState<Pedido | undefined>(undefined);
-  
+  const [pedido, setPedido] = useState<Pedido>(new Pedido);
+
+  const handleSubmit = () => {
+    var fecha = new Date().toJSON().slice(0, 10);//Dia actual
+
+    const updatedPedido = {
+      ...pedido,
+      horaEstimadaFinalizacion: "22:00:00.000",
+      total: totalPedido,
+      totalCosto: 0,
+      estado: "PREPARACION",
+      tipoEnvio: "DELIVERY",
+      formaPago: "EFECTIVO",
+      fechaPedido: fecha,
+      detallePedidos: carrito,
+    };
+
+    setPedido(updatedPedido);
+    savePedido(updatedPedido, setTotalPedido, vaciarCarrito);
+  };
+
   const DrawerList = (
     <Box sx={{ width: 350 }} role="presentation">
       <Typography variant="h4" textAlign={"center"} marginTop={2}>
@@ -31,22 +52,22 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
         {carrito.map((item) => (
           <ListItem key={item.id}>
             <ListItemAvatar>
-              <Avatar src={item.imagenes[0].url} />
+              <Avatar src={item.articulo.imagenes[0].url} />
             </ListItemAvatar>
             <ListItemText
-              primary={item.denominacion}
+              primary={item.articulo.denominacion}
               secondary={
                 <>
                   <div>{item.cantidad} {item.cantidad === 1 ? 'unidad' : 'unidades'}</div>
-                  <div>Precio por unidad: ${item.precioVenta.toFixed(2)}</div>
-                  <div>Subtotal: ${(item.precioVenta * item.cantidad).toFixed(2)}</div>
+                  <div>Precio por unidad: ${item.articulo.precioVenta.toFixed(2)}</div>
+                  <div>Subtotal: ${(item.articulo.precioVenta * item.cantidad).toFixed(2)}</div>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Button
                       size="small"
                       variant="contained"
                       color="success"
                       startIcon={<Remove />}
-                      onClick={() => { removeItemCarrito(item) }}
+                      onClick={() => { removeItemCarrito(item.articulo) }}
                       sx={{ minWidth: 30 }}
                     />
                     <Box sx={{
@@ -67,7 +88,7 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
                       variant="contained"
                       color="success"
                       startIcon={<Add />}
-                      onClick={() => { addCarrito(item) }}
+                      onClick={() => { addCarrito(item.articulo) }}
                       sx={{ minWidth: 30 }}
                     />
                   </Box>
@@ -95,18 +116,15 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
             startIcon={<ShoppingCartCheckoutIcon />}
             disabled
           >
-            Pagar
+            Pedir
           </Button>
         ) : (
           <Button
             variant="contained"
             startIcon={<ShoppingCartCheckoutIcon />}
-            onClick={() => {
-              //savePedido(carrito, totalPedido, setPedido, vaciarCarrito);
-              setTotalPedido(0);
-            }}
+            onClick={handleSubmit}
           >
-            Pagar
+            Pedir
           </Button>
         )}
         <Button
