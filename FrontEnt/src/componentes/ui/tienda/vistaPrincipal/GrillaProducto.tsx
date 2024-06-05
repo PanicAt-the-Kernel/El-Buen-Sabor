@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import { getCategoriasIdSucursal } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import Categoria from "../../../../entidades/Categoria";
 import GrillaCategoria from "./GrillaCategoria";
@@ -20,7 +20,7 @@ export default function GrillaProducto(/*{ busqueda }: GrillaProductoTypes*/) {
   if (isLoading)
     return (
       <>
-        <h1>Cargando menús... Muchas gracias por su paciencia.</h1>
+        <CircularProgress color="inherit"/>
       </>
     );
 
