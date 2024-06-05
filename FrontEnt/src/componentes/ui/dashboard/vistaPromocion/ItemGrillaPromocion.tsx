@@ -3,40 +3,23 @@ import {
   CardActions,
   CardContent,
   CardMedia,
-  Divider,
   Grid,
   Stack,
   Typography,
 } from "@mui/material";
 import { ReactNode } from "react";
+import Promocion from "../../../../entidades/Promocion";
 
 interface ItemGrillaPromocion {
-  denominacion: string;
-  descripcion: string;
-  fechaDesde: string;
-  fechaHasta: string;
-  horaDesde: string;
-  horaHasta: string;
-  precio: number;
+  item: Promocion;
   children: ReactNode;
 }
 
-export default function ItemGrillaPromocion({
-  denominacion,
-  descripcion,
-  fechaDesde,
-  fechaHasta,
-  horaDesde,
-  horaHasta,
-  precio,
-  children,
-}: ItemGrillaPromocion) {
+export default function ItemGrillaPromocion({ item, children }: ItemGrillaPromocion) {
 
-  fechaDesde=new Date(fechaDesde).toLocaleString("es-ar").substring(0,10);
-  fechaHasta = new Date(fechaHasta).toLocaleString("es-ar").substring(0,10);
   return (
-    <Grid item xs={12} sm={12} md={3} sx={{ marginBottom: 2 }}>
-      <Card sx={{ maxWidth: 380 }}>
+    <Grid item sx={{ marginBottom: 2 }}>
+      <Card sx={{ width: 290 }}>
         <CardMedia
           sx={{ height: 190, margin: 1 }}
           image={
@@ -45,16 +28,16 @@ export default function ItemGrillaPromocion({
         />
         <CardContent>
           <Typography color="text.secondary">
-            {fechaDesde} - {fechaHasta}
+            {"De " + item.fechaDesde + " a " + item.fechaHasta}
           </Typography>
           <Typography variant="h6" component="div">
-            {denominacion}
+            {item.denominacion}
           </Typography>
           <Stack direction="column" spacing={1} sx={{ marginBottom: 3 }}>
-            <Typography color="text.secondary">{descripcion}</Typography>
+            <Typography color="text.secondary">{item.denominacion}</Typography>
           </Stack>
           <Stack direction="column">
-            <Typography variant="body1">Precio Especial: ${precio}</Typography>
+            <Typography variant="body1">Precio Especial: ${item.precioPromocional}</Typography>
           </Stack>
         </CardContent>
         <CardActions sx={{ justifyContent: "center" }}>{children}</CardActions>
