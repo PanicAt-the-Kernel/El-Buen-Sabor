@@ -5,7 +5,9 @@ class DetallePedido {
     cantidad: number = 0; 
     subTotal: number = 0;
     eliminado: boolean = false;
-    articulo: Articulo = new Articulo;
+    articulo: number | null = null;
+    promocion: number | null = null;
+    articuloAux: Articulo = new Articulo; //Trascient
 }
 
 export default DetallePedido;

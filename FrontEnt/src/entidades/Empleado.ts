@@ -1,6 +1,6 @@
 import Usuario from "./Usuario";
 
-class Cliente {
+class Empleado {
     id: number = 0;
     nombre: string = ''; 
     apellido: string = ''; 
@@ -10,4 +10,4 @@ class Cliente {
     usuario: Usuario = new Usuario; 
 }
 
-export default Cliente;
+export default Empleado;

@@ -10,6 +10,7 @@ interface CarritoTypes {
   totalPedido: number;
   setTotalPedido: React.Dispatch<React.SetStateAction<number>>
 }
+
 export const CarritoContext = createContext<CarritoTypes>({
   carrito: [],
   addCarrito: () => { },
@@ -27,7 +28,7 @@ export const CarritoProvider = ({ children }: { children: ReactNode }) => {
     const calcularTotal = () => {
       let total: number = 0;
       carrito.forEach((item: DetallePedido) => {
-        total += item.cantidad * item.articulo.precioVenta;
+        total += item.subTotal;
       });
       setTotalPedido(total);
     };
@@ -37,40 +38,42 @@ export const CarritoProvider = ({ children }: { children: ReactNode }) => {
 
   const addCarrito = (item: Articulo) => {
     const estaEnCarrito = carrito.find(
-      (itemCarrito) => itemCarrito.articulo.id === item.id
+      (itemCarrito) => itemCarrito.articulo === item.id
     );
 
     if (estaEnCarrito) {
       setCarrito(
         carrito.map((itemCarrito) =>
-          itemCarrito.articulo.id === item.id
-            ? { ...itemCarrito, cantidad: itemCarrito.cantidad + 1, subTotal: itemCarrito.cantidad*item.precioVenta }
+          itemCarrito.articulo === item.id
+            ? { ...itemCarrito, cantidad: itemCarrito.cantidad + 1, subTotal: (itemCarrito.cantidad + 1) * item.precioVenta }
             : itemCarrito
         )
       );
     } else {
       const newItem = new DetallePedido;
       newItem.id = 0;
-      newItem.articulo = item;
+      newItem.articulo = item.id;
       newItem.cantidad = 1;
-      newItem.subTotal = item.precioVenta
-      setCarrito([...carrito,  newItem ]);
+      newItem.subTotal = item.precioVenta;
+      newItem.promocion = null;
+      newItem.articuloAux = item;
+      setCarrito([...carrito, newItem]);
     }
   };
 
   const removeItemCarrito = (item: Articulo) => {
     const estaEnCarrito = carrito.find(
-      (itemCarrito) => itemCarrito.articulo.id === item.id
+      (itemCarrito) => itemCarrito.articulo === item.id
     );
 
     if (estaEnCarrito) {
       if (estaEnCarrito.cantidad === 1) {
-        setCarrito(carrito.filter((itemCarrito) => itemCarrito.articulo.id !== item.id));
+        setCarrito(carrito.filter((itemCarrito) => itemCarrito.articulo !== item.id));
       } else {
         setCarrito(
           carrito.map((itemCarrito) =>
-            itemCarrito.id === item.id
-              ? { ...itemCarrito, cantidad: itemCarrito.cantidad - 1, subTotal: itemCarrito.cantidad*item.precioVenta }
+            itemCarrito.articulo === item.id
+              ? { ...itemCarrito, cantidad: itemCarrito.cantidad - 1, subTotal: (itemCarrito.cantidad - 1) * item.precioVenta }
               : itemCarrito
           )
         );

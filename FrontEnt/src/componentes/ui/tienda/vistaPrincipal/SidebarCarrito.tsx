@@ -52,22 +52,22 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
         {carrito.map((item) => (
           <ListItem key={item.id}>
             <ListItemAvatar>
-              <Avatar src={item.articulo.imagenes[0].url} />
+              <Avatar src={item.articuloAux.imagenes[0].url} />
             </ListItemAvatar>
             <ListItemText
-              primary={item.articulo.denominacion}
+              primary={item.articuloAux.denominacion}
               secondary={
                 <>
                   <div>{item.cantidad} {item.cantidad === 1 ? 'unidad' : 'unidades'}</div>
-                  <div>Precio por unidad: ${item.articulo.precioVenta.toFixed(2)}</div>
-                  <div>Subtotal: ${(item.articulo.precioVenta * item.cantidad).toFixed(2)}</div>
+                  <div>Precio por unidad: ${item.articuloAux.precioVenta.toFixed(2)}</div>
+                  <div>Subtotal: ${(item.articuloAux.precioVenta * item.cantidad).toFixed(2)}</div>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Button
                       size="small"
                       variant="contained"
                       color="success"
                       startIcon={<Remove />}
-                      onClick={() => { removeItemCarrito(item.articulo) }}
+                      onClick={() => { removeItemCarrito(item.articuloAux) }}
                       sx={{ minWidth: 30 }}
                     />
                     <Box sx={{
@@ -88,7 +88,7 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
                       variant="contained"
                       color="success"
                       startIcon={<Add />}
-                      onClick={() => { addCarrito(item.articulo) }}
+                      onClick={() => { addCarrito(item.articuloAux) }}
                       sx={{ minWidth: 30 }}
                     />
                   </Box>
@@ -103,10 +103,10 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
         Pedido: ${totalPedido}
       </Typography>
       <Typography variant="h5" textAlign={"center"} marginBottom={2}>
-        Costo de envío: $500
+        Costo de envío: $20
       </Typography>
       <Typography variant="h5" textAlign={"center"} marginBottom={2}>
-        Total: ${totalPedido + 500}
+        Total: ${totalPedido + 20}
       </Typography>
       <Divider />
       <Stack direction="row" spacing={3} justifyContent={"center"}>

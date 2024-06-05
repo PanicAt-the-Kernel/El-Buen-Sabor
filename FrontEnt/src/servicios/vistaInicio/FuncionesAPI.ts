@@ -73,8 +73,7 @@ export function getCategoriasIdSucursal(idSucursal: number): SWRResponse<Categor
 }
 
 export function getCategoriaId(idCategoria: number): SWRResponse<Categoria, any, any> {
-    //return useSWR<Categoria>(`https://traza-compartida.onrender.com/categoria/${idCategoria}`, fetcher);
-    return useSWR<Categoria>(`https://buensabor-json-server.onrender.com/categorias/${idCategoria}`, fetcher);
+    return useSWR<Categoria>(`https://traza-compartida.onrender.com/categoria/${idCategoria}`, fetcher);
 }
 
 export async function getSucursalIdF(idSucursal: number): Promise<Sucursal> {
