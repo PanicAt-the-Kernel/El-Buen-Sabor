@@ -5,15 +5,17 @@ import DashboardVistaInsumo from "./paginas/DashboardVistaInsumo";
 import DashboardVistaCategoria from "./paginas/DashboardVistaCategoria";
 import DashboardVistaEmpresa from "./paginas/DashboardVistaEmpresa";
 import DashboardVistaPromocion from "./paginas/DashboardVistaPromocion";
+import DashboardVistaInformes from "./paginas/DashboardVistaInformes";
+import DashboardVistaUMedida from "./paginas/DashboardVistaUMedida";
+import VistaLogin from "./paginas/cliente/VistaLogin";
+import VistaRegister from "./paginas/cliente/VistaRegister";
+import TiendaVistaPrincipal from "./paginas/TiendaVistaPrincipal";
 import { ThemeProvider, createTheme } from "@mui/material";
 
 import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
-import DashboardVistaInformes from "./paginas/DashboardVistaInformes";
-import DashboardVistaUMedida from "./paginas/DashboardVistaUMedida";
-import VistaLogin from "./paginas/cliente/VistaLogin";
-import VistaRegister from "./paginas/cliente/VistaRegister";
+
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
   palette: {
@@ -39,21 +41,23 @@ const basilTheme = createTheme({
     ].join(","),
   }
 });
+
 function App() {
   return (
     <BrowserRouter>
       <ThemeProvider theme={basilTheme}>
         <Routes>
-          <Route index element={<DashboardVistaEmpresa />} />
-          <Route path="/categorias" element={<DashboardVistaCategoria />} />
-          <Route path="/informes" element={<DashboardVistaInformes />} />
-          <Route path="/productos" element={<DashboardVistaProducto />} />
-          <Route path="/empleados" element={<DashboardVistaEmpleado />} />
-          <Route path="/promociones" element={<DashboardVistaPromocion />} />
-          <Route path="/insumos" element={<DashboardVistaInsumo />} />
-          <Route path="/uDeMedida" element={<DashboardVistaUMedida />} />
+          <Route index element={<TiendaVistaPrincipal />} />
           <Route path="/login" element={<VistaLogin />} />
           <Route path="/register" element={<VistaRegister />} />
+          <Route path="/dashboard/categorias" element={<DashboardVistaCategoria />} />
+          <Route path="/dashboard/informes" element={<DashboardVistaInformes />} />
+          <Route path="/dashboard/productos" element={<DashboardVistaProducto />} />
+          <Route path="/dashboard/empleados" element={<DashboardVistaEmpleado />} />
+          <Route path="/dashboard/promociones" element={<DashboardVistaPromocion />} />
+          <Route path="/dashboard/insumos" element={<DashboardVistaInsumo />} />
+          <Route path="/dashboard/uDeMedida" element={<DashboardVistaUMedida />} />
+          <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
