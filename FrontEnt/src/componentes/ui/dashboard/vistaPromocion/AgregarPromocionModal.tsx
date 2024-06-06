@@ -258,7 +258,7 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
             )}
             <TableContainer component={Paper} className="form-group mt-3">
               <Typography variant="h6" sx={{ padding: 2, backgroundColor: "#f5f5f5" }}>
-                Insumos
+                Artículos
               </Typography>
               <Table>
                 <TableHead>
