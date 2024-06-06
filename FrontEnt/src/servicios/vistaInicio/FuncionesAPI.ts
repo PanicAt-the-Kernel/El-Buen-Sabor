@@ -9,6 +9,7 @@ import Pais from "../../entidades/Pais";
 import Provincia from "../../entidades/Provincia";
 import Localidad from "../../entidades/Localidad";
 import UnidadMedida from "../../entidades/UnidadMedida";
+import Pedido from "../../entidades/Pedido";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -43,6 +44,10 @@ export function getAllPaises(): SWRResponse<Pais[], any, any> {
 
 export function getAllUnidadMedida(): SWRResponse<UnidadMedida[], any, any> {
     return useSWR<UnidadMedida[]>(`https://traza-compartida.onrender.com/unidadMedida`, fetcher);
+}
+
+export function getAllPedidos():SWRResponse<Pedido[],any,any>{
+    return useSWR<Pedido[]>("https://magniback.onrender.com/pedidos",fetcher)
 }
 
 

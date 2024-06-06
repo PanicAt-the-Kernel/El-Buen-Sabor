@@ -1,3 +1,4 @@
+import Cliente from "./Cliente";
 import DetallePedido from "./DetallePedido";
 import Domicilio from "./Domicilio";
 import Factura from "./Factura";
@@ -16,7 +17,8 @@ class Pedido {
     domicilio: Domicilio = new Domicilio;
     sucursal: Sucursal = new Sucursal;
     factura: Factura = new Factura;
-    detallePedido: DetallePedido = new DetallePedido;
+    cliente: Cliente = new Cliente;
+    detallePedidos: DetallePedido[] = [];
 }
 
 export default Pedido
