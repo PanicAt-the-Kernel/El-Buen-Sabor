@@ -1,6 +1,6 @@
-import Imagen from "./Imagen";
+import ImagenEmpleado from "./ImagenEmpleado";
 import Sucursal from "./Sucursal";
-import Usuario from "./Usuario";
+import UsuarioEmpleado from "./UsuarioEmpleado";
 
 class Empleado {
     id: number = 0;
@@ -11,8 +11,8 @@ class Empleado {
     telefono: string = '';
     email: string = ''; 
     fechaNacimiento: string = '';
-    usuarioEmpleado: Usuario = new Usuario; 
-    imagenEmpleado: Imagen = new Imagen;
+    usuarioEmpleado: UsuarioEmpleado = new UsuarioEmpleado; 
+    imagenEmpleado: ImagenEmpleado = new ImagenEmpleado;
     sucursal: Sucursal = new Sucursal;
 }
 

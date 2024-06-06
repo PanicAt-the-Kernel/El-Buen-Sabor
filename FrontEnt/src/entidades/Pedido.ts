@@ -11,16 +11,16 @@ class Pedido {
     horaEstimadaFinalizacion: string = '';
     total: number = 0;
     totalCosto: number = 0;
-    estado: string = ''; 
-    tipoEnvio: string = ''; 
-    formaPago: string = ''; 
-    fechaPedido: string = ''; 
+    estado: string = '';
+    tipoEnvio: string = '';
+    formaPago: string = '';
+    fechaPedido: string = '';
     domicilio: Domicilio = new Domicilio;
     sucursal: Sucursal = new Sucursal;
     factura: Factura = new Factura;
     cliente: Cliente = new Cliente;
-    empleado: Empleado = new Empleado;
     detallePedidos: DetallePedido[] = [];
+    empleado: Empleado = new Empleado;
 }
 
 export default Pedido

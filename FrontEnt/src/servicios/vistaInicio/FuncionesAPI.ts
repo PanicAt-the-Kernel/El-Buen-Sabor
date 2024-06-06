@@ -285,7 +285,7 @@ export async function savePedido(pedido: Pedido, setTotalPedido: (total: number)
 
         //Manejo de errores
         try{
-            let response = await fetch("https://magniback.onrender.com/pedidos",options);
+            let response = await fetch("https://magniback.onrender.com/pedidos/fechaActual=2024-06-06&precioDelivery=0.0",options);
             if(response.ok){
                 alert("Pedido cargado correctamente.");
                 vaciarCarrrito();
