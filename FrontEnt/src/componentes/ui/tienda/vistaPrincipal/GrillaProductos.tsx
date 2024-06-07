@@ -11,6 +11,7 @@ export default function GrillaProductos({ categoria }: GrillaProductosProps ) {
     if (categoria.articulos.length === 0) {
         return null;
     }
+  
     return (
         <>
             <Typography variant="h4">
