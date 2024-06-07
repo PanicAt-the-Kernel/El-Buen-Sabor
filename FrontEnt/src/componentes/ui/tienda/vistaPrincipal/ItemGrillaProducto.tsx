@@ -37,7 +37,7 @@ export default function ItemGrillaProducto({ item }: ItemGrillaProductoTypes) {
             {"$" + item.precioVenta}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            Costo de envío: $500
+            Costo de envío: $20
           </Typography>
         </CardContent>
         <CardActions sx={{ justifyContent: "center" }}>

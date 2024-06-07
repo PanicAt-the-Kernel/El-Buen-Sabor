@@ -1,16 +1,12 @@
 import { CircularProgress, Grid } from "@mui/material";
 import { getCategoriasIdSucursal } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import Categoria from "../../../../entidades/Categoria";
-import GrillaCategoria from "./GrillaCategoria";
-/*
-interface GrillaProductoTypes {
-  busqueda: string;
-}
-*/
-export default function GrillaProducto(/*{ busqueda }: GrillaProductoTypes*/) {
+import GrillaProductos from "./GrillaProductos";
+
+export default function GrillaCategorias() {
   const idSucursal = 1;
   const { data, isLoading, error } = getCategoriasIdSucursal(idSucursal);
-  console.log(data);
+
   if (error)
     return (
       <>
@@ -20,27 +16,21 @@ export default function GrillaProducto(/*{ busqueda }: GrillaProductoTypes*/) {
   if (isLoading)
     return (
       <>
-        <CircularProgress color="inherit"/>
+         <CircularProgress color="inherit"/>
       </>
     );
-
-  /*const articulosFiltrados = data?.articulos.filter((item: Articulo) => {
-    return (
-      busqueda == "" || item.denominacion.toLowerCase().includes(busqueda.toLowerCase())
-    );
-  }
-  );*/
+  
+  const categoriasFiltradas = data?.filter(categoria => categoria.denominacion !== 'Insumos' /*&& categoria.id !== 5*/);
 
   return (
     <>
       <Grid container sx={{ marginTop: 2 }} spacing={1}>
-        {data?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
-          .map((item: Categoria) => (
-            <GrillaCategoria
-              key={item.id}
-              idCategoria={item.id}
-            />
-          ))}
+        {categoriasFiltradas?.map((item: Categoria) => (
+          <GrillaProductos
+            key={item.id}
+            categoria={item}
+          />
+        ))}
       </Grid>
     </>
   );

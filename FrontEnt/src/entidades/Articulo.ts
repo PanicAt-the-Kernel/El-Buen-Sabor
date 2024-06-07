@@ -10,8 +10,6 @@ class Articulo {
     imagenes: Imagen[] = [];
     unidadMedida: UnidadMedida = new UnidadMedida;
     categoria: Categoria = new Categoria;
-
-    cantidad:number=0; //Trascient
 }
 
 export default Articulo;
