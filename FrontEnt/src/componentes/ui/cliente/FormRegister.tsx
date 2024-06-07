@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
+import { saveUsuario } from "../../../servicios/vistaInicio/FuncionesAPI";
 
 export default function FormRegister() {
   const [nombreUsuario, setNombreUsuario] = useState("");
@@ -115,7 +116,7 @@ export default function FormRegister() {
   const onSubmitUsuario = (e: SyntheticEvent) => {
     e.preventDefault();
     if (validarPasswords()) {
-      //save Usuario(nombreUsuario,password)
+      saveUsuario(nombreUsuario,password)
     } else {
       return false;
     }

@@ -10,6 +10,8 @@ import Provincia from "../../entidades/Provincia";
 import Localidad from "../../entidades/Localidad";
 import UnidadMedida from "../../entidades/UnidadMedida";
 import Pedido from "../../entidades/Pedido";
+import Factura from "../../entidades/Factura";
+import Usuario from "../../entidades/Usuario";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -78,24 +80,6 @@ export function getCategoriasIdSucursal(idSucursal: number): SWRResponse<Categor
 
 export function getCategoriaId(idCategoria: number): SWRResponse<Categoria, any, any> {
     return useSWR<Categoria>(`https://traza-compartida.onrender.com/categoria/${idCategoria}`, fetcher);
-}
-
-export async function getSucursalIdF(idSucursal: number): Promise<Sucursal> {
-    const url = `https://buensabor-json-server.onrender.com/sucursal/${idSucursal}`;
-    
-    try {
-        const response = await fetch(url);
-        
-        if (!response.ok) {
-            throw new Error('Network response was not ok');
-        }
-        
-        const data = await response.json();
-        return data;
-    } catch (error) {
-        console.error('There has been a problem with your fetch operation:', error);
-        return new Sucursal;
-    }
 }
 
 //FUNCIONES SAVE
@@ -276,30 +260,95 @@ export async function saveUnidadMedida(uMedida: UnidadMedida){
     }
 }
 
-export async function savePedido(pedido: Pedido, setTotalPedido: (total: number) => void, vaciarCarrrito: () => void){
-    //Llamada a API
-    let options = {
-        mode: 'cors' as RequestMode,
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(pedido)
-    }
+export async function saveUsuario(nombreUsuario:string,password:string){
+    let usuario=new Usuario();
+    usuario.userName=nombreUsuario;
+    usuario.password=password;
 
-        //Manejo de errores
-        try{
-            let response = await fetch("https://magniback.onrender.com/pedidos/fechaActual=2024-06-06&precioDelivery=0.0",options);
-            if(response.ok){
-                alert("Pedido cargado correctamente.");
-                vaciarCarrrito();
-                setTotalPedido(0);
-            }else{
-                alert("Error al cargar pedido: "+response.status);
-            }
-        }catch{
-            alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    let options={
+        mode:"cors" as RequestMode,
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(usuario)
+    }
+    try{
+        let response=await fetch("https://magniback.onrender.com/guardarUsuario",options);
+        if(response.ok){
+            alert("Usuario Registrado Correctamente");
+            let usuario= await response.json();
+            console.log(usuario);
+        }else{
+            alert("Error al registrar")
         }
+    }catch{
+        alert("Ocurrio un error CORS")
+    }
+    
+}
+
+export async function savePedido(pedido: Pedido, setTotalPedido: (total: number) => void, vaciarCarrrito: () => void) {
+    const fetchData = async (url: string) => {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        return response.json();
+    };
+
+    try {
+        const [domicilio, sucursal, empleado, clientes] = await Promise.all([
+            fetchData('https://traza-compartida.onrender.com/domicilio/1'),
+            fetchData('https://traza-compartida.onrender.com/sucursal/1'),
+            fetchData('https://magniback.onrender.com/empleados/1'),
+            fetchData('https://magniback.onrender.com/cliente')
+        ]);
+
+        let factura = new Factura;
+
+        factura.eliminado = false;
+        factura.fechaFacturacion = "2024-06-03";
+        factura.mpPaymentId = 425;
+        factura.mpMerchantOrderId = 609;
+        factura.mpPreferenceId = "MP-3065";
+        factura.mpPaymentType = "Tipo8";
+        factura.formaPago = "EFECTIVO";
+        factura.totalVenta = 270.0;
+
+        pedido.domicilio = domicilio;
+        pedido.sucursal = sucursal;
+        pedido.empleado = empleado;
+        pedido.cliente = clientes[0];
+        pedido.factura = factura;
+
+        const options = {
+            mode: 'cors' as RequestMode,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(pedido)
+        };
+
+        const hoy = new Date();
+        const anio = hoy.getFullYear();
+        const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+        const dia = String(hoy.getDate()).padStart(2, '0');
+        const fecha = `${anio}-${mes}-${dia}`;
+
+        const response = await fetch(`https://magniback.onrender.com/pedidos?fechaActual=${fecha}&precioDelivery=20.0`, options);
+        if (response.ok) {
+            alert("Pedido cargado correctamente.");
+            vaciarCarrrito();
+            setTotalPedido(0);
+        } else {
+            alert("Error al cargar pedido: " + response.status);
+        }
+    } catch (error) {
+        //@ts-ignore
+        alert(`Error: ${error.message}`);
+    }
 }
 
 //FUNCIONES EDIT

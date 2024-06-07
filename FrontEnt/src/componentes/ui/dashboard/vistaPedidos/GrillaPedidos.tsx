@@ -16,9 +16,9 @@ export default function GrillaPedidos() {
     </Container>;
   }
   return (
-    <Grid container sx={{marginTop:3}}>
+    <Grid container spacing={3} sx={{marginTop:3}}>
       {data?.map((item: Pedido) => (
-        <Grid item>
+        <Grid item md={4} >
           <ItemGrillaPedido
             pedidoObj={item}
           />

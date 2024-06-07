@@ -24,7 +24,7 @@ export default function ModalPedidos({
   setOpen,
   pedido,
 }: ModalPedidosTypes) {
-  console.log(pedido.domicilio.nroDpto);
+  console.log(pedido.detallePedidos[0]);
   return (
     <Modal open={open} onClose={() => setOpen(!open)}>
       <Box
@@ -129,18 +129,21 @@ export default function ModalPedidos({
                 overflowY: "scroll",
                 height:220,
               }}
+              spacing={1}
               
             >
               {pedido.detallePedidos.map((detalle: DetallePedido) => (
-                <Grid item spacing={1} md={6} sx={{padding:2}}>
-                  <Card sx={{width:200,height:180,marginLeft:2}}>
+                <Grid item  md={6} sx={{padding:2}}>
+                  <Card sx={{width:200,height:180,marginLeft:4}}>
                     <CardMedia
                       component="img"
-                      image={"https://storage.googleapis.com/fitia-api-bucket/media/images/recipe_images/1002846.jpg"}
-                      sx={{padding:1}}
+                      //@ts-ignore
+                      image={detalle.articulo.imagenes[0].url}
+                      sx={{padding:1,maxHeight:125}}
                     />
                     <CardContent>
-                        <Typography variant="body1"textAlign={"center"}>Texto Articulo</Typography>
+                      {/*@ts-ignore */}
+                        <Typography variant="body1"textAlign={"center"}>{detalle.articulo.denominacion}</Typography>
                     </CardContent>
                   </Card>
                 </Grid>
