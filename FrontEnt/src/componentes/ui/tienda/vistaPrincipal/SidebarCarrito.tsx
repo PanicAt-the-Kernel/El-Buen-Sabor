@@ -19,7 +19,7 @@ interface DrawerTypes {
 
 export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
   //const sucursal: Sucursal = await getSucursalIdF(1);
-  const { carrito, vaciarCarrito, totalPedido, setTotalPedido, removeItemCarrito, addCarrito } = useContext(CarritoContext);
+  const { carrito, vaciarCarrito, totalPedido, setTotalPedido, removeItemCarrito, addCarrito, totalEnvio } = useContext(CarritoContext);
   const [pedido, setPedido] = useState<Pedido>(new Pedido);
 
   const handleSubmit = () => {
@@ -38,7 +38,7 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
     };
 
     setPedido(updatedPedido);
-    savePedido(updatedPedido, setTotalPedido, vaciarCarrito);
+    savePedido(updatedPedido, setTotalPedido, vaciarCarrito, totalEnvio);
   };
 
   const DrawerList = (
@@ -103,7 +103,7 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
         Pedido: ${totalPedido}
       </Typography>
       <Typography variant="h5" textAlign={"center"} marginBottom={2}>
-        Costo de envío: $20
+        Costo de envío: ${totalEnvio}
       </Typography>
       <Typography variant="h5" textAlign={"center"} marginBottom={2}>
         Total: ${totalPedido + 20}

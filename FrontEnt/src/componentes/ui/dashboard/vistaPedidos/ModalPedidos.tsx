@@ -37,6 +37,8 @@ export default function ModalPedidos({
           bgcolor: "background.paper",
           boxShadow: 24,
           p: 4,
+          overflow: 'auto',
+          maxHeight: 700
         }}
       >
         <Stack spacing={3}>
@@ -127,14 +129,14 @@ export default function ModalPedidos({
                 flexDirection:"column",
                 overflow: "hidden",
                 overflowY: "scroll",
-                height:220,
+                height:250,
               }}
               spacing={1}
               
             >
               {pedido.detallePedidos.map((detalle: DetallePedido) => (
                 <Grid item  md={6} sx={{padding:2}}>
-                  <Card sx={{width:200,height:180,marginLeft:4}}>
+                  <Card sx={{width:200,height:220,marginLeft:4}}>
                     <CardMedia
                       component="img"
                       //@ts-ignore
@@ -144,6 +146,8 @@ export default function ModalPedidos({
                     <CardContent>
                       {/*@ts-ignore */}
                         <Typography variant="body1"textAlign={"center"}>{detalle.articulo.denominacion}</Typography>
+                        <Typography variant="body1"textAlign={"center"}>{"Precio x unidad: $"+detalle.subTotal/detalle.cantidad}</Typography>
+                        <Typography variant="body1"textAlign={"center"}>{"Cantidad: "+detalle.cantidad}</Typography>
                     </CardContent>
                   </Card>
                 </Grid>

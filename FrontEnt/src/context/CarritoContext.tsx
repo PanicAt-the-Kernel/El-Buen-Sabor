@@ -8,7 +8,9 @@ interface CarritoTypes {
   removeItemCarrito: (item: Articulo) => void;
   vaciarCarrito: () => void;
   totalPedido: number;
-  setTotalPedido: React.Dispatch<React.SetStateAction<number>>
+  setTotalPedido: React.Dispatch<React.SetStateAction<number>>;
+  totalEnvio: number;
+  setTotalEnvio: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const CarritoContext = createContext<CarritoTypes>({
@@ -17,12 +19,15 @@ export const CarritoContext = createContext<CarritoTypes>({
   removeItemCarrito: () => { },
   vaciarCarrito: () => { },
   totalPedido: 0,
-  setTotalPedido: () => { }
+  setTotalPedido: () => { },
+  totalEnvio: 0,
+  setTotalEnvio: () => { },
 });
 
 export const CarritoProvider = ({ children }: { children: ReactNode }) => {
   const [carrito, setCarrito] = useState<DetallePedido[]>([]);
   const [totalPedido, setTotalPedido] = useState<number>(0);
+  const [totalEnvio, setTotalEnvio] = useState<number>(0);
 
   useEffect(() => {
     const calcularTotal = () => {
@@ -31,6 +36,7 @@ export const CarritoProvider = ({ children }: { children: ReactNode }) => {
         total += item.subTotal;
       });
       setTotalPedido(total);
+      setTotalEnvio(20);
     };
 
     calcularTotal();
@@ -93,7 +99,9 @@ export const CarritoProvider = ({ children }: { children: ReactNode }) => {
         removeItemCarrito,
         vaciarCarrito,
         totalPedido,
-        setTotalPedido
+        setTotalPedido,
+        totalEnvio,
+        setTotalEnvio
       }}
     >
       {children}

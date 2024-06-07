@@ -57,8 +57,8 @@ function TiendaLayout({ children, setEstado, estado }: TiendaSidebarTypes) {
             <ShoppingCartIcon />
           </IconButton>
           <Stack direction="row" spacing={3} marginRight={2}>
-            {usuario?.rol == "admin" && (
-              <Link to="/bs-admin" className={"btn btn-outline-light"}>
+            {usuario !== null && (
+              <Link to="/dashboard" className={"btn btn-outline-light"}>
                 Dashboard
               </Link>
             )}

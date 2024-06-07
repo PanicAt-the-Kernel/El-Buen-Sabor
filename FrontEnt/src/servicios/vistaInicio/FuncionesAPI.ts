@@ -288,7 +288,7 @@ export async function saveUsuario(nombreUsuario:string,password:string){
     
 }
 
-export async function savePedido(pedido: Pedido, setTotalPedido: (total: number) => void, vaciarCarrrito: () => void) {
+export async function savePedido(pedido: Pedido, setTotalPedido: (total: number) => void, vaciarCarrrito: () => void, totalEnvio: number) {
     const fetchData = async (url: string) => {
         const response = await fetch(url);
         if (!response.ok) {
@@ -337,7 +337,7 @@ export async function savePedido(pedido: Pedido, setTotalPedido: (total: number)
         const dia = String(hoy.getDate()).padStart(2, '0');
         const fecha = `${anio}-${mes}-${dia}`;
 
-        const response = await fetch(`https://magniback.onrender.com/pedidos?fechaActual=${fecha}&precioDelivery=20.0`, options);
+        const response = await fetch(`https://magniback.onrender.com/pedidos?fechaActual=${fecha}&precioDelivery=${totalEnvio}`, options);
         if (response.ok) {
             alert("Pedido cargado correctamente.");
             vaciarCarrrito();
