@@ -1,6 +1,7 @@
-import { Box, AppBar, Toolbar, Typography, Container} from "@mui/material";
+import { Box, AppBar, Toolbar, Typography, Container, Button} from "@mui/material";
 import MenuOpcionesUsuario from "./MenuOpcionesUsuario";
 import { ReactNode } from "react";
+import { ShoppingCart } from "@mui/icons-material";
 
 interface ClienteLayoutTypes{
     children:ReactNode;
@@ -20,6 +21,7 @@ export default function ClienteLayout({children}:ClienteLayoutTypes) {
             El Buen Sabor
           </Typography>
           <MenuOpcionesUsuario />
+          <Button><ShoppingCart /></Button>
         </Toolbar>
       </AppBar>
       <Box component="main">
