@@ -48,8 +48,9 @@ export default function TabsCategorias() {
         <Tabs
           value={value}
           onChange={handleChange}
-          aria-label="basic tabs example"
-          centered
+          variant="scrollable"
+          scrollButtons
+          allowScrollButtonsMobile
         >
           <Tab label="Promociones" {...a11yProps(0)} />
           <Tab label="Hamburguesas" {...a11yProps(1)} />

@@ -12,6 +12,10 @@ import "@fontsource/lekton"
 import "@fontsource/roboto"
 import DashboardVistaInformes from "./paginas/dashboardAdmin/DashboardVistaInformes";
 import DashboardVistaUMedida from "./paginas/dashboardAdmin/DashboardVistaUMedida";
+import VistaPrincipal from "./paginas/cliente/VistaPrincipal";
+import VistaPedidosCliente from "./paginas/cliente/VistaPedidosCliente";
+import VistaCuentaCliente from "./paginas/cliente/VistaCuentaCliente";
+import VistaLogin from "./paginas/cliente/VistaLogin";
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
   palette: {
@@ -50,6 +54,11 @@ function App() {
           <Route path="/promociones" element={<DashboardVistaPromocion />} />
           <Route path="/insumos" element={<DashboardVistaInsumo />} />
           <Route path="/uDeMedida" element={<DashboardVistaUMedida />} />
+          <Route path='/cliente/main' element={<VistaPrincipal />} />
+          <Route path="/cliente/pedidos" element={<VistaPedidosCliente />} />
+          <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
+          <Route path="/login" element={<VistaLogin />} />
+          <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

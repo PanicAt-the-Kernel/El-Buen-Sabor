@@ -9,7 +9,7 @@ import {
 
 export default function ItemGrilla() {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 330}}>
       <CardMedia
         component="img"
         height="140"
