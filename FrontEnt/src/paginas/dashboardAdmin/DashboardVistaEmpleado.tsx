@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
-import BuscadorEmpleado from "../componentes/ui/dashboard/vistaEmpleados/BuscarEmpleado";
-import DashboardSidebar from "../layouts/dashboard/DashboardSidebar";
+import BuscadorEmpleado from "../../componentes/ui/dashboard/vistaEmpleados/BuscarEmpleado";
+import DashboardSidebar from "../../layouts/dashboard/DashboardSidebar";
 
 function DashboardVistaEmpleado() {
   return (

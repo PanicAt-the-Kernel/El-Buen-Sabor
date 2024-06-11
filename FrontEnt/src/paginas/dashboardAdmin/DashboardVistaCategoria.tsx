@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
-import BuscarCategoria from "../componentes/ui/dashboard/vistaCategorias/BuscarCategoria";
-import DashboardSidebar from "../layouts/dashboard/DashboardSidebar";
+import BuscarCategoria from "../../componentes/ui/dashboard/vistaCategorias/BuscarCategoria";
+import DashboardSidebar from "../../layouts/dashboard/DashboardSidebar";
 
 function DashboardVistaCategoria() {
   return (

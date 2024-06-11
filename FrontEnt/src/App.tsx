@@ -1,21 +1,27 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import DashboardVistaProducto from "./paginas/DashboardVistaProducto";
-import DashboardVistaEmpleado from "./paginas/DashboardVistaEmpleado";
-import DashboardVistaInsumo from "./paginas/DashboardVistaInsumo";
-import DashboardVistaCategoria from "./paginas/DashboardVistaCategoria";
-import DashboardVistaEmpresa from "./paginas/DashboardVistaEmpresa";
-import DashboardVistaPromocion from "./paginas/DashboardVistaPromocion";
+
+import DashboardVistaProducto from "./paginas/dashboardAdmin/DashboardVistaProducto";
+import DashboardVistaEmpleado from "./paginas/dashboardAdmin/DashboardVistaEmpleado";
+import DashboardVistaInsumo from "./paginas/dashboardAdmin/DashboardVistaInsumo";
+import DashboardVistaCategoria from "./paginas/dashboardAdmin/DashboardVistaCategoria";
+import DashboardVistaEmpresa from "./paginas/dashboardAdmin/DashboardVistaEmpresa";
+import DashboardVistaPromocion from "./paginas/dashboardAdmin/DashboardVistaPromocion";
 import DashboardVistaInformes from "./paginas/DashboardVistaInformes";
 import DashboardVistaUMedida from "./paginas/DashboardVistaUMedida";
+import DashboardVistaPedidos from "./paginas/DashboardVistaPedidos";
+import DashboardVistaInformes from "./paginas/dashboardAdmin/DashboardVistaInformes";
+import DashboardVistaUMedida from "./paginas/dashboardAdmin/DashboardVistaUMedida";
+import VistaPrincipal from "./paginas/cliente/VistaPrincipal";
+import VistaPedidosCliente from "./paginas/cliente/VistaPedidosCliente";
+import VistaCuentaCliente from "./paginas/cliente/VistaCuentaCliente";
 import VistaLogin from "./paginas/cliente/VistaLogin";
 import VistaRegister from "./paginas/cliente/VistaRegister";
 import TiendaVistaPrincipal from "./paginas/TiendaVistaPrincipal";
-import { ThemeProvider, createTheme } from "@mui/material";
 
+import { ThemeProvider, createTheme } from "@mui/material";
 import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
-import DashboardVistaPedidos from "./paginas/DashboardVistaPedidos";
 
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
@@ -51,7 +57,6 @@ function App() {
           <Route index element={<TiendaVistaPrincipal />} />
           <Route path="/login" element={<VistaLogin />} />
           <Route path="/register" element={<VistaRegister />} />
-
           <Route path="/dashboard/categorias" element={<DashboardVistaCategoria />} />
           <Route path="/dashboard/informes" element={<DashboardVistaInformes />} />
           <Route path="/dashboard/productos" element={<DashboardVistaProducto />} />
@@ -61,6 +66,11 @@ function App() {
           <Route path="/dashboard/uDeMedida" element={<DashboardVistaUMedida />} />
           <Route path="/dashboard/pedidos" element={<DashboardVistaPedidos />} />
           <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
+          <Route path='/cliente/main' element={<VistaPrincipal />} />
+          <Route path="/cliente/pedidos" element={<VistaPedidosCliente />} />
+          <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
+          <Route path="/login" element={<VistaLogin />} />
+          <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

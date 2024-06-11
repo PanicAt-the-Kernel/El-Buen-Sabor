@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
-import BuscarEmpresa from "../componentes/ui/dashboard/vistaEmpresas/BuscarEmpresa";
-import DashboardSidebar from "../layouts/dashboard/DashboardSidebar";
+import BuscarEmpresa from "../../componentes/ui/dashboard/vistaEmpresas/BuscarEmpresa";
+import DashboardSidebar from "../../layouts/dashboard/DashboardSidebar";
 
 function DashboardVistaEmpresa() {
   return (

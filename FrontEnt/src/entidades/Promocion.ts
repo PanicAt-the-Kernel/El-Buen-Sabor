@@ -1,6 +1,6 @@
-import ArticuloInsumo from "./ArticuloInsumo";
-import ArticuloManufacturado from "./ArticuloManufacturado";
 import Imagen from "./Imagen";
+import PromocionDetalle from "./PromocionDetalle";
+import Sucursal from "./Sucursal";
 
 class Promocion {
     id: number = 0;
@@ -13,9 +13,9 @@ class Promocion {
     descripcionDescuento: string = '';
     precioPromocional: number = 0;
     tipoPromocion: string = '';
-    articulosManufacturados: ArticuloManufacturado[] = [];
-    articuloInsumos: ArticuloInsumo[] = [];
+    promocionDetalles: PromocionDetalle[] = [];
     imagenes: Imagen[] = [];
+    sucursales: Sucursal[] = [];
 }
 
 export default Promocion

@@ -1,23 +1,34 @@
-import { Container, Paper, Typography } from "@mui/material";
-import DashboardLayout from "../../layouts/dashboard/DashboardLayout";
-import FormLogin from "../../componentes/ui/cliente/FormLogin";
-import { Link } from "react-router-dom";
+import { Box, Button, Stack, TextField } from "@mui/material";
+import { useState } from "react";
 
-export default function VistaLogin() {
+export default function FormLogin() {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const onSubmit = () => {
+    //PREGUNTAR POR METODO DE ENVIO DE DATOS (OBJETO O FORM)
+  };
   return (
-    <DashboardLayout>
-      <Container>
-        <Paper
-          elevation={6}
-          sx={{ marginTop: 5, maxWidth: 700, marginLeft: 29,padding:3 }}
-        >
-          <Typography variant="h4" textAlign={"center"}>
-            Accede con tu cuenta
-          </Typography>
-          <FormLogin />
-          <Link to="/register" className="btn btn-outline-success mx-4">No tienes una cuenta? Registrate!</Link>
-        </Paper>
-      </Container>
-    </DashboardLayout>
+    <Box component="form" autoComplete="off" onSubmit={()=>onSubmit()}
+    sx={{padding:3}}>
+      <Stack spacing={2}>
+        <TextField
+          required
+          type="text"
+          label="Nombre de Usuario"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
+        />
+        <TextField
+          required
+          type="password"
+          label="Contraseña"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <Button type="submit" variant="contained" color="info">
+          Ingresar
+        </Button>
+      </Stack>
+    </Box>
   );
 }
