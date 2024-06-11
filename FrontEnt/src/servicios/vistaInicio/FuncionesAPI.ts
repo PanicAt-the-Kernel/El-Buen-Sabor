@@ -9,6 +9,9 @@ import Pais from "../../entidades/Pais";
 import Provincia from "../../entidades/Provincia";
 import Localidad from "../../entidades/Localidad";
 import UnidadMedida from "../../entidades/UnidadMedida";
+import Pedido from "../../entidades/Pedido";
+import Factura from "../../entidades/Factura";
+import Usuario from "../../entidades/Usuario";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -45,6 +48,10 @@ export function getAllUnidadMedida(): SWRResponse<UnidadMedida[], any, any> {
     return useSWR<UnidadMedida[]>(`https://traza-compartida.onrender.com/unidadMedida`, fetcher);
 }
 
+export function getAllPedidos():SWRResponse<Pedido[],any,any>{
+    return useSWR<Pedido[]>("https://magniback.onrender.com/pedidos",fetcher)
+}
+
 export function getAllArticulosInsumoNoElab(): SWRResponse<ArticuloInsumo[], any, any> {
     return useSWR<ArticuloInsumo[]>(`https://traza-compartida.onrender.com/articuloInsumo/noElaborados`, fetcher);
 }
@@ -54,8 +61,8 @@ export function getSucursalesEmpresa(idEmpresa: number): SWRResponse<Sucursal[],
     return useSWR<Sucursal[]>(`https://traza-compartida.onrender.com/sucursal/empresa/${idEmpresa}`, fetcher);
 }
 
-export function getSucursalId(idSucursal: number): SWRResponse<Sucursal[], any, any> {
-    return useSWR<Sucursal[]>(`https://traza-compartida.onrender.com/sucursal/${idSucursal}`, fetcher);
+export function getSucursalId(idSucursal: number): SWRResponse<Sucursal, any, any> {
+    return useSWR<Sucursal>(`https://traza-compartida.onrender.com/sucursal/${idSucursal}`, fetcher);
 }
 
 export function getProvinciasIdPais(idPais: number): SWRResponse<Provincia[], any, any> {
@@ -258,6 +265,96 @@ export async function saveUnidadMedida(uMedida: UnidadMedida){
     }catch{
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
+}
+
+export async function saveUsuario(nombreUsuario:string,password:string){
+    let usuario=new Usuario();
+    usuario.userName=nombreUsuario;
+    usuario.password=password;
+    let options={
+        mode:"cors" as RequestMode,
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+          body:JSON.stringify(usuario)
+    }
+    try{
+        let response=await fetch("https://magniback.onrender.com/guardarUsuario",options);
+        if(response.ok){
+            alert("Usuario Registrado Correctamente");
+            let usuario= await response.json();
+            console.log(usuario);
+        }else{
+            alert("Error al registrar")
+        }
+    }catch{
+        alert("Ocurrio un error CORS")
+    }
+    
+}
+
+export async function savePedido(pedido: Pedido, setTotalPedido: (total: number) => void, vaciarCarrrito: () => void, totalEnvio: number) {
+    const fetchData = async (url: string) => {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        return response.json();
+    };
+
+    try {
+        const [domicilio, sucursal, empleado, clientes] = await Promise.all([
+            fetchData('https://traza-compartida.onrender.com/domicilio/1'),
+            fetchData('https://traza-compartida.onrender.com/sucursal/1'),
+            fetchData('https://magniback.onrender.com/empleados/1'),
+            fetchData('https://magniback.onrender.com/cliente')
+        ]);
+
+        let factura = new Factura;
+
+        factura.eliminado = false;
+        factura.fechaFacturacion = "2024-06-03";
+        factura.mpPaymentId = 425;
+        factura.mpMerchantOrderId = 609;
+        factura.mpPreferenceId = "MP-3065";
+        factura.mpPaymentType = "Tipo8";
+        factura.formaPago = "EFECTIVO";
+        factura.totalVenta = 270.0;
+
+        pedido.domicilio = domicilio;
+        pedido.sucursal = sucursal;
+        pedido.empleado = empleado;
+        pedido.cliente = clientes[0];
+        pedido.factura = factura;
+
+        const options = {
+            mode: 'cors' as RequestMode,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(pedido)
+        };
+
+        const hoy = new Date();
+        const anio = hoy.getFullYear();
+        const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+        const dia = String(hoy.getDate()).padStart(2, '0');
+        const fecha = `${anio}-${mes}-${dia}`;
+
+        const response = await fetch(`https://magniback.onrender.com/pedidos?fechaActual=${fecha}&precioDelivery=${totalEnvio}`, options);
+        if (response.ok) {
+            alert("Pedido cargado correctamente.");
+            vaciarCarrrito();
+            setTotalPedido(0);
+        } else {
+            alert("Error al cargar pedido: " + response.status);
+        }
+    } catch (error) {
+        //@ts-ignore
+        alert(`Error: ${error.message}`);
+          }
 }
 
 export async function savePromocion(promocion: Promocion){

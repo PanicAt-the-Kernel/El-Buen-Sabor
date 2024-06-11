@@ -38,16 +38,16 @@ function Sidebar({ collapsed, setBroken, toggled }: SidebarProps) {
       toggled={toggled}
     >
       <Menu>
-        <MenuItem component={<a href="/"></a>} icon={<CorporateFareIcon />}>Empresas</MenuItem>
-        <MenuItem component={<a href="/informes"></a>} icon={<BarChartIcon />}>Informes</MenuItem>
+        <MenuItem component={<a href="/dashboard"></a>} icon={<CorporateFareIcon />}>Empresas</MenuItem>
+        <MenuItem component={<a href="/dashboard/informes"></a>} icon={<BarChartIcon />}>Informes</MenuItem>
         <SubMenu label="Artículos" icon={<FastfoodIcon />}>
-          <MenuItem component={<a href="/categorias"></a>} icon={<CategoryIcon />}>Categorias</MenuItem>
-          <MenuItem component={<a href="/insumos"></a>} icon={<ShoppingBasketIcon />}>Insumos</MenuItem>
-          <MenuItem component={<a href="/productos"></a>} icon={<MenuBookIcon />}>Manufacturados</MenuItem>
-          <MenuItem component={<a href="/uDeMedida"></a>} icon={<Straighten />}>U. de medida</MenuItem>
+          <MenuItem component={<a href="/dashboard/categorias"></a>} icon={<CategoryIcon />}>Categorias</MenuItem>
+          <MenuItem component={<a href="/dashboard/insumos"></a>} icon={<ShoppingBasketIcon />}>Insumos</MenuItem>
+          <MenuItem component={<a href="/dashboard/productos"></a>} icon={<MenuBookIcon />}>Manufacturados</MenuItem>
+          <MenuItem component={<a href="/dashboard/uDeMedida"></a>} icon={<Straighten />}>U. de medida</MenuItem>
         </SubMenu>
-        <MenuItem component={<a href="/empleados"></a>} icon={<PeopleIcon />}>Empleados</MenuItem>
-        <MenuItem component={<a href="/promociones"></a>} icon={<AttachMoneyIcon />}>Promociones</MenuItem>
+        <MenuItem component={<a href="/dashboard/empleados"></a>} icon={<PeopleIcon />}>Empleados</MenuItem>
+        <MenuItem component={<a href="/dashboard/promociones"></a>} icon={<AttachMoneyIcon />}>Promociones</MenuItem>
       </Menu>
     </SidebarPro>
   );

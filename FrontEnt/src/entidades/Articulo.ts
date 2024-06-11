@@ -10,7 +10,6 @@ class Articulo {
     imagenes: Imagen[] = [];
     unidadMedida: UnidadMedida = new UnidadMedida;
     categoria: Categoria = new Categoria;
-
 }
 
 export default Articulo;
