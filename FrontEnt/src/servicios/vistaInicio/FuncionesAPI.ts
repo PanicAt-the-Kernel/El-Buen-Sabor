@@ -26,7 +26,7 @@ export function getAllArticulosManufacturados(): SWRResponse<ArticuloManufactura
 }
 
 export function getAllPromociones(): SWRResponse<Promocion[], any, any> {
-    return useSWR<Promocion[]>(`https://buensabor-json-server.onrender.com/promociones`, fetcher);
+    return useSWR<Promocion[]>(`https://traza-compartida.onrender.com/promocion`, fetcher);
 }
 
 export function getAllArticulosInsumos(): SWRResponse<ArticuloInsumo[], any, any> {
@@ -45,6 +45,9 @@ export function getAllUnidadMedida(): SWRResponse<UnidadMedida[], any, any> {
     return useSWR<UnidadMedida[]>(`https://traza-compartida.onrender.com/unidadMedida`, fetcher);
 }
 
+export function getAllArticulosInsumoNoElab(): SWRResponse<ArticuloInsumo[], any, any> {
+    return useSWR<ArticuloInsumo[]>(`https://traza-compartida.onrender.com/articuloInsumo/noElaborados`, fetcher);
+}
 
 //FUNCIONES GET X ID
 export function getSucursalesEmpresa(idEmpresa: number): SWRResponse<Sucursal[], any, any> {
@@ -73,6 +76,10 @@ export function getCategoriasIdSucursal(idSucursal: number): SWRResponse<Categor
 
 export function getCategoriaId(idCategoria: number): SWRResponse<Categoria, any, any> {
     return useSWR<Categoria>(`https://traza-compartida.onrender.com/categoria/${idCategoria}`, fetcher);
+}
+
+export function getPromocionesIdSucursal(idSucursal: number): SWRResponse<Promocion[], any, any> {
+    return useSWR<Promocion[]>(`https://traza-compartida.onrender.com/promocion/sucursal/${idSucursal}`, fetcher);
 }
 
 //FUNCIONES SAVE
@@ -253,6 +260,30 @@ export async function saveUnidadMedida(uMedida: UnidadMedida){
     }
 }
 
+export async function savePromocion(promocion: Promocion){
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(promocion)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch("https://traza-compartida.onrender.com/promocion",options);
+        if(response.ok){
+            alert("Promoción agregada correctamente.");
+        }else{
+            alert("Error al agregar promoción: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
 //FUNCIONES EDIT
 export async function editEmpresa(empresa: Empresa){
     //Preparar llamada api
@@ -408,6 +439,30 @@ export async function editUnidadMedida(uMedida: UnidadMedida){
             alert("Unidad de medida editada correctamente.");
         }else{
             alert("Error al agregar unidad de medida: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
+export async function editPromocion(promocion: Promocion){
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(promocion)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch(`https://traza-compartida.onrender.com/promocion/${promocion.id}`,options);
+        if(response.ok){
+            alert("Promoción editada correctamente.");
+        }else{
+            alert("Error al agregar promoción: "+response.status);
         }
     }catch{
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
