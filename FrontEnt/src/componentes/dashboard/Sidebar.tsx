@@ -13,7 +13,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import CategoryIcon from "@mui/icons-material/Category";
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { useTheme } from "@emotion/react";
-import { Straighten } from "@mui/icons-material";
+import { Receipt, Straighten } from "@mui/icons-material";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -48,6 +48,7 @@ function Sidebar({ collapsed, setBroken, toggled }: SidebarProps) {
         </SubMenu>
         <MenuItem component={<a href="/dashboard/empleados"></a>} icon={<PeopleIcon />}>Empleados</MenuItem>
         <MenuItem component={<a href="/dashboard/promociones"></a>} icon={<AttachMoneyIcon />}>Promociones</MenuItem>
+        <MenuItem component={<a href="/dashboard/pedidos"></a>} icon={<Receipt />}>Pedidos</MenuItem>
       </Menu>
     </SidebarPro>
   );

@@ -20,7 +20,7 @@ interface ItemGrillaProductoTypes {
 export default function ItemGrillaProducto({ item }: ItemGrillaProductoTypes) {
   const { carrito, addCarrito, removeItemCarrito } = useContext(CarritoContext);
 
-  const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.id === item.id);
+  const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.articulo === item.id);
 
   return (
     <Grid item sx={{ marginBottom: 2 }}>

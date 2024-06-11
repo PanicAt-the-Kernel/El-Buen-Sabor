@@ -6,9 +6,7 @@ import DashboardVistaInsumo from "./paginas/dashboardAdmin/DashboardVistaInsumo"
 import DashboardVistaCategoria from "./paginas/dashboardAdmin/DashboardVistaCategoria";
 import DashboardVistaEmpresa from "./paginas/dashboardAdmin/DashboardVistaEmpresa";
 import DashboardVistaPromocion from "./paginas/dashboardAdmin/DashboardVistaPromocion";
-import DashboardVistaInformes from "./paginas/DashboardVistaInformes";
-import DashboardVistaUMedida from "./paginas/DashboardVistaUMedida";
-import DashboardVistaPedidos from "./paginas/DashboardVistaPedidos";
+import DashboardVistaPedidos from "./paginas/dashboardAdmin/DashboardVistaPedidos";
 import DashboardVistaInformes from "./paginas/dashboardAdmin/DashboardVistaInformes";
 import DashboardVistaUMedida from "./paginas/dashboardAdmin/DashboardVistaUMedida";
 import VistaPrincipal from "./paginas/cliente/VistaPrincipal";
@@ -68,8 +66,6 @@ function App() {
           <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
           <Route path='/cliente/main' element={<VistaPrincipal />} />
           <Route path="/cliente/pedidos" element={<VistaPedidosCliente />} />
-          <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
-          <Route path="/login" element={<VistaLogin />} />
           <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
         </Routes>
       </ThemeProvider>

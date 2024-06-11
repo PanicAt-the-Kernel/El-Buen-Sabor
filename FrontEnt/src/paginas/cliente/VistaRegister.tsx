@@ -138,13 +138,13 @@ export default function FormRegister() {
     e.preventDefault();
     //Objeto Usuario
     let usuario = new Usuario();
-    usuario.username = nombreUsuario;
+    usuario.userName = nombreUsuario;
 
     //Objeto Cliente
     let cliente = new Cliente();
     cliente.nombre = nombre;
     cliente.apellido = apellido;
-    cliente.telefono = Number(telefono);
+    cliente.telefono = telefono;
     cliente.email = email;
     cliente.usuario = usuario;
   };
