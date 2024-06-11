@@ -1,6 +1,6 @@
 import { Grid, Typography } from "@mui/material";
-import BuscarPromocion from "../componentes/ui/dashboard/vistaPromocion/BuscarPromocion";
-import DashboardSidebar from "../layouts/dashboard/DashboardSidebar";
+import BuscarPromocion from "../../componentes/ui/dashboard/vistaPromocion/BuscarPromocion";
+import DashboardSidebar from "../../layouts/dashboard/DashboardSidebar";
 
 function DashboardVistaPromocion() {
 

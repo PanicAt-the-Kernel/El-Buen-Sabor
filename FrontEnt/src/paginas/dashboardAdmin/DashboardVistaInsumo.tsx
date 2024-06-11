@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
-import BuscarInsumo from "../componentes/ui/dashboard/vistaInsumos/BuscarInsumo";
-import DashboardSidebar from "../layouts/dashboard/DashboardSidebar";
+import BuscarInsumo from "../../componentes/ui/dashboard/vistaInsumos/BuscarInsumo";
+import DashboardSidebar from "../../layouts/dashboard/DashboardSidebar";
 
 function DashboardVistaInsumo() {
   return (

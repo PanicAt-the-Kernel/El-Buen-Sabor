@@ -1,17 +1,21 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import DashboardVistaProducto from "./paginas/DashboardVistaProducto";
-import DashboardVistaEmpleado from "./paginas/DashboardVistaEmpleado";
-import DashboardVistaInsumo from "./paginas/DashboardVistaInsumo";
-import DashboardVistaCategoria from "./paginas/DashboardVistaCategoria";
-import DashboardVistaEmpresa from "./paginas/DashboardVistaEmpresa";
-import DashboardVistaPromocion from "./paginas/DashboardVistaPromocion";
+import DashboardVistaProducto from "./paginas/dashboardAdmin/DashboardVistaProducto";
+import DashboardVistaEmpleado from "./paginas/dashboardAdmin/DashboardVistaEmpleado";
+import DashboardVistaInsumo from "./paginas/dashboardAdmin/DashboardVistaInsumo";
+import DashboardVistaCategoria from "./paginas/dashboardAdmin/DashboardVistaCategoria";
+import DashboardVistaEmpresa from "./paginas/dashboardAdmin/DashboardVistaEmpresa";
+import DashboardVistaPromocion from "./paginas/dashboardAdmin/DashboardVistaPromocion";
 import { ThemeProvider, createTheme } from "@mui/material";
 
 import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
-import DashboardVistaInformes from "./paginas/DashboardVistaInformes";
-import DashboardVistaUMedida from "./paginas/DashboardVistaUMedida";
+import DashboardVistaInformes from "./paginas/dashboardAdmin/DashboardVistaInformes";
+import DashboardVistaUMedida from "./paginas/dashboardAdmin/DashboardVistaUMedida";
+import VistaPrincipal from "./paginas/cliente/VistaPrincipal";
+import VistaPedidosCliente from "./paginas/cliente/VistaPedidosCliente";
+import VistaCuentaCliente from "./paginas/cliente/VistaCuentaCliente";
+import VistaLogin from "./paginas/cliente/VistaLogin";
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
   palette: {
@@ -50,6 +54,11 @@ function App() {
           <Route path="/promociones" element={<DashboardVistaPromocion />} />
           <Route path="/insumos" element={<DashboardVistaInsumo />} />
           <Route path="/uDeMedida" element={<DashboardVistaUMedida />} />
+          <Route path='/cliente/main' element={<VistaPrincipal />} />
+          <Route path="/cliente/pedidos" element={<VistaPedidosCliente />} />
+          <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
+          <Route path="/login" element={<VistaLogin />} />
+          <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

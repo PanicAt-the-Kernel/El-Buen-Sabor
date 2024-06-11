@@ -1,5 +1,5 @@
-import MUITabs from "../componentes/ui/dashboard/vistaInformes/MUITabs";
-import DashboardSidebar from "../layouts/dashboard/DashboardSidebar";
+import MUITabs from "../../componentes/ui/dashboard/vistaInformes/MUITabs";
+import DashboardSidebar from "../../layouts/dashboard/DashboardSidebar";
 
 function DashboardVistaInformes(){
     return(
