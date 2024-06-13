@@ -45,6 +45,9 @@ export function getAllUnidadMedida(): SWRResponse<UnidadMedida[], any, any> {
     return useSWR<UnidadMedida[]>(`https://traza-compartida.onrender.com/unidadMedida`, fetcher);
 }
 
+export function getAllSucursales():SWRResponse<Sucursal[],any,any>{
+    return useSWR<Sucursal[]>("https://traza-compartida.onrender.com/sucursal",fetcher)
+}
 
 //FUNCIONES GET X ID
 export function getSucursalesEmpresa(idEmpresa: number): SWRResponse<Sucursal[], any, any> {

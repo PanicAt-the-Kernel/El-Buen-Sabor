@@ -1,7 +1,15 @@
-import { Grid } from "@mui/material";
+import { CircularProgress, Grid } from "@mui/material";
 import ItemGrilla from "./ItemGrilla";
+import { getAllArticulosManufacturados } from "../../../../servicios/vistaInicio/FuncionesAPI";
 
 export default function GrillaProductos() {
+  const {data,isLoading,error} = getAllArticulosManufacturados();
+  if(error){
+    return <h1>Ocurrio un error al cargar</h1>
+  }
+  if(isLoading){
+    return <CircularProgress />
+  }
   return (
     <Grid
       container
