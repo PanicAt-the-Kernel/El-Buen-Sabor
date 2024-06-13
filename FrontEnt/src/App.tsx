@@ -19,6 +19,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
+import VistaPedidoCliente from "./paginas/cliente/VistaPedidoCliente";
 
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
@@ -68,6 +69,7 @@ function App() {
           <Route path="/cliente/pedidos" element={<VistaPedidosCliente />} />
           <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
           <Route path="/cliente/domicilios" element={<VistaDomicilioCliente />} />
+          <Route path="/cliente/miPedido" element={<VistaPedidoCliente />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
