@@ -48,6 +48,10 @@ export function getAllUnidadMedida(): SWRResponse<UnidadMedida[], any, any> {
     return useSWR<UnidadMedida[]>(`https://traza-compartida.onrender.com/unidadMedida`, fetcher);
 }
 
+export function getAllSucursales():SWRResponse<Sucursal[],any,any>{
+    return useSWR<Sucursal[]>("https://traza-compartida.onrender.com/sucursal",fetcher)
+}
+
 export function getAllPedidos():SWRResponse<Pedido[],any,any>{
     return useSWR<Pedido[]>("https://magniback.onrender.com/pedidos",fetcher)
 }
