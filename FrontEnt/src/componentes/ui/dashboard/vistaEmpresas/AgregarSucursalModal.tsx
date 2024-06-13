@@ -130,8 +130,8 @@ function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal, iEmpresa }: 
                             label="Nro Dpto"
                             variant="outlined"
                             type="number"
-                            value={sucursal.domicilio.nroDepto}
-                            onChange={(e) => setSucursal({ ...sucursal, domicilio: { ...sucursal.domicilio, nroDepto: parseInt(e.target.value) } })}
+                            value={sucursal.domicilio.nroDpto}
+                            onChange={(e) => setSucursal({ ...sucursal, domicilio: { ...sucursal.domicilio, nroDpto: parseInt(e.target.value) } })}
                         />
                         <FormControl variant="outlined">
                             <InputLabel id="pais-label">País</InputLabel>

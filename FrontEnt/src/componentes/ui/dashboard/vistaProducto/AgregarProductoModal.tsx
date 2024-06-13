@@ -260,38 +260,37 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
 
 
                                     {tablaDetalle.sort((a, b) => a.articuloInsumo.denominacion.localeCompare(b.articuloInsumo.denominacion))
-                                    .map((fila, index) => (
-
-                                        <TableRow key={fila.articuloInsumo.id}>
-                                            <TableCell>{fila.articuloInsumo.denominacion}</TableCell>
-                                            <TableCell>
-                                                <TextField
-                                                    type="number"
-                                                    value={fila.cantidad}
-                                                    inputProps={{ min: "1" }}
-                                                    onChange={(e) => {
-                                                        const newCantidad = parseFloat(e.target.value);
-                                                        if (newCantidad > 0) {
-                                                            const newTablaDetalle = [...tablaDetalle];
-                                                            newTablaDetalle[index] = { ...newTablaDetalle[index], cantidad: newCantidad };
-                                                            setTablaDetalle(newTablaDetalle);
-                                                        } else {
-                                                            alert("La cantidad debe ser un número positivo mayor a 0");
-                                                        }
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell>
-                                                <Button
-                                                    variant="contained"
-                                                    color="secondary"
-                                                    onClick={() => removeInsumo(Number(fila.articuloInsumo.id))}
-                                                >
-                                                    -
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                        .map((fila, index) => (
+                                            <TableRow key={fila.articuloInsumo.id}>
+                                                <TableCell>{fila.articuloInsumo.denominacion + " (" + fila.articuloInsumo.unidadMedida.denominacion.toLowerCase() + ")"}</TableCell>
+                                                <TableCell>
+                                                    <TextField
+                                                        type="number"
+                                                        value={fila.cantidad}
+                                                        inputProps={{ min: "1" }}
+                                                        onChange={(e) => {
+                                                            const newCantidad = parseFloat(e.target.value);
+                                                            if (newCantidad > 0) {
+                                                                const newTablaDetalle = [...tablaDetalle];
+                                                                newTablaDetalle[index] = { ...newTablaDetalle[index], cantidad: newCantidad };
+                                                                setTablaDetalle(newTablaDetalle);
+                                                            } else {
+                                                                alert("La cantidad debe ser un número positivo mayor a 0");
+                                                            }
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="secondary"
+                                                        onClick={() => removeInsumo(Number(fila.articuloInsumo.id))}
+                                                    >
+                                                        -
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>

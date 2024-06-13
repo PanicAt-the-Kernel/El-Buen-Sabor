@@ -1,16 +1,12 @@
 import {
   Box,
   Button,
-  FormControl,
-  InputLabel,
-  Select,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
-import Cliente from "../../entidades/Cliente";
-import Usuario from "../../entidades/Usuario";
+import { saveUsuario } from "../../../servicios/vistaInicio/FuncionesAPI";
 
 export default function FormRegister() {
   const [nombreUsuario, setNombreUsuario] = useState("");
@@ -115,39 +111,41 @@ export default function FormRegister() {
     }
   };
 
-  const [intercalar, setIntecalar] = useState(false);
+  //const [intercalar, setIntecalar] = useState(false);
 
   const onSubmitUsuario = (e: SyntheticEvent) => {
     e.preventDefault();
     if (validarPasswords()) {
-      setIntecalar(true); //Intercambio de formularios
+      saveUsuario(nombreUsuario,password)
     } else {
       return false;
     }
   };
 
+  /*
   //Formulario Cliente
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
   const [telefono, setTelefono] = useState("");
   const [email, setEmail] = useState("");
-  const [localidad, setLocalidad] = useState("none");
-  const [pais, setPais] = useState("none");
 
   const onSubmitCliente = (e: SyntheticEvent) => {
     e.preventDefault();
     //Objeto Usuario
     let usuario = new Usuario();
-    usuario.userName = nombreUsuario;
+    usuario.username = nombreUsuario;
 
     //Objeto Cliente
     let cliente = new Cliente();
     cliente.nombre = nombre;
     cliente.apellido = apellido;
-    cliente.telefono = telefono;
+    cliente.telefono = Number(telefono);
     cliente.email = email;
     cliente.usuario = usuario;
-  };
+
+    //FUNCION ALTA USUARIO
+    //saveUsuario(cliente,usuario)?
+  };*/
 
   return (
     <>
@@ -207,10 +205,7 @@ export default function FormRegister() {
         </Box>
       </Stack>
 
-      <Stack
-        spacing={2}
-        sx={!intercalar ? { display: "none" } : { padding: 3 }}
-      >
+      {/*} <Stack spacing={2} sx={!intercalar ? { display: "none" } : { padding: 3 }}>
         <Typography>Cuentanos mas sobre ti...</Typography>
         <Box
           component="form"
@@ -262,25 +257,11 @@ export default function FormRegister() {
               <TextField required label="Nro Departamento" />
             </Stack>
             <Stack direction="row" spacing={2}>
-              <InputLabel id="localidad-select">Localidad</InputLabel>
               <FormControl fullWidth>
-                <Select
-                  labelId="localidad-select"
-                  required
-                  label="Localidad"
-                  onChange={(e)=>setLocalidad(e.target.value)}
-                  value={localidad}
-                ></Select>
+                <Select></Select>
               </FormControl>
               <FormControl fullWidth>
-                <InputLabel id="pais-select">Pais</InputLabel>
-                <Select
-                  labelId="pais-select"
-                  required
-                  label="Pais"
-                  onChange={(e)=>setPais(e.target.value)}
-                  value={pais}
-                ></Select>
+                <Select></Select>
               </FormControl>
             </Stack>
             <Button type="submit" variant="contained">
@@ -288,7 +269,7 @@ export default function FormRegister() {
             </Button>
           </Stack>
         </Box>
-      </Stack>
+      </Stack> */}
     </>
   );
 }

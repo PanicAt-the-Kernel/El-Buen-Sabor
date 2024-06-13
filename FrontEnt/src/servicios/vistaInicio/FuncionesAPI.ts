@@ -9,6 +9,9 @@ import Pais from "../../entidades/Pais";
 import Provincia from "../../entidades/Provincia";
 import Localidad from "../../entidades/Localidad";
 import UnidadMedida from "../../entidades/UnidadMedida";
+import Pedido from "../../entidades/Pedido";
+import Factura from "../../entidades/Factura";
+import Usuario from "../../entidades/Usuario";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -26,7 +29,7 @@ export function getAllArticulosManufacturados(): SWRResponse<ArticuloManufactura
 }
 
 export function getAllPromociones(): SWRResponse<Promocion[], any, any> {
-    return useSWR<Promocion[]>(`https://buensabor-json-server.onrender.com/promociones`, fetcher);
+    return useSWR<Promocion[]>(`https://traza-compartida.onrender.com/promocion`, fetcher);
 }
 
 export function getAllArticulosInsumos(): SWRResponse<ArticuloInsumo[], any, any> {
@@ -49,13 +52,21 @@ export function getAllSucursales():SWRResponse<Sucursal[],any,any>{
     return useSWR<Sucursal[]>("https://traza-compartida.onrender.com/sucursal",fetcher)
 }
 
+export function getAllPedidos():SWRResponse<Pedido[],any,any>{
+    return useSWR<Pedido[]>("https://magniback.onrender.com/pedidos",fetcher)
+}
+
+export function getAllArticulosInsumoNoElab(): SWRResponse<ArticuloInsumo[], any, any> {
+    return useSWR<ArticuloInsumo[]>(`https://traza-compartida.onrender.com/articuloInsumo/noElaborados`, fetcher);
+}
+
 //FUNCIONES GET X ID
 export function getSucursalesEmpresa(idEmpresa: number): SWRResponse<Sucursal[], any, any> {
     return useSWR<Sucursal[]>(`https://traza-compartida.onrender.com/sucursal/empresa/${idEmpresa}`, fetcher);
 }
 
-export function getSucursalId(idSucursal: number): SWRResponse<Sucursal[], any, any> {
-    return useSWR<Sucursal[]>(`https://traza-compartida.onrender.com/sucursal/${idSucursal}`, fetcher);
+export function getSucursalId(idSucursal: number): SWRResponse<Sucursal, any, any> {
+    return useSWR<Sucursal>(`https://traza-compartida.onrender.com/sucursal/${idSucursal}`, fetcher);
 }
 
 export function getProvinciasIdPais(idPais: number): SWRResponse<Provincia[], any, any> {
@@ -76,6 +87,10 @@ export function getCategoriasIdSucursal(idSucursal: number): SWRResponse<Categor
 
 export function getCategoriaId(idCategoria: number): SWRResponse<Categoria, any, any> {
     return useSWR<Categoria>(`https://traza-compartida.onrender.com/categoria/${idCategoria}`, fetcher);
+}
+
+export function getPromocionesIdSucursal(idSucursal: number): SWRResponse<Promocion[], any, any> {
+    return useSWR<Promocion[]>(`https://traza-compartida.onrender.com/promocion/sucursal/${idSucursal}`, fetcher);
 }
 
 //FUNCIONES SAVE
@@ -256,6 +271,120 @@ export async function saveUnidadMedida(uMedida: UnidadMedida){
     }
 }
 
+export async function saveUsuario(nombreUsuario:string,password:string){
+    let usuario=new Usuario();
+    usuario.userName=nombreUsuario;
+    usuario.password=password;
+    let options={
+        mode:"cors" as RequestMode,
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+          body:JSON.stringify(usuario)
+    }
+    try{
+        let response=await fetch("https://magniback.onrender.com/guardarUsuario",options);
+        if(response.ok){
+            alert("Usuario Registrado Correctamente");
+            let usuario= await response.json();
+            console.log(usuario);
+        }else{
+            alert("Error al registrar")
+        }
+    }catch{
+        alert("Ocurrio un error CORS")
+    }
+    
+}
+
+export async function savePedido(pedido: Pedido, setTotalPedido: (total: number) => void, vaciarCarrrito: () => void, totalEnvio: number) {
+    const fetchData = async (url: string) => {
+        const response = await fetch(url);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        return response.json();
+    };
+
+    try {
+        const [domicilio, sucursal, empleado, clientes] = await Promise.all([
+            fetchData('https://traza-compartida.onrender.com/domicilio/1'),
+            fetchData('https://traza-compartida.onrender.com/sucursal/1'),
+            fetchData('https://magniback.onrender.com/empleados/1'),
+            fetchData('https://magniback.onrender.com/cliente')
+        ]);
+
+        let factura = new Factura;
+
+        factura.eliminado = false;
+        factura.fechaFacturacion = "2024-06-03";
+        factura.mpPaymentId = 425;
+        factura.mpMerchantOrderId = 609;
+        factura.mpPreferenceId = "MP-3065";
+        factura.mpPaymentType = "Tipo8";
+        factura.formaPago = "EFECTIVO";
+        factura.totalVenta = 270.0;
+
+        pedido.domicilio = domicilio;
+        pedido.sucursal = sucursal;
+        pedido.empleado = empleado;
+        pedido.cliente = clientes[0];
+        pedido.factura = factura;
+
+        const options = {
+            mode: 'cors' as RequestMode,
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(pedido)
+        };
+
+        const hoy = new Date();
+        const anio = hoy.getFullYear();
+        const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+        const dia = String(hoy.getDate()).padStart(2, '0');
+        const fecha = `${anio}-${mes}-${dia}`;
+
+        const response = await fetch(`https://magniback.onrender.com/pedidos?fechaActual=${fecha}&precioDelivery=${totalEnvio}`, options);
+        if (response.ok) {
+            alert("Pedido cargado correctamente.");
+            vaciarCarrrito();
+            setTotalPedido(0);
+        } else {
+            alert("Error al cargar pedido: " + response.status);
+        }
+    } catch (error) {
+        //@ts-ignore
+        alert(`Error: ${error.message}`);
+          }
+}
+
+export async function savePromocion(promocion: Promocion){
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(promocion)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch("https://traza-compartida.onrender.com/promocion",options);
+        if(response.ok){
+            alert("Promoción agregada correctamente.");
+        }else{
+            alert("Error al agregar promoción: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
 //FUNCIONES EDIT
 export async function editEmpresa(empresa: Empresa){
     //Preparar llamada api
@@ -411,6 +540,30 @@ export async function editUnidadMedida(uMedida: UnidadMedida){
             alert("Unidad de medida editada correctamente.");
         }else{
             alert("Error al agregar unidad de medida: "+response.status);
+        }
+    }catch{
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
+export async function editPromocion(promocion: Promocion){
+    //Preparar llamada api
+    let options={
+        mode:"cors" as RequestMode,
+        method:"PUT",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify(promocion)
+    }
+
+    //Manejo de errores
+    try{
+        let response = await fetch(`https://traza-compartida.onrender.com/promocion/${promocion.id}`,options);
+        if(response.ok){
+            alert("Promoción editada correctamente.");
+        }else{
+            alert("Error al agregar promoción: "+response.status);
         }
     }catch{
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
