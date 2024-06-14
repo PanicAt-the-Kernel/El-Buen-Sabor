@@ -11,11 +11,13 @@ import ListContainerPedido from "../../componentes/ui/cliente/VistaPedidoCliente
 import FormSelectPago from "../../componentes/ui/cliente/VistaPedidoCliente/FormSelectPago";
 import FormSelectDomicilio from "../../componentes/ui/cliente/VistaPedidoCliente/FormSelectDomicilio";
 import { useState } from "react";
+import { AttachMoney } from "@mui/icons-material";
 
 export default function VistaPedidoCliente() {
   const [metodoEntrega, setMetodoEntrega] = useState<string>("DELIVERY");
   const [metodoPago, setMetodoPago] = useState<string>("EFECTIVO");
   const [domicilio, setDomicilio] = useState<number>(0);
+  const price: number = 7500;
   return (
     <ClienteLayout>
       <Container>
@@ -41,12 +43,23 @@ export default function VistaPedidoCliente() {
         >
           <Stack alignItems="center">
             <ListContainerPedido />
+            <Button variant="contained" color="success">
+              Total Pedido <AttachMoney />
+              <Typography>
+                {metodoPago == "MERCADO_PAGO" && metodoEntrega == "RETIRO"
+                  ? price * (1 - 0.1)
+                  : price}
+              </Typography>
+            </Button>
             <FormSelectPago
               metodoEntrega={metodoEntrega}
               metodoPago={metodoPago}
               setMetodoEntrega={setMetodoEntrega}
               setMetodoPago={setMetodoPago}
             />
+            <Typography sx={{ padding: 3 }} textAlign="center">
+              Obtene un 10% Off pagando con Mercado Pago y Retirando en Sucursal
+            </Typography>
           </Stack>
           <FormSelectDomicilio
             metodoEntrega={metodoEntrega}

@@ -6,6 +6,7 @@ import {
   Radio,
   RadioGroup,
   Stack,
+  Typography,
 } from "@mui/material";
 
 interface FormSelectPagoTypes {
