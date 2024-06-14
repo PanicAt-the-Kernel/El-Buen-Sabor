@@ -16,7 +16,7 @@ export default function VistaPedidosCliente() {
         }}
       >
         <Typography variant="h5" color={"white"} textAlign={"center"}>
-          Aqui podras ver todos tus pedidos
+          Aqui podras ver tu historico de pedidos
         </Typography>
       </Box>
       <Container>

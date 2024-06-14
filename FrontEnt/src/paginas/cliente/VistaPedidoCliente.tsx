@@ -14,8 +14,8 @@ import { useState } from "react";
 import { AttachMoney } from "@mui/icons-material";
 
 export default function VistaPedidoCliente() {
-  const [metodoEntrega, setMetodoEntrega] = useState<string>("DELIVERY");
-  const [metodoPago, setMetodoPago] = useState<string>("EFECTIVO");
+  const [metodoEntrega, setMetodoEntrega] = useState<string>("RETIRO");
+  const [metodoPago, setMetodoPago] = useState<string>("MERCADO_PAGO");
   const [domicilio, setDomicilio] = useState<number>(0);
   const price: number = 7500;
   return (
