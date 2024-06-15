@@ -20,6 +20,7 @@ import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
 import VistaPedidoCliente from "./paginas/cliente/VistaPedidoCliente";
+import FacturaClientePDFViewer from "./utils/pdf/FacturaClientePDFViewer";
 
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
@@ -70,6 +71,7 @@ function App() {
           <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
           <Route path="/cliente/domicilios" element={<VistaDomicilioCliente />} />
           <Route path="/cliente/miPedido" element={<VistaPedidoCliente />} />
+          <Route path="/cliente/factura" element={<FacturaClientePDFViewer />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
