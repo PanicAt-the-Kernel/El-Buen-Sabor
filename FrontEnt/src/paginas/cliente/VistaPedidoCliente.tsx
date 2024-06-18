@@ -46,9 +46,7 @@ export default function VistaPedidoCliente() {
             <Button variant="contained" color="success">
               Total Pedido <AttachMoney />
               <Typography>
-                {metodoPago == "MERCADO_PAGO" && metodoEntrega == "RETIRO"
-                  ? price * (1 - 0.1)
-                  : price}
+                {metodoEntrega == "RETIRO" ? price * (1 - 0.1) : price}
               </Typography>
             </Button>
             <FormSelectPago
@@ -58,7 +56,7 @@ export default function VistaPedidoCliente() {
               setMetodoPago={setMetodoPago}
             />
             <Typography sx={{ padding: 3 }} textAlign="center">
-              Obtene un 10% Off pagando con Mercado Pago y Retirando en Sucursal
+              Obtene un 10% Off retirando en sucursal
             </Typography>
           </Stack>
           <FormSelectDomicilio
