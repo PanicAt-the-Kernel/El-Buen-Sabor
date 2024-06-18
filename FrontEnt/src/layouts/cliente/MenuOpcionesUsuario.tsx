@@ -9,7 +9,6 @@ export default function MenuOpcionesUsuario() {
   const open = Boolean(anchorEl);
   const { user } = useAuth0();
 
-
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -20,10 +19,9 @@ export default function MenuOpcionesUsuario() {
 
   const cerrarSesion = () => {
     const { logout } = useAuth0();
-    logout({ logoutParams: { returnTo: window.location.origin } });
+    logout({ logoutParams: { returnTo: window.location.pathname } });
     localStorage.removeItem("userRoles");
     alert("Sesión cerrada correctamente.");
-    window.location.reload();
   };
 
   return (

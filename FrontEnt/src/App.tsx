@@ -62,7 +62,7 @@ function App() {
           <Route path="/login" element={<VistaLogin />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/register" element={<VistaRegister />} />
-          <Route index element={<VistaBienvenida />} />
+          <Route index element={<VistaProductosCliente />} />
           {/*VISTA DE DASHBOARD*/}
           <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
           <Route path="/dashboard/categorias" element={<DashboardVistaCategoria />} />
