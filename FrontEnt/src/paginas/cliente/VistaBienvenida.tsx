@@ -24,7 +24,7 @@ export default function VistaBienvenida() {
     data: provincias,
     isLoading: cargaProvincias,
     error,
-  } = getProvinciasIdPais(1);
+  } = getProvinciasIdPais(2);
   const { data: localidades, isLoading: cargaLocalidades } =
     getLocalidadesIdProvincia(idProvincia);
   const { data: sucursales, isLoading: cargaSucursales } = getAllSucursales();
@@ -32,7 +32,7 @@ export default function VistaBienvenida() {
   if (error) {
     return <h1>Ocurrio un error</h1>;
   }
-  if (cargaProvincias && cargaLocalidades && cargaSucursales) {
+  if (cargaProvincias || cargaLocalidades || cargaSucursales) {
     return (
       <Box
         component="div"
@@ -43,7 +43,27 @@ export default function VistaBienvenida() {
           backgroundSize: "auto",
         }}
       >
-        <CircularProgress />
+        <Container sx={{ padding: 2 }}>
+          <Paper
+            elevation={5}
+            sx={{
+              background: "rgba(255,255,255,0.48)",
+              backdropFilter: "blur(5px)",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+              overflow: "hidden",
+              maxHeight: 630,
+              overflowY: "scroll",
+            }}
+          >
+            <Stack
+              direction={{ xs: "column", sm: "column" }}
+              alignItems={"center"}
+            >
+              <Typography>Cargando las sucursales, por favor espere...</Typography>
+              <CircularProgress />
+            </Stack>
+          </Paper>
+        </Container>
       </Box>
     );
   }
@@ -101,8 +121,15 @@ export default function VistaBienvenida() {
             provincias={provincias!}
             localidades={localidades!}
           />
-          <Stack sx={{ marginBottom: 2 }} alignItems="center">
-            
+          <Stack
+            sx={{ marginBottom: 2, padding: 3 }}
+            direction={{ xs: "column", sm: "column", md: "row" }}
+            spacing={2}
+            alignItems="center"
+          >
+            {sucursal.map((item: Sucursal) => (
+              <SucursalCard sucursal={item} />
+            ))}
           </Stack>
         </Paper>
       </Container>

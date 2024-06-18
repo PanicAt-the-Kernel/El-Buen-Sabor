@@ -66,7 +66,7 @@ function App() {
           {/*VISTA DE CLIENTE*/}
           <Route path="/login" element={<VistaLogin />} />
           <Route path="/cliente/bienvenida" element={<VistaBienvenida />} />
-          <Route path='/cliente/sucursal' element={<VistaProductosCliente />} />
+          <Route path='/cliente/sucursal/:id' element={<VistaProductosCliente />} />
           <Route path="/cliente/pedidos" element={<VistaPedidosCliente />} />
           <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
           <Route path="/cliente/domicilios" element={<VistaDomicilioCliente />} />

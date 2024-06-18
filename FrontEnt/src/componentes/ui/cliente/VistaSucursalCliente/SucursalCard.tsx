@@ -8,6 +8,7 @@ import {
   Button,
 } from "@mui/material";
 import Sucursal from "../../../../entidades/Sucursal";
+import { Link } from "react-router-dom";
 
 interface SucursalCardTypes{
     sucursal:Sucursal;
@@ -22,24 +23,22 @@ export default function SucursalCard({sucursal}:SucursalCardTypes) {
         sx={{ height: 150,objectFit:"scale-down" }}
         image="/imgs/sucursal.jpg"
       />
-      <CardContent>
+      <CardContent sx={{textAlign:"center"}}>
         <Typography gutterBottom variant="h5" component="div">
-          Nombre Sucursal
+          {sucursal.nombre}
         </Typography>
         <Stack>
           <Typography variant="body2" color="text.primary">
-            Ubicado en Calle Falsa 123
+            Ubicado en: {sucursal.domicilio.calle} y {sucursal.domicilio.numero}
           </Typography>
           <Typography variant="body2" color="text.primary">
-            Horarios: Lunes-Viernes de 12 a 20
+            Horarios: Lunes-Viernes de {sucursal.horarioApertura}-{sucursal.horarioCierre}
           </Typography>
         </Stack>
       </CardContent>
       <CardActions>
-        <Stack sx={{paddingLeft:3.5}} alignItems="center">
-          <Button size="small" variant="contained" color="info">
-            Seleccionar Sucursal
-          </Button>
+        <Stack sx={{paddingLeft:5.5}} alignItems="center" justifyContent={"center"}>
+          <Link to={`/cliente/sucursal/${sucursal.id}`} className="btn btn-primary">Seleccionar Sucursal</Link>
         </Stack>
       </CardActions>
     </Card>
