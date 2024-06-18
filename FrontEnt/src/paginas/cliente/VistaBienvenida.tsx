@@ -24,7 +24,7 @@ export default function VistaBienvenida() {
     data: provincias,
     isLoading: cargaProvincias,
     error,
-  } = getProvinciasIdPais(1);
+  } = getProvinciasIdPais(2);
   const { data: localidades, isLoading: cargaLocalidades } =
     getLocalidadesIdProvincia(idProvincia);
   const { data: sucursales, isLoading: cargaSucursales } = getAllSucursales();
@@ -47,7 +47,7 @@ export default function VistaBienvenida() {
       </Box>
     );
   }
-  const sucursal = sucursales!.filter((item: Sucursal) => {
+  const sucursal = sucursales?.filter((item: Sucursal) => {
     if (idProvincia != 0 && idLocalidad != 0) {
       return (
         item.domicilio.localidad.id == idLocalidad &&
@@ -102,7 +102,12 @@ export default function VistaBienvenida() {
             localidades={localidades!}
           />
           <Stack sx={{ marginBottom: 2 }} alignItems="center">
-            
+          {sucursal.map((item: Sucursal) => (
+                        <SucursalCard
+                            key={item.id}
+                            sucursal={item}
+                        />
+                    ))}
           </Stack>
         </Paper>
       </Container>

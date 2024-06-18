@@ -17,80 +17,80 @@ const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 //FUNCIONES GET ALL
 export function getAllEmpresas(): SWRResponse<Empresa[], any, any> {
-    return useSWR<Empresa[]>(`https://traza-compartida.onrender.com/empresa`, fetcher);
+    return useSWR<Empresa[]>(`https://traza-final.onrender.com/empresa`, fetcher);
 }
 
 export function getAllCategorias(): SWRResponse<Categoria[], any, any> {
-    return useSWR<Categoria[]>(`https://traza-compartida.onrender.com/categoria`, fetcher);
+    return useSWR<Categoria[]>(`https://traza-final.onrender.com/categoria`, fetcher);
 }
 
 export function getAllArticulosManufacturados(): SWRResponse<ArticuloManufacturado[], any, any> {
-    return useSWR<ArticuloManufacturado[]>(`https://traza-compartida.onrender.com/articuloManufacturado`, fetcher);
+    return useSWR<ArticuloManufacturado[]>(`https://traza-final.onrender.com/articuloManufacturado`, fetcher);
 }
 
 export function getAllPromociones(): SWRResponse<Promocion[], any, any> {
-    return useSWR<Promocion[]>(`https://traza-compartida.onrender.com/promocion`, fetcher);
+    return useSWR<Promocion[]>(`https://traza-final.onrender.com/promocion`, fetcher);
 }
 
 export function getAllArticulosInsumos(): SWRResponse<ArticuloInsumo[], any, any> {
-    return useSWR<ArticuloInsumo[]>(`https://traza-compartida.onrender.com/articuloInsumo`, fetcher);
+    return useSWR<ArticuloInsumo[]>(`https://traza-final.onrender.com/articuloInsumo`, fetcher);
 }
 
 export function getAllInsumos(): SWRResponse<any, any, any> {
-    return useSWR<ArticuloInsumo[]>(`https://traza-compartida.onrender.com/articuloInsumo`, fetcher);
+    return useSWR<ArticuloInsumo[]>(`https://traza-final.onrender.com/articuloInsumo`, fetcher);
 }
 
 export function getAllPaises(): SWRResponse<Pais[], any, any> {
-    return useSWR<Pais[]>(`https://traza-compartida.onrender.com/pais`, fetcher);
+    return useSWR<Pais[]>(`https://traza-final.onrender.com/pais`, fetcher);
 }
 
 export function getAllUnidadMedida(): SWRResponse<UnidadMedida[], any, any> {
-    return useSWR<UnidadMedida[]>(`https://traza-compartida.onrender.com/unidadMedida`, fetcher);
+    return useSWR<UnidadMedida[]>(`https://traza-final.onrender.com/unidadMedida`, fetcher);
 }
 
 export function getAllSucursales():SWRResponse<Sucursal[],any,any>{
-    return useSWR<Sucursal[]>("https://traza-compartida.onrender.com/sucursal",fetcher)
+    return useSWR<Sucursal[]>("https://traza-final.onrender.com/sucursal",fetcher)
 }
 
 export function getAllPedidos():SWRResponse<Pedido[],any,any>{
-    return useSWR<Pedido[]>("https://magniback.onrender.com/pedidos",fetcher)
+    return useSWR<Pedido[]>("https://traza-final.onrender.com/pedidos",fetcher)
 }
 
 export function getAllArticulosInsumoNoElab(): SWRResponse<ArticuloInsumo[], any, any> {
-    return useSWR<ArticuloInsumo[]>(`https://traza-compartida.onrender.com/articuloInsumo/noElaborados`, fetcher);
+    return useSWR<ArticuloInsumo[]>(`https://traza-final.onrender.com/articuloInsumo/noElaborados`, fetcher);
 }
 
 //FUNCIONES GET X ID
 export function getSucursalesEmpresa(idEmpresa: number): SWRResponse<Sucursal[], any, any> {
-    return useSWR<Sucursal[]>(`https://traza-compartida.onrender.com/sucursal/empresa/${idEmpresa}`, fetcher);
+    return useSWR<Sucursal[]>(`https://traza-final.onrender.com/sucursal/empresa/${idEmpresa}`, fetcher);
 }
 
 export function getSucursalId(idSucursal: number): SWRResponse<Sucursal, any, any> {
-    return useSWR<Sucursal>(`https://traza-compartida.onrender.com/sucursal/${idSucursal}`, fetcher);
+    return useSWR<Sucursal>(`https://traza-final.onrender.com/sucursal/${idSucursal}`, fetcher);
 }
 
 export function getProvinciasIdPais(idPais: number): SWRResponse<Provincia[], any, any> {
-    return useSWR<Provincia[]>(`https://traza-compartida.onrender.com/provincia/findByPais/${idPais}`, fetcher);
+    return useSWR<Provincia[]>(`https://traza-final.onrender.com/provincia/findByPais/${idPais}`, fetcher);
 }
 
 export function getLocalidadesIdProvincia(idProvincia: number): SWRResponse<Localidad[], any, any> {
-    return useSWR<Localidad[]>(`https://traza-compartida.onrender.com/localidad/findByProvincia/${idProvincia}`, fetcher);
+    return useSWR<Localidad[]>(`https://traza-final.onrender.com/localidad/findByProvincia/${idProvincia}`, fetcher);
 }
 
 export function getLocalidadesId(idLocalidad: number): SWRResponse<Localidad[], any, any> {
-    return useSWR<Localidad[]>(`https://traza-compartida.onrender.com/localidad/${idLocalidad}`, fetcher);
+    return useSWR<Localidad[]>(`https://traza-final.onrender.com/localidad/${idLocalidad}`, fetcher);
 }
 
 export function getCategoriasIdSucursal(idSucursal: number): SWRResponse<Categoria[], any, any> {
-    return useSWR<Categoria[]>(`https://traza-compartida.onrender.com/categoria/sucursal/${idSucursal}`, fetcher);
+    return useSWR<Categoria[]>(`https://traza-final.onrender.com/categoria/sucursal/${idSucursal}`, fetcher);
 }
 
 export function getCategoriaId(idCategoria: number): SWRResponse<Categoria, any, any> {
-    return useSWR<Categoria>(`https://traza-compartida.onrender.com/categoria/${idCategoria}`, fetcher);
+    return useSWR<Categoria>(`https://traza-final.onrender.com/categoria/${idCategoria}`, fetcher);
 }
 
 export function getPromocionesIdSucursal(idSucursal: number): SWRResponse<Promocion[], any, any> {
-    return useSWR<Promocion[]>(`https://traza-compartida.onrender.com/promocion/sucursal/${idSucursal}`, fetcher);
+    return useSWR<Promocion[]>(`https://traza-final.onrender.com/promocion/sucursal/${idSucursal}`, fetcher);
 }
 
 //FUNCIONES SAVE
@@ -107,7 +107,7 @@ export async function saveEmpresa(empresa: Empresa){
 
     //Manejo de errores
     try{
-        let response = await fetch("https://traza-compartida.onrender.com/empresa",options);
+        let response = await fetch("https://traza-final.onrender.com/empresa",options);
         if(response.ok){
             alert("Empresa agregada correctamente.");
         }else{
@@ -122,7 +122,7 @@ export async function saveSucursal(sucursal: Sucursal, empresa: Empresa, idLocal
     //Traer localidad
     let localidad;
     try {
-        const response = await fetch(`https://traza-compartida.onrender.com/localidad/${idLocalidad}`);
+        const response = await fetch(`https://traza-final.onrender.com/localidad/${idLocalidad}`);
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
@@ -148,7 +148,7 @@ export async function saveSucursal(sucursal: Sucursal, empresa: Empresa, idLocal
 
     //Manejo de errores
     try{
-        let response = await fetch("https://traza-compartida.onrender.com/sucursal",options);
+        let response = await fetch("https://traza-final.onrender.com/sucursal",options);
         if(response.ok){
             alert("Sucursal agregada correctamente.");
         }else{
@@ -163,7 +163,7 @@ export async function saveCategoria(categoria: Categoria, idSucursal: number){
     //Traer sucursal
     let sucursal;
     try {
-        const response = await fetch(`https://traza-compartida.onrender.com/sucursal/${idSucursal}`);
+        const response = await fetch(`https://traza-final.onrender.com/sucursal/${idSucursal}`);
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
@@ -188,7 +188,7 @@ export async function saveCategoria(categoria: Categoria, idSucursal: number){
 
     //Manejo de errores
     try{
-        let response = await fetch("https://traza-compartida.onrender.com/categoria/padre",options);
+        let response = await fetch("https://traza-final.onrender.com/categoria/padre",options);
         if(response.ok){
             alert("Categoría agregada correctamente.");
         }else{
@@ -212,7 +212,7 @@ export async function saveArticuloManufacturado(articulo: ArticuloManufacturado)
 
     //Manejo de errores
     try{
-        let response = await fetch("https://traza-compartida.onrender.com/articuloManufacturado",options);
+        let response = await fetch("https://traza-final.onrender.com/articuloManufacturado",options);
         if(response.ok){
             alert("Artículo agregado correctamente.");
         }else{
@@ -236,7 +236,7 @@ export async function saveArticuloInsumo(articulo: ArticuloInsumo){
 
     //Manejo de errores
     try{
-        let response = await fetch("https://traza-compartida.onrender.com/articuloInsumo",options);
+        let response = await fetch("https://traza-final.onrender.com/articuloInsumo",options);
         if(response.ok){
             alert("Artículo agregado correctamente.");
         }else{
@@ -260,7 +260,7 @@ export async function saveUnidadMedida(uMedida: UnidadMedida){
 
     //Manejo de errores
     try{
-        let response = await fetch("https://traza-compartida.onrender.com/unidadMedida",options);
+        let response = await fetch("https://traza-final.onrender.com/unidadMedida",options);
         if(response.ok){
             alert("Unidad de medida agregada correctamente.");
         }else{
@@ -284,7 +284,7 @@ export async function saveUsuario(nombreUsuario:string,password:string){
           body:JSON.stringify(usuario)
     }
     try{
-        let response=await fetch("https://magniback.onrender.com/guardarUsuario",options);
+        let response=await fetch("https://traza-final.onrender.com/guardarUsuario",options);
         if(response.ok){
             alert("Usuario Registrado Correctamente");
             let usuario= await response.json();
@@ -309,10 +309,10 @@ export async function savePedido(pedido: Pedido, setTotalPedido: (total: number)
 
     try {
         const [domicilio, sucursal, empleado, clientes] = await Promise.all([
-            fetchData('https://traza-compartida.onrender.com/domicilio/1'),
-            fetchData('https://traza-compartida.onrender.com/sucursal/1'),
-            fetchData('https://magniback.onrender.com/empleados/1'),
-            fetchData('https://magniback.onrender.com/cliente')
+            fetchData('https://traza-final.onrender.com/domicilio/1'),
+            fetchData('https://traza-final.onrender.com/sucursal/1'),
+            fetchData('https://traza-final.onrender.com/empleados/1'),
+            fetchData('https://traza-final.onrender.com/cliente')
         ]);
 
         let factura = new Factura;
@@ -347,7 +347,7 @@ export async function savePedido(pedido: Pedido, setTotalPedido: (total: number)
         const dia = String(hoy.getDate()).padStart(2, '0');
         const fecha = `${anio}-${mes}-${dia}`;
 
-        const response = await fetch(`https://magniback.onrender.com/pedidos?fechaActual=${fecha}&precioDelivery=${totalEnvio}`, options);
+        const response = await fetch(`https://traza-final.onrender.com/pedidos?fechaActual=${fecha}&precioDelivery=${totalEnvio}`, options);
         if (response.ok) {
             alert("Pedido cargado correctamente.");
             vaciarCarrrito();
@@ -374,7 +374,7 @@ export async function savePromocion(promocion: Promocion){
 
     //Manejo de errores
     try{
-        let response = await fetch("https://traza-compartida.onrender.com/promocion",options);
+        let response = await fetch("https://traza-final.onrender.com/promocion",options);
         if(response.ok){
             alert("Promoción agregada correctamente.");
         }else{
@@ -398,7 +398,7 @@ export async function editEmpresa(empresa: Empresa){
     }
     //Manejo de errores
     try{
-        let response = await fetch(`https://traza-compartida.onrender.com/empresa/${empresa.id}`,options);
+        let response = await fetch(`https://traza-final.onrender.com/empresa/${empresa.id}`,options);
         if(response.ok){
             alert("Empresa editada correctamente");
         }else{
@@ -413,7 +413,7 @@ export async function editSucursal(sucursal: Sucursal, empresa: Empresa, idLocal
     //Traer localidad
     let localidad;
     try {
-        const response = await fetch(`https://traza-compartida.onrender.com/localidad/${idLocalidad}`);
+        const response = await fetch(`https://traza-final.onrender.com/localidad/${idLocalidad}`);
         if (!response.ok) {
             throw new Error(`Error HTTP: ${response.status}`);
         }
@@ -439,7 +439,7 @@ export async function editSucursal(sucursal: Sucursal, empresa: Empresa, idLocal
 
     //Manejo de errores
     try{
-        let response = await fetch(`https://traza-compartida.onrender.com/sucursal/${sucursal.id}`,options);
+        let response = await fetch(`https://traza-final.onrender.com/sucursal/${sucursal.id}`,options);
         if(response.ok){
             alert("Sucursal editada correctamente.");
         }else{
@@ -463,7 +463,7 @@ export async function editCategoria(categoria: Categoria){
 
     //Manejo de errores
     try{
-        let response = await fetch(`https://traza-compartida.onrender.com/categoria/padre/${categoria.id}`,options);
+        let response = await fetch(`https://traza-final.onrender.com/categoria/padre/${categoria.id}`,options);
         if(response.ok){
             alert("Categoría editada correctamente.");
         }else{
@@ -487,7 +487,7 @@ export async function editArticuloManufacturado(articulo: ArticuloManufacturado)
 
     //Manejo de errores
     try{
-        let response = await fetch(`https://traza-compartida.onrender.com/articuloManufacturado/${articulo.id}`,options);
+        let response = await fetch(`https://traza-final.onrender.com/articuloManufacturado/${articulo.id}`,options);
         if(response.ok){
             alert("Artículo editado correctamente.");
         }else{
@@ -511,7 +511,7 @@ export async function editArticuloInsumo(articulo: ArticuloInsumo){
 
     //Manejo de errores
     try{
-        let response = await fetch(`https://traza-compartida.onrender.com/articuloInsumo/${articulo.id}`,options);
+        let response = await fetch(`https://traza-final.onrender.com/articuloInsumo/${articulo.id}`,options);
         if(response.ok){
             alert("Artículo editado correctamente.");
         }else{
@@ -535,7 +535,7 @@ export async function editUnidadMedida(uMedida: UnidadMedida){
 
     //Manejo de errores
     try{
-        let response = await fetch(`https://traza-compartida.onrender.com/unidadMedida/${uMedida.id}`,options);
+        let response = await fetch(`https://traza-final.onrender.com/unidadMedida/${uMedida.id}`,options);
         if(response.ok){
             alert("Unidad de medida editada correctamente.");
         }else{
@@ -559,7 +559,7 @@ export async function editPromocion(promocion: Promocion){
 
     //Manejo de errores
     try{
-        let response = await fetch(`https://traza-compartida.onrender.com/promocion/${promocion.id}`,options);
+        let response = await fetch(`https://traza-final.onrender.com/promocion/${promocion.id}`,options);
         if(response.ok){
             alert("Promoción editada correctamente.");
         }else{
