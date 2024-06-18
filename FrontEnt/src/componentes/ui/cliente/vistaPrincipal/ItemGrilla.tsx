@@ -1,3 +1,4 @@
+import { Add, Info, Remove, ShoppingCart } from "@mui/icons-material";
 import {
   Card,
   CardMedia,
@@ -5,27 +6,63 @@ import {
   Typography,
   CardActions,
   Button,
+  Stack,
+  Badge,
 } from "@mui/material";
+import Articulo from "../../../../entidades/Articulo";
+import { useContext } from "react";
+import { CarritoContext } from "../../../../context/CarritoContext";
 
-export default function ItemGrilla() {
+interface ItemGrillaProductoTypes {
+  item: Articulo;
+}
+
+export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
+  const { carrito, addCarrito, removeItemCarrito } = useContext(CarritoContext);
+
+  const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.articulo === item.id);
+
   return (
-    <Card sx={{ maxWidth: 330}}>
+    <Card sx={{ maxWidth: 330, textAlign: "center" }}>
       <CardMedia
-        component="img"
-        height="140"
-        image="/static/images/cards/contemplative-reptile.jpg"
+        sx={{ height: 150, margin: 1 }}
+        image={item.imagenes[0].url}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
-          Nombre Producto
+          {item.denominacion}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
-          Precio
+        <Typography variant="h6" color="text">
+          {"$" + item.precioVenta}
         </Typography>
       </CardContent>
-      <CardActions>
-        <Button size="small">Share</Button>
-        <Button size="small">Learn More</Button>
+      <CardActions sx={{ justifyContent: "center" }}>
+        <Stack spacing={2} alignItems={"center"}>
+          <Button
+            size="small"
+            //disabled={(usuario == null)}
+            variant="contained"
+            color="info"
+            startIcon={<Info />}
+            onClick={() => { /* Mostrar info */ }}
+          >
+            Ingredientes
+          </Button>
+          <Stack direction={"row"}>
+            <Button
+              size="small"
+              startIcon={<Remove />}
+              onClick={() => { removeItemCarrito(item) }}
+            />
+            <Badge badgeContent={estaEnCarrito ? estaEnCarrito.cantidad : 0} color="info">
+              <ShoppingCart />
+            </Badge>
+            <Button size="small"
+              startIcon={<Add />}
+              onClick={() => { addCarrito(item) }}
+            />
+          </Stack>
+        </Stack>
       </CardActions>
     </Card>
   );

@@ -1,6 +1,6 @@
 import { Box, Container, Typography } from "@mui/material";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
-import PedidosContainer from "../../componentes/ui/cliente/vistaPedidos/PedidosContainer";
+import PedidosContainer from "../../componentes/ui/cliente/vistaListadoPedidos/PedidosContainer";
 
 export default function VistaPedidosCliente() {
   return (

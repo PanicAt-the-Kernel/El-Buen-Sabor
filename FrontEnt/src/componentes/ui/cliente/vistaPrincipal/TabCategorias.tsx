@@ -1,5 +1,7 @@
-import { Box, Typography, Tabs, Tab } from "@mui/material";
+import { Box, Typography, Tabs, Tab, CircularProgress } from "@mui/material";
 import React from "react";
+import { getCategoriasIdSucursal } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import Categoria from "../../../../entidades/Categoria";
 import GrillaProductos from "./GrillaProductos";
 
 interface TabPanelProps {
@@ -37,6 +39,23 @@ function a11yProps(index: number) {
 
 export default function TabsCategorias() {
   const [value, setValue] = React.useState(0);
+  const idSucursal = 1;
+  const { data, isLoading, error } = getCategoriasIdSucursal(idSucursal);
+
+  if (error)
+    return (
+      <>
+        <h1>Ups! Ocurrio un error al obtener los menús. Reintente nuevamente en unos minutos</h1>
+      </>
+    );
+  if (isLoading)
+    return (
+      <>
+        <CircularProgress color="inherit" />
+      </>
+    );
+
+  const categoriasFiltradas = data?.filter(categoria => categoria.denominacion !== 'Insumos' /*&& categoria.id !== 5*/);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -52,28 +71,20 @@ export default function TabsCategorias() {
           scrollButtons
           allowScrollButtonsMobile
         >
-          <Tab label="Promociones" {...a11yProps(0)} />
-          <Tab label="Hamburguesas" {...a11yProps(1)} />
-          <Tab label="Pizzas" {...a11yProps(2)} />
-          <Tab label="Lomos" {...a11yProps(3)} />
-          <Tab label="Bebidas" {...a11yProps(4)} />
+          {categoriasFiltradas?.map((item: Categoria) => (
+            <Tab key={item.id} label={item.denominacion} {...a11yProps(item.id)}/>
+          ))}
+
         </Tabs>
       </Box>
-      <CustomTabPanel value={value} index={0}>
-        <GrillaProductos />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={1}>
-        <GrillaProductos />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
-        <GrillaProductos />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={3}>
-        <GrillaProductos />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={4}>
-        <GrillaProductos />
-      </CustomTabPanel>
+      {categoriasFiltradas?.map((item: Categoria) => (
+        <CustomTabPanel key={item.id} value={value} index={item.id-1}>
+          <GrillaProductos
+            key={item.id}
+            categoria={item}
+          />
+        </CustomTabPanel>
+      ))}
     </Box>
   );
 }
