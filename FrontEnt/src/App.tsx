@@ -1,5 +1,4 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import DashboardVistaProducto from "./paginas/dashboardAdmin/DashboardVistaProducto";
 import DashboardVistaEmpleado from "./paginas/dashboardAdmin/DashboardVistaEmpleado";
 import DashboardVistaInsumo from "./paginas/dashboardAdmin/DashboardVistaInsumo";
@@ -9,12 +8,12 @@ import DashboardVistaPromocion from "./paginas/dashboardAdmin/DashboardVistaProm
 import DashboardVistaPedidos from "./paginas/dashboardAdmin/DashboardVistaPedidos";
 import DashboardVistaInformes from "./paginas/dashboardAdmin/DashboardVistaInformes";
 import DashboardVistaUMedida from "./paginas/dashboardAdmin/DashboardVistaUMedida";
-import VistaPrincipal from "./paginas/cliente/VistaPrincipal";
+import VistaProductosCliente from "./paginas/cliente/VistaProductosCliente";
 import VistaPedidosCliente from "./paginas/cliente/VistaPedidosCliente";
 import VistaCuentaCliente from "./paginas/cliente/VistaCuentaCliente";
 import VistaLogin from "./paginas/cliente/VistaLogin";
-import VistaRegister from "./paginas/cliente/VistaRegister";
-import TiendaVistaPrincipal from "./paginas/TiendaVistaPrincipal";
+import VistaDomicilioCliente from "./paginas/cliente/VistaDomicilioCliente";
+import VistaBienvenida from "./paginas/cliente/VistaBienvenida";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import "@fontsource/montserrat"
@@ -52,9 +51,9 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={basilTheme}>
         <Routes>
-          <Route index element={<TiendaVistaPrincipal />} />
-          <Route path="/login" element={<VistaLogin />} />
-          <Route path="/register" element={<VistaRegister />} />
+          <Route index element={<VistaBienvenida />} />
+          {/*VISTA DE DASHBOIARD*/}
+          <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
           <Route path="/dashboard/categorias" element={<DashboardVistaCategoria />} />
           <Route path="/dashboard/informes" element={<DashboardVistaInformes />} />
           <Route path="/dashboard/productos" element={<DashboardVistaProducto />} />
@@ -63,10 +62,13 @@ function App() {
           <Route path="/dashboard/insumos" element={<DashboardVistaInsumo />} />
           <Route path="/dashboard/uDeMedida" element={<DashboardVistaUMedida />} />
           <Route path="/dashboard/pedidos" element={<DashboardVistaPedidos />} />
-          <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
-          <Route path='/cliente/main' element={<VistaPrincipal />} />
+          {/*VISTA DE CLIENTE*/}
+          <Route path="/login" element={<VistaLogin />} />
+          <Route path="/cliente/bienvenida" element={<VistaBienvenida />} />
+          <Route path='/cliente/sucursal' element={<VistaProductosCliente />} />
           <Route path="/cliente/pedidos" element={<VistaPedidosCliente />} />
           <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
+          <Route path="/cliente/domicilios" element={<VistaDomicilioCliente />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
