@@ -8,28 +8,53 @@ import {
   Toolbar,
   Typography,
 } from "@mui/material";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Usuario from "../../entidades/Usuario";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Login, Logout } from "@mui/icons-material";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PostLogin from "../../auth0/PostLogin";
+import RoleRedirect from "../../auth0/RoleRedirect";
+
+// LoginButton Component
+export const LoginButton = () => {
+    const { loginWithRedirect } = useAuth0();
+
+    return (
+        <Link to="#" className="btn btn-outline-light" onClick={() => loginWithRedirect()}>
+            Iniciar sesión / Registrarse&nbsp;
+            <Login />
+        </Link>
+    );
+};
+
+
+// LogOutButton Component
+export const LogOutButton = () => {
+    const { logout } = useAuth0();
+
+    return (
+        <Link to="#" className="btn btn-outline-light" onClick={()  =>  {
+          logout({ logoutParams: { returnTo: window.location.origin } });
+          localStorage.removeItem("userRoles");
+        }}
+          >
+            Cerrar sesión&nbsp;
+            <Logout />
+        </Link>
+    );
+};
 
 interface TiendaSidebarTypes {
   children: ReactNode;
   setEstado: (item: boolean) => void;
   estado: boolean;
 }
-function TiendaLayout({ children, setEstado, estado }: TiendaSidebarTypes) {
-  const [usuario, setUsuario] = useState<Usuario | null>(
-    //localData.get("usuario")
-  );
 
-  const cerrarSesion = () => {
-    alert("Sesión cerrada correctamente.");
-    setUsuario(null);
-    //localData.remove("usuario");
-    window.location.reload();
-  };
+
+
+function TiendaLayout({ children, setEstado, estado }: TiendaSidebarTypes) {
+  const { isAuthenticated } = useAuth0();
 
   return (
     <>
@@ -57,27 +82,15 @@ function TiendaLayout({ children, setEstado, estado }: TiendaSidebarTypes) {
             <ShoppingCartIcon />
           </IconButton>
           <Stack direction="row" spacing={3} marginRight={2}>
-            {usuario !== null && (
-              <Link to="/dashboard" className={"btn btn-outline-light"}>
-                Dashboard
-              </Link>
-            )}
-            {usuario == null ? (
+            {isAuthenticated ? (
               <>
-                <Link to="/login" className={"btn btn-outline-light"}>
-                  Iniciar sesión / Registrarse&nbsp;
-                  <Login />
+                <Link to="/dashboard" className={"btn btn-outline-light"}>
+                  Dashboard
                 </Link>
+                <LogOutButton />
               </>
             ) : (
-              <Link
-                to="#"
-                className="btn btn-outline-light"
-                onClick={() => cerrarSesion()}
-              >
-                Cerrar sesión&nbsp;
-                <Logout />
-              </Link>
+              <LoginButton />
             )}
           </Stack>
         </Toolbar>
@@ -85,7 +98,10 @@ function TiendaLayout({ children, setEstado, estado }: TiendaSidebarTypes) {
       <Box component="main">
         <Container>{children}</Container>
       </Box>
+      {isAuthenticated && <PostLogin />}
+      {isAuthenticated && <RoleRedirect />}
     </>
   );
 }
+
 export default TiendaLayout;

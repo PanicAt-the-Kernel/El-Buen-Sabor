@@ -24,7 +24,6 @@ export default function ModalPedidos({
   setOpen,
   pedido,
 }: ModalPedidosTypes) {
-  console.log(pedido.detallePedidos[0]);
   return (
     <Modal open={open} onClose={() => setOpen(!open)}>
       <Box

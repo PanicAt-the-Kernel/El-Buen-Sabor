@@ -1,6 +1,7 @@
 import { IconButton, Box, AppBar, Toolbar, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { LogOutButton } from "../../layouts/tienda/TiendaLayout";
+
 
 interface AppHeaderTypes {
   setCollapse: (item: boolean) => void;
@@ -41,9 +42,7 @@ function AppHeader({ broken, setCollapse, setToggle, collapsed, toggled }: AppHe
             El Buen Sabor Dashboard
           </Typography>
           <Box sx={{ flexGrow: 1 }}></Box>
-          <IconButton title="Logout" color="inherit">
-            <LogoutIcon />
-          </IconButton>
+          <LogOutButton />
         </Toolbar>
       </AppBar>
     </Box>
