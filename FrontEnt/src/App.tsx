@@ -21,6 +21,7 @@ import "@fontsource/lekton"
 import "@fontsource/roboto"
 import VistaPedidoCliente from "./paginas/cliente/VistaPedidoCliente";
 import FacturaClientePDFViewer from "./utils/pdf/FacturaClientePDFViewer";
+import MercadoPagoSuccess from "./paginas/cliente/MercadoPagoSuccess";
 
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
@@ -53,7 +54,7 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={basilTheme}>
         <Routes>
-          {/*VISTA DE DASHBOIARD*/}
+          {/*VISTA DE DASHBOARD*/}
           <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
           <Route path="/dashboard/categorias" element={<DashboardVistaCategoria />} />
           <Route path="/dashboard/informes" element={<DashboardVistaInformes />} />
@@ -72,6 +73,7 @@ function App() {
           <Route path="/cliente/domicilios" element={<VistaDomicilioCliente />} />
           <Route path="/cliente/miPedido" element={<VistaPedidoCliente />} />
           <Route path="/cliente/factura" element={<FacturaClientePDFViewer />} />
+          <Route path="/cliente/mpExito" element={<MercadoPagoSuccess />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

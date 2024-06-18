@@ -10,21 +10,19 @@ export default function VistaDomicilioCliente() {
 
   return (
     <ClienteLayout>
+      <Box
+        component="div"
+        sx={{
+          backgroundColor: "#282828",
+          marginBottom: 2,
+          padding: 2,
+        }}
+      >
+        <Typography variant="h5" color={"white"} textAlign={"center"}>
+          Aqui podras ver todos tus domicilios
+        </Typography>
+      </Box>
       <Container>
-        <Box
-          component="div"
-          sx={{
-            backgroundColor: "#282828",
-            borderBottomLeftRadius: 5,
-            borderBottomRightRadius: 5,
-            marginBottom: 2,
-            padding: 2,
-          }}
-        >
-          <Typography variant="h5" color={"white"} textAlign={"center"}>
-            Aqui podras ver todos tus domicilios
-          </Typography>
-        </Box>
         <BotonAgregarDomicilio open={open} setOpen={setOpen} />
         <DomicilioContainer />
         <ModalDomicilio open={open} setOpen={setOpen} />

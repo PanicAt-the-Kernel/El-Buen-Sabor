@@ -9,8 +9,6 @@ export default function VistaPedidosCliente() {
         component="div"
         sx={{
           backgroundColor: "#282828",
-          borderBottomLeftRadius: 5,
-          borderBottomRightRadius: 5,
           marginBottom: 2,
           padding: 2,
         }}
