@@ -53,7 +53,7 @@ export function getAllSucursales():SWRResponse<Sucursal[],any,any>{
 }
 
 export function getAllPedidos():SWRResponse<Pedido[],any,any>{
-    return useSWR<Pedido[]>("https://magniback.onrender.com/pedidos",fetcher)
+    return useSWR<Pedido[]>("https://traza-final.onrender.com/pedidos",fetcher)
 }
 
 export function getAllArticulosInsumoNoElab(): SWRResponse<ArticuloInsumo[], any, any> {
