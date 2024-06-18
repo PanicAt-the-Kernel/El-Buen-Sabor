@@ -17,6 +17,11 @@ interface ItemGrillaPedidoTypes{
 
 export default function ItemGrillaPedido({pedidoObj}:ItemGrillaPedidoTypes) {
   const [open,setOpen] = useState(false);
+
+
+  const userRoles: string[] = JSON.parse(localStorage.getItem("userRoles") || "[]");
+  console.log(userRoles);
+
   return (
     <Card>
       <CardContent>
@@ -38,9 +43,23 @@ export default function ItemGrillaPedido({pedidoObj}:ItemGrillaPedidoTypes) {
       </CardContent>
       <CardActions>
         <Stack direction="row" alignItems="center">
-          <Button size="medium" variant="contained" color="info" startIcon={<Info />} onClick={()=>setOpen(!open)}>
+          <Button style={{ marginRight: '10px' }} size="medium" variant="contained" color="info" startIcon={<Info />} onClick={()=>setOpen(!open)}>
             Mas Datos
           </Button>
+          {}
+          {((userRoles.includes("ADMINISTRADOR") || userRoles.includes("COCINERO")) && pedidoObj.estado === "PREPARACION" ) 
+          && (<Button size="medium" variant="contained" color="primary">
+            Listo Para Entregar
+          </Button>) }
+          {((userRoles.includes("ADMINISTRADOR") || userRoles.includes("CAJERO")) && pedidoObj.estado === "SOLICITADO" ) 
+          && (<Button size="medium" variant="contained" color="primary">
+            APROBAR
+          </Button>) }
+          {((userRoles.includes("ADMINISTRADOR") || userRoles.includes("CAJERO")) && pedidoObj.estado === "LISTO PARA ENTREGAR" ) 
+          && (<Button size="medium" variant="contained" color="primary">
+            ENTREGAR
+          </Button>) }
+          
           <ModalPedidos open={open} setOpen={setOpen} pedido={pedidoObj}/>
         </Stack>
       </CardActions>

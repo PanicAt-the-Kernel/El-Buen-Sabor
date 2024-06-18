@@ -19,6 +19,8 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
+import { Auth0Provider } from "@auth0/auth0-react";
+import { Perfil } from "./componentes/ui/perfil/Perfil";
 
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
@@ -48,11 +50,20 @@ const basilTheme = createTheme({
 
 function App() {
   return (
-    <BrowserRouter>
+    <Auth0Provider
+    domain="dev-kx011i2p7if35dr6.us.auth0.com"
+    clientId="nQz3eA43DqJd7MxDpXNJxKjjuAVdA4pB"
+    authorizationParams={{ redirect_uri: window.location.origin }}
+    >      
+ <BrowserRouter>
       <ThemeProvider theme={basilTheme}>
         <Routes>
+          <Route index element={<TiendaVistaPrincipal />} />
+          <Route path="/login" element={<VistaLogin />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/register" element={<VistaRegister />} />
           <Route index element={<VistaBienvenida />} />
-          {/*VISTA DE DASHBOIARD*/}
+          {/*VISTA DE DASHBOARD*/}
           <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
           <Route path="/dashboard/categorias" element={<DashboardVistaCategoria />} />
           <Route path="/dashboard/informes" element={<DashboardVistaInformes />} />
@@ -72,6 +83,7 @@ function App() {
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
+    </Auth0Provider>
   );
 }
 

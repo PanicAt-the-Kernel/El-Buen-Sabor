@@ -5,6 +5,7 @@ import GrillaProducto from "./GrillaProducto";
 
 function BuscarProducto() {
   const [nombre, setNombre] = useState("");
+  const userRoles: string[] = JSON.parse(localStorage.getItem("userRoles") || "[]");
 
   const handleBuscar = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,7 +33,7 @@ function BuscarProducto() {
             />
           </FormControl>
         </Box>
-        <BotonAgregarProducto />
+        {userRoles.includes("ADMINISTRADOR") && (<BotonAgregarProducto />)}
       </Stack>
       <GrillaProducto busqueda={nombre} />
     </Box>
