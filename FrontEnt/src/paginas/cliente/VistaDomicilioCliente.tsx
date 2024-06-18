@@ -9,7 +9,7 @@ export default function VistaDomicilioCliente() {
   const [open, setOpen] = useState<boolean>(false);
 
   return (
-    <ClienteLayout>
+    <ClienteLayout estado={open} setEstado={setOpen} >
       <Container>
         <Box
           component="div"

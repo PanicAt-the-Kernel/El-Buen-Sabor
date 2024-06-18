@@ -6,6 +6,7 @@ const RoleRedirect = () => {
 
   useEffect(() => {
     // Obtener roles del almacenamiento local
+    //@ts-ignore
     const userRoles = JSON.parse(localStorage.getItem("userRoles"));
 
     // Verificar y redirigir según el primer rol encontrado

@@ -19,7 +19,7 @@ export const Perfil = () => {
             if (isAuthenticated) {
                 try {
                     const tokenClaims = await getIdTokenClaims();
-                    const token = tokenClaims.__raw; // Get the token as a string
+                    const token = tokenClaims!.__raw; // Get the token as a string
                     const decoded = jwtDecode<DecodedToken>(token); // Decode the token
                     setDecodedToken(decoded); // Save the decoded token in the state
                 } catch (error) {

@@ -15,7 +15,7 @@ const PostLogin = () => {
       if (isAuthenticated) {
         try {
           const tokenClaims = await getIdTokenClaims();
-          const token = tokenClaims.__raw;
+          const token = tokenClaims!.__raw;
           const decodedToken = jwtDecode<DecodedToken>(token);
           const roles = decodedToken["https://api-buen-sabor.com/roles"];
 

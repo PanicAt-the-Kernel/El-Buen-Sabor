@@ -6,12 +6,27 @@ import {
   Container,
   Button,
   Stack,
+  CssBaseline,
 } from "@mui/material";
 import MenuOpcionesUsuario from "./MenuOpcionesUsuario";
 import { ReactNode } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Login, ShoppingCart } from "@mui/icons-material";
-import Usuario from "../../entidades/Usuario";
 import { Link } from "react-router-dom";
+import PostLogin from "../../auth0/PostLogin";
+import RoleRedirect from "../../auth0/RoleRedirect";
+
+// LoginButton Component
+export const LoginButton = () => {
+  const { loginWithRedirect } = useAuth0();
+
+  return (
+    <Link to="#" className="btn btn-outline-light" onClick={() => loginWithRedirect()}>
+      Iniciar sesión / Registrarse&nbsp;
+      <Login />
+    </Link>
+  );
+};
 
 interface ClienteLayoutTypes {
   children: ReactNode;
@@ -20,14 +35,13 @@ interface ClienteLayoutTypes {
 }
 
 export default function ClienteLayout({ children, setEstado, estado }: ClienteLayoutTypes) {
-
-  const usuario: Usuario | null = null;
-  //localData.get("usuario")
+  const { isAuthenticated } = useAuth0();
 
   return (
-    <Box>
+    <>
+      <CssBaseline />
       <AppBar position="sticky">
-        <Toolbar>
+        <Toolbar disableGutters>
           <Box
             component="img"
             src="/imgs/Icono.svg"
@@ -41,20 +55,11 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
             El Buen Sabor
           </Typography>
           <Stack direction="row" spacing={3} marginRight={2}>
-            {usuario !== null && (
-              <Link to="/dashboard" className={"btn btn-outline-light"}>
-                Dashboard
-              </Link>
-            )}
-            {usuario !== null ? (
+            {isAuthenticated ? (
               <>
-                <Link to="/login" className={"btn btn-outline-light"}>
-                  Iniciar sesión / Registrarse&nbsp;
-                  <Login />
+                <Link to="/dashboard" className={"btn btn-outline-light"}>
+                  Dashboard
                 </Link>
-              </>
-            ) : (
-              <>
                 <Button variant="text"
                   size="small"
                   sx={{ color: "whitesmoke" }}
@@ -65,6 +70,8 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
                 </Button>
                 <MenuOpcionesUsuario />
               </>
+            ) : (
+              <LoginButton />
             )}
           </Stack>
         </Toolbar>
@@ -72,6 +79,8 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
       <Box component="main">
         <Container>{children}</Container>
       </Box>
-    </Box>
+      {isAuthenticated && <PostLogin />}
+      {isAuthenticated && <RoleRedirect />}
+    </>
   );
 }

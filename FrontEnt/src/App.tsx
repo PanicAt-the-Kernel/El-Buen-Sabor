@@ -21,6 +21,7 @@ import "@fontsource/lekton"
 import "@fontsource/roboto"
 import { Auth0Provider } from "@auth0/auth0-react";
 import { Perfil } from "./componentes/ui/perfil/Perfil";
+import VistaRegister from "./paginas/cliente/VistaRegister";
 
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
@@ -58,7 +59,6 @@ function App() {
  <BrowserRouter>
       <ThemeProvider theme={basilTheme}>
         <Routes>
-          <Route index element={<TiendaVistaPrincipal />} />
           <Route path="/login" element={<VistaLogin />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/register" element={<VistaRegister />} />

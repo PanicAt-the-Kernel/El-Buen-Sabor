@@ -1,11 +1,13 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { jwtDecode } from "jwt-decode";
+import { JwtPayload, jwtDecode } from "jwt-decode";
 
- 
-
-// Define la interfaz para el token decodificado
+interface DecodedToken extends JwtPayload {
+    name?: string;
+    email?: string;
+    [key: string]: any;
+}
 
 export const Profile = () => {
     const { user, isAuthenticated, isLoading, getIdTokenClaims } = useAuth0();
@@ -16,7 +18,7 @@ export const Profile = () => {
         const decodeToken = async () => {
                 try {
                     const tokenClaims = await getIdTokenClaims();
-                    const token = tokenClaims.__raw; // Obtén el token en formato string
+                    const token = tokenClaims!.__raw; // Obtén el token en formato string
                     const decoded = jwtDecode<DecodedToken>(token); // Decodifica el token
                     setDecodedToken(decoded); // Guarda el token decodificado en el estado
                 } catch (error) {
