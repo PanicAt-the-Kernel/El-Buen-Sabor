@@ -1,16 +1,8 @@
-import { CheckCircle } from "@mui/icons-material";
-import {
-  Box,
-  Button,
-  Container,
-  Divider,
-  Paper,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Help } from "@mui/icons-material";
+import { Box, Container, Paper, Stack, Divider, Typography, Button } from "@mui/material";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 
-export default function MercadoPagoSuccess() {
+export default function MercadoPagoPending() {
   return (
     <ClienteLayout>
       <Box
@@ -19,18 +11,17 @@ export default function MercadoPagoSuccess() {
           width: "100wh",
           height: "100vh",
           background:
-            "linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(42,213,85,1) 100%);",
+            "linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(255,96,0,1) 100%);",
         }}
       >
-        <Container sx={{padding:2}}>
+        <Container sx={{ padding: 2 }}>
           <Paper
             elevation={5}
             sx={{
               background: "rgba(255,255,255,0.48)",
               backdropFilter: "blur(5px)",
               border: "1px solid rgba(255, 255, 255, 0.3)",
-              padding:3
-              
+              padding: 3,
             }}
           >
             <Stack
@@ -40,20 +31,25 @@ export default function MercadoPagoSuccess() {
               justifyContent={"center"}
             >
               <Box component="div">
-                <CheckCircle sx={{ fontSize: "130pt" }} color="success" />
+                <Help sx={{ fontSize: "130pt" }} color="warning" />
               </Box>
               <Divider />
               <Box component="div">
                 <Typography variant="h4" align="center">
-                  Tu pago ha sido procesado con exito
+                  Tu pago esta tardando demasiado en procesarse
                 </Typography>
                 <Typography variant="h5" align="center">
-                  Disfruta de tu compra!
+                  Si transcurrio bastante tiempo desde que lo pagaste, ponte en contacto con nosotros
                 </Typography>
               </Box>
-              <Button variant="contained" color="info">
-                Regresar a la tienda
-              </Button>
+              <Stack direction="row" spacing={2}>
+                <Button variant="contained" color="info">
+                  Regresar a la tienda
+                </Button>
+                <Button variant="contained" color="warning">
+                  Ver mis Pedidos
+                </Button>
+              </Stack>
             </Stack>
           </Paper>
         </Container>

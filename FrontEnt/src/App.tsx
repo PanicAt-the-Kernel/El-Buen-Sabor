@@ -22,6 +22,8 @@ import "@fontsource/roboto"
 import VistaPedidoCliente from "./paginas/cliente/VistaPedidoCliente";
 import FacturaClientePDFViewer from "./utils/pdf/FacturaClientePDFViewer";
 import MercadoPagoSuccess from "./paginas/cliente/MercadoPagoSuccess";
+import MercadoPagoError from "./paginas/cliente/MercadoPagoError";
+import MercadoPagoPending from "./paginas/cliente/MercadoPagoPending";
 
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
@@ -74,6 +76,8 @@ function App() {
           <Route path="/cliente/miPedido" element={<VistaPedidoCliente />} />
           <Route path="/cliente/factura" element={<FacturaClientePDFViewer />} />
           <Route path="/cliente/mpExito" element={<MercadoPagoSuccess />} />
+          <Route path="/cliente/mpError" element={<MercadoPagoError />} />
+          <Route path="/cliente/mpPending" element={<MercadoPagoPending />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
