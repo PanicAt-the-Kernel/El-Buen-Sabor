@@ -19,7 +19,7 @@ function AlertaHolder() {
         Listado de Insumos con Bajo Stock
       </Typography>
       <Grid container spacing={1}>
-        {data.map((item: ArticuloInsumo) => {
+        {data?.map((item: ArticuloInsumo) => {
           switch (controlNivelStockInsumo(item)) {
             case 1:
               return (

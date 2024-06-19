@@ -29,15 +29,7 @@ export function getAllArticulosManufacturados(): SWRResponse<ArticuloManufactura
     return useSWR<ArticuloManufacturado[]>(`https://traza-final.onrender.com/articuloManufacturado`, fetcher);
 }
 
-export function getAllPromociones(): SWRResponse<Promocion[], any, any> {
-    return useSWR<Promocion[]>(`https://traza-final.onrender.com/promocion`, fetcher);
-}
-
-export function getAllArticulosInsumos(): SWRResponse<ArticuloInsumo[], any, any> {
-    return useSWR<ArticuloInsumo[]>(`https://traza-final.onrender.com/articuloInsumo`, fetcher);
-}
-
-export function getAllInsumos(): SWRResponse<any, any, any> {
+export function getAllInsumos(): SWRResponse<ArticuloInsumo[], any, any> {
     return useSWR<ArticuloInsumo[]>(`https://traza-final.onrender.com/articuloInsumo`, fetcher);
 }
 
@@ -49,15 +41,19 @@ export function getAllUnidadMedida(): SWRResponse<UnidadMedida[], any, any> {
     return useSWR<UnidadMedida[]>(`https://traza-final.onrender.com/unidadMedida`, fetcher);
 }
 
-export function getAllSucursales():SWRResponse<Sucursal[],any,any>{
-    return useSWR<Sucursal[]>("https://traza-final.onrender.com/sucursal",fetcher)
+export function getAllSucursales(): SWRResponse<Sucursal[], any, any> {
+    return useSWR<Sucursal[]>("https://traza-final.onrender.com/sucursal", fetcher)
 }
 
-export function getAllPedidos():SWRResponse<Pedido[],any,any>{
-    return useSWR<Pedido[]>("https://traza-final.onrender.com/pedidos",fetcher)
+export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
+    return useSWR<Pedido[]>("https://traza-final.onrender.com/pedidos", fetcher)
 }
 
-export function getAllArticulosInsumoNoElab(): SWRResponse<ArticuloInsumo[], any, any> {
+export function getAllArticuloInsumoElab(): SWRResponse<ArticuloInsumo[], any, any> {
+    return useSWR<ArticuloInsumo[]>(`https://traza-final.onrender.com/articuloInsumo/elaborados`, fetcher);
+}
+
+export function getAllArticuloInsumoNoElab(): SWRResponse<ArticuloInsumo[], any, any> {
     return useSWR<ArticuloInsumo[]>(`https://traza-final.onrender.com/articuloInsumo/noElaborados`, fetcher);
 }
 
@@ -82,12 +78,12 @@ export function getLocalidadesId(idLocalidad: number): SWRResponse<Localidad[], 
     return useSWR<Localidad[]>(`https://traza-final.onrender.com/localidad/${idLocalidad}`, fetcher);
 }
 
-export function getCategoriasIdSucursal(idSucursal: number): SWRResponse<Categoria[], any, any> {
-    return useSWR<Categoria[]>(`https://traza-final.onrender.com/categoria/sucursal/${idSucursal}`, fetcher);
-}
-
 export function getCategoriaId(idCategoria: number): SWRResponse<Categoria, any, any> {
     return useSWR<Categoria>(`https://traza-final.onrender.com/categoria/${idCategoria}`, fetcher);
+}
+
+export function getCategoriasIdSucursal(idSucursal: number): SWRResponse<Categoria[], any, any> {
+    return useSWR<Categoria[]>(`https://traza-final.onrender.com/categoria/sucursal/${idSucursal}`, fetcher);
 }
 
 export function getPromocionesIdSucursal(idSucursal: number): SWRResponse<Promocion[], any, any> {
@@ -95,72 +91,55 @@ export function getPromocionesIdSucursal(idSucursal: number): SWRResponse<Promoc
 }
 
 //FUNCIONES SAVE
-export async function saveEmpresa(empresa: Empresa){
+export async function saveEmpresa(empresa: Empresa) {
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(empresa)
+        body: JSON.stringify(empresa)
     }
 
     //Manejo de errores
-    try{
-        let response = await fetch("https://traza-final.onrender.com/empresa",options);
-        if(response.ok){
-            alert("Empresa agregada correctamente.");
-        }else{
-            alert("Error al agregar empresa: "+response.status);
-        }
-    }catch{
-        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
-    }
-}
-
-export async function saveSucursal(sucursal: Sucursal, empresa: Empresa, idLocalidad: number){
-    //Traer localidad
-    let localidad;
     try {
-        const response = await fetch(`https://traza-final.onrender.com/localidad/${idLocalidad}`);
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
+        let response = await fetch("https://traza-final.onrender.com/empresa", options);
+        if (response.ok) {
+            alert("Empresa agregada correctamente.");
+        } else {
+            alert("Error al agregar empresa: " + response.status);
         }
-        localidad = await response.json();
-    } catch (error) {
-        //@ts-ignore
-        alert(`Error obteniendo la localidad: ${error.message}`);
-        return;
-    }
-
-    sucursal.domicilio.localidad = localidad;
-    sucursal.empresa = empresa;
-
-    //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify(sucursal)
-    }
-
-    //Manejo de errores
-    try{
-        let response = await fetch("https://traza-final.onrender.com/sucursal",options);
-        if(response.ok){
-            alert("Sucursal agregada correctamente.");
-        }else{
-            alert("Error al agregar la sucursal: "+response.status);
-        }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
 
-export async function saveCategoria(categoria: Categoria, idSucursal: number){
+export async function saveSucursal(sucursal: Sucursal) {
+    //Preparar llamada api
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(sucursal)
+    }
+
+    //Manejo de errores
+    try {
+        let response = await fetch("https://traza-final.onrender.com/sucursal", options);
+        if (response.ok) {
+            alert("Sucursal agregada correctamente.");
+        } else {
+            alert("Error al agregar la sucursal: " + response.status);
+        }
+    } catch {
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
+export async function saveCategoria(categoria: Categoria, idSucursal: number) {
     //Traer sucursal
     let sucursal;
     try {
@@ -178,125 +157,125 @@ export async function saveCategoria(categoria: Categoria, idSucursal: number){
     categoria.sucursales.push(sucursal);
 
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(categoria)
+        body: JSON.stringify(categoria)
     }
 
     //Manejo de errores
-    try{
-        let response = await fetch("https://traza-final.onrender.com/categoria/padre",options);
-        if(response.ok){
+    try {
+        let response = await fetch("https://traza-final.onrender.com/categoria/padre", options);
+        if (response.ok) {
             alert("Categoría agregada correctamente.");
-        }else{
-            alert("Error al agregar categoría: "+response.status);
+        } else {
+            alert("Error al agregar categoría: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
 
-export async function saveArticuloManufacturado(articulo: ArticuloManufacturado){
+export async function saveArticuloManufacturado(articulo: ArticuloManufacturado) {
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(articulo)
+        body: JSON.stringify(articulo)
     }
 
     //Manejo de errores
-    try{
-        let response = await fetch("https://traza-final.onrender.com/articuloManufacturado",options);
-        if(response.ok){
+    try {
+        let response = await fetch("https://traza-final.onrender.com/articuloManufacturado", options);
+        if (response.ok) {
             alert("Artículo agregado correctamente.");
-        }else{
-            alert("Error al agregar artículo: "+response.status);
+        } else {
+            alert("Error al agregar artículo: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
 
-export async function saveArticuloInsumo(articulo: ArticuloInsumo){
+export async function saveArticuloInsumo(articulo: ArticuloInsumo) {
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(articulo)
+        body: JSON.stringify(articulo)
     }
 
     //Manejo de errores
-    try{
-        let response = await fetch("https://traza-final.onrender.com/articuloInsumo",options);
-        if(response.ok){
+    try {
+        let response = await fetch("https://traza-final.onrender.com/articuloInsumo", options);
+        if (response.ok) {
             alert("Artículo agregado correctamente.");
-        }else{
-            alert("Error al agregar artículo: "+response.status);
+        } else {
+            alert("Error al agregar artículo: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
 
-export async function saveUnidadMedida(uMedida: UnidadMedida){
+export async function saveUnidadMedida(uMedida: UnidadMedida) {
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(uMedida)
+        body: JSON.stringify(uMedida)
     }
 
     //Manejo de errores
-    try{
-        let response = await fetch("https://traza-final.onrender.com/unidadMedida",options);
-        if(response.ok){
+    try {
+        let response = await fetch("https://traza-final.onrender.com/unidadMedida", options);
+        if (response.ok) {
             alert("Unidad de medida agregada correctamente.");
-        }else{
-            alert("Error al agregar unidad de medida: "+response.status);
+        } else {
+            alert("Error al agregar unidad de medida: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
 
-export async function saveUsuario(nombreUsuario:string,password:string){
-    let usuario=new Usuario();
-    usuario.userName=nombreUsuario;
-    usuario.password=password;
-    let options={
-        mode:"cors" as RequestMode,
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
+export async function saveUsuario(nombreUsuario: string, password: string) {
+    let usuario = new Usuario();
+    usuario.userName = nombreUsuario;
+    usuario.password = password;
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-          body:JSON.stringify(usuario)
+        body: JSON.stringify(usuario)
     }
-    try{
-        let response=await fetch("https://traza-final.onrender.com/guardarUsuario",options);
-        if(response.ok){
+    try {
+        let response = await fetch("https://traza-final.onrender.com/guardarUsuario", options);
+        if (response.ok) {
             alert("Usuario Registrado Correctamente");
-            let usuario= await response.json();
+            let usuario = await response.json();
             console.log(usuario);
-        }else{
+        } else {
             alert("Error al registrar")
         }
-    }catch{
+    } catch {
         alert("Ocurrio un error CORS")
     }
-    
+
 }
 
 export async function savePedido(pedido: Pedido, setTotalPedido: (total: number) => void, vaciarCarrrito: () => void, totalEnvio: number) {
@@ -312,7 +291,7 @@ export async function savePedido(pedido: Pedido, setTotalPedido: (total: number)
         const [domicilio, sucursal, empleado, clientes] = await Promise.all([
             fetchData('https://traza-final.onrender.com/domicilio/1'),
             fetchData('https://traza-final.onrender.com/sucursal/1'),
-            fetchData('https://traza-final.onrender.com/empleados/1'),
+            fetchData('https://traza-final.onrender.com/empleado/1'),
             fetchData('https://traza-final.onrender.com/cliente')
         ]);
 
@@ -347,8 +326,12 @@ export async function savePedido(pedido: Pedido, setTotalPedido: (total: number)
         const mes = String(hoy.getMonth() + 1).padStart(2, '0');
         const dia = String(hoy.getDate()).padStart(2, '0');
         const fecha = `${anio}-${mes}-${dia}`;
+        const horas = String(hoy.getHours()).padStart(2, '0');
+        const minutos = String(hoy.getMinutes()).padStart(2, '0');
+        const segundos = String(hoy.getSeconds()).padStart(2, '0');
+        const horaActual = `${horas}:${minutos}:${segundos}`;
 
-        const response = await fetch(`https://traza-final.onrender.com/pedidos?fechaActual=${fecha}&precioDelivery=${totalEnvio}`, options);
+        const response = await fetch(`https://traza-final.onrender.com/pedidos?fechaActual=${fecha}&horaActual=${horaActual}&precioDelivery=${totalEnvio}`, options);
         if (response.ok) {
             alert("Pedido cargado correctamente.");
             vaciarCarrrito();
@@ -359,214 +342,203 @@ export async function savePedido(pedido: Pedido, setTotalPedido: (total: number)
     } catch (error) {
         //@ts-ignore
         alert(`Error: ${error.message}`);
-          }
+    }
 }
 
-export async function savePromocion(promocion: Promocion){
+export async function savePromocion(promocion: Promocion) {
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"POST",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(promocion)
+        body: JSON.stringify(promocion)
     }
 
     //Manejo de errores
-    try{
-        let response = await fetch("https://traza-final.onrender.com/promocion",options);
-        if(response.ok){
+    try {
+        let response = await fetch("https://traza-final.onrender.com/promocion", options);
+        if (response.ok) {
             alert("Promoción agregada correctamente.");
-        }else{
-            alert("Error al agregar promoción: "+response.status);
+        } else {
+            alert("Error al agregar promoción: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
 
 //FUNCIONES EDIT
-export async function editEmpresa(empresa: Empresa){
+export async function editEmpresa(empresa: Empresa) {
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(empresa)
+        body: JSON.stringify(empresa)
     }
     //Manejo de errores
-    try{
-        let response = await fetch(`https://traza-final.onrender.com/empresa/${empresa.id}`,options);
-        if(response.ok){
+    try {
+        let response = await fetch(`https://traza-final.onrender.com/empresa/${empresa.id}`, options);
+        if (response.ok) {
             alert("Empresa editada correctamente");
-        }else{
-            alert("Error HTTP: "+response.status);
+        } else {
+            alert("Error HTTP: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado")
     }
 }
 
-export async function editSucursal(sucursal: Sucursal, empresa: Empresa, idLocalidad: number){
-    //Traer localidad
-    let localidad;
+export async function editSucursal(sucursal: Sucursal) {
+    //Preparar llamada api
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(sucursal)
+    }
+
+    //Manejo de errores
     try {
-        const response = await fetch(`https://traza-final.onrender.com/localidad/${idLocalidad}`);
-        if (!response.ok) {
-            throw new Error(`Error HTTP: ${response.status}`);
-        }
-        localidad = await response.json();
-    } catch (error) {
-        //@ts-ignore
-        alert(`Error obteniendo la localidad: ${error.message}`);
-        return;
-    }
-
-    sucursal.domicilio.localidad = localidad;
-    sucursal.empresa = empresa;
-
-    //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json"
-        },
-        body:JSON.stringify(sucursal)
-    }
-
-    //Manejo de errores
-    try{
-        let response = await fetch(`https://traza-final.onrender.com/sucursal/${sucursal.id}`,options);
-        if(response.ok){
+        let response = await fetch(`https://traza-final.onrender.com/sucursal/${sucursal.id}`, options);
+        if (response.ok) {
             alert("Sucursal editada correctamente.");
-        }else{
-            alert("Error al editar la sucursal: "+response.status);
+        } else {
+            alert("Error al editar la sucursal: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
 
-export async function editCategoria(categoria: Categoria){
+export async function editCategoria(categoria: Categoria) {
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(categoria)
+        body: JSON.stringify(categoria)
     }
 
     //Manejo de errores
-    try{
-        let response = await fetch(`https://traza-final.onrender.com/categoria/padre/${categoria.id}`,options);
-        if(response.ok){
+    try {
+        let response = await fetch(`https://traza-final.onrender.com/categoria/padre/${categoria.id}`, options);
+        if (response.ok) {
             alert("Categoría editada correctamente.");
-        }else{
-            alert("Error al editar categoría: "+response.status);
+        } else {
+            alert("Error al editar categoría: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
 
-export async function editArticuloManufacturado(articulo: ArticuloManufacturado){
+export async function editArticuloManufacturado(articulo: ArticuloManufacturado) {
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(articulo)
+        body: JSON.stringify(articulo)
     }
 
     //Manejo de errores
-    try{
-        let response = await fetch(`https://traza-final.onrender.com/articuloManufacturado/${articulo.id}`,options);
-        if(response.ok){
+    try {
+        let response = await fetch(`https://traza-final.onrender.com/articuloManufacturado/${articulo.id}`, options);
+        if (response.ok) {
             alert("Artículo editado correctamente.");
-        }else{
-            alert("Error al editar artículo: "+response.status);
+        } else {
+            alert("Error al editar artículo: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
 
-export async function editArticuloInsumo(articulo: ArticuloInsumo){
+export async function editArticuloInsumo(articulo: ArticuloInsumo) {
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(articulo)
+        body: JSON.stringify(articulo)
     }
 
     //Manejo de errores
-    try{
-        let response = await fetch(`https://traza-final.onrender.com/articuloInsumo/${articulo.id}`,options);
-        if(response.ok){
+    try {
+        let response = await fetch(`https://traza-final.onrender.com/articuloInsumo/${articulo.id}`, options);
+        if (response.ok) {
             alert("Artículo editado correctamente.");
-        }else{
-            alert("Error al editar artículo: "+response.status);
+        } else {
+            alert("Error al editar artículo: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
 
-export async function editUnidadMedida(uMedida: UnidadMedida){
+export async function editUnidadMedida(uMedida: UnidadMedida) {
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(uMedida)
+        body: JSON.stringify(uMedida)
     }
 
     //Manejo de errores
-    try{
-        let response = await fetch(`https://traza-final.onrender.com/unidadMedida/${uMedida.id}`,options);
-        if(response.ok){
+    try {
+        let response = await fetch(`https://traza-final.onrender.com/unidadMedida/${uMedida.id}`, options);
+        if (response.ok) {
             alert("Unidad de medida editada correctamente.");
-        }else{
-            alert("Error al agregar unidad de medida: "+response.status);
+        } else {
+            alert("Error al agregar unidad de medida: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
 
-export async function editPromocion(promocion: Promocion){
+export async function editPromocion(promocion: Promocion) {
     //Preparar llamada api
-    let options={
-        mode:"cors" as RequestMode,
-        method:"PUT",
-        headers:{
-            "Content-Type":"application/json"
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
         },
-        body:JSON.stringify(promocion)
+        body: JSON.stringify(promocion)
     }
 
+    const hoy = new Date();
+    const anio = hoy.getFullYear();
+    const mes = String(hoy.getMonth() + 1).padStart(2, '0');
+    const dia = String(hoy.getDate()).padStart(2, '0');
+    const fecha = `${anio}-${mes}-${dia}`;
+
     //Manejo de errores
-    try{
-        let response = await fetch(`https://traza-final.onrender.com/promocion/${promocion.id}`,options);
-        if(response.ok){
+    try {
+        let response = await fetch(`https://traza-final.onrender.com/promocion/${promocion.id}?fechaActual=${fecha}`, options);
+        if (response.ok) {
             alert("Promoción editada correctamente.");
-        }else{
-            alert("Error al agregar promoción: "+response.status);
+        } else {
+            alert("Error al editar promoción: " + response.status);
         }
-    }catch{
+    } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }

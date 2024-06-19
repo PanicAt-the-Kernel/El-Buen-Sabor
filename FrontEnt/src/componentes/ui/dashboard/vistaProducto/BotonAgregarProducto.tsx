@@ -12,6 +12,7 @@ function BotonAgregarProducto() {
     const handleClose = () => setOpen(false);
 
     const handleSubmit = (articuloM: ArticuloManufacturado) => {
+        articuloM.fechaBaja = "9999-12-31";
         saveArticuloManufacturado(articuloM);
         handleClose();
     };

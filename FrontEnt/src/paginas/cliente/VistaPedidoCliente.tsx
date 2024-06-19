@@ -14,12 +14,13 @@ import { useState } from "react";
 import { AttachMoney } from "@mui/icons-material";
 
 export default function VistaPedidoCliente() {
+  const [open, setOpen] = useState(false);
   const [metodoEntrega, setMetodoEntrega] = useState<string>("RETIRO");
   const [metodoPago, setMetodoPago] = useState<string>("MERCADO_PAGO");
   const [domicilio, setDomicilio] = useState<number>(0);
   const price: number = 7500;
   return (
-    <ClienteLayout>
+    <ClienteLayout estado={open} setEstado={setOpen}>
       <Container>
         <Box
           component="div"

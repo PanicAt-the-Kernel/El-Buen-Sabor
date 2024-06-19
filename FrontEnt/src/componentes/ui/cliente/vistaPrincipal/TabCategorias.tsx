@@ -55,9 +55,9 @@ export default function TabsCategorias() {
       </>
     );
 
-    const categoriasFiltradas = data
-    ?.filter(categoria => categoria.denominacion !== 'Insumos')
-    ?.filter(categoria => categoria.articulos && categoria.articulos.length > 0);
+  const categoriasFiltradas = data
+  ?.filter(categoria => categoria.denominacion !== 'Insumos')
+  ?.filter(categoria => categoria.articulos && categoria.articulos.length > 0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -79,7 +79,7 @@ export default function TabsCategorias() {
 
         </Tabs>
       </Box>
-      {categoriasFiltradas?.map((item: Categoria,index:number) => (
+      {categoriasFiltradas?.map((item: Categoria, index: number) => (
         <CustomTabPanel key={item.id} value={value} index={index}>
           <GrillaProductos
             key={item.id}

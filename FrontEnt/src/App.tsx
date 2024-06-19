@@ -14,16 +14,18 @@ import VistaCuentaCliente from "./paginas/cliente/VistaCuentaCliente";
 import VistaLogin from "./paginas/cliente/VistaLogin";
 import VistaDomicilioCliente from "./paginas/cliente/VistaDomicilioCliente";
 import VistaBienvenida from "./paginas/cliente/VistaBienvenida";
+import FacturaClientePDFViewer from "./utils/pdf/FacturaClientePDFViewer";
+import MercadoPagoSuccess from "./paginas/cliente/MercadoPagoSuccess";
+import MercadoPagoError from "./paginas/cliente/MercadoPagoError";
+import MercadoPagoPending from "./paginas/cliente/MercadoPagoPending";
+import { Auth0Provider } from "@auth0/auth0-react";
+import { Perfil } from "./componentes/ui/perfil/Perfil";
+import VistaRegister from "./paginas/cliente/VistaRegister";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
-import VistaPedidoCliente from "./paginas/cliente/VistaPedidoCliente";
-import FacturaClientePDFViewer from "./utils/pdf/FacturaClientePDFViewer";
-import MercadoPagoSuccess from "./paginas/cliente/MercadoPagoSuccess";
-import MercadoPagoError from "./paginas/cliente/MercadoPagoError";
-import MercadoPagoPending from "./paginas/cliente/MercadoPagoPending";
 
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
@@ -53,11 +55,19 @@ const basilTheme = createTheme({
 
 function App() {
   return (
-    <BrowserRouter>
+    <Auth0Provider
+    domain="dev-kx011i2p7if35dr6.us.auth0.com"
+    clientId="nQz3eA43DqJd7MxDpXNJxKjjuAVdA4pB"
+    authorizationParams={{ redirect_uri: window.location.origin }}
+    >      
+ <BrowserRouter>
       <ThemeProvider theme={basilTheme}>
         <Routes>
-          <Route index element={<VistaBienvenida />} />
-          {/*VISTA DE DASHBOIARD*/}
+          <Route path="/login" element={<VistaLogin />} />
+          <Route path="/perfil" element={<Perfil />} />
+          <Route path="/register" element={<VistaRegister />} />
+          <Route index element={<VistaProductosCliente />} />
+          {/*VISTA DE DASHBOARD*/}
           <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
           <Route path="/dashboard/categorias" element={<DashboardVistaCategoria />} />
           <Route path="/dashboard/informes" element={<DashboardVistaInformes />} />
@@ -82,6 +92,7 @@ function App() {
         </Routes>
       </ThemeProvider>
     </BrowserRouter>
+    </Auth0Provider>
   );
 }
 

@@ -12,6 +12,7 @@ function BotonAgregarInsumo() {
     const handleClose = () => setOpen(false);
 
     const handleSubmit = (insumo: ArticuloInsumo) => {
+        insumo.fechaBaja = "9999-12-31";
         saveArticuloInsumo(insumo);
         handleClose();
     };

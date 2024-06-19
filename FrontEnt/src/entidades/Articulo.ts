@@ -5,6 +5,7 @@ import UnidadMedida from "./UnidadMedida";
 class Articulo {
     id: number = 0;
     eliminado: boolean = false;
+    fechaBaja: string = '';
     denominacion: string = '';
     precioVenta: number = 0;
     imagenes: Imagen[] = [];

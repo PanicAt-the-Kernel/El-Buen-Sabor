@@ -29,7 +29,7 @@ export default function VistaBienvenida() {
     data: provincias,
     isLoading: cargaProvincias,
     error,
-  } = getProvinciasIdPais(2);
+  } = getProvinciasIdPais(1);
   const { data: localidades, isLoading: cargaLocalidades } =
     getLocalidadesIdProvincia(idProvincia);
   const { data: sucursales, isLoading: cargaSucursales } = getAllSucursales();
@@ -149,7 +149,9 @@ export default function VistaBienvenida() {
               alignItems="center"
             >
               {sucursal?.map((item: Sucursal) => (
-                <SucursalCard sucursal={item} />
+                <SucursalCard 
+                  key={item.id}
+                  sucursal={item} />
               ))}
             </Stack>
           </Box>

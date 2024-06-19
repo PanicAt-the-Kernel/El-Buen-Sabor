@@ -8,6 +8,7 @@ import Sucursal from "./Sucursal";
 class Pedido {
     id: number = 0;
     eliminado: boolean = false;
+    fechaBaja: string = '';
     horaEstimadaFinalizacion: string = '';
     total: number = 0;
     totalCosto: number = 0;

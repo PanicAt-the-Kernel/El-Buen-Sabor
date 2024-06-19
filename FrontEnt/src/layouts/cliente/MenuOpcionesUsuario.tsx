@@ -3,11 +3,13 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Usuario from "../../entidades/Usuario";
 import { localData } from "../../servicios/vistaInicio/FuncionesAPI";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function MenuOpcionesUsuario() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
+  const { user } = useAuth0();
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -22,6 +24,9 @@ export default function MenuOpcionesUsuario() {
   );
 
   const cerrarSesion = () => {
+    const { logout } = useAuth0();
+    logout({ logoutParams: { returnTo: window.location.pathname } });
+    localStorage.removeItem("userRoles");
     alert("Sesión cerrada correctamente.");
     setUsuario(null);
     localData.removeUsuario('usuario');
@@ -49,7 +54,7 @@ export default function MenuOpcionesUsuario() {
         }}
       >
         <MenuItem sx={{ justifyContent: 'center', alignItems: 'center', pointerEvents: 'none', }} disabled>
-          {usuario ? usuario?.userName : "Usuario"}
+          {user ? user?.email : "Usuario"}
         </MenuItem>
         <MenuItem onClick={() => navigate('/cliente/cuenta')}>Mi perfil</MenuItem>
         <MenuItem onClick={() => navigate('/cliente/pedidos')}>Mis Pedidos</MenuItem>

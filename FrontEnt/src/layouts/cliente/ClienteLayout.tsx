@@ -5,14 +5,30 @@ import {
   Typography,
   Button,
   Stack,
+  CssBaseline,
   useMediaQuery,
 } from "@mui/material";
 import MenuOpcionesUsuario from "./MenuOpcionesUsuario";
 import { ReactNode } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 import { Login, Settings, ShoppingCart } from "@mui/icons-material";
 import Usuario from "../../entidades/Usuario";
 import { Link, Navigate } from "react-router-dom";
 import { localData } from "../../servicios/vistaInicio/FuncionesAPI";
+import PostLogin from "../../auth0/PostLogin";
+import RoleRedirect from "../../auth0/RoleRedirect";
+
+// LoginButton Component
+export const LoginButton = () => {
+  const { loginWithRedirect } = useAuth0();
+
+  return (
+    <Link to="#" className="btn btn-outline-light" onClick={() => loginWithRedirect()}>
+      Iniciar sesión / Registrarse&nbsp;
+      <Login />
+    </Link>
+  );
+};
 
 interface ClienteLayoutTypes {
   children: ReactNode;
@@ -21,7 +37,6 @@ interface ClienteLayoutTypes {
 }
 
 export default function ClienteLayout({ children, setEstado, estado }: ClienteLayoutTypes) {
-
   //Si no hay sucursal seleccionada, mandar al usuario al selector
   if(localData.getSucursal("sucursal")==null){
     return(
@@ -36,8 +51,11 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
   const vistaEscritorio:boolean=useMediaQuery("(min-width:650px)");
   //Si es falso, entonces estas en vista mobile
 
+  const { isAuthenticated } = useAuth0();
+
   return (
-    <Box>
+    <>
+      <CssBaseline />
       <AppBar position="sticky">
         <Toolbar sx={vistaEscritorio ? {padding:2} : {padding:1}}>
           <Box
@@ -47,7 +65,10 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
           />
           <Box component="div" sx={{ flexGrow: 1 }}>
             <Stack>
-              <Typography variant="body1">El Buen Sabor</Typography>
+              <Typography variant="body1" 
+                sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}
+                component={Link}
+                to="/cliente/sucursal">El Buen Sabor</Typography>
               <Typography variant="body2">{nombreSucursal}</Typography>
               <Link to="/cliente/bienvenida" style={{color:"white"}}><Typography variant="body2">Cambiar Sucursal</Typography></Link>
             </Stack>
@@ -64,10 +85,7 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
                 <Link to="/login" className={"btn btn-outline-light"}>
                   {vistaEscritorio && "Iniciar sesión / Registrarse "}
                   <Login />
-                </Link>
-              </>
-            ) : (
-              <>
+                  </Link>
                 <Button variant="text"
                   size="small"
                   sx={{ color: "whitesmoke" }}
@@ -78,6 +96,28 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
                 </Button>
                 <MenuOpcionesUsuario />
               </>
+            ) : (
+              <LoginButton />
+            )}
+          </Stack>
+          <Stack direction="row" spacing={3} marginRight={2}>
+            {isAuthenticated ? (
+              <>
+                <Link to="/dashboard" className={"btn btn-outline-light"}>
+                  Dashboard
+                </Link>
+                <Button variant="text"
+                  size="small"
+                  sx={{ color: "whitesmoke" }}
+                  color="primary"
+                  onClick={() => { setEstado(!estado) }}
+                >
+                  <ShoppingCart />
+                </Button>
+                <MenuOpcionesUsuario />
+              </>
+            ) : (
+              <LoginButton />
             )}
           </Stack>
         </Toolbar>
@@ -85,6 +125,8 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
       <Box component="main">
         {children}
       </Box>
-    </Box>
+      {isAuthenticated && <PostLogin />}
+      {isAuthenticated && <RoleRedirect />}
+    </>
   );
 }

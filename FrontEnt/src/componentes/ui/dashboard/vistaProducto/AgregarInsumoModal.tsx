@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableRow, Checkbox, Button, Paper } from '@mui/material';
 import ArticuloManufacturadoDetalle from '../../../../entidades/ArticuloManufacturadoDetalle';
-import { getAllArticulosInsumos } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { getAllArticuloInsumoElab } from '../../../../servicios/vistaInicio/FuncionesAPI';
 import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
 
 interface AgregarInsumoModalProps {
@@ -13,7 +13,7 @@ interface AgregarInsumoModalProps {
 
 function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarInsumoModalProps) {
     const [selectedInsumos, setSelectedInsumos] = useState<ArticuloManufacturadoDetalle[]>([]);
-    const { data: articulosDatos } = getAllArticulosInsumos();
+    const { data: articulosDatos } = getAllArticuloInsumoElab();
     const [nombreArticulo, setNombreArticulo] = useState<string>('');
     //const [nombreCategoria, setNombreCategoria] = useState<string>('');
 
@@ -35,6 +35,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarI
         } else {
             const nuevoInsumo: ArticuloManufacturadoDetalle = new ArticuloManufacturadoDetalle();
             nuevoInsumo.articuloInsumo = insumo;
+            nuevoInsumo.fechaBaja = "9999-12-31";
             nuevoInsumo.cantidad = 1;
             setSelectedInsumos([...selectedInsumos, nuevoInsumo]);
         }
@@ -48,8 +49,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarI
 
     const insumosFiltrados = articulosDatos?.filter((item: ArticuloInsumo) => {
         return (
-            (nombreArticulo === '' || item.denominacion.toLowerCase().includes(nombreArticulo.toLowerCase())) //&&
-            //(nombreCategoria === '' || item.categoria.denominacion.toLowerCase().includes(nombreCategoria.toLowerCase()))
+            (nombreArticulo === '' || item.denominacion.toLowerCase().includes(nombreArticulo.toLowerCase()))
         );
     });
 
@@ -68,7 +68,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarI
                     overflow: 'auto',
                     height: 620
                 }}>
-                
+
                 <Box sx={{ mb: 1 }}>
                     <TextField
                         label="Buscar por nombre"
@@ -76,7 +76,6 @@ function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarI
                         fullWidth
                         value={nombreArticulo}
                         onChange={(e) => setNombreArticulo(e.target.value)}
-  
                     />
                 </Box>
                 <Typography variant="h6" component="h2" sx={{ mb: 1 }}>
@@ -88,25 +87,21 @@ function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarI
                 }}>
                     <Table>
                         <TableBody>
-
-
-
                             {insumosFiltrados?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
-                            .map((item: ArticuloInsumo) => (
-
-                                <TableRow key={item.id}>
-                                    <TableCell align="center" style={{ width: '5%' }}>
-                                        <Checkbox
-                                            checked={selectedInsumos.some(selected => selected.articuloInsumo.id === item.id)}
-                                            onChange={() => handleSelectInsumo(item)}
-                                        />
-                                    </TableCell>
-                                    <TableCell align="center" style={{ width: '45%' }}>
-                                        <img src={item.imagenes[0].url} width="100%" alt={item.denominacion} />
-                                    </TableCell>
-                                    <TableCell align="center" style={{ width: '50%' }}>{item.denominacion}</TableCell>
-                                </TableRow>
-                            ))}
+                                .map((item: ArticuloInsumo) => (
+                                    <TableRow key={item.id}>
+                                        <TableCell align="center" style={{ width: '5%' }}>
+                                            <Checkbox
+                                                checked={selectedInsumos.some(selected => selected.articuloInsumo.id === item.id)}
+                                                onChange={() => handleSelectInsumo(item)}
+                                            />
+                                        </TableCell>
+                                        <TableCell align="center" style={{ width: '45%' }}>
+                                            <img src={item.imagenes[0].url} width="100%" alt={item.denominacion} />
+                                        </TableCell>
+                                        <TableCell align="center" style={{ width: '50%' }}>{item.denominacion}</TableCell>
+                                    </TableRow>
+                                ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
