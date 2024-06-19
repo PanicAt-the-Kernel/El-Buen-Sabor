@@ -31,7 +31,11 @@ const PostLogin = () => {
               navigate("/dashboard");
             } else if (roles.includes("CAJERO")) {
               navigate("/dashboard/pedidos");
-            } else {
+            } 
+             else if (roles.includes("DELIVERY")) {
+            navigate("/dashboard/pedidos");
+            }else {
+              localStorage.setItem("userRoles", "CLIENTE");
               navigate(window.location.pathname);
             }
           }

@@ -13,16 +13,21 @@ export default function GrillaPedidos() {
     if (data && !pedidos) {
       setTimeout(() => {
         setPedidos(data);
-      }, 10000); // Espera de 10 segundos antes de asignar los pedidos
+      }, 500); 
     }
   }, [data, pedidos]);
 
   useEffect(() => {
-    if (userRoles.includes("COCINERO") && pedidos) {
-      setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'PREPARACION') || []);
-    }
-    if (userRoles.includes("CAJERO") && pedidos) {
-      setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'PENDIENTE' || pedido.estado === 'ENTREGADO') || []);
+    if(!isLoading) {
+      if (userRoles.includes("COCINERO") && pedidos) {
+        setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'PREPARACION') || []);
+      }
+      if (userRoles.includes("CAJERO") && pedidos) {
+        setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'PENDIENTE' || pedido.estado === 'ENTREGADO') || []);
+      }
+      if (userRoles.includes("DELIVERY") && pedidos) {
+        setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'PENDIENTE') || []);
+      }
     }
   }, [pedidos, userRoles]);
 

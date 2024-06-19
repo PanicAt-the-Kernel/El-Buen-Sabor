@@ -12,7 +12,6 @@ import UnidadMedida from "../../entidades/UnidadMedida";
 import Pedido from "../../entidades/Pedido";
 import Factura from "../../entidades/Factura";
 import Usuario from "../../entidades/Usuario";
-import Estado from "../../entidades/Estado";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -573,7 +572,7 @@ export async function editPromocion(promocion: Promocion){
 
 }
 
-export async function editPedido(id: number, estado: Estado) {
+export async function editPedido(id, estado) {
     // Preparar llamada API
     let options = {
       mode: "cors" as RequestMode,
@@ -581,12 +580,13 @@ export async function editPedido(id: number, estado: Estado) {
       headers: {
         "Content-Type": "application/json"
       },
+      body:JSON.stringify(estado)
        
     };
   
     // Manejo de errores
     try {
-      let response = await fetch(`https://traza-final.onrender.com/pedidos/${id}?estado=${estado}`, options);
+      let response = await fetch(`https://traza-final.onrender.com/pedidos/${id}`, options);
       if (response.ok) {
         alert("Pedido actualizado correctamente.");
       } else {

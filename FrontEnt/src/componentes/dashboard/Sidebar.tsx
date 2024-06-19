@@ -67,7 +67,7 @@ function Sidebar({ collapsed, setBroken, toggled }: SidebarProps) {
         {userRoles.includes("ADMINISTRADOR") && (
           <MenuItem component={<a href="/dashboard/empleados"></a>} icon={<PeopleIcon />}>Empleados</MenuItem>
         )}
-        {!userRoles.includes("COCINERO") && (
+        {userRoles.includes("ADMINISTRADOR") && (
           <MenuItem component={<a href="/dashboard/promociones"></a>} icon={<AttachMoneyIcon />}>Promociones</MenuItem>
         )}
         <MenuItem component={<a href="/dashboard/pedidos"></a>} icon={<Receipt />}>Pedidos</MenuItem>
