@@ -67,7 +67,7 @@ export default function VistaBienvenida() {
       </Box>
     );
   }
-  const sucursal = sucursales!.filter((item: Sucursal) => {
+  const sucursal = sucursales?.filter((item: Sucursal) => {
     if (idProvincia != 0 && idLocalidad != 0) {
       return (
         item.domicilio.localidad.id == idLocalidad &&
@@ -127,7 +127,7 @@ export default function VistaBienvenida() {
             spacing={2}
             alignItems="center"
           >
-            {sucursal.map((item: Sucursal) => (
+            {sucursal?.map((item: Sucursal) => (
               <SucursalCard sucursal={item} />
             ))}
           </Stack>

@@ -56,7 +56,8 @@ function App() {
     <BrowserRouter>
       <ThemeProvider theme={basilTheme}>
         <Routes>
-          {/*VISTA DE DASHBOARD*/}
+          <Route index element={<VistaBienvenida />} />
+          {/*VISTA DE DASHBOIARD*/}
           <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
           <Route path="/dashboard/categorias" element={<DashboardVistaCategoria />} />
           <Route path="/dashboard/informes" element={<DashboardVistaInformes />} />

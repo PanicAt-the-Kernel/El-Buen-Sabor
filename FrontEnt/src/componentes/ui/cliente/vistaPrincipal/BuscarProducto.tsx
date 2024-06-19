@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, FormControl, Input, Stack } from "@mui/material";
-import GrillaProducto from "./GrillaCategorias";
+import GrillaCategorias from "./GrillaCategorias";
 
 function BuscarProducto() {
   const [nombre, setNombre] = useState("");
@@ -32,7 +32,7 @@ function BuscarProducto() {
           </FormControl>
         </Box>
       </Stack>
-      <GrillaProducto /*busqueda={nombre}*/ />
+      <GrillaCategorias /*busqueda={nombre}*/ />
     </Box>
   );
 }

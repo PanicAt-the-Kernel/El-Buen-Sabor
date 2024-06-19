@@ -18,6 +18,7 @@ const fetcher = (url: string) => fetch(url).then(res => res.json());
 //FUNCIONES GET ALL
 export function getAllEmpresas(): SWRResponse<Empresa[], any, any> {
     return useSWR<Empresa[]>(`https://traza-final.onrender.com/empresa`, fetcher);
+    return useSWR<Empresa[]>(`https://traza-final.onrender.com/empresa`, fetcher);
 }
 
 export function getAllCategorias(): SWRResponse<Categoria[], any, any> {
@@ -284,7 +285,7 @@ export async function saveUsuario(nombreUsuario:string,password:string){
           body:JSON.stringify(usuario)
     }
     try{
-        let response=await fetch("https://magniback.onrender.com/guardarUsuario",options);
+        let response=await fetch("https://traza-final.onrender.com/guardarUsuario",options);
         if(response.ok){
             alert("Usuario Registrado Correctamente");
             let usuario= await response.json();
@@ -311,8 +312,8 @@ export async function savePedido(pedido: Pedido, setTotalPedido: (total: number)
         const [domicilio, sucursal, empleado, clientes] = await Promise.all([
             fetchData('https://traza-final.onrender.com/domicilio/1'),
             fetchData('https://traza-final.onrender.com/sucursal/1'),
-            fetchData('https://magniback.onrender.com/empleados/1'),
-            fetchData('https://magniback.onrender.com/cliente')
+            fetchData('https://traza-final.onrender.com/empleados/1'),
+            fetchData('https://traza-final.onrender.com/cliente')
         ]);
 
         let factura = new Factura;
@@ -347,7 +348,7 @@ export async function savePedido(pedido: Pedido, setTotalPedido: (total: number)
         const dia = String(hoy.getDate()).padStart(2, '0');
         const fecha = `${anio}-${mes}-${dia}`;
 
-        const response = await fetch(`https://magniback.onrender.com/pedidos?fechaActual=${fecha}&precioDelivery=${totalEnvio}`, options);
+        const response = await fetch(`https://traza-final.onrender.com/pedidos?fechaActual=${fecha}&precioDelivery=${totalEnvio}`, options);
         if (response.ok) {
             alert("Pedido cargado correctamente.");
             vaciarCarrrito();
