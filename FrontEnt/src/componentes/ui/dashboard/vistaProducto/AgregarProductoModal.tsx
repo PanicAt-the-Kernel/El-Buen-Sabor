@@ -89,6 +89,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                 imagen.id = 0;
                 imagen.url = url;
                 imagen.eliminado = false;
+                imagen.fechaBaja = "9999-12-31";
                 return imagen;
             });
             setImagenesL([...imagenesL, ...newImages]);

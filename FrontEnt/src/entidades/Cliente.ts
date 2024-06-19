@@ -6,11 +6,12 @@ import Usuario from "./Usuario";
 class Cliente {
     id: number = 0;
     eliminado: boolean = false;
-    nombre: string = ''; 
+    fechaBaja: string = '';
+    nombre: string = '';
     apellido: string = '';
     telefono: string = '';
-    email: string = ''; 
-    usuario: Usuario = new Usuario; 
+    email: string = '';
+    usuario: Usuario = new Usuario;
     imagenCliente: ImagenCliente = new ImagenCliente;
     domicilios: Domicilio[] = [];
     pedidos: Pedido[] = [];

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableRow, Checkbox, Button, Paper } from '@mui/material';
 import PromocionDetalle from '../../../../entidades/PromocionDetalle';
-import { getAllArticulosManufacturados } from '../../../../servicios/vistaInicio/FuncionesAPI';
-import ArticuloManufacturado from '../../../../entidades/ArticuloManufacturado';
+import { getAllArticuloInsumoNoElab, getAllArticulosManufacturados } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import Articulo from '../../../../entidades/Articulo';
 
 interface AgregarArticuloModalProps {
     open: boolean;
@@ -15,9 +15,10 @@ function AgregarArticuloModal({ open, onClose, onSubmit, filasActuales }: Agrega
     //const idSucursal = 1;
     const [selectedArticulos, setSelectedArticulos] = useState<PromocionDetalle[]>([]);
     const { data: articulos } = getAllArticulosManufacturados();
+    const { data: insumosNoElab} = getAllArticuloInsumoNoElab();
     const [nombreArticulo, setNombreArticulo] = useState<string>('');
 
-    const handleSelectArticulo = (articulo: ArticuloManufacturado) => {
+    const handleSelectArticulo = (articulo: Articulo) => {
         const isAlreadySelected = filasActuales.some(fila => fila.articulo.id === articulo.id);
 
         if (isAlreadySelected) {
@@ -35,7 +36,9 @@ function AgregarArticuloModal({ open, onClose, onSubmit, filasActuales }: Agrega
         } else {
             const nuevoArticulo: PromocionDetalle = new PromocionDetalle();
             nuevoArticulo.articulo = articulo;
+            nuevoArticulo.articuloId = articulo.id;
             nuevoArticulo.cantidad = 1;
+            nuevoArticulo.fechaBaja = "9999-12-31";
             setSelectedArticulos([...selectedArticulos, nuevoArticulo]);
         }
     };
@@ -46,9 +49,12 @@ function AgregarArticuloModal({ open, onClose, onSubmit, filasActuales }: Agrega
         onClose();
     };
 
-    const articulosFiltrados = articulos?.filter((item: ArticuloManufacturado) => {
+    const articulosCombinados = [...(articulos || []), ...(insumosNoElab || [])];
+
+    const articulosFiltrados = articulosCombinados?.filter((item: Articulo) => {
         return (
-            (nombreArticulo === '' || item.denominacion.toLowerCase().includes(nombreArticulo.toLowerCase()))
+            (nombreArticulo === '' || item.denominacion.toLowerCase().includes(nombreArticulo.toLowerCase())) &&
+            !item.eliminado
         );
     });
 
@@ -88,7 +94,7 @@ function AgregarArticuloModal({ open, onClose, onSubmit, filasActuales }: Agrega
                     <Table>
                         <TableBody>
                             {articulosFiltrados?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
-                                .map((item: ArticuloManufacturado) => (
+                                .map((item: Articulo) => (
                                     <TableRow key={item.id}>
                                         <TableCell align="center" style={{ width: '5%' }}>
                                             <Checkbox

@@ -21,8 +21,11 @@ function BotonAgregarSucursal({ iEmpresa }: BotonAgregarSucursalProps) {
         setOpen(false);
     };
 
-    const handleSubmit = (sucursal: Sucursal, empresa: Empresa, idLocalidad: number) => {
-        saveSucursal(sucursal, empresa, idLocalidad);
+    const handleSubmit = (sucursal: Sucursal) => {
+        sucursal.fechaBaja = "9999-12-31";
+        sucursal.domicilio.fechaBaja = "9999-12-31";
+        sucursal.empresa = iEmpresa;
+        saveSucursal(sucursal);
         handleClose();
     };
 
@@ -43,7 +46,6 @@ function BotonAgregarSucursal({ iEmpresa }: BotonAgregarSucursalProps) {
                     onClose={handleClose}
                     onSubmit={handleSubmit}
                     iSucursal={new Sucursal}
-                    iEmpresa={iEmpresa}
                 />
             )}
         </>

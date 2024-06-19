@@ -46,16 +46,16 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
   }
 
   const handleSubmit = () => {
+    const sucursalIds = listaSucursales.map(sucursal => sucursal.id);
+
     const updatedPromocion = {
       ...promocion,
       sucursales: listaSucursales,
+      sucursalesId: sucursalIds,
       imagenes: imagenesL,
       promocionDetalles: tablaDetalle,
     };
 
-    setPromocion(updatedPromocion);
-    console.log(updatedPromocion);
-    console.log(promocion);
     onSubmit(updatedPromocion);
   };
 
@@ -86,6 +86,7 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
         imagen.id = 0;
         imagen.url = url;
         imagen.eliminado = false;
+        imagen.fechaBaja = "9999-12-31";
         return imagen;
       });
       setImagenesL([...imagenesL, ...newImages]);

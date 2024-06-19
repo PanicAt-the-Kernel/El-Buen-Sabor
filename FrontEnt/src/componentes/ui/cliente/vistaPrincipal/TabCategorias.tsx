@@ -1,6 +1,6 @@
 import { Box, Typography, Tabs, Tab, CircularProgress } from "@mui/material";
 import React from "react";
-import { getCategoriasIdSucursal } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { getCategoriasIdSucursal, localData } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import Categoria from "../../../../entidades/Categoria";
 import GrillaProductos from "./GrillaProductos";
 
@@ -39,7 +39,7 @@ function a11yProps(index: number) {
 
 export default function TabsCategorias() {
   const [value, setValue] = React.useState(0);
-  const idSucursal = 1;
+  const idSucursal = localData.getSucursal("sucursal").id;
   const { data, isLoading, error } = getCategoriasIdSucursal(idSucursal);
 
   if (error)
@@ -55,7 +55,9 @@ export default function TabsCategorias() {
       </>
     );
 
-  const categoriasFiltradas = data?.filter(categoria => categoria.denominacion !== 'Insumos' /*&& categoria.id !== 5*/);
+  const categoriasFiltradas = data
+  ?.filter(categoria => categoria.denominacion !== 'Insumos')
+  ?.filter(categoria => categoria.articulos && categoria.articulos.length > 0);
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -77,8 +79,8 @@ export default function TabsCategorias() {
 
         </Tabs>
       </Box>
-      {categoriasFiltradas?.map((item: Categoria) => (
-        <CustomTabPanel key={item.id} value={value} index={item.id-1}>
+      {categoriasFiltradas?.map((item: Categoria, index: number) => (
+        <CustomTabPanel key={item.id} value={value} index={index}>
           <GrillaProductos
             key={item.id}
             categoria={item}

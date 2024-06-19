@@ -1,5 +1,6 @@
 class Factura {
     eliminado: boolean = false;
+    fechaBaja: string = '';
     fechaFacturacion: string = '';
     mpPaymentId: number = 0;
     mpMerchantOrderId: number = 0;

@@ -9,10 +9,10 @@ function BotonAgregarEmpresa() {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
-
     const handleClose = () => setOpen(false);
 
     const handleSubmit = (empresa: Empresa) => {
+        empresa.fechaBaja = "9999-12-31";
         saveEmpresa(empresa);
         handleClose();
     };
