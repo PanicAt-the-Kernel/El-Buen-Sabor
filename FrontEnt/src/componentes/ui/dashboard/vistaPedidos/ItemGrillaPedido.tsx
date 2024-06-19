@@ -10,6 +10,8 @@ import {
 import Pedido from "../../../../entidades/Pedido";
 import { useState } from "react";
 import ModalPedidos from "./ModalPedidos";
+import { editPedido } from "../../../../servicios/vistaInicio/FuncionesAPI";
+
 
 interface ItemGrillaPedidoTypes{
     pedidoObj:Pedido;
@@ -18,9 +20,7 @@ interface ItemGrillaPedidoTypes{
 export default function ItemGrillaPedido({pedidoObj}:ItemGrillaPedidoTypes) {
   const [open,setOpen] = useState(false);
 
-
   const userRoles: string[] = JSON.parse(localStorage.getItem("userRoles") || "[]");
-  console.log(userRoles);
 
   return (
     <Card>
@@ -48,18 +48,17 @@ export default function ItemGrillaPedido({pedidoObj}:ItemGrillaPedidoTypes) {
           </Button>
           {}
           {((userRoles.includes("ADMINISTRADOR") || userRoles.includes("COCINERO")) && pedidoObj.estado === "PREPARACION" ) 
-          && (<Button size="medium" variant="contained" color="primary">
-            Listo Para Entregar
+          && (<Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "PENDIENTE")}>
+            Listo
           </Button>) }
-          {((userRoles.includes("ADMINISTRADOR") || userRoles.includes("CAJERO")) && pedidoObj.estado === "SOLICITADO" ) 
-          && (<Button size="medium" variant="contained" color="primary">
-            APROBAR
+          {((userRoles.includes("ADMINISTRADOR") || userRoles.includes("DELIVERY")) && pedidoObj.estado === "PENDIENTE" ) 
+          && (<Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "ENTREGADO")}>
+            Entregar
           </Button>) }
-          {((userRoles.includes("ADMINISTRADOR") || userRoles.includes("CAJERO")) && pedidoObj.estado === "LISTO PARA ENTREGAR" ) 
-          && (<Button size="medium" variant="contained" color="primary">
-            ENTREGAR
+          {((userRoles.includes("ADMINISTRADOR") || userRoles.includes("CAJERO")) && pedidoObj.estado === "ENTREGADO" ) 
+          && (<Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "FACTURADO")} >
+            Facturar
           </Button>) }
-          
           <ModalPedidos open={open} setOpen={setOpen} pedido={pedidoObj}/>
         </Stack>
       </CardActions>

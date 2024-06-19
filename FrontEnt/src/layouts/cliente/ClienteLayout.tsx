@@ -11,12 +11,12 @@ import {
 import MenuOpcionesUsuario from "./MenuOpcionesUsuario";
 import { ReactNode } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Login, Settings, ShoppingCart } from "@mui/icons-material";
+import { Login, Logout, Settings, ShoppingCart } from "@mui/icons-material";
 import Usuario from "../../entidades/Usuario";
 import { Link, Navigate } from "react-router-dom";
 import { localData } from "../../servicios/vistaInicio/FuncionesAPI";
 import PostLogin from "../../auth0/PostLogin";
-import RoleRedirect from "../../auth0/RoleRedirect";
+import LogOutButton from "../../auth0/Logout";
 
 // LoginButton Component
 export const LoginButton = () => {
@@ -51,7 +51,7 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
   const vistaEscritorio:boolean=useMediaQuery("(min-width:650px)");
   //Si es falso, entonces estas en vista mobile
 
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
 
   return (
     <>
@@ -103,9 +103,6 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
           <Stack direction="row" spacing={3} marginRight={2}>
             {isAuthenticated ? (
               <>
-                <Link to="/dashboard" className={"btn btn-outline-light"}>
-                  Dashboard
-                </Link>
                 <Button variant="text"
                   size="small"
                   sx={{ color: "whitesmoke" }}
@@ -114,6 +111,7 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
                 >
                   <ShoppingCart />
                 </Button>
+                <LogOutButton />
                 <MenuOpcionesUsuario />
               </>
             ) : (
@@ -126,7 +124,7 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
         {children}
       </Box>
       {isAuthenticated && <PostLogin />}
-      {isAuthenticated && <RoleRedirect />}
     </>
   );
 }
+

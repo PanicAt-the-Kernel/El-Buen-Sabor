@@ -542,6 +542,32 @@ export async function editPromocion(promocion: Promocion) {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
 }
+
+export async function editPedido(id, estado) {
+    // Preparar llamada API
+    let options = {
+      mode: "cors" as RequestMode,
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body:JSON.stringify(estado)
+    };
+  
+    // Manejo de errores
+    try {
+      let response = await fetch(`https://traza-final.onrender.com/pedidos/${id}`, options);
+      if (response.ok) {
+        alert("Pedido actualizado correctamente.");
+      } else {
+        alert("Error al actualizar pedido: " + response.status);
+      }
+    } catch (error) {
+      alert("Error CORS, Revisa la URL o el back está mal configurado.");
+    }
+  }
+}
+
 //Manejo LocalStorage
 export const localData={
     setUsuario(key:string, value:Usuario){
