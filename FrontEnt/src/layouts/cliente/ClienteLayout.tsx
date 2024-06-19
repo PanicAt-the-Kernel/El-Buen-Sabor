@@ -3,15 +3,16 @@ import {
   AppBar,
   Toolbar,
   Typography,
-  Container,
   Button,
   Stack,
+  useMediaQuery,
 } from "@mui/material";
 import MenuOpcionesUsuario from "./MenuOpcionesUsuario";
 import { ReactNode } from "react";
-import { Login, ShoppingCart } from "@mui/icons-material";
+import { Login, Settings, ShoppingCart } from "@mui/icons-material";
 import Usuario from "../../entidades/Usuario";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { localData } from "../../servicios/vistaInicio/FuncionesAPI";
 
 interface ClienteLayoutTypes {
   children: ReactNode;
@@ -21,35 +22,47 @@ interface ClienteLayoutTypes {
 
 export default function ClienteLayout({ children, setEstado, estado }: ClienteLayoutTypes) {
 
-  const usuario: Usuario | null = null;
-  //localData.get("usuario")
+  //Si no hay sucursal seleccionada, mandar al usuario al selector
+  if(localData.getSucursal("sucursal")==null){
+    return(
+      <Navigate to="/cliente/bienvenida" />
+    )
+  }
+  //Obtener usuario
+  const usuario: Usuario | null = localData.getUsuario('usuario');
+  const nombreSucursal=localData.getSucursal("sucursal").nombre;
+
+  //MediaQuery para vista escritorio
+  const vistaEscritorio:boolean=useMediaQuery("(min-width:650px)");
+  //Si es falso, entonces estas en vista mobile
 
   return (
     <Box>
       <AppBar position="sticky">
-        <Toolbar>
+        <Toolbar sx={vistaEscritorio ? {padding:2} : {padding:1}}>
           <Box
             component="img"
             src="/imgs/Icono.svg"
-            sx={{ width: 80, margin: 1 }}
+            sx={vistaEscritorio ?{ width: 80 }:{width:70}}
           />
-          <Typography variant="h6"
-            sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}
-            component={Link}
-            to="/cliente/sucursal"
-          >
-            El Buen Sabor
-          </Typography>
-          <Stack direction="row" spacing={3} marginRight={2}>
-            {usuario !== null && (
+          <Box component="div" sx={{ flexGrow: 1 }}>
+            <Stack>
+              <Typography variant="body1">El Buen Sabor</Typography>
+              <Typography variant="body2">{nombreSucursal}</Typography>
+              <Link to="/cliente/bienvenida" style={{color:"white"}}><Typography variant="body2">Cambiar Sucursal</Typography></Link>
+            </Stack>
+          </Box>
+          <Stack direction="row" spacing={1} marginRight={2}>
+            {usuario == null && (
               <Link to="/dashboard" className={"btn btn-outline-light"}>
-                Dashboard
+                {vistaEscritorio && "Dashboard"}
+                <Settings />
               </Link>
             )}
-            {usuario !== null ? (
+            {usuario == null ? (
               <>
                 <Link to="/login" className={"btn btn-outline-light"}>
-                  Iniciar sesión / Registrarse&nbsp;
+                  {vistaEscritorio && "Iniciar sesión / Registrarse "}
                   <Login />
                 </Link>
               </>

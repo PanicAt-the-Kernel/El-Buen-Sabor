@@ -5,6 +5,7 @@ import {
   Paper,
   Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import {
   getAllSucursales,
@@ -18,6 +19,10 @@ import SucursalCard from "../../componentes/ui/cliente/VistaSucursalCliente/Sucu
 import Sucursal from "../../entidades/Sucursal";
 
 export default function VistaBienvenida() {
+  //MediaQuery para vista escritorio
+  const vistaEscritorio: boolean = useMediaQuery("(min-width:600px)");
+  //Si es falso, entonces estas en vista mobile
+
   const [idProvincia, setIdProvincia] = useState<number>(0);
   const [idLocalidad, setIdLocalidad] = useState<number>(0);
   const {
@@ -59,7 +64,9 @@ export default function VistaBienvenida() {
               direction={{ xs: "column", sm: "column" }}
               alignItems={"center"}
             >
-              <Typography>Cargando las sucursales, por favor espere...</Typography>
+              <Typography>
+                Cargando las sucursales, por favor espere...
+              </Typography>
               <CircularProgress />
             </Stack>
           </Paper>
@@ -92,24 +99,31 @@ export default function VistaBienvenida() {
             background: "rgba(255,255,255,0.48)",
             backdropFilter: "blur(5px)",
             border: "1px solid rgba(255, 255, 255, 0.3)",
-            overflow: "hidden",
-            maxHeight: 630,
-            overflowY: "scroll",
           }}
         >
           <Stack
             direction={{ xs: "column", sm: "column" }}
             alignItems={"center"}
           >
-            <Box component="img" src="/imgs/Icono.svg" sx={{ maxWidth: 150 }} />
+            <Box
+              component="img"
+              src="/imgs/Icono.svg"
+              sx={vistaEscritorio ? { maxWidth: 150 } : { maxWidth: 100 }}
+            />
             <Typography
-              variant="h5"
               textAlign="center"
-              sx={{ fontWeight: "bolder" }}
+              sx={
+                vistaEscritorio
+                  ? { fontWeight: "bolder", fontSize: "17pt" }
+                  : { fontWeight: "bolder", fontSize: "12pt" }
+              }
             >
               Bienvenido a El Buen Sabor
             </Typography>
-            <Typography variant="h6" textAlign={"center"}>
+            <Typography
+              textAlign={"center"}
+              sx={vistaEscritorio ? { fontSize: "14pt" } : { fontSize: "11pt" }}
+            >
               Selecciona una provincia y localidad para buscar sucursales
             </Typography>
           </Stack>
@@ -121,16 +135,24 @@ export default function VistaBienvenida() {
             provincias={provincias!}
             localidades={localidades!}
           />
-          <Stack
-            sx={{ marginBottom: 2, padding: 3 }}
-            direction={{ xs: "column", sm: "column", md: "row" }}
-            spacing={2}
-            alignItems="center"
+          <Box
+            sx={
+              vistaEscritorio
+                ? { maxHeight: 380, overflow: "hidden", overflowY: "scroll" }
+                : { maxHeight: 330, overflow: "hidden", overflowY: "scroll" }
+            }
           >
-            {sucursal?.map((item: Sucursal) => (
-              <SucursalCard sucursal={item} />
-            ))}
-          </Stack>
+            <Stack
+              sx={{ padding: 1 }}
+              direction={{ xs: "column", sm: "column", md: "row" }}
+              spacing={1}
+              alignItems="center"
+            >
+              {sucursal?.map((item: Sucursal) => (
+                <SucursalCard sucursal={item} />
+              ))}
+            </Stack>
+          </Box>
         </Paper>
       </Container>
     </Box>

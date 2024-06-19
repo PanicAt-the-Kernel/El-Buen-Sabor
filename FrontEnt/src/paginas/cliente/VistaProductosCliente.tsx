@@ -4,19 +4,31 @@ import TabsCategorias from "../../componentes/ui/cliente/vistaPrincipal/TabCateg
 import { CarritoProvider } from "../../context/CarritoContext";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 import SidebarCarrito from "../../componentes/ui/cliente/vistaPrincipal/SidebarCarrito";
-import { getSucursalId } from "../../servicios/vistaInicio/FuncionesAPI";
-import { Container } from "@mui/material";
+import {
+  getSucursalId,
+  localData,
+} from "../../servicios/vistaInicio/FuncionesAPI";
+import { CircularProgress, Container } from "@mui/material";
 
 export default function VistaProductosCliente() {
-    const [open, setOpen] = useState(false);
-
-    return (
-        <CarritoProvider>
-            <ClienteLayout estado={open} setEstado={setOpen}>
-                <TabsCategorias />
-            </ClienteLayout>
-            <SidebarCarrito estado={open} setEstado={setOpen} />
-        </CarritoProvider>
-
-    )
+  const { id } = useParams();
+  const [open, setOpen] = useState(false);
+  const { data: sucursal, isLoading, error } = getSucursalId(Number(id));
+  if (error) {
+    return <h1>Ocurrio un error al cargar la informacion</h1>;
+  }
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+  localData.setSucursal("sucursal", sucursal!);
+  return (
+    <CarritoProvider>
+      <ClienteLayout estado={open} setEstado={setOpen}>
+        <Container>
+          <TabsCategorias />
+        </Container>
+      </ClienteLayout>
+      <SidebarCarrito estado={open} setEstado={setOpen} />
+    </CarritoProvider>
+  );
 }
