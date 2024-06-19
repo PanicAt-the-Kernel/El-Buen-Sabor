@@ -11,10 +11,12 @@ import {
 import MenuOpcionesUsuario from "./MenuOpcionesUsuario";
 import { ReactNode } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Login, ShoppingCart } from "@mui/icons-material";
+import { Login, Logout, ShoppingCart } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import PostLogin from "../../auth0/PostLogin";
-import RoleRedirect from "../../auth0/RoleRedirect";
+import LogOutButton from "../../auth0/Logout";
+
+
 
 // LoginButton Component
 export const LoginButton = () => {
@@ -35,7 +37,8 @@ interface ClienteLayoutTypes {
 }
 
 export default function ClienteLayout({ children, setEstado, estado }: ClienteLayoutTypes) {
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
+
 
   return (
     <>
@@ -57,9 +60,6 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
           <Stack direction="row" spacing={3} marginRight={2}>
             {isAuthenticated ? (
               <>
-                <Link to="/dashboard" className={"btn btn-outline-light"}>
-                  Dashboard
-                </Link>
                 <Button variant="text"
                   size="small"
                   sx={{ color: "whitesmoke" }}
@@ -68,6 +68,7 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
                 >
                   <ShoppingCart />
                 </Button>
+                <LogOutButton />
                 <MenuOpcionesUsuario />
               </>
             ) : (
@@ -80,7 +81,7 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
         <Container>{children}</Container>
       </Box>
       {isAuthenticated && <PostLogin />}
-      {isAuthenticated && <RoleRedirect />}
     </>
   );
 }
+

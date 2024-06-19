@@ -17,13 +17,6 @@ export default function MenuOpcionesUsuario() {
     setAnchorEl(null);
   };
 
-  const cerrarSesion = () => {
-    const { logout } = useAuth0();
-    logout({ logoutParams: { returnTo: window.location.pathname } });
-    localStorage.removeItem("userRoles");
-    alert("Sesión cerrada correctamente.");
-  };
-
   return (
     <Box component="div">
       <Button
@@ -44,12 +37,11 @@ export default function MenuOpcionesUsuario() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem sx={{ justifyContent: 'center', alignItems: 'center', pointerEvents: 'none', }} disabled>
+        <MenuItem sx={{ justifyContent: 'center', alignItems: 'center', pointerEvents: 'none', }}>
           {user ? user?.email : "Usuario"}
         </MenuItem>
         <MenuItem onClick={() => navigate('/cliente/cuenta')}>Mi perfil</MenuItem>
         <MenuItem onClick={() => navigate('/cliente/pedidos')}>Mis Pedidos</MenuItem>
-        <MenuItem onClick={() => cerrarSesion()}>Cerrar Sesion</MenuItem>
       </Menu>
     </Box>
   );

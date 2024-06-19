@@ -12,6 +12,7 @@ import UnidadMedida from "../../entidades/UnidadMedida";
 import Pedido from "../../entidades/Pedido";
 import Factura from "../../entidades/Factura";
 import Usuario from "../../entidades/Usuario";
+import Estado from "../../entidades/Estado";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -568,4 +569,31 @@ export async function editPromocion(promocion: Promocion){
     }catch{
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
     }
+
+
 }
+
+export async function editPedido(id: number, estado: Estado) {
+    // Preparar llamada API
+    let options = {
+      mode: "cors" as RequestMode,
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+       
+    };
+  
+    // Manejo de errores
+    try {
+      let response = await fetch(`https://traza-final.onrender.com/pedidos/${id}?estado=${estado}`, options);
+      if (response.ok) {
+        alert("Pedido actualizado correctamente.");
+      } else {
+        alert("Error al actualizar pedido: " + response.status);
+      }
+    } catch (error) {
+      alert("Error CORS, Revisa la URL o el back está mal configurado.");
+    }
+  }
+  

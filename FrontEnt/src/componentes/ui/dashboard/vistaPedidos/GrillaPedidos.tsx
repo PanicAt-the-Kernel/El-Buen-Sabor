@@ -22,7 +22,7 @@ export default function GrillaPedidos() {
       setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'PREPARACION') || []);
     }
     if (userRoles.includes("CAJERO") && pedidos) {
-      setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'SOLICITADO' || pedido.estado === 'LISTO PARA ENTREGAR') || []);
+      setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'PENDIENTE' || pedido.estado === 'ENTREGADO') || []);
     }
   }, [pedidos, userRoles]);
 
