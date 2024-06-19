@@ -34,10 +34,10 @@ export default function MostrarSucursalesModal({ open, onClose, iEmpresa }: Most
         setOpenSucursal(false);
     };
 
-    const handleSubmit = (sucursal: Sucursal, empresa: Empresa, idLocalidad: number) => {
+    const handleSubmit = (sucursal: Sucursal) => {
         //LLAMADA API EDITAR EMPRESA
         if (editingSucursal != null) {
-            editSucursal(sucursal, empresa, idLocalidad);
+            editSucursal(sucursal);
             handleClose();
         }
     };
@@ -98,7 +98,6 @@ export default function MostrarSucursalesModal({ open, onClose, iEmpresa }: Most
                         onClose={handleClose}
                         onSubmit={handleSubmit}
                         iSucursal={editingSucursal}
-                        iEmpresa={iEmpresa}
                     />
                 )}
             </Box>

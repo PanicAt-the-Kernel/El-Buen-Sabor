@@ -43,7 +43,7 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
     }
   };
 
-  const insumosFiltrados: ArticuloInsumo[] = insumos?.filter((item: ArticuloInsumo) => {
+  const insumosFiltrados = insumos?.filter((item: ArticuloInsumo) => {
     return (
       busqueda === "" ||
       item.denominacion.toLowerCase().includes(busqueda.toLowerCase())
@@ -53,23 +53,19 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
   return (
     <>
       <Grid container sx={{ marginTop: 2 }} spacing={1}>
-
-
-
         {insumosFiltrados?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
-        .map((item: ArticuloInsumo) => (
-
-          <ItemGrillaInsumos
-            key={item.id}
-            denominacion={item.denominacion}
-            stockActual={"Stock actual: " + item.stockActual + " " + item.unidadMedida.denominacion.toLowerCase()}
-            precioCompra={"Precio de compra: $" + item.precioCompra}
-            urlImagen={item.imagenes[0].url}
-          >
-            <Button size="small" variant="contained" color="info" startIcon={<Info />} /*onClick={() => handleOpenInfo(item)}*/>Info</Button>
-            <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpenEditar(item)}>Editar</Button>
-          </ItemGrillaInsumos>
-        ))}
+          .map((item: ArticuloInsumo) => (
+            <ItemGrillaInsumos
+              key={item.id}
+              denominacion={item.denominacion}
+              stockActual={"Stock actual: " + item.stockActual + " " + item.unidadMedida.denominacion.toLowerCase()}
+              precioCompra={"Precio de compra: $" + item.precioCompra}
+              urlImagen={item.imagenes[0].url}
+            >
+              <Button size="small" variant="contained" color="info" startIcon={<Info />} /*onClick={() => handleOpenInfo(item)}*/>Info</Button>
+              <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpenEditar(item)}>Editar</Button>
+            </ItemGrillaInsumos>
+          ))}
       </Grid>
       {openEditar && editingInsumo && (
         <AgregarInsumoModal

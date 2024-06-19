@@ -13,6 +13,7 @@ function BotonAgregarUnidadMedida() {
     const handleClose = () => setOpen(false);
 
     const handleSubmit = (unidadmedida: UnidadMedida) => {
+        unidadmedida.fechaBaja = "9999-12-31";
         saveUnidadMedida(unidadmedida);
         handleClose();
     };

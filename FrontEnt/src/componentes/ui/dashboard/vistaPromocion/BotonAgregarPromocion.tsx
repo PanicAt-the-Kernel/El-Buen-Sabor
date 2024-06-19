@@ -12,6 +12,7 @@ function BotonAgregarPromocion() {
     const handleClose = () => setOpen(false);
 
     const handleSubmit = (promocion: Promocion) => {
+        promocion.fechaBaja = "9999-12-31";
         savePromocion(promocion);
         handleClose();
     };

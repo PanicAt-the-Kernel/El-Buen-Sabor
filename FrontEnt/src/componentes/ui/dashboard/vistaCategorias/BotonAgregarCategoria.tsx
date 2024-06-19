@@ -14,6 +14,7 @@ function BotonAgregarCategoria() {
     const handleClose = () => setOpen(false);
 
     const handleSubmit = (categoria: Categoria) => {
+        categoria.fechaBaja = "9999-12-31";
         saveCategoria(categoria, idSucursal);
         handleClose();
     };
