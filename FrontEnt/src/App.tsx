@@ -26,6 +26,7 @@ import { ThemeProvider, createTheme } from "@mui/material";
 import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
+import VistaPedidoCliente from "./paginas/cliente/VistaPedidoCliente";
 
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
