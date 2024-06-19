@@ -12,14 +12,12 @@ export default function VistaPedidosCliente() {
         component="div"
         sx={{
           backgroundColor: "#282828",
-          borderBottomLeftRadius: 5,
-          borderBottomRightRadius: 5,
           marginBottom: 2,
           padding: 2,
         }}
       >
         <Typography variant="h5" color={"white"} textAlign={"center"}>
-          Aqui podras ver todos tus pedidos
+          Aqui podras ver tu historico de pedidos
         </Typography>
       </Box>
       <Container>

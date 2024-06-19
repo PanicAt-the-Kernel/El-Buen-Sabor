@@ -1,6 +1,8 @@
 import { Avatar, Box, Button, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Usuario from "../../entidades/Usuario";
+import { localData } from "../../servicios/vistaInicio/FuncionesAPI";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function MenuOpcionesUsuario() {
@@ -17,11 +19,18 @@ export default function MenuOpcionesUsuario() {
     setAnchorEl(null);
   };
 
+  const [usuario, setUsuario] = useState<Usuario | null>(
+    localData.getUsuario('usuario')
+  );
+
   const cerrarSesion = () => {
     const { logout } = useAuth0();
     logout({ logoutParams: { returnTo: window.location.pathname } });
     localStorage.removeItem("userRoles");
     alert("Sesión cerrada correctamente.");
+    setUsuario(null);
+    localData.removeUsuario('usuario');
+    window.location.reload();
   };
 
   return (

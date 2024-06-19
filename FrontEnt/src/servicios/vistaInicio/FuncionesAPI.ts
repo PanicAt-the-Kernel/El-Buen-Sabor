@@ -12,6 +12,7 @@ import UnidadMedida from "../../entidades/UnidadMedida";
 import Pedido from "../../entidades/Pedido";
 import Factura from "../../entidades/Factura";
 import Usuario from "../../entidades/Usuario";
+import DetallePedido from "../../entidades/DetallePedido";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -539,5 +540,38 @@ export async function editPromocion(promocion: Promocion) {
         }
     } catch {
         alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+//Manejo LocalStorage
+export const localData={
+    setUsuario(key:string, value:Usuario){
+        localStorage.setItem(key,JSON.stringify(value));
+    },
+    getUsuario(key:string){
+        const userStored=localStorage.getItem(key);
+        return userStored==null? null :JSON.parse(userStored);
+    },
+    removeUsuario(key:string){
+        localStorage.removeItem(key);
+    },
+    setSucursal(key:string,value:Sucursal){
+        localStorage.setItem(key,JSON.stringify(value))
+    },
+    getSucursal(key:string){
+        const sucursalStored=localStorage.getItem(key);
+        return sucursalStored==null? null : JSON.parse(sucursalStored);
+    },
+    removeSucursal(key:string){
+        localStorage.removeItem(key)
+    },
+    setCarrito(key:string,value:DetallePedido[]){
+        localStorage.setItem(key,JSON.stringify(value))
+    },
+    getCarrito(key:string){
+        const carritoStored=localStorage.getItem(key);
+        return carritoStored == null ? null : JSON.parse(carritoStored);
+    },
+    removeCarrito(key:string){
+        localStorage.removeItem(key);
     }
 }

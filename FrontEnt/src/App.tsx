@@ -14,14 +14,18 @@ import VistaCuentaCliente from "./paginas/cliente/VistaCuentaCliente";
 import VistaLogin from "./paginas/cliente/VistaLogin";
 import VistaDomicilioCliente from "./paginas/cliente/VistaDomicilioCliente";
 import VistaBienvenida from "./paginas/cliente/VistaBienvenida";
+import FacturaClientePDFViewer from "./utils/pdf/FacturaClientePDFViewer";
+import MercadoPagoSuccess from "./paginas/cliente/MercadoPagoSuccess";
+import MercadoPagoError from "./paginas/cliente/MercadoPagoError";
+import MercadoPagoPending from "./paginas/cliente/MercadoPagoPending";
+import { Auth0Provider } from "@auth0/auth0-react";
+import { Perfil } from "./componentes/ui/perfil/Perfil";
+import VistaRegister from "./paginas/cliente/VistaRegister";
 
 import { ThemeProvider, createTheme } from "@mui/material";
 import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
-import { Auth0Provider } from "@auth0/auth0-react";
-import { Perfil } from "./componentes/ui/perfil/Perfil";
-import VistaRegister from "./paginas/cliente/VistaRegister";
 
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
@@ -76,10 +80,15 @@ function App() {
           {/*VISTA DE CLIENTE*/}
           <Route path="/login" element={<VistaLogin />} />
           <Route path="/cliente/bienvenida" element={<VistaBienvenida />} />
-          <Route path='/cliente/sucursal' element={<VistaProductosCliente />} />
+          <Route path='/cliente/sucursal/:id' element={<VistaProductosCliente />} />
           <Route path="/cliente/pedidos" element={<VistaPedidosCliente />} />
           <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
           <Route path="/cliente/domicilios" element={<VistaDomicilioCliente />} />
+          <Route path="/cliente/miPedido" element={<VistaPedidoCliente />} />
+          <Route path="/cliente/factura" element={<FacturaClientePDFViewer />} />
+          <Route path="/cliente/mpExito" element={<MercadoPagoSuccess />} />
+          <Route path="/cliente/mpError" element={<MercadoPagoError />} />
+          <Route path="/cliente/mpPending" element={<MercadoPagoPending />} />
         </Routes>
       </ThemeProvider>
     </BrowserRouter>

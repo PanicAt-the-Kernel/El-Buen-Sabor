@@ -1,13 +1,6 @@
-import {
-  Card,
-  CardMedia,
-  CardContent,
-  Typography,
-  Stack,
-  CardActions,
-  Button,
-} from "@mui/material";
+import { Card, CardMedia, CardContent, Typography, Stack } from "@mui/material";
 import Sucursal from "../../../../entidades/Sucursal";
+import { Link } from "react-router-dom";
 
 interface SucursalCardTypes {
   sucursal: Sucursal;
@@ -22,26 +15,23 @@ export default function SucursalCard({ sucursal }: SucursalCardTypes) {
         sx={{ height: 150, objectFit: "scale-down" }}
         image="/imgs/sucursal.jpg"
       />
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-          {sucursal.nombre}
-        </Typography>
+      <CardContent sx={{ textAlign: "center" }}>
+        <Link to={`/cliente/sucursal/${sucursal.id}`} style={{color:"black"}}>
+          <Typography variant="h5" component="div" sx={{fontWeight:"bolder"}}>
+            {sucursal.nombre}
+          </Typography>
+        </Link>
+
         <Stack>
           <Typography variant="body2" color="text.primary">
-          {sucursal.domicilio.calle + " " + sucursal.domicilio.numero + " " + sucursal.domicilio.localidad.nombre}
+            Ubicado en: {sucursal.domicilio.calle} y {sucursal.domicilio.numero}
           </Typography>
           <Typography variant="body2" color="text.primary">
-          {"Horarios: " + sucursal.horarioApertura + " a " + sucursal.horarioCierre}
+            Horarios: Lunes-Viernes de {sucursal.horarioApertura}-
+            {sucursal.horarioCierre}
           </Typography>
         </Stack>
       </CardContent>
-      <CardActions>
-        <Stack sx={{ paddingLeft: 3.5 }} alignItems="center">
-          <Button size="small" variant="contained" color="info">
-            Seleccionar Sucursal
-          </Button>
-        </Stack>
-      </CardActions>
     </Card>
   );
 }
