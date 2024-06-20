@@ -10,7 +10,6 @@ import Provincia from "../../entidades/Provincia";
 import Localidad from "../../entidades/Localidad";
 import UnidadMedida from "../../entidades/UnidadMedida";
 import Pedido from "../../entidades/Pedido";
-import Factura from "../../entidades/Factura";
 import Usuario from "../../entidades/Usuario";
 import DetallePedido from "../../entidades/DetallePedido";
 
@@ -295,8 +294,7 @@ export async function savePedido(pedido: Pedido, setTotalPedido: (total: number)
             fetchData('https://traza-final.onrender.com/cliente')
         ]);
 
-        let factura = new Factura;
-
+        /*let factura = new Factura;
         factura.eliminado = false;
         factura.fechaFacturacion = "2024-06-03";
         factura.mpPaymentId = 425;
@@ -304,13 +302,13 @@ export async function savePedido(pedido: Pedido, setTotalPedido: (total: number)
         factura.mpPreferenceId = "MP-3065";
         factura.mpPaymentType = "Tipo8";
         factura.formaPago = "EFECTIVO";
-        factura.totalVenta = 270.0;
-
+        factura.totalVenta = 270.0;*/
+        
         pedido.domicilio = domicilio;
         pedido.sucursal = sucursal;
         pedido.empleado = empleado;
         pedido.cliente = clientes[0];
-        pedido.factura = factura;
+        pedido.factura = null;
 
         const options = {
             mode: 'cors' as RequestMode,
