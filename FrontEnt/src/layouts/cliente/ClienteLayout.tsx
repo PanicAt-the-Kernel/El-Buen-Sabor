@@ -11,8 +11,7 @@ import {
 import MenuOpcionesUsuario from "./MenuOpcionesUsuario";
 import { ReactNode } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Login, Logout, Settings, ShoppingCart } from "@mui/icons-material";
-import Usuario from "../../entidades/Usuario";
+import { Login, ShoppingCart } from "@mui/icons-material";
 import { Link, Navigate } from "react-router-dom";
 import { localData } from "../../servicios/vistaInicio/FuncionesAPI";
 import PostLogin from "../../auth0/PostLogin";
@@ -43,15 +42,13 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
       <Navigate to="/cliente/bienvenida" />
     )
   }
-  //Obtener usuario
-  const usuario: Usuario | null = localData.getUsuario('usuario');
-  const nombreSucursal=localData.getSucursal("sucursal").nombre;
 
+  const nombreSucursal=localData.getSucursal("sucursal").nombre;
   //MediaQuery para vista escritorio
   const vistaEscritorio:boolean=useMediaQuery("(min-width:650px)");
   //Si es falso, entonces estas en vista mobile
 
-  const { isAuthenticated, user } = useAuth0();
+  const { isAuthenticated } = useAuth0();
 
   return (
     <>
@@ -73,33 +70,7 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
               <Link to="/cliente/bienvenida" style={{color:"white"}}><Typography variant="body2">Cambiar Sucursal</Typography></Link>
             </Stack>
           </Box>
-          <Stack direction="row" spacing={1} marginRight={2}>
-            {usuario == null && (
-              <Link to="/dashboard" className={"btn btn-outline-light"}>
-                {vistaEscritorio && "Dashboard"}
-                <Settings />
-              </Link>
-            )}
-            {usuario == null ? (
-              <>
-                <Link to="/login" className={"btn btn-outline-light"}>
-                  {vistaEscritorio && "Iniciar sesión / Registrarse "}
-                  <Login />
-                  </Link>
-                <Button variant="text"
-                  size="small"
-                  sx={{ color: "whitesmoke" }}
-                  color="primary"
-                  onClick={() => { setEstado(!estado) }}
-                >
-                  <ShoppingCart />
-                </Button>
-                <MenuOpcionesUsuario />
-              </>
-            ) : (
-              <LoginButton />
-            )}
-          </Stack>
+          
           <Stack direction="row" spacing={3} marginRight={2}>
             {isAuthenticated ? (
               <>

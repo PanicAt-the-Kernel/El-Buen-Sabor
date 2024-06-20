@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import { jwtDecode } from "jwt-decode";
+import { localData } from '../servicios/vistaInicio/FuncionesAPI';
 
 interface DecodedToken {
   "https://api-buen-sabor.com/roles"?: string[];
@@ -11,6 +12,7 @@ interface DecodedToken {
 const PostLogin = () => {
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
   const navigate = useNavigate();
+  const idSucursal = localData.getSucursal("sucursal").id;
 
   useEffect(() => {
     const processToken = async () => {
@@ -31,12 +33,11 @@ const PostLogin = () => {
               navigate("/dashboard");
             } else if (roles.includes("CAJERO")) {
               navigate("/dashboard/pedidos");
-            } 
-             else if (roles.includes("DELIVERY")) {
-            navigate("/dashboard/pedidos");
-            }else {
+            } else if (roles.includes("DELIVERY")) {
+              navigate("/dashboard/pedidos");
+            } else {
               localStorage.setItem("userRoles", "CLIENTE");
-              navigate(window.location.pathname);
+              navigate(`/cliente/sucursal/${idSucursal}`);
             }
           }
         } catch (error) {

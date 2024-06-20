@@ -53,11 +53,12 @@ export default function MenuOpcionesUsuario() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem sx={{ justifyContent: 'center', alignItems: 'center', pointerEvents: 'none', }}>
+        <MenuItem sx={{ justifyContent: 'center', alignItems: 'center', pointerEvents: 'none', }} disabled>
           {user ? user?.email : "Usuario"}
         </MenuItem>
         <MenuItem onClick={() => navigate('/cliente/cuenta')}>Mi perfil</MenuItem>
         <MenuItem onClick={() => navigate('/cliente/pedidos')}>Mis Pedidos</MenuItem>
+        <MenuItem onClick={() => cerrarSesion()}>Cerrar Sesion</MenuItem>
       </Menu>
     </Box>
   );

@@ -543,61 +543,60 @@ export async function editPromocion(promocion: Promocion) {
     }
 }
 
-export async function editPedido(id, estado) {
+export async function editPedido(id: number, estado: string) {
     // Preparar llamada API
     let options = {
-      mode: "cors" as RequestMode,
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body:JSON.stringify(estado)
+        mode: "cors" as RequestMode,
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(estado)
     };
-  
+
     // Manejo de errores
     try {
-      let response = await fetch(`https://traza-final.onrender.com/pedidos/${id}`, options);
-      if (response.ok) {
-        alert("Pedido actualizado correctamente.");
-      } else {
-        alert("Error al actualizar pedido: " + response.status);
-      }
+        let response = await fetch(`https://traza-final.onrender.com/pedidos/${id}`, options);
+        if (response.ok) {
+            alert("Pedido actualizado correctamente.");
+        } else {
+            alert("Error al actualizar pedido: " + response.status);
+        }
     } catch (error) {
-      alert("Error CORS, Revisa la URL o el back está mal configurado.");
+        alert("Error CORS, Revisa la URL o el back está mal configurado.");
     }
-  }
 }
 
 //Manejo LocalStorage
-export const localData={
-    setUsuario(key:string, value:Usuario){
-        localStorage.setItem(key,JSON.stringify(value));
+export const localData = {
+    setUsuario(key: string, value: Usuario) {
+        localStorage.setItem(key, JSON.stringify(value));
     },
-    getUsuario(key:string){
-        const userStored=localStorage.getItem(key);
-        return userStored==null? null :JSON.parse(userStored);
+    getUsuario(key: string) {
+        const userStored = localStorage.getItem(key);
+        return userStored == null ? null : JSON.parse(userStored);
     },
-    removeUsuario(key:string){
+    removeUsuario(key: string) {
         localStorage.removeItem(key);
     },
-    setSucursal(key:string,value:Sucursal){
-        localStorage.setItem(key,JSON.stringify(value))
+    setSucursal(key: string, value: Sucursal) {
+        localStorage.setItem(key, JSON.stringify(value))
     },
-    getSucursal(key:string){
-        const sucursalStored=localStorage.getItem(key);
-        return sucursalStored==null? null : JSON.parse(sucursalStored);
+    getSucursal(key: string) {
+        const sucursalStored = localStorage.getItem(key);
+        return sucursalStored == null ? null : JSON.parse(sucursalStored);
     },
-    removeSucursal(key:string){
+    removeSucursal(key: string) {
         localStorage.removeItem(key)
     },
-    setCarrito(key:string,value:DetallePedido[]){
-        localStorage.setItem(key,JSON.stringify(value))
+    setCarrito(key: string, value: DetallePedido[]) {
+        localStorage.setItem(key, JSON.stringify(value))
     },
-    getCarrito(key:string){
-        const carritoStored=localStorage.getItem(key);
+    getCarrito(key: string) {
+        const carritoStored = localStorage.getItem(key);
         return carritoStored == null ? null : JSON.parse(carritoStored);
     },
-    removeCarrito(key:string){
+    removeCarrito(key: string) {
         localStorage.removeItem(key);
     }
 }

@@ -65,10 +65,7 @@ function App() {
  <BrowserRouter>
       <ThemeProvider theme={basilTheme}>
         <Routes>
-          <Route path="/login" element={<VistaLogin />} />
-          <Route path="/perfil" element={<Perfil />} />
-          <Route path="/register" element={<VistaRegister />} />
-          <Route index element={<VistaProductosCliente />} />
+          <Route index element={<VistaBienvenida />} />
           {/*VISTA DE DASHBOARD*/}
           <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
           <Route path="/dashboard/categorias" element={<DashboardVistaCategoria />} />
@@ -80,7 +77,9 @@ function App() {
           <Route path="/dashboard/uDeMedida" element={<DashboardVistaUMedida />} />
           <Route path="/dashboard/pedidos" element={<DashboardVistaPedidos />} />
           {/*VISTA DE CLIENTE*/}
+          <Route path="/register" element={<VistaRegister />} />
           <Route path="/login" element={<VistaLogin />} />
+          <Route path="/perfil" element={<Perfil />} />
           <Route path="/cliente/bienvenida" element={<VistaBienvenida />} />
           <Route path='/cliente/sucursal/:id' element={<VistaProductosCliente />} />
           <Route path="/cliente/pedidos" element={<VistaPedidosCliente />} />
