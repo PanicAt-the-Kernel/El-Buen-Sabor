@@ -2,17 +2,15 @@ import { useState } from 'react';
 import { Modal, Box, TextField, Stack, Button, FormControlLabel, Checkbox, Select, MenuItem, InputLabel, FormControl, SelectChangeEvent } from '@mui/material';
 import { getAllPaises, getLocalidadesIdProvincia, getProvinciasIdPais } from '../../../../servicios/vistaInicio/FuncionesAPI';
 import Sucursal from '../../../../entidades/Sucursal';
-import Empresa from '../../../../entidades/Empresa';
 
 interface AgregarSucursalModalProps {
     open: boolean;
     onClose: () => void;
-    onSubmit: (sucursal: Sucursal, empresa: Empresa, idLocalidad: number) => void;
+    onSubmit: (sucursal: Sucursal) => void;
     iSucursal: Sucursal;
-    iEmpresa: Empresa;
 }
 
-function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal, iEmpresa }: AgregarSucursalModalProps) {
+function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal }: AgregarSucursalModalProps) {
     const [sucursal, setSucursal] = useState<Sucursal>(iSucursal);
     const [pais, setPais] = useState(sucursal.domicilio.localidad.provincia.pais.id);
     const [provincia, setProvincia] = useState(sucursal.domicilio.localidad.provincia.id);
@@ -34,7 +32,23 @@ function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal, iEmpresa }: 
 
 
     const handleSubmit = () => {
-        onSubmit(sucursal, iEmpresa, localidad);
+        const selectedLocalidad = localidades?.find(loc => loc.id === localidad);
+
+        if (!selectedLocalidad) {
+            console.error("La localidad seleccionada es inválida.");
+            return;
+        }
+
+        const updatedSucursal = {
+            ...sucursal,
+            domicilio: {
+                ...sucursal.domicilio,
+                localidad: selectedLocalidad,
+            }
+        };
+
+        setSucursal(updatedSucursal);
+        onSubmit(updatedSucursal);
     };
 
     return (
@@ -130,8 +144,8 @@ function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal, iEmpresa }: 
                             label="Nro Dpto"
                             variant="outlined"
                             type="number"
-                            value={sucursal.domicilio.nroDepto}
-                            onChange={(e) => setSucursal({ ...sucursal, domicilio: { ...sucursal.domicilio, nroDepto: parseInt(e.target.value) } })}
+                            value={sucursal.domicilio.nroDpto}
+                            onChange={(e) => setSucursal({ ...sucursal, domicilio: { ...sucursal.domicilio, nroDpto: parseInt(e.target.value) } })}
                         />
                         <FormControl variant="outlined">
                             <InputLabel id="pais-label">País</InputLabel>

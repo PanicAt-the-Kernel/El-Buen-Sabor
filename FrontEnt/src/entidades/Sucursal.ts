@@ -5,6 +5,8 @@ import Promocion from "./Promocion";
 
 class Sucursal {
     id: number = 0;
+    eliminado: boolean = false;
+    fechaBaja: string = '';
     nombre: string = '';
     horarioApertura: string = '';
     horarioCierre: string = '';
@@ -12,8 +14,7 @@ class Sucursal {
     promociones: Promocion[] = [];
     categorias: Categoria[] = [];
     empresa: Empresa = new Empresa;
-    eliminado: boolean = false;
-    esCasaMatriz: boolean = false; 
+    esCasaMatriz: boolean = false;
 }
 
 export default Sucursal

@@ -1,6 +1,24 @@
 import { IconButton, Box, AppBar, Toolbar, Typography } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
-import LogoutIcon from '@mui/icons-material/Logout';
+import { useAuth0 } from "@auth0/auth0-react";
+import { Link } from "react-router-dom";
+import { Logout } from "@mui/icons-material";
+
+// LogOutButton Component
+export const LogOutButton = () => {
+  const { logout } = useAuth0();
+
+  return (
+      <Link to="#" className="btn btn-outline-light" onClick={()  =>  {
+        logout({ logoutParams: { returnTo: window.location.origin } });
+        localStorage.removeItem("userRoles");
+      }}
+        >
+          Cerrar sesión&nbsp;
+          <Logout />
+      </Link>
+  );
+};
 
 interface AppHeaderTypes {
   setCollapse: (item: boolean) => void;
@@ -41,9 +59,7 @@ function AppHeader({ broken, setCollapse, setToggle, collapsed, toggled }: AppHe
             El Buen Sabor Dashboard
           </Typography>
           <Box sx={{ flexGrow: 1 }}></Box>
-          <IconButton title="Logout" color="inherit">
-            <LogoutIcon />
-          </IconButton>
+          <LogOutButton />
         </Toolbar>
       </AppBar>
     </Box>

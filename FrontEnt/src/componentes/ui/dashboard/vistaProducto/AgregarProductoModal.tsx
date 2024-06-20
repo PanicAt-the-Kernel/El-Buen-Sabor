@@ -25,7 +25,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
     const [tablaDetalle, setTablaDetalle] = useState<ArticuloManufacturadoDetalle[]>(iArticuloM.articuloManufacturadoDetalles);
     const [openInsumos, setOpenInsumos] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
-
+    const userRoles: string[] = JSON.parse(localStorage.getItem("userRoles") || "[]");
     const handleOpenInsumos = () => setOpenInsumos(true);
     const handleCloseInsumos = () => setOpenInsumos(false);
 
@@ -89,6 +89,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                 imagen.id = 0;
                 imagen.url = url;
                 imagen.eliminado = false;
+                imagen.fechaBaja = "9999-12-31";
                 return imagen;
             });
             setImagenesL([...imagenesL, ...newImages]);
@@ -142,6 +143,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             label="Nombre"
                             variant="outlined"
                             value={articuloM.denominacion}
+                            disabled={!userRoles.includes("ADMINISTRADOR")}
                             onChange={(e) => setArticuloM({ ...articuloM, denominacion: e.target.value })}
                         />
                         <TextField
@@ -149,6 +151,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             label="Precio de venta"
                             variant="outlined"
                             value={articuloM.precioVenta}
+                            disabled={!userRoles.includes("ADMINISTRADOR")}
                             onChange={(e) => setArticuloM({ ...articuloM, precioVenta: parseInt(e.target.value) })}
                         />
                         <FormControl variant="outlined">
@@ -156,6 +159,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             <Select
                                 labelId="uMedida-label"
                                 value={unidadMedidaL}
+                                disabled={!userRoles.includes("ADMINISTRADOR")}
                                 onChange={(e) => setUnidadMedida(e.target.value as number)}
                                 label="Unidad de medida"
                             >
@@ -172,6 +176,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             <Select
                                 labelId="categoria-label"
                                 value={categoriaL}
+                                disabled={!userRoles.includes("ADMINISTRADOR")}
                                 onChange={(e) => setCategoria(e.target.value as number)}
                                 label="Categoria"
                             >
@@ -186,11 +191,13 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                         <TextField
                             label="Descripción"
                             variant="outlined"
+                            disabled={!userRoles.includes("ADMINISTRADOR")}
                             value={articuloM.descripcion}
                             onChange={(e) => setArticuloM({ ...articuloM, descripcion: e.target.value })}
                         />
                         <input
                             type="file"
+                            disabled={!userRoles.includes("ADMINISTRADOR")}
                             accept="image/*"
                             multiple
                             style={{ display: 'none' }}
@@ -198,7 +205,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             onChange={handleImageUpload}
                         />
                         <label htmlFor="file-upload">
-                            <Button variant="contained" component="span">
+                            <Button variant="contained" component="span"  disabled={!userRoles.includes("ADMINISTRADOR")}>
                                 Agregar Imagen
                             </Button>
                         </label>
@@ -207,7 +214,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             {imagenesL.map((imagen, index) => (
                                 <Grid item key={index} marginBottom={2}>
                                     <img src={imagen.url} alt={`Imagen ${index}`} style={{ maxWidth: 200 }} />
-                                    <IconButton aria-label="eliminar" onClick={() => handleDeleteImage(index)}>
+                                    <IconButton aria-label="eliminar" onClick={() => handleDeleteImage(index)}  disabled={!userRoles.includes("ADMINISTRADOR")}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </Grid>
@@ -260,38 +267,37 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
 
 
                                     {tablaDetalle.sort((a, b) => a.articuloInsumo.denominacion.localeCompare(b.articuloInsumo.denominacion))
-                                    .map((fila, index) => (
-
-                                        <TableRow key={fila.articuloInsumo.id}>
-                                            <TableCell>{fila.articuloInsumo.denominacion}</TableCell>
-                                            <TableCell>
-                                                <TextField
-                                                    type="number"
-                                                    value={fila.cantidad}
-                                                    inputProps={{ min: "1" }}
-                                                    onChange={(e) => {
-                                                        const newCantidad = parseFloat(e.target.value);
-                                                        if (newCantidad > 0) {
-                                                            const newTablaDetalle = [...tablaDetalle];
-                                                            newTablaDetalle[index] = { ...newTablaDetalle[index], cantidad: newCantidad };
-                                                            setTablaDetalle(newTablaDetalle);
-                                                        } else {
-                                                            alert("La cantidad debe ser un número positivo mayor a 0");
-                                                        }
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell>
-                                                <Button
-                                                    variant="contained"
-                                                    color="secondary"
-                                                    onClick={() => removeInsumo(Number(fila.articuloInsumo.id))}
-                                                >
-                                                    -
-                                                </Button>
-                                            </TableCell>
-                                        </TableRow>
-                                    ))}
+                                        .map((fila, index) => (
+                                            <TableRow key={fila.articuloInsumo.id}>
+                                                <TableCell>{fila.articuloInsumo.denominacion + " (" + fila.articuloInsumo.unidadMedida.denominacion.toLowerCase() + ")"}</TableCell>
+                                                <TableCell>
+                                                    <TextField
+                                                        type="number"
+                                                        value={fila.cantidad}
+                                                        inputProps={{ min: "1" }}
+                                                        onChange={(e) => {
+                                                            const newCantidad = parseFloat(e.target.value);
+                                                            if (newCantidad > 0) {
+                                                                const newTablaDetalle = [...tablaDetalle];
+                                                                newTablaDetalle[index] = { ...newTablaDetalle[index], cantidad: newCantidad };
+                                                                setTablaDetalle(newTablaDetalle);
+                                                            } else {
+                                                                alert("La cantidad debe ser un número positivo mayor a 0");
+                                                            }
+                                                        }}
+                                                    />
+                                                </TableCell>
+                                                <TableCell>
+                                                    <Button
+                                                        variant="contained"
+                                                        color="secondary"
+                                                        onClick={() => removeInsumo(Number(fila.articuloInsumo.id))}
+                                                    >
+                                                        -
+                                                    </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
                                 </TableBody>
                             </Table>
                         </TableContainer>

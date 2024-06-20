@@ -1,37 +1,80 @@
 import { Button, Grid } from "@mui/material";
 import Promocion from "../../../../entidades/Promocion";
-import { getAllPromociones } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { editPromocion, getPromocionesIdSucursal } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import ItemGrillaPromocion from "./ItemGrillaPromocion";
 import { Info, Edit } from "@mui/icons-material";
+import { useState } from "react";
+import AgregarPromocionModal from "./AgregarPromocionModal";
 
 interface GrillaPromocionTypes {
   busqueda: string;
 }
 
 export default function GrillaPromocion({ busqueda }: GrillaPromocionTypes) {
-  const { data: promociones } = getAllPromociones();
+  const idSucursal = 1;
+  const { data: promociones } = getPromocionesIdSucursal(idSucursal);
+  const [editingProm, setEditingProm] = useState<Promocion | null>(null);
+  const [openEditar, setOpenEditar] = useState(false);
+  //const [openInfo, setOpenInfo] = useState(false);
+
+
+  const handleOpenEditar = (promocion: Promocion) => {
+    console.log(promocion);
+    setEditingProm(promocion);
+    setOpenEditar(true);
+  };
+
+  const handleCloseEditar = () => {
+    setEditingProm(null);
+    setOpenEditar(false);
+  };
+  /*
+  const handleOpenInfo = (promocion: Promocion) => {
+    setEditingProm(promocion);
+    setOpenInfo(true);
+  };
+
+  const handleCloseInfo = () => {
+    setEditingProm(null);
+    setOpenInfo(false);
+  };*/
+
+  const handleSubmit = (promocion: Promocion) => {
+    if (editingProm != null) {
+      editPromocion(promocion);
+      handleCloseEditar();
+    }
+  };
+
   const promocionesFiltradas = promociones?.filter((item: Promocion) => {
     return (
       busqueda === "" ||
       item.denominacion.toLowerCase().includes(busqueda.toLowerCase())
     );
   });
+
   return (
-    <Grid container sx={{ marginTop: 2 }} spacing={2}>
-      {promocionesFiltradas?.map((item: Promocion) => (
-        <ItemGrillaPromocion
-          denominacion={item.denominacion}
-          descripcion={item.descripcionDescuento}
-          fechaDesde={item.fechaDesde}
-          fechaHasta={item.fechaHasta}
-          horaDesde={item.horaDesde}
-          horaHasta={item.horaHasta}
-          precio={item.precioPromocional}
-        >
-          <Button size="small" variant="contained" color="info" startIcon={<Info />} /*onClick={() => handleOpenInfo(item)}*/>Info</Button>
-          <Button size="small" variant="contained" startIcon={<Edit />} /*onClick={() => handleOpenEditar(item)}*/>Editar</Button>
-        </ItemGrillaPromocion>
-      ))}
-    </Grid>
+    <>
+      <Grid container sx={{ marginTop: 2 }} spacing={2}>
+        {promocionesFiltradas?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+        .map((item: Promocion) => (
+          <ItemGrillaPromocion
+            key={item.id}
+            item={item}
+          >
+            <Button size="small" variant="contained" color="info" startIcon={<Info />} /*onClick={() => handleOpenInfo(item)}*/>Info</Button>
+            <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpenEditar(item)}>Editar</Button>
+          </ItemGrillaPromocion>
+        ))}
+      </Grid>
+      {editingProm && openEditar && (
+        <AgregarPromocionModal
+          open={openEditar}
+          onClose={handleCloseEditar}
+          onSubmit={handleSubmit}
+          iPromocion={editingProm}
+        />
+      )}
+    </>
   );
 }

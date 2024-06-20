@@ -1,13 +1,16 @@
-import ArticuloInsumo from "./ArticuloInsumo";
-import ArticuloManufacturado from "./ArticuloManufacturado";
+import Articulo from "./Articulo";
+import Promocion from "./Promocion";
 
 class DetallePedido {
     id: number = 0;
-    cantidad: number = 0; 
-    subtotal: number = 0;
     eliminado: boolean = false;
-    articuloManufacturado: ArticuloManufacturado = new ArticuloManufacturado;
-    articuloInsumo: ArticuloInsumo = new ArticuloInsumo;
+    fechaBaja: string = '';
+    cantidad: number = 0;
+    subTotal: number = 0;
+    articulo: number | null = null;
+    promocion: number | null = null;
+    articuloAux: Articulo = new Articulo; //Trascient
+    promocionAux: Promocion = new Promocion; //Trascient
 }
 
 export default DetallePedido;

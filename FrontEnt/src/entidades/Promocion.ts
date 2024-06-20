@@ -1,21 +1,23 @@
-import ArticuloInsumo from "./ArticuloInsumo";
-import ArticuloManufacturado from "./ArticuloManufacturado";
 import Imagen from "./Imagen";
+import PromocionDetalle from "./PromocionDetalle";
+import Sucursal from "./Sucursal";
 
 class Promocion {
     id: number = 0;
+    eliminado: boolean = false;
+    fechaBaja: string = '';
     denominacion: string = '';
     fechaDesde: string = '';
     fechaHasta: string = '';
     horaDesde: string = '';
-    eliminado: boolean = false;
     horaHasta: string = '';
     descripcionDescuento: string = '';
     precioPromocional: number = 0;
     tipoPromocion: string = '';
-    articulosManufacturados: ArticuloManufacturado[] = [];
-    articuloInsumos: ArticuloInsumo[] = [];
+    promocionDetalles: PromocionDetalle[] = [];
     imagenes: Imagen[] = [];
+    sucursales: Sucursal[] = [];
+    sucursalesId: number[] = [];
 }
 
 export default Promocion
