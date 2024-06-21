@@ -29,13 +29,14 @@ export const LoginButton = () => {
   );
 };
 
+//Marcar los parametros como opcionales para no exigirlos en vistas que no sean necesarios
 interface ClienteLayoutTypes {
   children: ReactNode;
-  setEstado: (item: boolean) => void;
-  estado: boolean;
+  setEstado?: (item: boolean) => void;
+  estado?: boolean;
 }
-
-export default function ClienteLayout({ children, setEstado, estado }: ClienteLayoutTypes) {
+//Pasarle parametros por defecto para evitar errores
+export default function ClienteLayout({ children, setEstado=()=>{}, estado=false}: ClienteLayoutTypes) {
   //Si no hay sucursal seleccionada, mandar al usuario al selector
   if(localData.getSucursal("sucursal")==null){
     return(
