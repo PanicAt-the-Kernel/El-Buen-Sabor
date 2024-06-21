@@ -40,7 +40,7 @@ function a11yProps(index: number) {
 export default function TabsCategorias() {
   const [value, setValue] = React.useState(0);
   const idSucursal = localData.getSucursal("sucursal").id;
-  const { data, isLoading, error } = getCategoriasIdSucursal(idSucursal);
+  const { data, isLoading, error, isValidating } = getCategoriasIdSucursal(idSucursal);
 
   if (error)
     return (
@@ -58,7 +58,7 @@ export default function TabsCategorias() {
   const categoriasFiltradas = data
   ?.filter(categoria => categoria.denominacion !== 'Insumos')
   ?.filter(categoria => categoria.articulos && categoria.articulos.length > 0);
-
+  console.log(categoriasFiltradas);
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
@@ -85,6 +85,7 @@ export default function TabsCategorias() {
             key={item.id}
             categoria={item}
           />
+          {isValidating ? (<CircularProgress />) : null}
         </CustomTabPanel>
       ))}
     </Box>
