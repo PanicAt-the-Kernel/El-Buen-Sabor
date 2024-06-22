@@ -5,7 +5,7 @@ import { jwtDecode } from "jwt-decode";
 import { localData } from '../servicios/vistaInicio/FuncionesAPI';
 
 interface DecodedToken {
-  "https://api-buen-sabor.com/roles"?: string[];
+  "https://Auth0Example.com/roles"?: string[];
   [key: string]: any;
 }
 
@@ -13,6 +13,7 @@ const PostLogin = () => {
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
   const navigate = useNavigate();
   const idSucursal = localData.getSucursal("sucursal").id;
+  console.log("PostLogin llamado");
 
   useEffect(() => {
     const processToken = async () => {
@@ -21,15 +22,15 @@ const PostLogin = () => {
           const tokenClaims = await getIdTokenClaims();
           const token = tokenClaims!.__raw;
           const decodedToken = jwtDecode<DecodedToken>(token);
-          const roles = decodedToken["https://api-buen-sabor.com/roles"];
-
+          const roles = decodedToken["https://my-app.example.com/roles"];
+          console.log(decodedToken);
           if (roles) {
-            localStorage.setItem("userRoles", JSON.stringify(roles));
+            localData.setRol("userRoles", roles);
 
             // Verificar y redirigir según el primer rol encontrado
             if (roles.includes("COCINERO")) {
               navigate("/dashboard/pedidos");
-            } else if (roles.includes("ADMINISTRADOR")) {
+            } else if (roles.includes("ADMIN")) {
               navigate("/dashboard");
             } else if (roles.includes("CAJERO")) {
               navigate("/dashboard/pedidos");
