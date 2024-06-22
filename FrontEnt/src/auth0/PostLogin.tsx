@@ -13,6 +13,7 @@ const PostLogin = () => {
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
   const navigate = useNavigate();
   const idSucursal = localData.getSucursal("sucursal").id;
+  console.log("PostLogin llamado");
 
   useEffect(() => {
     const processToken = async () => {
@@ -25,10 +26,12 @@ const PostLogin = () => {
           console.log(decodedToken);
           if (roles) {
             localData.setRol("userRoles", roles);
+            localData.setRol("userRoles", roles);
 
             // Verificar y redirigir según el primer rol encontrado
             if (roles.includes("COCINERO")) {
               navigate("/dashboard/pedidos");
+            } else if (roles.includes("ADMIN")) {
             } else if (roles.includes("ADMIN")) {
               navigate("/dashboard");
             } else if (roles.includes("CAJERO")) {
