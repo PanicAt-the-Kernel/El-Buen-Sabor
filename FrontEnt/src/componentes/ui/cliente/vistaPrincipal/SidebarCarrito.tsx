@@ -30,7 +30,7 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
       horaEstimadaFinalizacion: "22:00:00.000",
       total: totalPedido,
       totalCosto: 0,
-      estado: "PREPARACION",
+      estado: "PENDIENTE",
       tipoEnvio: "DELIVERY",
       formaPago: "EFECTIVO",
       fechaPedido: fecha,

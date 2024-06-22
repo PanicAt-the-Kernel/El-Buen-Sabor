@@ -12,6 +12,8 @@ import {
 import Articulo from "../../../../entidades/Articulo";
 import { useContext } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
+import { useAuth0 } from "@auth0/auth0-react";
+import moment from "moment";
 
 interface ItemGrillaProductoTypes {
   item: Articulo;
@@ -19,6 +21,35 @@ interface ItemGrillaProductoTypes {
 
 export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   const { carrito, addCarrito, removeItemCarrito } = useContext(CarritoContext);
+  const { isAuthenticated } = useAuth0();
+
+
+  const now = moment().tz('America/Argentina/Buenos_Aires');
+
+  const isWithinTimeRange = () => {
+    const dayOfWeek = now.day(); // 0 = domingo, 1 = lunes, ..., 6 = sábado
+    const hour = now.hour();
+    const minute = now.minute();
+
+    
+
+    // Horarios de lunes a viernes (20:00 - 00:00)
+    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+      if ((hour === 17 && minute >= 0) || (hour >= 18 && hour < 24)) {
+        return true;
+      }
+    }
+
+    // Horarios de sábados y domingos (11:00 - 15:00 y 20:00 - 00:00)
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      if ((hour === 11 && minute >= 0) || (hour >= 12 && hour < 15) || 
+          (hour === 20 && minute >= 0) || (hour >= 21 && hour < 24)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
 
   const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.articulo === item.id);
 
@@ -48,20 +79,22 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
           >
             Ingredientes
           </Button>
-          <Stack direction={"row"}>
+          {(isAuthenticated && isWithinTimeRange()) && (
+            <Stack direction={"row"}>
             <Button
               size="small"
               startIcon={<Remove />}
               onClick={() => { removeItemCarrito(item) }}
-            />
+              />
             <Badge badgeContent={estaEnCarrito ? estaEnCarrito.cantidad : 0} color="info">
-              <ShoppingCart />
+             <ShoppingCart />
             </Badge>
             <Button size="small"
-              startIcon={<Add />}
-              onClick={() => { addCarrito(item) }}
+             startIcon={<Add />}
+            onClick={() => { addCarrito(item) }}
             />
           </Stack>
+          )}
         </Stack>
       </CardActions>
     </Card>

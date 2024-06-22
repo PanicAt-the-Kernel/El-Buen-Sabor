@@ -16,6 +16,7 @@ import { Link, Navigate } from "react-router-dom";
 import { localData } from "../../servicios/vistaInicio/FuncionesAPI";
 import PostLogin from "../../auth0/PostLogin";
 import LogOutButton from "../../auth0/Logout";
+import moment from 'moment-timezone';
 
 // LoginButton Component
 export const LoginButton = () => {
@@ -28,6 +29,7 @@ export const LoginButton = () => {
     </Link>
   );
 };
+
 
 interface ClienteLayoutTypes {
   children: ReactNode;
@@ -42,6 +44,32 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
       <Navigate to="/cliente/bienvenida" />
     )
   }
+  
+  const now = moment().tz('America/Argentina/Buenos_Aires');
+
+
+  const isWithinTimeRange = () => {
+    const dayOfWeek = now.day(); // 0 = domingo, 1 = lunes, ..., 6 = sábado
+    const hour = now.hour();
+    const minute = now.minute();
+
+    // Horarios de lunes a viernes (20:00 - 00:00)
+    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+      if ((hour === 17 && minute >= 0) || (hour >= 18 && hour < 24)) {
+        return true;
+      }
+    }
+
+    // Horarios de sábados y domingos (11:00 - 15:00 y 20:00 - 00:00)
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      if ((hour === 11 && minute >= 0) || (hour >= 12 && hour < 15) || 
+          (hour === 20 && minute >= 0) || (hour >= 21 && hour < 24)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
 
   const nombreSucursal=localData.getSucursal("sucursal").nombre;
   //MediaQuery para vista escritorio
@@ -72,16 +100,18 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
           </Box>
           
           <Stack direction="row" spacing={3} marginRight={2}>
-            {isAuthenticated ? (
+          {isAuthenticated ? (
               <>
-                <Button variant="text"
-                  size="small"
-                  sx={{ color: "whitesmoke" }}
-                  color="primary"
-                  onClick={() => { setEstado(!estado) }}
-                >
-                  <ShoppingCart />
-                </Button>
+                {isWithinTimeRange() && (
+                  <Button variant="text"
+                    size="small"
+                    sx={{ color: "whitesmoke" }}
+                    color="primary"
+                    onClick={() => { setEstado(!estado) }}
+                  >
+                    <ShoppingCart />
+                  </Button>
+                )}
                 <LogOutButton />
                 <MenuOpcionesUsuario />
               </>
