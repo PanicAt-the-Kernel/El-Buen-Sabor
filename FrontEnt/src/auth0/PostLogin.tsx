@@ -37,7 +37,6 @@ const PostLogin = () => {
             } else if (roles.includes("DELIVERY")) {
               navigate("/dashboard/pedidos", { replace: true });
             } else {
-              localStorage.setItem("userRoles", "CLIENTE");
               navigate(`/cliente/sucursal/${sucursal.id}`, { replace: true });
             }
           }

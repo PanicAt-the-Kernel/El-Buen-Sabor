@@ -90,8 +90,8 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
       }
   
       if(isAuthenticated && data) {
-        localData.setCliente("Cliente",data)
-        console.log(localData.getCliente("Cliente"))
+
+        localData.setCliente("Cliente",data);
       } else if( isAuthenticated && !data) {
         <Navigate to="/register" />
       } 

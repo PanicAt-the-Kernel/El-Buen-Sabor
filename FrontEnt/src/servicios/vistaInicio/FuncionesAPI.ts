@@ -197,7 +197,7 @@ export function getPromocionesIdSucursal(
 
 export function getPedidosCliente(clienteEmail : string) :SWRResponse<Pedido[], any, any> {
   return useSWR<Pedido[]>(
-    `https://traza-final.onrender.com/pedido/${clienteEmail}`,
+    `https://traza-final.onrender.com/pedidos/cliente?userName=${clienteEmail}`,
     fetcher
   )
 };
