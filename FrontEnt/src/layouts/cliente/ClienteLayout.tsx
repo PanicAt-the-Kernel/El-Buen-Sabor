@@ -37,15 +37,15 @@ interface ClienteLayoutTypes {
 
 export default function ClienteLayout({ children, setEstado, estado }: ClienteLayoutTypes) {
   //Si no hay sucursal seleccionada, mandar al usuario al selector
-  if(localData.getSucursal("sucursal")==null){
-    return(
+  if (localData.getSucursal("sucursal") == null) {
+    return (
       <Navigate to="/cliente/bienvenida" />
     )
   }
 
-  const nombreSucursal=localData.getSucursal("sucursal").nombre;
+  const nombreSucursal = localData.getSucursal("sucursal").nombre;
   //MediaQuery para vista escritorio
-  const vistaEscritorio:boolean=useMediaQuery("(min-width:650px)");
+  const vistaEscritorio: boolean = useMediaQuery("(min-width:650px)");
   //Si es falso, entonces estas en vista mobile
 
   const { isAuthenticated } = useAuth0();
@@ -54,25 +54,25 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
     <>
       <CssBaseline />
       <AppBar position="sticky">
-        <Toolbar sx={vistaEscritorio ? {padding:2} : {padding:1}}>
+        <Toolbar sx={vistaEscritorio ? { padding: 2 } : { padding: 1 }}>
           <Box
             component="img"
             src="/imgs/Icono.svg"
-            sx={vistaEscritorio ?{ width: 80 }:{width:70}}
+            sx={vistaEscritorio ? { width: 80 } : { width: 70 }}
           />
           <Box component="div" sx={{ flexGrow: 1 }}>
             <Stack>
-              <Typography variant="body1" 
+              <Typography variant="body1"
                 sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}
                 component={Link}
                 to="/cliente/sucursal">El Buen Sabor</Typography>
               <Typography variant="body2">{nombreSucursal}</Typography>
-              <Link to="/cliente/bienvenida" style={{color:"white"}}><Typography variant="body2">Cambiar Sucursal</Typography></Link>
+              <Link to="/cliente/bienvenida" style={{ color: "white" }}><Typography variant="body2">Cambiar Sucursal</Typography></Link>
             </Stack>
           </Box>
-          
+
           <Stack direction="row" spacing={3} marginRight={2}>
-            {isAuthenticated ? (
+            {!isAuthenticated ? (
               <>
                 <Button variant="text"
                   size="small"

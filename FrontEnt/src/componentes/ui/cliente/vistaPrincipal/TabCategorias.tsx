@@ -1,8 +1,8 @@
 import { Box, Typography, Tabs, Tab, CircularProgress } from "@mui/material";
 import React from "react";
-import { getCategoriasIdSucursal, localData } from "../../../../servicios/vistaInicio/FuncionesAPI";
-import Categoria from "../../../../entidades/Categoria";
+import { getAllArticuloInsumoNoElab, getArticulosManufacturadosIdSucursal, getPromocionesIdSucursal, localData } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import GrillaProductos from "./GrillaProductos";
+import GrillaPromo from "./GrillaPromo";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -40,7 +40,10 @@ function a11yProps(index: number) {
 export default function TabsCategorias() {
   const [value, setValue] = React.useState(0);
   const idSucursal = localData.getSucursal("sucursal").id;
-  const { data, isLoading, error } = getCategoriasIdSucursal(idSucursal);
+  //const { data, isLoading, error } = getCategoriasIdSucursal(idSucursal);
+  const { data: articulos, isLoading, error } = getArticulosManufacturadosIdSucursal(idSucursal);
+  const { data: insumosNoElab } = getAllArticuloInsumoNoElab();
+  const { data: promociones } = getPromocionesIdSucursal(idSucursal);
 
   if (error)
     return (
@@ -55,38 +58,46 @@ export default function TabsCategorias() {
       </>
     );
 
-  const categoriasFiltradas = data
-  ?.filter(categoria => categoria.denominacion !== 'Insumos')
-  ?.filter(categoria => categoria.articulos && categoria.articulos.length > 0);
-
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
   };
 
-  return (
-    <Box sx={{ width: "100%" }}>
-      <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          variant="scrollable"
-          scrollButtons
-          allowScrollButtonsMobile
-        >
-          {categoriasFiltradas?.map((item: Categoria) => (
-            <Tab key={item.id} label={item.denominacion} {...a11yProps(item.id)}/>
-          ))}
+  if (articulos && insumosNoElab && promociones)
 
-        </Tabs>
-      </Box>
-      {categoriasFiltradas?.map((item: Categoria, index: number) => (
-        <CustomTabPanel key={item.id} value={value} index={index}>
-          <GrillaProductos
-            key={item.id}
-            categoria={item}
+    return (
+      <Box sx={{ width: "100%" }}>
+        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            variant="scrollable"
+            scrollButtons
+            allowScrollButtonsMobile
+          >
+            <Tab key={1} label="Promos" {...a11yProps(1)} />
+            <Tab key={2} label="Manufacurados" {...a11yProps(2)} />
+            <Tab key={3} label="Insumos no elaborados" {...a11yProps(3)} />
+
+          </Tabs>
+        </Box>
+        <CustomTabPanel key={1} value={value} index={0}>
+          <GrillaPromo
+            key={1}
+            promociones={promociones}
           />
         </CustomTabPanel>
-      ))}
-    </Box>
-  );
+        <CustomTabPanel key={2} value={value} index={1}>
+          <GrillaProductos
+            key={2}
+            articulos={articulos}
+          />
+        </CustomTabPanel>
+        <CustomTabPanel key={3} value={value} index={2}>
+          <GrillaProductos
+            key={3}
+            articulos={insumosNoElab}
+          />
+        </CustomTabPanel>
+      </Box>
+    );
 }

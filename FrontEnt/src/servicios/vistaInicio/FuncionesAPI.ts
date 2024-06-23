@@ -89,6 +89,10 @@ export function getPromocionesIdSucursal(idSucursal: number): SWRResponse<Promoc
     return useSWR<Promocion[]>(`https://traza-final.onrender.com/promocion/sucursal/${idSucursal}`, fetcher);
 }
 
+export function getArticulosManufacturadosIdSucursal(idSucursal: number): SWRResponse<ArticuloManufacturado[], any, any> {
+    return useSWR<ArticuloManufacturado[]>(`https://traza-final.onrender.com/articuloManufacturado/sucursal/${idSucursal}`, fetcher);
+}
+
 //FUNCIONES SAVE
 export async function saveEmpresa(empresa: Empresa) {
     //Preparar llamada api

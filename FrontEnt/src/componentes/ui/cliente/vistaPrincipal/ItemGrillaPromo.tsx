@@ -11,30 +11,29 @@ import {
 } from "@mui/material";
 import { useContext } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
-import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
-import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
+import Promocion from "../../../../entidades/Promocion";
 
 interface ItemGrillaProductoTypes {
-  item: ArticuloInsumo | ArticuloManufacturado;
+  item: Promocion;
 }
 
 export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
-  const { carrito, addArticuloCarrito, removeArticuloCarrito } = useContext(CarritoContext);
+  const { carrito, addPromoCarrito, removePromoCarrito } = useContext(CarritoContext);
 
-  const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.articulo === item.id);
+  const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.promocion === item.id);
 
   return (
     <Card sx={{ maxWidth: 330, textAlign: "center" }}>
       <CardMedia
         sx={{ height: 150, margin: 1 }}
-        image={item.imagenes[0].url}
+        image={"item.imagenes[0].url"}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {item.denominacion}
         </Typography>
         <Typography variant="h6" color="text">
-          {"$" + item.precioVenta}
+          {"$" + item.precioPromocional}
         </Typography>
       </CardContent>
       <CardActions sx={{ justifyContent: "center" }}>
@@ -53,14 +52,14 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
             <Button
               size="small"
               startIcon={<Remove />}
-              onClick={() => { removeArticuloCarrito(item) }}
+              onClick={() => { removePromoCarrito(item) }}
             />
             <Badge badgeContent={estaEnCarrito ? estaEnCarrito.cantidad : 0} color="info">
               <ShoppingCart />
             </Badge>
             <Button size="small"
               startIcon={<Add />}
-              onClick={() => { addArticuloCarrito(item) }}
+              onClick={() => { addPromoCarrito(item) }}
             />
           </Stack>
         </Stack>

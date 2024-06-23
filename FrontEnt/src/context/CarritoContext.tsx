@@ -1,11 +1,15 @@
 import { createContext, useState, ReactNode, useEffect } from "react";
 import DetallePedido from "../entidades/DetallePedido";
-import Articulo from "../entidades/Articulo";
+import ArticuloInsumo from "../entidades/ArticuloInsumo";
+import ArticuloManufacturado from "../entidades/ArticuloManufacturado";
+import Promocion from "../entidades/Promocion";
 
 interface CarritoTypes {
   carrito: DetallePedido[];
-  addCarrito: (item: Articulo) => void;
-  removeItemCarrito: (item: Articulo) => void;
+  addArticuloCarrito: (item: ArticuloInsumo | ArticuloManufacturado) => void;
+  removeArticuloCarrito: (item: ArticuloInsumo | ArticuloManufacturado) => void;
+  addPromoCarrito: (item: Promocion) => void;
+  removePromoCarrito: (item: Promocion) => void;
   vaciarCarrito: () => void;
   totalPedido: number;
   setTotalPedido: React.Dispatch<React.SetStateAction<number>>;
@@ -15,8 +19,10 @@ interface CarritoTypes {
 
 export const CarritoContext = createContext<CarritoTypes>({
   carrito: [],
-  addCarrito: () => { },
-  removeItemCarrito: () => { },
+  addArticuloCarrito: () => { },
+  removeArticuloCarrito: () => { },
+  addPromoCarrito: () => { },
+  removePromoCarrito: () => { },
   vaciarCarrito: () => { },
   totalPedido: 0,
   setTotalPedido: () => { },
@@ -42,7 +48,7 @@ export const CarritoProvider = ({ children }: { children: ReactNode }) => {
     calcularTotal();
   }, [carrito]);
 
-  const addCarrito = (item: Articulo) => {
+  const addArticuloCarrito = (item: ArticuloInsumo | ArticuloManufacturado) => {
     const estaEnCarrito = carrito.find(
       (itemCarrito) => itemCarrito.articulo === item.id
     );
@@ -58,16 +64,16 @@ export const CarritoProvider = ({ children }: { children: ReactNode }) => {
     } else {
       const newItem = new DetallePedido;
       newItem.id = 0;
-      newItem.articulo = item.id;
       newItem.cantidad = 1;
       newItem.subTotal = item.precioVenta;
+      newItem.articulo = item.id;
       newItem.promocion = null;
       newItem.articuloAux = item;
       setCarrito([...carrito, newItem]);
     }
   };
 
-  const removeItemCarrito = (item: Articulo) => {
+  const removeArticuloCarrito = (item: ArticuloInsumo | ArticuloManufacturado) => {
     const estaEnCarrito = carrito.find(
       (itemCarrito) => itemCarrito.articulo === item.id
     );
@@ -87,6 +93,51 @@ export const CarritoProvider = ({ children }: { children: ReactNode }) => {
     }
   };
 
+  const addPromoCarrito = (item: Promocion) => {
+    const estaEnCarrito = carrito.find(
+      (itemCarrito) => itemCarrito.promocion === item.id
+    );
+
+    if (estaEnCarrito) {
+      setCarrito(
+        carrito.map((itemCarrito) =>
+          itemCarrito.promocion === item.id
+            ? { ...itemCarrito, cantidad: itemCarrito.cantidad + 1, subTotal: (itemCarrito.cantidad + 1) * item.precioPromocional }
+            : itemCarrito
+        )
+      );
+    } else {
+      const newItem = new DetallePedido;
+      newItem.id = 0;
+      newItem.cantidad = 1;
+      newItem.subTotal = item.precioPromocional;
+      newItem.articulo = null;
+      newItem.promocion = item.id;
+      newItem.promocionAux = item;
+      setCarrito([...carrito, newItem]);
+    }
+  };
+
+  const removePromoCarrito = (item: Promocion) => {
+    const estaEnCarrito = carrito.find(
+      (itemCarrito) => itemCarrito.promocion === item.id
+    );
+
+    if (estaEnCarrito) {
+      if (estaEnCarrito.cantidad === 1) {
+        setCarrito(carrito.filter((itemCarrito) => itemCarrito.promocion !== item.id));
+      } else {
+        setCarrito(
+          carrito.map((itemCarrito) =>
+            itemCarrito.promocion === item.id
+              ? { ...itemCarrito, cantidad: itemCarrito.cantidad - 1, subTotal: (itemCarrito.cantidad - 1) * item.precioPromocional }
+              : itemCarrito
+          )
+        );
+      }
+    }
+  };
+
   const vaciarCarrito = () => {
     setCarrito([]);
   };
@@ -95,8 +146,10 @@ export const CarritoProvider = ({ children }: { children: ReactNode }) => {
     <CarritoContext.Provider
       value={{
         carrito,
-        addCarrito,
-        removeItemCarrito,
+        addArticuloCarrito,
+        removeArticuloCarrito,
+        addPromoCarrito,
+        removePromoCarrito,
         vaciarCarrito,
         totalPedido,
         setTotalPedido,
