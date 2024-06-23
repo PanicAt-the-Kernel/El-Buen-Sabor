@@ -47,25 +47,28 @@ export default function ItemGrillaPedido({ pedidoObj }: ItemGrillaPedidoTypes) {
           <Button style={{ marginRight: '10px' }} size="medium" variant="contained" color="info" startIcon={<Info />} onClick={() => setOpen(!open)}>
             Mas Datos
           </Button>
-          { }
-          {(userRoles.includes("ADMIN") || userRoles.includes("CAJERO") && pedidoObj.estado === "PENDIENTE") && (
-            <ButtonGroup   size="medium" variant="contained" color="primary">
+          {pedidoObj.estado === "PENDIENTE" && userRoles.includes("ADMIN") && (
+            <ButtonGroup size="medium" variant="contained" color="primary">
               <Button style={{ marginRight: 2 }} onClick={() => editPedido(pedidoObj.id, "APROBADO")}>
                 APROBAR
               </Button>
-              <Button   onClick={() => editPedido(pedidoObj.id, "RECHAZADO")}>
+              <Button onClick={() => editPedido(pedidoObj.id, "RECHAZADO")}>
                 RECHAZAR
               </Button>
             </ButtonGroup>
           )}
-          {((userRoles.includes("ADMIN") || userRoles.includes("COCINERO")) && pedidoObj.estado === "APROBADO")
-            && (<Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "TERMINADO")}>
-              Listo
-            </Button>)}
-          {((userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && pedidoObj.estado === "EN DELIVERY")
-            && (<Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "FACTURADO")} >
+
+          {pedidoObj.estado === "EN DELIVERY" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
+            <Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "FACTURADO")}>
               Facturar
-            </Button>)}
+            </Button>
+          )}
+
+          {((userRoles.includes("ADMIN") || userRoles.includes("COCINERO")) && pedidoObj.estado === "APROBADO") && (
+            <Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "TERMINADO")}>
+              Listo
+            </Button>
+          )}
 
           <ModalPedidos open={open} setOpen={setOpen} pedido={pedidoObj} />
         </Stack>

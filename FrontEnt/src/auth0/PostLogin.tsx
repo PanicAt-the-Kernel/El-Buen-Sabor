@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import { jwtDecode } from "jwt-decode";
 import { localData } from '../servicios/vistaInicio/FuncionesAPI';
@@ -12,6 +12,7 @@ interface DecodedToken {
 const PostLogin = () => {
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
   const navigate = useNavigate();
+  const sucursal = localData.getSucursal("sucursal")
 
   useEffect(() => {
     const processToken = async () => {
@@ -24,20 +25,20 @@ const PostLogin = () => {
       
 
 
-          if (roles) {
+          if (roles && !localData.getRol("userRoles")) {
             localData.setRol("userRoles", roles);
             // Verificar y redirigir según el primer rol encontrado
             if (roles.includes("COCINERO")) {
-              return ( <Navigate to="/dashboard/pedidos" />)
+              navigate("/dashboard/pedidos", { replace: true });
             } else if (roles.includes("ADMIN")) {
-              return ( <Navigate to="/dashboard" />)
+              navigate("/dashboard", { replace: true });
             } else if (roles.includes("CAJERO")) {
-              return ( <Navigate to="/dashboard/pedidos" />)
+              navigate("/dashboard/pedidos", { replace: true });
             } else if (roles.includes("DELIVERY")) {
-              return ( <Navigate to="/dashboard/pedidos" />)
+              navigate("/dashboard/pedidos", { replace: true });
             } else {
               localStorage.setItem("userRoles", "CLIENTE");
-              return ( <Navigate to="/dashboard/pedidos" />)
+              navigate(`/cliente/sucursal/${sucursal.id}`, { replace: true });
             }
           }
         } catch (error) {
