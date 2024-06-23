@@ -195,6 +195,13 @@ export function getPromocionesIdSucursal(
   );
 }
 
+export function getPedidosCliente(clienteEmail : string) :SWRResponse<Pedido[], any, any> {
+  return useSWR<Pedido[]>(
+    `https://traza-final.onrender.com/pedido/${clienteEmail}`,
+    fetcher
+  )
+};
+
 export function getClienteEmail(
   clienteEmail: string
 ): SWRResponse<Cliente[], any, any> {
@@ -431,11 +438,10 @@ export async function savePedido(
   };
 
   try {
-    const [domicilio, sucursal, empleado, clientes] = await Promise.all([
+    const [domicilio, sucursal, empleado] = await Promise.all([
       fetchData("https://traza-final.onrender.com/domicilio/1"),
       fetchData("https://traza-final.onrender.com/sucursal/1"),
       fetchData("https://traza-final.onrender.com/empleado/1"),
-      fetchData("https://traza-final.onrender.com/cliente"),
     ]);
 
     let factura = new Factura();
@@ -452,7 +458,7 @@ export async function savePedido(
     pedido.domicilio = domicilio;
     pedido.sucursal = sucursal;
     pedido.empleado = empleado;
-    pedido.cliente = clientes[0];
+    pedido.cliente = localData.getCliente("Cliente");
     pedido.factura = factura;
 
     const options = {

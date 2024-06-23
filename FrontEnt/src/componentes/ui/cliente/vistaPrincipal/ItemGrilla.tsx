@@ -43,7 +43,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     // Horarios de sábados y domingos (11:00 - 15:00 y 20:00 - 00:00)
     if (dayOfWeek === 0 || dayOfWeek === 6) {
       if ((hour === 11 && minute >= 0) || (hour >= 12 && hour < 15) || 
-          (hour === 20 && minute >= 0) || (hour >= 21 && hour < 24)) {
+          (hour === 20 && minute >= 0) || (hour >= 0 && hour < 24)) {
         return true;
       }
     }
