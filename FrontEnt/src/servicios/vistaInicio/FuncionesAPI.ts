@@ -13,6 +13,7 @@ import Pedido from "../../entidades/Pedido";
 import Factura from "../../entidades/Factura";
 import Usuario from "../../entidades/Usuario";
 import DetallePedido from "../../entidades/DetallePedido";
+import Cliente from "../../entidades/Cliente";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -190,6 +191,15 @@ export function getPromocionesIdSucursal(
 ): SWRResponse<Promocion[], any, any> {
   return useSWR<Promocion[]>(
     `https://traza-final.onrender.com/promocion/sucursal/${idSucursal}`,
+    fetcher
+  );
+}
+
+export function getClienteEmail(
+  clienteEmail: string
+): SWRResponse<Cliente[], any, any> {
+  return useSWR<Cliente[]>(
+    `https://traza-final.onrender.com/cliente/${clienteEmail}`,
     fetcher
   );
 }
@@ -770,5 +780,15 @@ export const localData = {
   getRol(key:string){
     const rolStored = localStorage.getItem(key);
     return rolStored == null ? [""] : JSON.parse(rolStored);
-  }
+  },
+  setCliente(key: string, value: Cliente) {
+    localStorage.setItem(key, JSON.stringify(value));
+  },
+  getCliente(key: string) {
+    const clienteStored = localStorage.getItem(key);
+    return clienteStored == null ? null : JSON.parse(clienteStored);
+  },
+  removeCliente(key: string) {
+    localStorage.removeItem(key);
+  },
 };

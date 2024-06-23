@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Navigate, useNavigate } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import { jwtDecode } from "jwt-decode";
 import { localData } from '../servicios/vistaInicio/FuncionesAPI';
@@ -12,8 +12,6 @@ interface DecodedToken {
 const PostLogin = () => {
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
   const navigate = useNavigate();
-  const idSucursal = localData.getSucursal("sucursal").id;
-  console.log("PostLogin llamado");
 
   useEffect(() => {
     const processToken = async () => {
@@ -23,24 +21,23 @@ const PostLogin = () => {
           const token = tokenClaims!.__raw;
           const decodedToken = jwtDecode<DecodedToken>(token);
           const roles = decodedToken["https://my-app.example.com/roles"];
-          console.log(decodedToken);
+      
+
+
           if (roles) {
             localData.setRol("userRoles", roles);
-            localData.setRol("userRoles", roles);
-
             // Verificar y redirigir según el primer rol encontrado
             if (roles.includes("COCINERO")) {
-              navigate("/dashboard/pedidos");
+              return ( <Navigate to="/dashboard/pedidos" />)
             } else if (roles.includes("ADMIN")) {
-            } else if (roles.includes("ADMIN")) {
-              navigate("/dashboard");
+              return ( <Navigate to="/dashboard" />)
             } else if (roles.includes("CAJERO")) {
-              navigate("/dashboard/pedidos");
+              return ( <Navigate to="/dashboard/pedidos" />)
             } else if (roles.includes("DELIVERY")) {
-              navigate("/dashboard/pedidos");
+              return ( <Navigate to="/dashboard/pedidos" />)
             } else {
               localStorage.setItem("userRoles", "CLIENTE");
-              navigate(`/cliente/sucursal/${idSucursal}`);
+              return ( <Navigate to="/dashboard/pedidos" />)
             }
           }
         } catch (error) {

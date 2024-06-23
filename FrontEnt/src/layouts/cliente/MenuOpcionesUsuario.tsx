@@ -28,7 +28,6 @@ export default function MenuOpcionesUsuario() {
     logout({ logoutParams: { returnTo: window.location.pathname } });
     localStorage.removeItem("userRoles");
     alert("Sesión cerrada correctamente.");
-    setUsuario(null);
     localData.removeUsuario('usuario');
     window.location.reload();
   };

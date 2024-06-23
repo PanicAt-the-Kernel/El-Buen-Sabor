@@ -19,7 +19,7 @@ export default function getTokenAuth0() {
       //console.log(authToken);
       setToken(authToken)
     } catch (error) {
-      console.log("Error al obtener el token");
+      console.log("Error al obtener el token Hello");
       setToken(null)
     }
   };
