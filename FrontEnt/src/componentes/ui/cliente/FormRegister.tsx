@@ -1,12 +1,17 @@
 import {
   Box,
   Button,
+  FormControl,
+  Select,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import { saveUsuario } from "../../../servicios/vistaInicio/FuncionesAPI";
+import Usuario from "../../../entidades/Usuario";
+import Cliente from "../../../entidades/Cliente";
+import { MenuItem } from "react-pro-sidebar";
 
 export default function FormRegister() {
   const [nombreUsuario, setNombreUsuario] = useState("");
@@ -111,18 +116,17 @@ export default function FormRegister() {
     }
   };
 
-  //const [intercalar, setIntecalar] = useState(false);
+  const [intercalar, setIntecalar] = useState(false);
 
   const onSubmitUsuario = (e: SyntheticEvent) => {
     e.preventDefault();
     if (validarPasswords()) {
-      saveUsuario(nombreUsuario,password)
+      //saveUsuario(nombreUsuario,password)
     } else {
       return false;
     }
   };
 
-  /*
   //Formulario Cliente
   const [nombre, setNombre] = useState("");
   const [apellido, setApellido] = useState("");
@@ -133,19 +137,19 @@ export default function FormRegister() {
     e.preventDefault();
     //Objeto Usuario
     let usuario = new Usuario();
-    usuario.username = nombreUsuario;
+    usuario.userName = nombreUsuario;
 
     //Objeto Cliente
     let cliente = new Cliente();
     cliente.nombre = nombre;
     cliente.apellido = apellido;
-    cliente.telefono = Number(telefono);
+    cliente.telefono = telefono;
     cliente.email = email;
     cliente.usuario = usuario;
 
     //FUNCION ALTA USUARIO
     //saveUsuario(cliente,usuario)?
-  };*/
+  };
 
   return (
     <>
@@ -205,7 +209,10 @@ export default function FormRegister() {
         </Box>
       </Stack>
 
-      {/*} <Stack spacing={2} sx={!intercalar ? { display: "none" } : { padding: 3 }}>
+      <Stack
+        spacing={2}
+        sx={!intercalar ? { display: "none" } : { padding: 3 }}
+      >
         <Typography>Cuentanos mas sobre ti...</Typography>
         <Box
           component="form"
@@ -258,10 +265,14 @@ export default function FormRegister() {
             </Stack>
             <Stack direction="row" spacing={2}>
               <FormControl fullWidth>
-                <Select></Select>
+                <Select>
+                  <MenuItem>TEST</MenuItem>
+                </Select>
               </FormControl>
               <FormControl fullWidth>
-                <Select></Select>
+                <Select>
+                  <MenuItem>TEST</MenuItem>
+                </Select>
               </FormControl>
             </Stack>
             <Button type="submit" variant="contained">
@@ -269,7 +280,7 @@ export default function FormRegister() {
             </Button>
           </Stack>
         </Box>
-      </Stack> */}
+      </Stack>
     </>
   );
 }

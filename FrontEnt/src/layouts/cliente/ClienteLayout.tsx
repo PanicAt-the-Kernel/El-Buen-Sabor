@@ -35,21 +35,12 @@ export const LoginButton = () => {
 
 interface ClienteLayoutTypes {
   children: ReactNode;
-  setEstado: (item: boolean) => void;
-  estado: boolean;
+  setEstado?: (item: boolean) => void;
+  estado?: boolean;
 }
 
-export default function ClienteLayout({ children, setEstado, estado }: ClienteLayoutTypes) {
-  //Si no hay sucursal seleccionada, mandar al usuario al selectorimport    
+export default function ClienteLayout({ children, setEstado=()=>{}, estado=false }: ClienteLayoutTypes) {  
  
-
-  if(localData.getSucursal("sucursal")==null){
-    return(
-      <Navigate to="/cliente/bienvenida" />
-    )
-  }
-
-  
   const now = moment().tz('America/Argentina/Buenos_Aires');
 
 
@@ -83,6 +74,7 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
   const { isAuthenticated, user} = useAuth0();
 
   if(isAuthenticated) {
+    //@ts-ignore
     const { data, isLoading, error } = getClienteEmail(user.email);
     if (isLoading)
       return (
