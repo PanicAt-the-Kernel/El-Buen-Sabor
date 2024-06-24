@@ -44,8 +44,8 @@ const basilTheme = createTheme({
       contrastText: "#000000",
     },
   },
-  typography:{
-    fontFamily:[
+  typography: {
+    fontFamily: [
       "montserrat",
       "lekton",
       "roboto"

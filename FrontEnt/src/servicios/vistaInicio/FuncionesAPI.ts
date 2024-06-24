@@ -12,6 +12,7 @@ import UnidadMedida from "../../entidades/UnidadMedida";
 import Pedido from "../../entidades/Pedido";
 import Usuario from "../../entidades/Usuario";
 import DetallePedido from "../../entidades/DetallePedido";
+import Empleado from "../../entidades/Empleado";
 import Domicilio from "../../entidades/Domicilio";
 import Cliente from "../../entidades/Cliente";
 
@@ -37,6 +38,10 @@ export function getAllEmpresas(token:string|null): SWRResponse<Empresa[], any, a
     null,
     fetcher
   );
+}
+
+export function getAllEmpleados(): SWRResponse<Empleado[], any, any> {
+    return useSWR<Empleado[]>(`https://traza-final.onrender.com/empleado`, fetcher);
 }
 
 export function getAllCategorias(): SWRResponse<Categoria[], any, any> {
@@ -224,6 +229,31 @@ export function getClienteId(idCliente: string): SWRResponse<Cliente, any, any> 
 }
 
 //FUNCIONES SAVE
+export async function saveEmpleado(empleado: Empleado) {
+    //Preparar llamada api
+    empleado.sucursal = localData.getSucursal("sucursal")
+    const options = {
+        mode: "cors" as RequestMode,
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(empleado)
+    }
+
+    //Manejo de errores
+    try {
+        let response = await fetch("https://traza-final.onrender.com/empleado", options);
+        if (response.ok) {
+            alert("Empleado agregado correctamente.");
+        } else {
+            alert("Error al agregar empleado: " + response.status);
+        }
+    } catch {
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.")
+    }
+}
+
 export async function saveEmpresa(empresa: Empresa) {
   //Preparar llamada api
   let options = {
@@ -585,6 +615,29 @@ export async function editEmpresa(empresa: Empresa) {
   } catch {
     alert("Error CORS, Revisa la URL o el back esta mal configurado");
   }
+}
+
+export async function editEmpleado(empleado: Empleado) {
+    //Preparar llamada api
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(empleado)
+    }
+    //Manejo de errores
+    try {
+        let response = await fetch(`https://traza-final.onrender.com/empleado/${empleado.id}`, options);
+        if (response.ok) {
+            alert("Empleado editado correctamente");
+        } else {
+            alert("Error HTTP: " + response.status);
+        }
+    } catch {
+        alert("Error CORS, Revisa la URL o el back esta mal configurado")
+    }
 }
 
 export async function editSucursal(sucursal: Sucursal) {

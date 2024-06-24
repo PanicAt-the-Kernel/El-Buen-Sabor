@@ -214,7 +214,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             {imagenesL.map((imagen, index) => (
                                 <Grid item key={index} marginBottom={2}>
                                     <img src={imagen.url} alt={`Imagen ${index}`} style={{ maxWidth: 200 }} />
-                                    <IconButton aria-label="eliminar" onClick={() => handleDeleteImage(index)}  disabled={!userRoles.includes("ADMINISTRADOR")}>
+                                    <IconButton aria-label="eliminar" onClick={() => handleDeleteImage(index)}  disabled={!userRoles.includes("ADMIN")}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </Grid>

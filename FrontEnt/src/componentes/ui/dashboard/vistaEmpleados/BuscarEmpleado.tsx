@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, FormControl, Input, Stack } from "@mui/material";
-import BtnAgregarEmpleado from "./BtnAgregarEmpleado";
+import BtnAgregarEmpleado from "./BotonAgregarEmpleado";
 import ListContainerEmpleado from "./ListContainerEmpleado";
 
 function BuscadorEmpleado() {

@@ -1,44 +1,98 @@
-import { List, Paper } from "@mui/material";
-import ItemList from "./ItemList";
+import { Avatar, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper, Typography } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import Empleado from "../../../../entidades/Empleado";
+import { editEmpleado, getAllEmpleados } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { useState } from "react";
+import { Edit } from "@mui/icons-material";
+import AgregarEmpleadoModal from "./AgregarEmpleadoModal";
 
 interface ListContainerEmpleadoTypes {
   busqueda: string;
 }
 
-export default function ListContainerEmpleado({
-  busqueda,
-}: ListContainerEmpleadoTypes) {
-  const employees = [
-    { id: 1, name: "Juan Pérez", position: "Cocinero" },
-    { id: 2, name: "Ana Gómez", position: "Gerente" },
-    { id: 3, name: "Luis Martínez", position: "Mozo" },
-    { id: 4, name: "Carlos López", position: "Cajero" },
-    { id: 5, name: "Marta Fernández", position: "Repostera" },
-    { id: 6, name: "Julia Ramírez", position: "Mozo" },
-    { id: 7, name: "Pedro González", position: "Mozo" },
-    { id: 8, name: "María Torres", position: "Mozo" },
-    { id: 9, name: "Juan García", position: "Mozo" },
-    { id: 10, name: "Laura López", position: "Mozo" },
-    { id: 11, name: "Diego Fernández", position: "Mozo" },
-  ];
+export default function ListContainerEmpleado({ busqueda }: ListContainerEmpleadoTypes) {
+  const { data: empleados } = getAllEmpleados();
+  const [editingEmpleado, setEditingEmpleado] = useState<Empleado | null>(null);
+  const [openEditar, setOpenEditar] = useState(false);
 
-  const empleadosFiltrados = employees?.filter((item) => {
+  const handleSubmit = (empleado: Empleado) => {
+    if (editingEmpleado != null) {
+      editEmpleado(empleado);
+      handleClose();
+    }
+  };
+
+  const handleOpenEditar = (empleado: Empleado) => {
+    setEditingEmpleado(empleado);
+    setOpenEditar(true);
+  };
+
+  const handleClose = () => {
+    setEditingEmpleado(null);
+    setOpenEditar(false);
+  };
+
+  const handleDelete = (empleado: Empleado) => {
+    
+  }
+
+  const empleadosFiltrados = empleados?.filter((item) => {
     return (
-      busqueda == "" || item.name.toLowerCase().includes(busqueda.toLowerCase())
+      busqueda == "" || item.nombre.toLowerCase().includes(busqueda.toLowerCase())
     );
   });
+
+  function stringAvatar(nombre: string, apellido: string) {
+    const nombreInicial = nombre.split(" ")[0]?.[0] || "";
+    const apellidoInicial = apellido.split(" ")[0]?.[0] || "";
+    return {
+      children: `${nombreInicial}${apellidoInicial}`,
+    };
+  }
+
   return (
-    <Paper elevation={5} sx={{marginTop:2}}>
-      <List sx={{ backgroundColor: "white", overflow: 'auto', maxHeight: 700 }}>
-
-
-
-        {empleadosFiltrados.sort((a, b) => a.name.localeCompare(b.name))
-        .map((item) => (
-
-          <ItemList nombre={item.name} cargo={item.position} />
-        ))}
-      </List>
-    </Paper>
+    <>
+      <Paper elevation={5} sx={{ marginTop: 2 }}>
+        <Typography variant="h6" sx={{ padding: 2, backgroundColor: "#f5f5f5" }}>
+          Empleados
+        </Typography>
+        <List sx={{ backgroundColor: "white" }}>
+          {empleadosFiltrados?.sort((a, b) => a.nombre.localeCompare(b.nombre))
+            .map((item: Empleado) => (
+              <>
+                <ListItem
+                  secondaryAction={
+                    <>
+                      <IconButton edge="end" aria-label="Editar" onClick={() => handleOpenEditar(item)}>
+                        <Edit />
+                      </IconButton>
+                      <IconButton aria-label="Eliminar" onClick={() => handleDelete(item)}>
+                        <DeleteIcon />
+                      </IconButton>
+                    </>
+                  }
+                >
+                  <ListItemAvatar>
+                    <Avatar {...stringAvatar(item.nombre, item.apellido)} />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={item.nombre + " " + item.apellido}
+                    secondary={`Rol: ${item.rol}`}
+                  ></ListItemText>
+                </ListItem>
+                <Divider />
+              </>
+            ))}
+        </List>
+      </Paper>
+      {openEditar && editingEmpleado && (
+        <AgregarEmpleadoModal
+          open={openEditar}
+          onClose={handleClose}
+          onSubmit={handleSubmit}
+          iEmpleado={editingEmpleado}
+        />
+      )}
+    </>
   );
 }
