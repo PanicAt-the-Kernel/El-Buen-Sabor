@@ -1,18 +1,24 @@
 import { Button, Grid } from "@mui/material";
-import { editEmpresa, getAllEmpresas } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import {
+  editEmpresa,
+  getAllEmpresas,
+} from "../../../../servicios/vistaInicio/FuncionesAPI";
 import Empresa from "../../../../entidades/Empresa";
 import ItemGrilla from "./ItemGrilla";
 import { useState } from "react";
 import { Edit, Info } from "@mui/icons-material";
 import AgregarEmpresaModal from "./AgregarEmpresaModal";
 import MostrarSucursalesModal from "./MostrarSucursalesModal";
+import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 
 interface GrillaProps {
   busqueda: string;
 }
 
 export default function Grilla({ busqueda }: GrillaProps) {
-  const { data: empresa } = getAllEmpresas();
+  const token = getTokenAuth0();//Funcion para traer el token
+  //console.log(token);
+  const { data: empresa } = getAllEmpresas(token);
   const [editingEmpresa, setEditingEmpresa] = useState<Empresa | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
   const [openInfo, setOpenInfo] = useState(false);
@@ -53,29 +59,45 @@ export default function Grilla({ busqueda }: GrillaProps) {
 
   return (
     <>
-      <Grid container sx={{
-        marginTop: 2,
-        justifyContent: "center",
-        alignItems: "center",
-      }} spacing={1}>
-
-
-
-        {empresasFiltradas?.sort((a, b) => a.nombre.localeCompare(b.nombre))
-        .map((item: Empresa) => (
-
-          <ItemGrilla
-            key={item.id}
-            nombre={item.nombre}
-            descripcion={"Razón social: " + item.razonSocial}
-            info={"CUIT: " + item.cuil.toString()}
-            info2={""}
-            urlImagen="/imgs/empresa.jpg"
-          >
-            <Button size="small" variant="contained" color="info" startIcon={<Info />} onClick={() => handleOpenInfo(item)}>Sucursales</Button>
-            <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpenEditar(item)}>Editar</Button>
-          </ItemGrilla>
-        ))}
+      <Grid
+        container
+        sx={{
+          marginTop: 2,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+        spacing={1}
+      >
+        {empresasFiltradas
+          ?.sort((a, b) => a.nombre.localeCompare(b.nombre))
+          .map((item: Empresa) => (
+            <ItemGrilla
+              key={item.id}
+              nombre={item.nombre}
+              descripcion={"Razón social: " + item.razonSocial}
+              info={"CUIT: " + item.cuil.toString()}
+              info2={""}
+              urlImagen="/imgs/empresa.jpg"
+            >
+              <Button
+                size="small"
+                variant="contained"
+                color="info"
+                startIcon={<Info />}
+                onClick={() => handleOpenInfo(item)}
+              >
+                Sucursales
+              </Button>
+              <Button
+                size="small"
+                variant="contained"
+                startIcon={<Edit />}
+                onClick={() => handleOpenEditar(item)}
+              >
+                Editar
+              </Button>
+            </ItemGrilla>
+          ))}
       </Grid>
       {openEditar && editingEmpresa && (
         <AgregarEmpresaModal

@@ -14,7 +14,6 @@ import VistaCuentaCliente from "./paginas/cliente/VistaCuentaCliente";
 import VistaLogin from "./paginas/cliente/VistaLogin";
 import VistaDomicilioCliente from "./paginas/cliente/VistaDomicilioCliente";
 import VistaBienvenida from "./paginas/cliente/VistaBienvenida";
-import FacturaClientePDFViewer from "./utils/pdf/FacturaClientePDFViewer";
 import MercadoPagoSuccess from "./paginas/cliente/MercadoPagoSuccess";
 import MercadoPagoError from "./paginas/cliente/MercadoPagoError";
 import MercadoPagoPending from "./paginas/cliente/MercadoPagoPending";
@@ -57,9 +56,9 @@ const basilTheme = createTheme({
 function App() {
   return (
     <Auth0Provider
-    domain="dev-kx011i2p7if35dr6.us.auth0.com"
-    clientId="nQz3eA43DqJd7MxDpXNJxKjjuAVdA4pB"
-    authorizationParams={{ redirect_uri: window.location.origin }}
+    domain="dev-8qdogwh8uubh8qgz.us.auth0.com"
+    clientId="xhMHc3nocA0726QD697jsJlVdTkXXJdB"
+     authorizationParams={{ audience:'https://Auth0Example.com' ,redirect_uri: window.location.origin }}
     cacheLocation="localstorage"
     >      
  <BrowserRouter>
@@ -86,7 +85,6 @@ function App() {
           <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
           <Route path="/cliente/domicilios" element={<VistaDomicilioCliente />} />
           <Route path="/cliente/miPedido" element={<VistaPedidoCliente />} />
-          <Route path="/cliente/factura" element={<FacturaClientePDFViewer />} />
           <Route path="/cliente/mpExito" element={<MercadoPagoSuccess />} />
           <Route path="/cliente/mpError" element={<MercadoPagoError />} />
           <Route path="/cliente/mpPending" element={<MercadoPagoPending />} />

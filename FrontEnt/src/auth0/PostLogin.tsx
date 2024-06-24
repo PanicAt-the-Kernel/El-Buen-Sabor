@@ -5,14 +5,14 @@ import { jwtDecode } from "jwt-decode";
 import { localData } from '../servicios/vistaInicio/FuncionesAPI';
 
 interface DecodedToken {
-  "https://api-buen-sabor.com/roles"?: string[];
+  "https://my-app.example.com/roles"?: string[];
   [key: string]: any;
 }
 
 const PostLogin = () => {
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
   const navigate = useNavigate();
-  const idSucursal = localData.getSucursal("sucursal").id;
+  const sucursal = localData.getSucursal("sucursal")
 
   useEffect(() => {
     const processToken = async () => {
@@ -21,23 +21,23 @@ const PostLogin = () => {
           const tokenClaims = await getIdTokenClaims();
           const token = tokenClaims!.__raw;
           const decodedToken = jwtDecode<DecodedToken>(token);
-          const roles = decodedToken["https://api-buen-sabor.com/roles"];
+          const roles = decodedToken["https://my-app.example.com/roles"];
+      
 
-          if (roles) {
-            localStorage.setItem("userRoles", JSON.stringify(roles));
 
+          if (roles && !localData.getRol("userRoles")) {
+            localData.setRol("userRoles", roles);
             // Verificar y redirigir según el primer rol encontrado
             if (roles.includes("COCINERO")) {
-              navigate("/dashboard/pedidos");
-            } else if (roles.includes("ADMINISTRADOR")) {
-              navigate("/dashboard");
+              navigate("/dashboard/pedidos", { replace: true });
+            } else if (roles.includes("ADMIN")) {
+              navigate("/dashboard", { replace: true });
             } else if (roles.includes("CAJERO")) {
-              navigate("/dashboard/pedidos");
+              navigate("/dashboard/pedidos", { replace: true });
             } else if (roles.includes("DELIVERY")) {
-              navigate("/dashboard/pedidos");
+              navigate("/dashboard/pedidos", { replace: true });
             } else {
-              localStorage.setItem("userRoles", "CLIENTE");
-              navigate(`/cliente/sucursal/${idSucursal}`);
+              navigate(`/cliente/sucursal/${sucursal.id}`, { replace: true });
             }
           }
         } catch (error) {

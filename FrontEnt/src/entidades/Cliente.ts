@@ -1,17 +1,14 @@
 import Domicilio from "./Domicilio";
 import ImagenCliente from "./ImagenCliente";
 import Pedido from "./Pedido";
-import Usuario from "./Usuario";
 
 class Cliente {
-    id: number = 0;
+    userName: string = '';
     eliminado: boolean = false;
     fechaBaja: string = '';
     nombre: string = '';
     apellido: string = '';
     telefono: string = '';
-    email: string = '';
-    usuario: Usuario = new Usuario;
     imagenCliente: ImagenCliente = new ImagenCliente;
     domicilios: Domicilio[] = [];
     pedidos: Pedido[] = [];

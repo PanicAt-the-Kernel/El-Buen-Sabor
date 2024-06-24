@@ -5,13 +5,15 @@ import ItemGrillaInsumos from "./ItemGrillaInsumos";
 import { useState } from "react";
 import { Edit, Info } from "@mui/icons-material";
 import AgregarInsumoModal from "./AgregarInsumoModal";
+import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 
 interface GrillaProps {
   busqueda: string;
 }
 export default function GrillaInsumos({ busqueda }: GrillaProps) {
   //const idSucursal = 1;
-  const { data: insumos } = getAllInsumos();
+  const token=getTokenAuth0();
+  const { data: insumos } = getAllInsumos(token);
   const [editingInsumo, setEditingInsumo] = useState<ArticuloInsumo | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
   //const [openInfo, setOpenInfo] = useState(false);

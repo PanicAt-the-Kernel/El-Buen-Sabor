@@ -18,7 +18,7 @@ class Pedido {
     fechaPedido: string = '';
     domicilio: Domicilio = new Domicilio;
     sucursal: Sucursal = new Sucursal;
-    factura: Factura = new Factura;
+    factura: Factura | null = new Factura;
     cliente: Cliente = new Cliente;
     detallePedidos: DetallePedido[] = [];
     empleado: Empleado = new Empleado;

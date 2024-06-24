@@ -8,11 +8,10 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 
 export default function MercadoPagoSuccess() {
   return (
-    <ClienteLayout>
+    
       <Box
         component="div"
         sx={{
@@ -58,6 +57,6 @@ export default function MercadoPagoSuccess() {
           </Paper>
         </Container>
       </Box>
-    </ClienteLayout>
+    
   );
 }
