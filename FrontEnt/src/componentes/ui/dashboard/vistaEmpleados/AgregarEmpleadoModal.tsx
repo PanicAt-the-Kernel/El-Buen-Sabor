@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Modal, Box, TextField, Stack, Button, MenuItem, Select, FormControl, InputLabel, IconButton } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Empleado from "../../../../entidades/Empleado";
+import ImagenEmpleado from "../../../../entidades/ImagenEmpleado";
 
 interface AgregarEmpleadoModalProps {
   open: boolean;
@@ -66,14 +67,14 @@ function validateFecha(e) {
 
 function AgregarEmpleadoModal({ open, onClose, onSubmit, iEmpleado }: AgregarEmpleadoModalProps) {
   const [empleado, setEmpleado] = useState<Empleado>(iEmpleado);
-const [imagen, setImagen] = useState<string | null>(null);
+  const [imagen, setImagen] = useState<ImagenEmpleado>(empleado.imagenEmpleado);
 
   const handleSubmit = () => {
     onSubmit(empleado);
   };
 
-  //@ts-ignore
-  const handleImageUpload = async (e) => {
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    //@ts-ignore
     const file = e.target.files[0];
     if (file) {
       const formData = new FormData();
@@ -87,15 +88,22 @@ const [imagen, setImagen] = useState<string | null>(null);
         });
 
         const data = await response.json();
-        setImagen(data.secure_url);
+
+        const imagenNueva = new ImagenEmpleado();
+        imagenNueva.id = 0;
+        imagenNueva.url = data.secure_url;
+        imagenNueva.eliminado = false;
+        imagenNueva.fechaBaja = "9999-12-31";
+        console.log(imagenNueva)
+        setImagen(imagenNueva);
       } catch (error) {
         console.error('Error uploading image:', error);
       }
     }
   };
-  
+
   const handleDeleteImage = () => {
-    setImagen(null);
+    setImagen(new ImagenEmpleado());
   }
 
   return (
@@ -190,13 +198,14 @@ const [imagen, setImagen] = useState<string | null>(null);
               }}
             />
             {errorFecha && <span style={{ color: "red" }}>Ingrese una fecha posible!</span>}
-            {empleado.imagenEmpleado.url != "" ? (
-              <>
-                <img src={iEmpleado.imagenEmpleado.url} alt="Imagen Empleado" style={{ maxWidth: 200 }} />
-                <Button variant="contained" color="error" onClick={handleDeleteImage}>
-                  Eliminar Imagen
-                </Button>
-              </>
+            {imagen.url != "" ? (
+              <Stack
+              direction={ "row" }>
+                <img src={imagen.url} alt="Imagen Empleado" style={{ maxWidth: 200 }} />
+                <IconButton aria-label="eliminar" onClick={() => handleDeleteImage()}>
+                  <DeleteIcon />
+                </IconButton>
+              </Stack>
             ) : (
               <>
                 <input

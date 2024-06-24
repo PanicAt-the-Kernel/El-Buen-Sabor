@@ -32,6 +32,10 @@ export default function ListContainerEmpleado({ busqueda }: ListContainerEmplead
     setOpenEditar(false);
   };
 
+  const handleDelete = (empleado: Empleado) => {
+    
+  }
+
   const empleadosFiltrados = empleados?.filter((item) => {
     return (
       busqueda == "" || item.nombre.toLowerCase().includes(busqueda.toLowerCase())
@@ -62,9 +66,9 @@ export default function ListContainerEmpleado({ busqueda }: ListContainerEmplead
                       <IconButton edge="end" aria-label="Editar" onClick={() => handleOpenEditar(item)}>
                         <Edit />
                       </IconButton>
-                      {/* <IconButton aria-label="eliminar" onClick={() => handleDelete()}>
+                      <IconButton aria-label="Eliminar" onClick={() => handleDelete(item)}>
                         <DeleteIcon />
-                      </IconButton> */}
+                      </IconButton>
                     </>
                   }
                 >
