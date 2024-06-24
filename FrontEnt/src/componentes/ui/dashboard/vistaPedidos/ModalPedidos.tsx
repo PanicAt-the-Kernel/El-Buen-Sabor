@@ -108,7 +108,7 @@ export default function ModalPedidos({
               <Stack direction="row" spacing={2}>
                 <TextField
                   label="Email"
-                  defaultValue={pedido.cliente.email}
+                  defaultValue={pedido.cliente.userName}
                   inputProps={{ readOnly: true }}
                 />
                 <TextField

@@ -133,7 +133,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
               onClick={() => { addArticuloCarrito(item) }}
             />
           </Stack>
-          )})}
+          )}
         </Stack>
       </CardActions>
     </Card>

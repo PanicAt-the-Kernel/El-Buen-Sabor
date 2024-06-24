@@ -1,4 +1,4 @@
-import { CircularProgress, Paper, Stack } from "@mui/material";
+import { Paper, Stack } from "@mui/material";
 import AcordeonPedido from "./AcordeonPedido";
 import { getAllPedidos } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import Pedido from "../../../../entidades/Pedido";

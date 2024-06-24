@@ -8,7 +8,6 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 
 export default function MercadoPagoSuccess() {
   return (

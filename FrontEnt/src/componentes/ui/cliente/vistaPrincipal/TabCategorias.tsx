@@ -111,7 +111,7 @@ export default function TabsCategorias() {
             key={1}
             promociones={promociones}
           />
-          {isValidating ? (<CircularProgress />) : null}
+          
         </CustomTabPanel>
         {Array.from(articulosPorCategoria).map(([categoriaId, articulos], index) => (
           <CustomTabPanel key={categoriaId} value={value} index={index + 1}>

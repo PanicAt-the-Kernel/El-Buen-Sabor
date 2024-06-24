@@ -481,8 +481,6 @@ export async function savePedido(
       fetchData("https://traza-final.onrender.com/empleado/1"),
     ]);
 
-    let factura = new Factura();
-
     /*let factura = new Factura;
         factura.eliminado = false;
         factura.fechaFacturacion = "2024-06-03";
