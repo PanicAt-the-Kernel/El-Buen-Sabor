@@ -394,6 +394,31 @@ export async function saveUnidadMedida(uMedida: UnidadMedida) {
   }
 }
 
+export async function saveCliente(cliente:Cliente){
+  let options={
+    mode:"cors" as RequestMode,
+    method:"POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify(cliente)
+  }
+  console.log(options.body);
+  try{
+    let response = await fetch("https://traza-final.onrender.com/cliente",options);
+    if(response.ok){
+      alert("Cliente Registrado");
+      console.log(await response.json());
+      window.location.replace("/");
+    }else{
+      console.log(await response.json())
+      alert("Error al registrar el cliente")
+    }
+  }catch{
+    alert("Ocurrio un error CORS");
+  }
+}
+
 export async function saveUsuario(nombreUsuario: string, password: string) {
   let usuario = new Usuario();
   usuario.userName = nombreUsuario;
