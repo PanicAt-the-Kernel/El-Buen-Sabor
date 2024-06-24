@@ -65,7 +65,7 @@ export default function ClienteLayout({ children, setEstado, estado }: ClienteLa
               <Typography variant="body1"
                 sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}
                 component={Link}
-                to="/cliente/sucursal">El Buen Sabor</Typography>
+                to={`/cliente/sucursal/${localData.getSucursal("sucursal").id}`}>El Buen Sabor</Typography>
               <Typography variant="body2">{nombreSucursal}</Typography>
               <Link to="/cliente/bienvenida" style={{ color: "white" }}><Typography variant="body2">Cambiar Sucursal</Typography></Link>
             </Stack>

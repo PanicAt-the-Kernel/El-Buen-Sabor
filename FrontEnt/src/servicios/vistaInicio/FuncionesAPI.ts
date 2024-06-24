@@ -12,6 +12,8 @@ import UnidadMedida from "../../entidades/UnidadMedida";
 import Pedido from "../../entidades/Pedido";
 import Usuario from "../../entidades/Usuario";
 import DetallePedido from "../../entidades/DetallePedido";
+import Domicilio from "../../entidades/Domicilio";
+import Cliente from "../../entidades/Cliente";
 
 const fetcher = (url: string) => fetch(url).then(res => res.json());
 
@@ -56,6 +58,10 @@ export function getAllArticuloInsumoNoElab(): SWRResponse<ArticuloInsumo[], any,
     return useSWR<ArticuloInsumo[]>(`https://traza-final.onrender.com/articuloInsumo/noElaborados`, fetcher);
 }
 
+export function getAllDomicilios(): SWRResponse<Domicilio[], any, any> {
+    return useSWR<Domicilio[]>(`https://traza-final.onrender.com/domicilio`, fetcher);
+}
+
 //FUNCIONES GET X ID
 export function getSucursalesEmpresa(idEmpresa: number): SWRResponse<Sucursal[], any, any> {
     return useSWR<Sucursal[]>(`https://traza-final.onrender.com/sucursal/empresa/${idEmpresa}`, fetcher);
@@ -91,6 +97,10 @@ export function getPromocionesIdSucursal(idSucursal: number): SWRResponse<Promoc
 
 export function getArticulosManufacturadosIdSucursal(idSucursal: number): SWRResponse<ArticuloManufacturado[], any, any> {
     return useSWR<ArticuloManufacturado[]>(`https://traza-final.onrender.com/articuloManufacturado/sucursal/${idSucursal}`, fetcher);
+}
+
+export function getClienteId(idCliente: string): SWRResponse<Cliente, any, any> {
+    return useSWR<Cliente>(`https://traza-final.onrender.com/cliente/${idCliente}`, fetcher);
 }
 
 //FUNCIONES SAVE
@@ -563,6 +573,30 @@ export async function editPedido(id: number, estado: string) {
             alert("Pedido actualizado correctamente.");
         } else {
             alert("Error al actualizar pedido: " + response.status);
+        }
+    } catch (error) {
+        alert("Error CORS, Revisa la URL o el back está mal configurado.");
+    }
+}
+
+export async function editCliente(cliente: Cliente) {
+    // Preparar llamada API
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(cliente)
+    };
+
+    // Manejo de errores
+    try {
+        let response = await fetch(`https://traza-final.onrender.com/cliente/${cliente.userName}`, options);
+        if (response.ok) {
+            alert("Cliente actualizado correctamente.");
+        } else {
+            alert("Error al actualizar cliente: " + response.status);
         }
     } catch (error) {
         alert("Error CORS, Revisa la URL o el back está mal configurado.");
