@@ -6,7 +6,7 @@ class Empleado {
     id: number = 0;
     eliminado: boolean = false;
     fechaBaja: string = '';
-    tipoEmpleado: string = '';
+    rol: string = '';
     nombre: string = '';
     apellido: string = '';
     telefono: string = '';
