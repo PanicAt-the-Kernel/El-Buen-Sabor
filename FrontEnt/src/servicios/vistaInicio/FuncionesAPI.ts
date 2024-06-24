@@ -208,8 +208,8 @@ export function getPedidosCliente(clienteEmail : string) :SWRResponse<Pedido[], 
 
 export function getClienteEmail(
   clienteEmail: string
-): SWRResponse<Cliente[], any, any> {
-  return useSWR<Cliente[]>(
+): SWRResponse<Cliente, any, any> {
+  return useSWR<Cliente>(
     `https://traza-final.onrender.com/cliente/${clienteEmail}`,
     fetcher
   );
