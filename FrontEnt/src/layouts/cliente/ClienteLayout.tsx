@@ -32,14 +32,13 @@ export const LoginButton = () => {
   );
 };
 
-
 interface ClienteLayoutTypes {
   children: ReactNode;
   setEstado?: (item: boolean) => void;
   estado?: boolean;
 }
 
-export default function ClienteLayout({ children, setEstado, estado }: ClienteLayoutTypes) {  
+export default function ClienteLayout({ children, setEstado=()=>{}, estado=false }: ClienteLayoutTypes) {  
   //Si no hay sucursal seleccionada, mandar al usuario al selector
   if (localData.getSucursal("sucursal") == null) {
     return (

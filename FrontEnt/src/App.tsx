@@ -14,7 +14,6 @@ import VistaCuentaCliente from "./paginas/cliente/VistaCuentaCliente";
 import VistaLogin from "./paginas/cliente/VistaLogin";
 import VistaDomicilioCliente from "./paginas/cliente/VistaDomicilioCliente";
 import VistaBienvenida from "./paginas/cliente/VistaBienvenida";
-import FacturaClientePDFViewer from "./utils/pdf/FacturaClientePDFViewer";
 import MercadoPagoSuccess from "./paginas/cliente/MercadoPagoSuccess";
 import MercadoPagoError from "./paginas/cliente/MercadoPagoError";
 import MercadoPagoPending from "./paginas/cliente/MercadoPagoPending";
@@ -86,7 +85,6 @@ function App() {
           <Route path="/cliente/cuenta" element={<VistaCuentaCliente />} />
           <Route path="/cliente/domicilios" element={<VistaDomicilioCliente />} />
           <Route path="/cliente/miPedido" element={<VistaPedidoCliente />} />
-          <Route path="/cliente/factura" element={<FacturaClientePDFViewer />} />
           <Route path="/cliente/mpExito" element={<MercadoPagoSuccess />} />
           <Route path="/cliente/mpError" element={<MercadoPagoError />} />
           <Route path="/cliente/mpPending" element={<MercadoPagoPending />} />
