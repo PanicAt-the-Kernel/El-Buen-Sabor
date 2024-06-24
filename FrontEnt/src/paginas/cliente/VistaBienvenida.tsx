@@ -17,19 +17,21 @@ import { useState } from "react";
 import FiltroSucursal from "../../componentes/ui/cliente/VistaSucursalCliente/FiltroSucursal";
 import SucursalCard from "../../componentes/ui/cliente/VistaSucursalCliente/SucursalCard";
 import Sucursal from "../../entidades/Sucursal";
+import PostLogin from "../../auth0/PostLogin";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function VistaBienvenida() {
   //MediaQuery para vista escritorio
   const vistaEscritorio: boolean = useMediaQuery("(min-width:600px)");
   //Si es falso, entonces estas en vista mobile
-
+  const {isAuthenticated} = useAuth0();
   const [idProvincia, setIdProvincia] = useState<number>(0);
   const [idLocalidad, setIdLocalidad] = useState<number>(0);
   const {
     data: provincias,
     isLoading: cargaProvincias,
     error,
-  } = getProvinciasIdPais(2);
+  } = getProvinciasIdPais(1);
   const { data: localidades, isLoading: cargaLocalidades } =
     getLocalidadesIdProvincia(idProvincia);
   const { data: sucursales, isLoading: cargaSucursales } = getAllSucursales();
@@ -74,6 +76,7 @@ export default function VistaBienvenida() {
       </Box>
     );
   }
+ 
   const sucursal = sucursales?.filter((item: Sucursal) => {
     if (idProvincia != 0 && idLocalidad != 0) {
       return (
@@ -83,7 +86,8 @@ export default function VistaBienvenida() {
     }
   });
   return (
-    <Box
+    <>
+<Box
       component="div"
       sx={{
         width: "100wh",
@@ -158,5 +162,9 @@ export default function VistaBienvenida() {
         </Paper>
       </Container>
     </Box>
+    {isAuthenticated && <PostLogin />}
+    </>
+    
+     
   );
 }

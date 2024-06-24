@@ -1,10 +1,11 @@
-import { Paper, Stack } from "@mui/material";
+import { CircularProgress, Paper, Stack } from "@mui/material";
 import AcordeonPedido from "./AcordeonPedido";
-import ModalListadoProductos from "./ModalListadoProductos";
-import { useState } from "react";
+import { getAllPedidos } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import Pedido from "../../../../entidades/Pedido";
 
 export default function PedidosContainer() {
-  const [openModal, setOpenModal] = useState<boolean>(false);
+  const { data: pedidos } = getAllPedidos();
+
   return (
     <Paper
       elevation={5}
@@ -12,22 +13,17 @@ export default function PedidosContainer() {
         maxHeight: 600,
         overflow: "hidden",
         overflowY: "scroll",
-        padding:3
+        padding: 3
       }}
     >
       <Stack spacing={2}>
-        <AcordeonPedido open={openModal} setOpen={setOpenModal} />
-        <AcordeonPedido open={openModal} setOpen={setOpenModal} />
-        <AcordeonPedido open={openModal} setOpen={setOpenModal} />
-        <AcordeonPedido open={openModal} setOpen={setOpenModal} />
-        <AcordeonPedido open={openModal} setOpen={setOpenModal} />
-        <AcordeonPedido open={openModal} setOpen={setOpenModal} />
-        <AcordeonPedido open={openModal} setOpen={setOpenModal} />
-        <AcordeonPedido open={openModal} setOpen={setOpenModal} />
-        <AcordeonPedido open={openModal} setOpen={setOpenModal} />
-        <AcordeonPedido open={openModal} setOpen={setOpenModal} />
+        {pedidos?.sort((a, b) => b.id - a.id)
+          .map((item: Pedido) => (
+            <>
+              <AcordeonPedido pedido={item} />
+            </>
+          ))}
       </Stack>
-      <ModalListadoProductos open={openModal} setOpen={setOpenModal} />
     </Paper>
   );
 }

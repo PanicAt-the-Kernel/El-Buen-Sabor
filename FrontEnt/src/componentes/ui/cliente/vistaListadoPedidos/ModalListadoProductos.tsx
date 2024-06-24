@@ -1,14 +1,16 @@
 import { Box, Modal, Paper, Stack } from "@mui/material";
 import CardArticulo from "./CardArticulo";
+import DetallePedido from "../../../../entidades/DetallePedido";
 
-interface ModalListadoProductosTypes{
-    open:boolean;
-    setOpen:(item:boolean)=>void;
+interface ModalListadoProductosTypes {
+  open: boolean;
+  setOpen: (item: boolean) => void;
+  detalles: DetallePedido[];
 }
 
-export default function ModalListadoProductos({open,setOpen}:ModalListadoProductosTypes) {
+export default function ModalListadoProductos({ open, setOpen, detalles }: ModalListadoProductosTypes) {
   return (
-    <Modal open={open} onClose={()=>setOpen(!open)}>
+    <Modal open={open} onClose={() => setOpen(!open)}>
       <Paper
         elevation={5}
         sx={{
@@ -26,12 +28,11 @@ export default function ModalListadoProductos({open,setOpen}:ModalListadoProduct
         }}
       >
         <Box component="div">
-            <Stack spacing={2}>
-                <CardArticulo />
-                <CardArticulo />
-                <CardArticulo />
-                <CardArticulo />
-            </Stack>
+          <Stack spacing={2}>
+            {detalles.map((item: DetallePedido) => (
+              <CardArticulo detalle={item} />
+            ))}
+          </Stack>
         </Box>
       </Paper>
     </Modal>

@@ -33,7 +33,7 @@ function BuscarProducto() {
             />
           </FormControl>
         </Box>
-        {userRoles.includes("ADMINISTRADOR") && (<BotonAgregarProducto />)}
+        {userRoles.includes("ADMIN") && (<BotonAgregarProducto />)}
       </Stack>
       <GrillaProducto busqueda={nombre} />
     </Box>
