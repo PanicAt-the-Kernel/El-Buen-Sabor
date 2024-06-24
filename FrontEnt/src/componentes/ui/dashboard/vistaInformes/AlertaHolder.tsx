@@ -3,10 +3,12 @@ import ItemAlerta from "./ItemAlerta";
 import { getAllInsumos } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import { controlNivelStockInsumo } from "../../../../servicios/vistaInicio/FuncionesControl";
+import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 
 function AlertaHolder() {
   const basil = useTheme();
-  const { data,isLoading,error } = getAllInsumos();
+  const token=getTokenAuth0();
+  const { data,isLoading,error } = getAllInsumos(token);
   if(error){
     return(<h1>Ocurrio un error al obtener los datos</h1>)
   }
