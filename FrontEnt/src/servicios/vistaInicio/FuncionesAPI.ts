@@ -10,9 +10,9 @@ import Provincia from "../../entidades/Provincia";
 import Localidad from "../../entidades/Localidad";
 import UnidadMedida from "../../entidades/UnidadMedida";
 import Pedido from "../../entidades/Pedido";
-import Factura from "../../entidades/Factura";
 import Usuario from "../../entidades/Usuario";
 import DetallePedido from "../../entidades/DetallePedido";
+import Domicilio from "../../entidades/Domicilio";
 import Cliente from "../../entidades/Cliente";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -122,6 +122,10 @@ export function getAllArticuloInsumoNoElab(): SWRResponse<
   );
 }
 
+export function getAllDomicilios(): SWRResponse<Domicilio[], any, any> {
+    return useSWR<Domicilio[]>(`https://traza-final.onrender.com/domicilio`, fetcher);
+}
+
 //FUNCIONES GET X ID
 export function getSucursalesEmpresa(
   idEmpresa: number
@@ -209,6 +213,14 @@ export function getClienteEmail(
     `https://traza-final.onrender.com/cliente/${clienteEmail}`,
     fetcher
   );
+}
+
+export function getArticulosManufacturadosIdSucursal(idSucursal: number): SWRResponse<ArticuloManufacturado[], any, any> {
+    return useSWR<ArticuloManufacturado[]>(`https://traza-final.onrender.com/articuloManufacturado/sucursal/${idSucursal}`, fetcher);
+}
+
+export function getClienteId(idCliente: string): SWRResponse<Cliente, any, any> {
+    return useSWR<Cliente>(`https://traza-final.onrender.com/cliente/${idCliente}`, fetcher);
 }
 
 //FUNCIONES SAVE
@@ -471,20 +483,21 @@ export async function savePedido(
 
     let factura = new Factura();
 
-    factura.eliminado = false;
-    factura.fechaFacturacion = "2024-06-03";
-    factura.mpPaymentId = 425;
-    factura.mpMerchantOrderId = 609;
-    factura.mpPreferenceId = "MP-3065";
-    factura.mpPaymentType = "Tipo8";
-    factura.formaPago = "EFECTIVO";
-    factura.totalVenta = 270.0;
+    /*let factura = new Factura;
+        factura.eliminado = false;
+        factura.fechaFacturacion = "2024-06-03";
+        factura.mpPaymentId = 425;
+        factura.mpMerchantOrderId = 609;
+        factura.mpPreferenceId = "MP-3065";
+        factura.mpPaymentType = "Tipo8";
+        factura.formaPago = "EFECTIVO";
+        factura.totalVenta = 270.0;*/
 
     pedido.domicilio = domicilio;
     pedido.sucursal = sucursal;
     pedido.empleado = empleado;
     pedido.cliente = localData.getCliente("Cliente");
-    pedido.factura = factura;
+    pedido.factura = null;
 
     const options = {
       mode: "cors" as RequestMode,
@@ -771,6 +784,30 @@ export async function editPedido(id: number, estado: string) {
   } catch (error) {
     alert("Error CORS, Revisa la URL o el back está mal configurado.");
   }
+}
+
+export async function editCliente(cliente: Cliente) {
+    // Preparar llamada API
+    let options = {
+        mode: "cors" as RequestMode,
+        method: "PUT",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(cliente)
+    };
+
+    // Manejo de errores
+    try {
+        let response = await fetch(`https://traza-final.onrender.com/cliente/${cliente.userName}`, options);
+        if (response.ok) {
+            alert("Cliente actualizado correctamente.");
+        } else {
+            alert("Error al actualizar cliente: " + response.status);
+        }
+    } catch (error) {
+        alert("Error CORS, Revisa la URL o el back está mal configurado.");
+    }
 }
 
 //Manejo LocalStorage

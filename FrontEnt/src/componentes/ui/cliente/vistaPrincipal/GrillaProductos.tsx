@@ -1,15 +1,15 @@
 import { Grid } from "@mui/material";
 import ItemGrilla from "./ItemGrilla";
-import Articulo from "../../../../entidades/Articulo";
-import Categoria from "../../../../entidades/Categoria";
+import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
+import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
 
 interface GrillaProductosProps {
-  categoria: Categoria;
+  articulos: ArticuloInsumo[] | ArticuloManufacturado[];
 }
 
-export default function GrillaProductos({ categoria }: GrillaProductosProps) {
+export default function GrillaProductos({ articulos }: GrillaProductosProps) {
 
-  if (categoria.articulos.length === 0) {
+  if (articulos.length === 0) {
     return null;
   }
 
@@ -19,15 +19,14 @@ export default function GrillaProductos({ categoria }: GrillaProductosProps) {
       spacing={2}
       sx={{ backgroundColor: "#f1f5df", padding: 4, height: 700, overflow: "hidden", overflowY: "scroll" }}
     >
-      {categoria.articulos?.sort((a: Articulo, b: Articulo) => a.denominacion.localeCompare(b.denominacion))
-        .map((item: Articulo) => (
-          <Grid item xs={12} sm={12} md={3}>
-            <ItemGrilla
-              key={item.id}
-              item={item}
-            />
-          </Grid>
-        ))}
+      {articulos.map((item: ArticuloInsumo | ArticuloManufacturado) => (
+        <Grid item xs={12} sm={12} md={3}>
+          <ItemGrilla
+            key={item.id}
+            item={item}
+          />
+        </Grid>
+      ))}
     </Grid>
   );
 }

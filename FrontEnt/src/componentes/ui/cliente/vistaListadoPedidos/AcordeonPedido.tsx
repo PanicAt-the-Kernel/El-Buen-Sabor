@@ -9,21 +9,20 @@ import {
   Typography,
 } from "@mui/material";
 import Pedido from "../../../../entidades/Pedido";
-import { Link } from "react-router-dom";
+import ModalListadoProductos from "./ModalListadoProductos";
+import { useState } from "react";
 
-interface AcordeonPedidoTypes{
-  open:boolean;
-  setOpen:(item:boolean)=>void;
-  pedidoObjeto: Pedido;
+interface AcordeonPedidoTypes {
+  pedido: Pedido;
 }
 
-
-export default function AcordeonPedido({open,setOpen, pedidoObjeto}:AcordeonPedidoTypes) {
+export default function AcordeonPedido({ pedido }: AcordeonPedidoTypes) {
+  const [openModal, setOpenModal] = useState<boolean>(false);
   return (
     <Accordion sx={{ backgroundColor: "#B9E4C9" }}>
       <AccordionSummary expandIcon={<ArrowDropDown />}>
         <Stack direction="row" spacing={1} alignItems={"center"}>
-          <Typography>Pedido N°{pedidoObjeto.id}</Typography>
+          <Typography>Pedido N°{pedido.id}</Typography>
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
@@ -34,42 +33,45 @@ export default function AcordeonPedido({open,setOpen, pedidoObjeto}:AcordeonPedi
           <fieldset>
             <legend>Datos de Facturacion:</legend>
             <Stack>
-              <Typography>Metodo de Entrega: {pedidoObjeto.tipoEnvio}</Typography>
-              <Typography>Metodo de Pago: {pedidoObjeto.formaPago}</Typography>
-              <Typography>Domicilio: {pedidoObjeto.domicilio.calle}</Typography>
+              <Typography>Metodo de Entrega: {pedido.tipoEnvio}</Typography>
+              <Typography>Metodo de Pago: {pedido.formaPago}</Typography>
+              <Typography>Domicilio: {pedido.domicilio.calle + " " + pedido.domicilio.numero}</Typography>
             </Stack>
           </fieldset>
           <fieldset>
             <legend>Datos Cliente</legend>
             <Stack>
-              <Typography>Nombre: {pedidoObjeto.cliente.nombre}</Typography>
-              <Typography>Apellido: {pedidoObjeto.cliente.apellido}</Typography>
-              <Typography>Telefono:{pedidoObjeto.cliente.telefono}</Typography>
+              <Typography>Nombre: {pedido.cliente.nombre}</Typography>
+              <Typography>Apellido: {pedido.cliente.apellido}</Typography>
+              <Typography>Telefono: {pedido.cliente.telefono}</Typography>
             </Stack>
           </fieldset>
           <fieldset>
             <legend>Datos Sucursal</legend>
-            <Typography>Nombre Sucursal: {pedidoObjeto.sucursal.nombre}</Typography>
-            <Typography>Direccion: {pedidoObjeto.sucursal.domicilio.calle}</Typography>
-            <Typography>Localidad: {pedidoObjeto.sucursal.domicilio.localidad.nombre}</Typography>
-            <Typography>Provincia: {pedidoObjeto.sucursal.domicilio.localidad.provincia.nombre}</Typography>
+            <Typography>Nombre Sucursal: {pedido.sucursal.nombre}</Typography>
+            <Typography>Direccion: {pedido.sucursal.domicilio.calle + " " + pedido.sucursal.domicilio.numero}</Typography>
+            <Typography>Localidad: {pedido.sucursal.domicilio.localidad.nombre}</Typography>
+            <Typography>Provincia: {pedido.sucursal.domicilio.localidad.provincia.nombre}</Typography>
           </fieldset>
           <fieldset>
             <legend>Datos Pedido</legend>
-            <Typography>Fecha pedido: {pedidoObjeto.fechaPedido}</Typography>
-            <Typography>Monto Total {pedidoObjeto.total}</Typography>
-            <Typography>Estado Pedido: {pedidoObjeto.estado}</Typography>
+            <Typography>Fecha pedido: {pedido.fechaPedido}</Typography>
+            <Typography>Monto Total ${pedido.total}</Typography>
+            <Typography>Estado Pedido: {pedido.estado}</Typography>
           </fieldset>
         </Stack>
       </AccordionDetails>
       <AccordionActions>
         <Button variant="contained" color="info">
-          <Typography sx={{fontSize:13}} onClick={()=>setOpen(!open)}>Productos Pedidos</Typography>
+          <Typography sx={{ fontSize: 13 }} onClick={() => setOpenModal(!openModal)}>Productos Pedidos</Typography>
         </Button>
-        <Link to={`https://traza-final.onrender.com/facturas/${pedidoObjeto.id}`} className="btn btn-warning">
-          <Typography sx={{fontSize:13}}>Descargar Factura</Typography>
-        </Link>
+        <a href={`https://traza-final.onrender.com/facturas/${pedido.id}`} target="_blank" rel="noopener noreferrer">
+          <Button variant="contained" color="warning">
+            <Typography sx={{ fontSize: 13 }}>Descargar Factura</Typography>
+          </Button>
+        </a>
       </AccordionActions>
+      <ModalListadoProductos open={openModal} setOpen={setOpenModal} detalles={pedido.detallePedidos} />
     </Accordion>
   );
 }

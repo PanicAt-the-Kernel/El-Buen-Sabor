@@ -8,21 +8,38 @@ import {
   Button,
   Stack,
   Badge,
+  Popover,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
-import Articulo from "../../../../entidades/Articulo";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
+import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
+import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
 import { useAuth0 } from "@auth0/auth0-react";
 import moment from "moment";
 
 interface ItemGrillaProductoTypes {
-  item: Articulo;
+  item: ArticuloInsumo | ArticuloManufacturado;
 }
 
 export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
-  const { carrito, addCarrito, removeItemCarrito } = useContext(CarritoContext);
+  const { carrito, addArticuloCarrito, removeArticuloCarrito } = useContext(CarritoContext);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const { isAuthenticated } = useAuth0();
 
+  const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+  };
+
+  let mostrarIngredientes = true;
+
+  if ((item as ArticuloInsumo).esParaElaborar != null) mostrarIngredientes = false;
 
   const now = moment().tz('America/Argentina/Buenos_Aires');
 
@@ -30,8 +47,6 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     const dayOfWeek = now.day(); // 0 = domingo, 1 = lunes, ..., 6 = sábado
     const hour = now.hour();
     const minute = now.minute();
-
-    
 
     // Horarios de lunes a viernes (20:00 - 00:00)
     if (dayOfWeek >= 1 && dayOfWeek <= 5) {
@@ -50,7 +65,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
 
     return false;
   };
-
+    
   const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.articulo === item.id);
 
   return (
@@ -69,32 +84,56 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
       </CardContent>
       <CardActions sx={{ justifyContent: "center" }}>
         <Stack spacing={2} alignItems={"center"}>
-          <Button
-            size="small"
-            //disabled={(usuario == null)}
-            variant="contained"
-            color="info"
-            startIcon={<Info />}
-            onClick={() => { /* Mostrar info */ }}
+          {mostrarIngredientes && ( // Condición para mostrar el botón y el Popover solo si es manufacturado
+            <Button
+              size="small"
+              variant="contained"
+              color="info"
+              startIcon={<Info />}
+              onClick={handleOpenPopover}
+            >
+              Ingredientes
+            </Button>
+          )}
+          <Popover
+            open={Boolean(anchorEl)}
+            anchorEl={anchorEl}
+            onClose={handleClosePopover}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
           >
-            Ingredientes
-          </Button>
-          {(isAuthenticated && isWithinTimeRange()) && (
-            <Stack direction={"row"}>
+            {mostrarIngredientes && ( // Condición para mostrar el contenido del Popover solo si es manufacturado
+              <List>
+                {(item as ArticuloManufacturado).articuloManufacturadoDetalles.map((detalle, index) => (
+                  <ListItem key={index}>
+                    <ListItemText primary={`${detalle.articuloInsumo.denominacion}`} />
+                  </ListItem>
+                ))}
+              </List>
+            )}
+          </Popover>
+        {(isAuthenticated && isWithinTimeRange()) && (
+          <Stack direction={"row"}>
             <Button
               size="small"
               startIcon={<Remove />}
-              onClick={() => { removeItemCarrito(item) }}
-              />
+              onClick={() => { removeArticuloCarrito(item) }}
+            />
             <Badge badgeContent={estaEnCarrito ? estaEnCarrito.cantidad : 0} color="info">
              <ShoppingCart />
             </Badge>
             <Button size="small"
-             startIcon={<Add />}
-            onClick={() => { addCarrito(item) }}
+              startIcon={<Add />}
+              onClick={() => { addArticuloCarrito(item) }}
             />
           </Stack>
-          )}
+          )})}
         </Stack>
       </CardActions>
     </Card>

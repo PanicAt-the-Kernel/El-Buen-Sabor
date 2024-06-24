@@ -55,8 +55,9 @@ export default function MenuOpcionesUsuario() {
         <MenuItem sx={{ justifyContent: 'center', alignItems: 'center', pointerEvents: 'none', }} disabled>
           {user ? user?.email : "Usuario"}
         </MenuItem>
-        <MenuItem onClick={() => navigate('/cliente/cuenta')}>Mi perfil</MenuItem>
-        <MenuItem onClick={() => navigate('/cliente/pedidos')}>Mis Pedidos</MenuItem>
+        <MenuItem onClick={() => navigate('/cliente/cuenta')}>Datos</MenuItem>
+        <MenuItem onClick={() => navigate('/cliente/domicilios')}>Domicilios</MenuItem>
+        <MenuItem onClick={() => navigate('/cliente/pedidos')}>Pedidos</MenuItem>
         <MenuItem onClick={() => cerrarSesion()}>Cerrar Sesion</MenuItem>
       </Menu>
     </Box>

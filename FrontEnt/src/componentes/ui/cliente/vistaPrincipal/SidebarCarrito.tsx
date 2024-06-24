@@ -19,7 +19,7 @@ interface DrawerTypes {
 
 export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
   //const sucursal: Sucursal = await getSucursalIdF(1);
-  const { carrito, vaciarCarrito, totalPedido, setTotalPedido, removeItemCarrito, addCarrito, totalEnvio } = useContext(CarritoContext);
+  const { carrito, vaciarCarrito, totalPedido, setTotalPedido, addArticuloCarrito, removeArticuloCarrito, addPromoCarrito, removePromoCarrito, totalEnvio } = useContext(CarritoContext);
   const [pedido, setPedido] = useState<Pedido>(new Pedido);
 
   const handleSubmit = () => {
@@ -36,7 +36,7 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
       fechaPedido: fecha,
       detallePedidos: carrito,
     };
-
+    console.log(updatedPedido);
     setPedido(updatedPedido);
     savePedido(updatedPedido, setTotalPedido, vaciarCarrito, totalEnvio);
   };
@@ -49,54 +49,109 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
       <Divider />
       {carrito.length == 0 && <span>El carrito esta vacío.</span>}
       <List>
-        {carrito.map((item) => (
-          <ListItem key={item.id}>
-            <ListItemAvatar>
-              <Avatar src={item.articuloAux.imagenes[0].url} />
-            </ListItemAvatar>
-            <ListItemText
-              primary={item.articuloAux.denominacion}
-              secondary={
-                <>
-                  <div>{item.cantidad} {item.cantidad === 1 ? 'unidad' : 'unidades'}</div>
-                  <div>Precio por unidad: ${item.articuloAux.precioVenta.toFixed(2)}</div>
-                  <div>Subtotal: ${(item.articuloAux.precioVenta * item.cantidad).toFixed(2)}</div>
-                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Button
-                      size="small"
-                      variant="contained"
-                      color="success"
-                      startIcon={<Remove />}
-                      onClick={() => { removeItemCarrito(item.articuloAux) }}
-                      sx={{ minWidth: 30 }}
-                    />
-                    <Box sx={{
-                      width: 40,
-                      height: 40,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      backgroundColor: 'white',
-                      borderRadius: 1,
-                      margin: '0 8px',
-                      border: '1px solid #ccc'
-                    }}>
-                      <Typography variant="body1">{item.cantidad}</Typography>
-                    </Box>
-                    <Button
-                      size="small"
-                      variant="contained"
-                      color="success"
-                      startIcon={<Add />}
-                      onClick={() => { addCarrito(item.articuloAux) }}
-                      sx={{ minWidth: 30 }}
-                    />
-                  </Box>
-                </>
-              }
-            />
-          </ListItem>
-        ))}
+        {carrito.map((item) => {
+          if (item.articuloAux) {
+            return (
+              <ListItem key={item.id}>
+                <ListItemAvatar>
+                  <Avatar src={item.articuloAux.imagenes[0].url} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.articuloAux.denominacion}
+                  secondary={
+                    <>
+                      <div>{item.cantidad} {item.cantidad === 1 ? 'unidad' : 'unidades'}</div>
+                      <div>Precio por unidad: ${item.articuloAux.precioVenta.toFixed(2)}</div>
+                      <div>Subtotal: ${(item.articuloAux.precioVenta * item.cantidad).toFixed(2)}</div>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Button
+                          size="small"
+                          variant="contained"
+                          color="success"
+                          startIcon={<Remove />}
+                          onClick={() => { removeArticuloCarrito(item.articuloAux!) }}
+                          sx={{ minWidth: 30 }}
+                        />
+                        <Box sx={{
+                          width: 40,
+                          height: 40,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: 'white',
+                          borderRadius: 1,
+                          margin: '0 8px',
+                          border: '1px solid #ccc'
+                        }}>
+                          <Typography variant="body1">{item.cantidad}</Typography>
+                        </Box>
+                        <Button
+                          size="small"
+                          variant="contained"
+                          color="success"
+                          startIcon={<Add />}
+                          onClick={() => { addArticuloCarrito(item.articuloAux!) }}
+                          sx={{ minWidth: 30 }}
+                        />
+                      </Box>
+                    </>
+                  }
+                />
+              </ListItem>
+            );
+          } else if (item.promocionAux) {
+            return (
+              <ListItem key={item.id}>
+                <ListItemAvatar>
+                  <Avatar src={"item.promocionAux.imagenes[0].url"} />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.promocionAux.denominacion}
+                  secondary={
+                    <>
+                      <div>{item.cantidad} {item.cantidad === 1 ? 'promo' : 'promos'}</div>
+                      <div>Precio promo: ${item.promocionAux.precioPromocional.toFixed(2)}</div>
+                      <div>Subtotal: ${(item.promocionAux.precioPromocional * item.cantidad).toFixed(2)}</div>
+                      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <Button
+                          size="small"
+                          variant="contained"
+                          color="success"
+                          startIcon={<Remove />}
+                          onClick={() => { removePromoCarrito(item.promocionAux!) }}
+                          sx={{ minWidth: 30 }}
+                        />
+                        <Box sx={{
+                          width: 40,
+                          height: 40,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          backgroundColor: 'white',
+                          borderRadius: 1,
+                          margin: '0 8px',
+                          border: '1px solid #ccc'
+                        }}>
+                          <Typography variant="body1">{item.cantidad}</Typography>
+                        </Box>
+                        <Button
+                          size="small"
+                          variant="contained"
+                          color="success"
+                          startIcon={<Add />}
+                          onClick={() => { addPromoCarrito(item.promocionAux!) }}
+                          sx={{ minWidth: 30 }}
+                        />
+                      </Box>
+                    </>
+                  }
+                />
+              </ListItem>
+            );
+          } else {
+            return null; // No hacer nada si ambos son nulos (opcional)
+          }
+        })}
       </List>
       <Divider />
       <Typography variant="h5" textAlign={"center"} marginBottom={2}>

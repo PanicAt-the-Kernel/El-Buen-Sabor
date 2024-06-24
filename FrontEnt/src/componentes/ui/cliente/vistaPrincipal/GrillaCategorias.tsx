@@ -4,7 +4,7 @@ import {
   localData,
 } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import Categoria from "../../../../entidades/Categoria";
-import GrillaProductos from "./GrillaProductos";
+//import GrillaProductos from "./GrillaProductos";
 
 export default function GrillaCategorias() {
   const idSucursal = localData.getSucursal("sucursal").id;
@@ -34,7 +34,8 @@ export default function GrillaCategorias() {
   return (
     <Grid container sx={{ marginTop: 2 }} spacing={1}>
       {categoriasFiltradas?.map((item: Categoria) => (
-        <GrillaProductos key={item.id} categoria={item} />
+        //<GrillaProductos key={item.id} articulos={item.articulos} />
+          <>console.log({item});</>
       ))}
     </Grid>
   );
