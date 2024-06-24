@@ -8,8 +8,12 @@ import {
   Button,
   Stack,
   Badge,
+  Popover,
+  List,
+  ListItem,
+  ListItemText,
 } from "@mui/material";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
 import Promocion from "../../../../entidades/Promocion";
 
@@ -19,6 +23,17 @@ interface ItemGrillaProductoTypes {
 
 export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   const { carrito, addPromoCarrito, removePromoCarrito } = useContext(CarritoContext);
+  const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
+  const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClosePopover = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
 
   const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.promocion === item.id);
 
@@ -26,7 +41,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     <Card sx={{ maxWidth: 330, textAlign: "center" }}>
       <CardMedia
         sx={{ height: 150, margin: 1 }}
-        image={"item.imagenes[0].url"}
+        image={item.imagenes[0].url}
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -44,10 +59,31 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
             variant="contained"
             color="info"
             startIcon={<Info />}
-            onClick={() => { /* Mostrar info */ }}
+            onClick={handleOpenPopover}
           >
-            Ingredientes
+            ¿Qué trae?
           </Button>
+          <Popover
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClosePopover}
+            anchorOrigin={{
+              vertical: "bottom",
+              horizontal: "center",
+            }}
+            transformOrigin={{
+              vertical: "top",
+              horizontal: "center",
+            }}
+          >
+            <List>
+              {item.promocionDetalles.map((detalle, index) => (
+                <ListItem key={index}>
+                  <ListItemText primary={detalle.cantidad + " " + detalle.articulo.denominacion} />
+                </ListItem>
+              ))}
+            </List>
+          </Popover>
           <Stack direction={"row"}>
             <Button
               size="small"

@@ -3,6 +3,8 @@ import React from "react";
 import { getAllArticuloInsumoNoElab, getArticulosManufacturadosIdSucursal, getPromocionesIdSucursal, localData } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import GrillaProductos from "./GrillaProductos";
 import GrillaPromo from "./GrillaPromo";
+import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
+import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -62,6 +64,30 @@ export default function TabsCategorias() {
     setValue(newValue);
   };
 
+  const articulosPorCategoria = new Map<number, ArticuloManufacturado[] | ArticuloInsumo[]>();
+
+  articulos?.forEach(articulo => {
+    const categoriaId = articulo.categoria.id;
+
+    if (articulosPorCategoria.has(categoriaId)) {
+      //@ts-ignore
+      articulosPorCategoria.get(categoriaId)?.push(articulo);
+    } else {
+      articulosPorCategoria.set(categoriaId, [articulo]);
+    }
+  });
+
+  insumosNoElab?.forEach(articulo => {
+    const categoriaId = articulo.categoria.id;
+
+    if (articulosPorCategoria.has(categoriaId)) {
+      //@ts-ignore
+      articulosPorCategoria.get(categoriaId)?.push(articulo);
+    } else {
+      articulosPorCategoria.set(categoriaId, [articulo]);
+    }
+  });
+
   if (articulos && insumosNoElab && promociones)
 
     return (
@@ -74,10 +100,10 @@ export default function TabsCategorias() {
             scrollButtons
             allowScrollButtonsMobile
           >
-            <Tab key={1} label="Promos" {...a11yProps(1)} />
-            <Tab key={2} label="Manufacurados" {...a11yProps(2)} />
-            <Tab key={3} label="Insumos no elaborados" {...a11yProps(3)} />
-
+            <Tab key={1} label="Promociones" {...a11yProps(1)} />
+            {Array.from(articulosPorCategoria).map(([categoriaId, articulos], index) => (
+              <Tab key={categoriaId} label={`${articulos[0].categoria.denominacion}`} {...a11yProps(index + 1)} />
+            ))}
           </Tabs>
         </Box>
         <CustomTabPanel key={1} value={value} index={0}>
@@ -86,18 +112,11 @@ export default function TabsCategorias() {
             promociones={promociones}
           />
         </CustomTabPanel>
-        <CustomTabPanel key={2} value={value} index={1}>
-          <GrillaProductos
-            key={2}
-            articulos={articulos}
-          />
-        </CustomTabPanel>
-        <CustomTabPanel key={3} value={value} index={2}>
-          <GrillaProductos
-            key={3}
-            articulos={insumosNoElab}
-          />
-        </CustomTabPanel>
+        {Array.from(articulosPorCategoria).map(([categoriaId, articulos], index) => (
+          <CustomTabPanel key={categoriaId} value={value} index={index + 1}>
+            <GrillaProductos key={categoriaId} articulos={articulos} />
+          </CustomTabPanel>
+        ))}
       </Box>
     );
 }
