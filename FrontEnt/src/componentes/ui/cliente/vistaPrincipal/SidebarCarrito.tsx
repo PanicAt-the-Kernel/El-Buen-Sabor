@@ -103,7 +103,7 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
             return (
               <ListItem key={item.id}>
                 <ListItemAvatar>
-                  <Avatar src={"item.promocionAux.imagenes[0].url"} />
+                  <Avatar src={item.promocionAux.imagenes[0].url} />
                 </ListItemAvatar>
                 <ListItemText
                   primary={item.promocionAux.denominacion}

@@ -12,9 +12,8 @@ import MenuOpcionesUsuario from "./MenuOpcionesUsuario";
 import { ReactNode } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Login, ShoppingCart } from "@mui/icons-material";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { getClienteEmail, localData } from "../../servicios/vistaInicio/FuncionesAPI";
-import PostLogin from "../../auth0/PostLogin";
 import LogOutButton from "../../auth0/Logout";
 import moment from 'moment-timezone';
 import { CircularProgress } from '@mui/material';
@@ -22,7 +21,6 @@ import { CircularProgress } from '@mui/material';
 // LoginButton Component
 export const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
-  
 
   return (
     <Link to="#" className="btn btn-outline-light" onClick={() => loginWithRedirect()}>
@@ -39,6 +37,7 @@ interface ClienteLayoutTypes {
 }
 
 export default function ClienteLayout({ children, setEstado=()=>{}, estado=false }: ClienteLayoutTypes) {  
+  const navigate = useNavigate();  
   //Si no hay sucursal seleccionada, mandar al usuario al selector
   if (localData.getSucursal("sucursal") == null) {
     return (
@@ -47,7 +46,6 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
   }
   
   const now = moment().tz('America/Argentina/Buenos_Aires');
-
 
   const isWithinTimeRange = () => {
     const dayOfWeek = now.day(); // 0 = domingo, 1 = lunes, ..., 6 = sábado
@@ -97,10 +95,10 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
       if(isAuthenticated && data) {
         localData.setCliente("Cliente",data);
       } else if( isAuthenticated && !data) {
-        <Navigate to="/register" />
+        navigate("/register", { replace: true });
+        console.log("hola");
       } 
   }
-
 
   return (
     <>
@@ -122,7 +120,6 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
               <Link to="/cliente/bienvenida" style={{ color: "white" }}><Typography variant="body2">Cambiar Sucursal</Typography></Link>
             </Stack>
           </Box>
-
           <Stack direction="row" spacing={3} marginRight={2}>
           {isAuthenticated ? (
               <>
@@ -136,8 +133,8 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
                     <ShoppingCart />
                   </Button>
                 )}
-                <LogOutButton />
                 <MenuOpcionesUsuario />
+                <LogOutButton />
               </>
             ) : (
               <LoginButton />
@@ -148,7 +145,6 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
       <Box component="main">
         {children}
       </Box>
-      {isAuthenticated && <PostLogin />}
     </>
   );
 }

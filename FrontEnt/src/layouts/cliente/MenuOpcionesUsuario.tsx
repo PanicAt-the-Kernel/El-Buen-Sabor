@@ -1,8 +1,6 @@
 import { Avatar, Box, Button, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Usuario from "../../entidades/Usuario";
-import { localData } from "../../servicios/vistaInicio/FuncionesAPI";
 import { useAuth0 } from "@auth0/auth0-react";
 
 export default function MenuOpcionesUsuario() {
@@ -17,19 +15,6 @@ export default function MenuOpcionesUsuario() {
 
   const handleClose = () => {
     setAnchorEl(null);
-  };
-
-  const [usuario, setUsuario] = useState<Usuario | null>(
-    localData.getUsuario('usuario')
-  );
-
-  const cerrarSesion = () => {
-    const { logout } = useAuth0();
-    logout({ logoutParams: { returnTo: window.location.pathname } });
-    localStorage.removeItem("userRoles");
-    alert("Sesión cerrada correctamente.");
-    localData.removeUsuario('usuario');
-    window.location.reload();
   };
 
   return (
@@ -58,7 +43,6 @@ export default function MenuOpcionesUsuario() {
         <MenuItem onClick={() => navigate('/cliente/cuenta')}>Datos</MenuItem>
         <MenuItem onClick={() => navigate('/cliente/domicilios')}>Domicilios</MenuItem>
         <MenuItem onClick={() => navigate('/cliente/pedidos')}>Pedidos</MenuItem>
-        <MenuItem onClick={() => cerrarSesion()}>Cerrar Sesion</MenuItem>
       </Menu>
     </Box>
   );

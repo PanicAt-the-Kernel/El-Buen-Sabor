@@ -25,7 +25,7 @@ const PostLogin = () => {
       
 
 
-          if (roles && !localData.getRol("userRoles")) {
+          if (roles) {
             localData.setRol("userRoles", roles);
             // Verificar y redirigir según el primer rol encontrado
             if (roles.includes("COCINERO")) {
