@@ -14,6 +14,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { useTheme } from "@emotion/react";
 import { Receipt, Straighten } from "@mui/icons-material";
+import { localData } from "../../servicios/vistaInicio/FuncionesAPI";
 
 interface SidebarProps {
   collapsed: boolean;
@@ -24,8 +25,8 @@ interface SidebarProps {
 function Sidebar({ collapsed, setBroken, toggled }: SidebarProps) {
   const basil = useTheme();
 
-  const userRoles: string[] = JSON.parse(localStorage.getItem("userRoles") || "[]");
-
+  const userRoles:string[] = localData.getRol('userRoles');
+  console.log(localData.getRol('userRoles'));
   return (
     <SidebarPro
       style={{
@@ -41,33 +42,33 @@ function Sidebar({ collapsed, setBroken, toggled }: SidebarProps) {
       toggled={toggled}
     >
       <Menu>
-      {userRoles.includes("ADMINISTRADOR") && (
+      {userRoles.includes("ADMIN") && (
           <MenuItem component={<a href="/dashboard"></a>} icon={<CorporateFareIcon />}>
             Empresas
           </MenuItem>
         )}
-        {userRoles.includes("ADMINISTRADOR") && (
+        {userRoles.includes("ADMIN") && (
           <MenuItem component={<a href="/dashboard/informes"></a>} icon={<BarChartIcon />}>Informes</MenuItem>
         )}
-        {(userRoles.includes("ADMINISTRADOR") || userRoles.includes("COCINERO") )  && (
+        {(userRoles.includes("ADMIN") || userRoles.includes("COCINERO") )  && (
           <SubMenu label="Artículos" icon={<FastfoodIcon />}>
-            {userRoles.includes("ADMINISTRADOR") && (
+            {userRoles.includes("ADMIN") && (
               <MenuItem component={<a href="/dashboard/categorias"></a>} icon={<CategoryIcon />}>Categorias</MenuItem>
             )}
 
-            {userRoles.includes("ADMINISTRADOR") && (
+            {userRoles.includes("ADMIN") && (
                <MenuItem component={<a href="/dashboard/insumos"></a>} icon={<ShoppingBasketIcon />}>Insumos</MenuItem>
             )}
             <MenuItem component={<a href="/dashboard/productos"></a>} icon={<MenuBookIcon />}>Manufacturados</MenuItem>
-            {userRoles.includes("ADMINISTRADOR") && (
+            {userRoles.includes("ADMIN") && (
                <MenuItem component={<a href="/dashboard/uDeMedida"></a>} icon={<Straighten />}>U. de medida</MenuItem>
             )}
         </SubMenu>
         )}
-        {userRoles.includes("ADMINISTRADOR") && (
+        {userRoles.includes("ADMIN") && (
           <MenuItem component={<a href="/dashboard/empleados"></a>} icon={<PeopleIcon />}>Empleados</MenuItem>
         )}
-        {userRoles.includes("ADMINISTRADOR") && (
+        {userRoles.includes("ADMIN") && (
           <MenuItem component={<a href="/dashboard/promociones"></a>} icon={<AttachMoneyIcon />}>Promociones</MenuItem>
         )}
         <MenuItem component={<a href="/dashboard/pedidos"></a>} icon={<Receipt />}>Pedidos</MenuItem>

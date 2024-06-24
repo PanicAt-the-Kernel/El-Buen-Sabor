@@ -57,9 +57,9 @@ const basilTheme = createTheme({
 function App() {
   return (
     <Auth0Provider
-    domain="dev-kx011i2p7if35dr6.us.auth0.com"
-    clientId="nQz3eA43DqJd7MxDpXNJxKjjuAVdA4pB"
-    authorizationParams={{ redirect_uri: window.location.origin }}
+    domain="dev-8qdogwh8uubh8qgz.us.auth0.com"
+    clientId="xhMHc3nocA0726QD697jsJlVdTkXXJdB"
+     authorizationParams={{ audience:'https://Auth0Example.com' ,redirect_uri: window.location.origin }}
     cacheLocation="localstorage"
     >      
  <BrowserRouter>

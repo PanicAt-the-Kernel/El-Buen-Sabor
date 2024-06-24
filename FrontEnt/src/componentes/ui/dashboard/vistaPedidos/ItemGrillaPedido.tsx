@@ -1,6 +1,7 @@
 import { Info } from "@mui/icons-material";
 import {
   Button,
+  ButtonGroup,
   Card,
   CardActions,
   CardContent,
@@ -13,12 +14,12 @@ import ModalPedidos from "./ModalPedidos";
 import { editPedido } from "../../../../servicios/vistaInicio/FuncionesAPI";
 
 
-interface ItemGrillaPedidoTypes{
-    pedidoObj:Pedido;
+interface ItemGrillaPedidoTypes {
+  pedidoObj: Pedido;
 }
 
-export default function ItemGrillaPedido({pedidoObj}:ItemGrillaPedidoTypes) {
-  const [open,setOpen] = useState(false);
+export default function ItemGrillaPedido({ pedidoObj }: ItemGrillaPedidoTypes) {
+  const [open, setOpen] = useState(false);
 
   const userRoles: string[] = JSON.parse(localStorage.getItem("userRoles") || "[]");
 
@@ -43,23 +44,33 @@ export default function ItemGrillaPedido({pedidoObj}:ItemGrillaPedidoTypes) {
       </CardContent>
       <CardActions>
         <Stack direction="row" alignItems="center">
-          <Button style={{ marginRight: '10px' }} size="medium" variant="contained" color="info" startIcon={<Info />} onClick={()=>setOpen(!open)}>
+          <Button style={{ marginRight: '10px' }} size="medium" variant="contained" color="info" startIcon={<Info />} onClick={() => setOpen(!open)}>
             Mas Datos
           </Button>
-          {}
-          {((userRoles.includes("ADMINISTRADOR") || userRoles.includes("COCINERO")) && pedidoObj.estado === "PREPARACION" ) 
-          && (<Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "PENDIENTE")}>
-            Listo
-          </Button>) }
-          {((userRoles.includes("ADMINISTRADOR") || userRoles.includes("DELIVERY")) && pedidoObj.estado === "PENDIENTE" ) 
-          && (<Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "ENTREGADO")}>
-            Entregar
-          </Button>) }
-          {((userRoles.includes("ADMINISTRADOR") || userRoles.includes("CAJERO")) && pedidoObj.estado === "ENTREGADO" ) 
-          && (<Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "FACTURADO")} >
-            Facturar
-          </Button>) }
-          <ModalPedidos open={open} setOpen={setOpen} pedido={pedidoObj}/>
+          {pedidoObj.estado === "PENDIENTE" && userRoles.includes("ADMIN") && (
+            <ButtonGroup size="medium" variant="contained" color="primary">
+              <Button style={{ marginRight: 2 }} onClick={() => editPedido(pedidoObj.id, "APROBADO")}>
+                APROBAR
+              </Button>
+              <Button onClick={() => editPedido(pedidoObj.id, "RECHAZADO")}>
+                RECHAZAR
+              </Button>
+            </ButtonGroup>
+          )}
+
+          {pedidoObj.estado === "EN DELIVERY" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
+            <Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "FACTURADO")}>
+              Facturar
+            </Button>
+          )}
+
+          {((userRoles.includes("ADMIN") || userRoles.includes("COCINERO")) && pedidoObj.estado === "APROBADO") && (
+            <Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "TERMINADO")}>
+              Listo
+            </Button>
+          )}
+
+          <ModalPedidos open={open} setOpen={setOpen} pedido={pedidoObj} />
         </Stack>
       </CardActions>
     </Card>

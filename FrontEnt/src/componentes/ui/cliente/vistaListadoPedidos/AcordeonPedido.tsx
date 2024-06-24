@@ -8,18 +8,22 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import Pedido from "../../../../entidades/Pedido";
+import { Link } from "react-router-dom";
 
 interface AcordeonPedidoTypes{
   open:boolean;
   setOpen:(item:boolean)=>void;
+  pedidoObjeto: Pedido;
 }
 
-export default function AcordeonPedido({open,setOpen}:AcordeonPedidoTypes) {
+
+export default function AcordeonPedido({open,setOpen, pedidoObjeto}:AcordeonPedidoTypes) {
   return (
     <Accordion sx={{ backgroundColor: "#B9E4C9" }}>
       <AccordionSummary expandIcon={<ArrowDropDown />}>
         <Stack direction="row" spacing={1} alignItems={"center"}>
-          <Typography>Pedido N°123456</Typography>
+          <Typography>Pedido N°{pedidoObjeto.id}</Typography>
         </Stack>
       </AccordionSummary>
       <AccordionDetails>
@@ -28,33 +32,33 @@ export default function AcordeonPedido({open,setOpen}:AcordeonPedidoTypes) {
           spacing={{ xs: 2, sm: 2, md: 5 }}
         >
           <fieldset>
-            <legend>Datos de Facturacion</legend>
+            <legend>Datos de Facturacion:</legend>
             <Stack>
-              <Typography>Metodo de Entrega: Delivery</Typography>
-              <Typography>Metodo de Pago: Mercado Pago</Typography>
-              <Typography>Domicilio: Calle Falsa 123</Typography>
+              <Typography>Metodo de Entrega: {pedidoObjeto.tipoEnvio}</Typography>
+              <Typography>Metodo de Pago: {pedidoObjeto.formaPago}</Typography>
+              <Typography>Domicilio: {pedidoObjeto.domicilio.calle}</Typography>
             </Stack>
           </fieldset>
           <fieldset>
             <legend>Datos Cliente</legend>
             <Stack>
-              <Typography>Nombre: Debora</Typography>
-              <Typography>Apellido: Meltrozo</Typography>
-              <Typography>Telefono: 261-123456</Typography>
+              <Typography>Nombre: {pedidoObjeto.cliente.nombre}</Typography>
+              <Typography>Apellido: {pedidoObjeto.cliente.apellido}</Typography>
+              <Typography>Telefono:{pedidoObjeto.cliente.telefono}</Typography>
             </Stack>
           </fieldset>
           <fieldset>
             <legend>Datos Sucursal</legend>
-            <Typography>Nombre Sucursal: Carlitos</Typography>
-            <Typography>Direccion: Calle Real 321</Typography>
-            <Typography>Localidad: Lujan de Cuyo</Typography>
-            <Typography>Provincia: Mendoza</Typography>
+            <Typography>Nombre Sucursal: {pedidoObjeto.sucursal.nombre}</Typography>
+            <Typography>Direccion: {pedidoObjeto.sucursal.domicilio.calle}</Typography>
+            <Typography>Localidad: {pedidoObjeto.sucursal.domicilio.localidad.nombre}</Typography>
+            <Typography>Provincia: {pedidoObjeto.sucursal.domicilio.localidad.provincia.nombre}</Typography>
           </fieldset>
           <fieldset>
             <legend>Datos Pedido</legend>
-            <Typography>Fecha pedido: 06/06/2006</Typography>
-            <Typography>Monto Total $123456789</Typography>
-            <Typography>Estado Pedido: Entregado</Typography>
+            <Typography>Fecha pedido: {pedidoObjeto.fechaPedido}</Typography>
+            <Typography>Monto Total {pedidoObjeto.total}</Typography>
+            <Typography>Estado Pedido: {pedidoObjeto.estado}</Typography>
           </fieldset>
         </Stack>
       </AccordionDetails>
@@ -62,9 +66,9 @@ export default function AcordeonPedido({open,setOpen}:AcordeonPedidoTypes) {
         <Button variant="contained" color="info">
           <Typography sx={{fontSize:13}} onClick={()=>setOpen(!open)}>Productos Pedidos</Typography>
         </Button>
-        <Button variant="contained" color="warning">
+        <Link to={`https://traza-final.onrender.com/facturas/${pedidoObjeto.id}`} className="btn btn-warning">
           <Typography sx={{fontSize:13}}>Descargar Factura</Typography>
-        </Button>
+        </Link>
       </AccordionActions>
     </Accordion>
   );
