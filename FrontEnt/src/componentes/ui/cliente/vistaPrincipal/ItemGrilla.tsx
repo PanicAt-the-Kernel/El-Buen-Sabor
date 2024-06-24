@@ -17,6 +17,8 @@ import { useContext, useState } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
+import { useAuth0 } from "@auth0/auth0-react";
+import moment from "moment";
 
 interface ItemGrillaProductoTypes {
   item: ArticuloInsumo | ArticuloManufacturado;
@@ -25,6 +27,7 @@ interface ItemGrillaProductoTypes {
 export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   const { carrito, addArticuloCarrito, removeArticuloCarrito } = useContext(CarritoContext);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const { isAuthenticated } = useAuth0();
 
   const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -38,6 +41,31 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
 
   if ((item as ArticuloInsumo).esParaElaborar != null) mostrarIngredientes = false;
 
+  const now = moment().tz('America/Argentina/Buenos_Aires');
+
+  const isWithinTimeRange = () => {
+    const dayOfWeek = now.day(); // 0 = domingo, 1 = lunes, ..., 6 = sábado
+    const hour = now.hour();
+    const minute = now.minute();
+
+    // Horarios de lunes a viernes (20:00 - 00:00)
+    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+      if ((hour === 17 && minute >= 0) || (hour >= 18 && hour < 24)) {
+        return true;
+      }
+    }
+
+    // Horarios de sábados y domingos (11:00 - 15:00 y 20:00 - 00:00)
+    if (dayOfWeek === 0 || dayOfWeek === 6) {
+      if ((hour === 11 && minute >= 0) || (hour >= 12 && hour < 15) || 
+          (hour === 20 && minute >= 0) || (hour >= 0 && hour < 24)) {
+        return true;
+      }
+    }
+
+    return false;
+  };
+    
   const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.articulo === item.id);
 
   return (
@@ -90,6 +118,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
               </List>
             )}
           </Popover>
+        {(isAuthenticated && isWithinTimeRange()) && (
           <Stack direction={"row"}>
             <Button
               size="small"
@@ -97,13 +126,14 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
               onClick={() => { removeArticuloCarrito(item) }}
             />
             <Badge badgeContent={estaEnCarrito ? estaEnCarrito.cantidad : 0} color="info">
-              <ShoppingCart />
+             <ShoppingCart />
             </Badge>
             <Button size="small"
               startIcon={<Add />}
               onClick={() => { addArticuloCarrito(item) }}
             />
           </Stack>
+          )})}
         </Stack>
       </CardActions>
     </Card>

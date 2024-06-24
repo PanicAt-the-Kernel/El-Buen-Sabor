@@ -31,7 +31,7 @@ export default function AcordeonPedido({ pedido }: AcordeonPedidoTypes) {
           spacing={{ xs: 2, sm: 2, md: 5 }}
         >
           <fieldset>
-            <legend>Datos de Facturacion</legend>
+            <legend>Datos de Facturacion:</legend>
             <Stack>
               <Typography>Metodo de Entrega: {pedido.tipoEnvio}</Typography>
               <Typography>Metodo de Pago: {pedido.formaPago}</Typography>
