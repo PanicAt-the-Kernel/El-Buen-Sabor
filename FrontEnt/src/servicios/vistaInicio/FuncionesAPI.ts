@@ -808,6 +808,7 @@ export async function editPedido(id: number, estado: string) {
       options
     );
     if (response.ok) {
+      window.location.reload();
       alert("Pedido actualizado correctamente.");
     } else {
       alert("Error al actualizar pedido: " + response.status);

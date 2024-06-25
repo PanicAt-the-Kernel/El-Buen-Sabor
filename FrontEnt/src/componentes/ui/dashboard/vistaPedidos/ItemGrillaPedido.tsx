@@ -47,7 +47,7 @@ export default function ItemGrillaPedido({ pedidoObj }: ItemGrillaPedidoTypes) {
           <Button style={{ marginRight: '10px' }} size="medium" variant="contained" color="info" startIcon={<Info />} onClick={() => setOpen(!open)}>
             Mas Datos
           </Button>
-          {pedidoObj.estado === "PENDIENTE" && userRoles.includes("ADMIN") && (
+          {pedidoObj.estado === "PENDIENTE" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
             <ButtonGroup size="medium" variant="contained" color="primary">
               <Button style={{ marginRight: 2 }} onClick={() => editPedido(pedidoObj.id, "APROBADO")}>
                 APROBAR
@@ -58,11 +58,24 @@ export default function ItemGrillaPedido({ pedidoObj }: ItemGrillaPedidoTypes) {
             </ButtonGroup>
           )}
 
-          {pedidoObj.estado === "EN DELIVERY" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
+          {pedidoObj.estado === "TERMINADO" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
+            <ButtonGroup size="medium" variant="contained" color="primary">
+              <Button style={{ marginRight: 2 }} onClick={() => editPedido(pedidoObj.id, "FACTURADO")}>
+                FACTURADO
+              </Button>
+              <Button onClick={() => editPedido(pedidoObj.id, "DELIVERY")}>
+                EN DELIVERY
+              </Button>
+            </ButtonGroup>
+          )}
+
+          {pedidoObj.estado === "DELIVERY" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
             <Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "FACTURADO")}>
               Facturar
             </Button>
           )}
+
+         
 
           {((userRoles.includes("ADMIN") || userRoles.includes("COCINERO")) && pedidoObj.estado === "APROBADO") && (
             <Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "TERMINADO")}>
