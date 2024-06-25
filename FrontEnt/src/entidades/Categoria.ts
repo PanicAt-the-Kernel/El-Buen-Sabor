@@ -4,7 +4,7 @@ import Sucursal from "./Sucursal";
 class Categoria {
     id: number = 0;
     eliminado: boolean = false;
-    fechaBaja: string = '';
+    fechaBaja: string = '9999-12-31';
     denominacion: string = '';
     articulos: Articulo[] = [];
     subCategorias: Categoria[] = [];
