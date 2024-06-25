@@ -30,6 +30,16 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
     const handleCloseInsumos = () => setOpenInsumos(false);
 
     const handleSubmit = () => {
+        if (imagenesL.length === 0) {
+            alert('Debe agregar al menos una imagen antes de guardar.');
+            return;
+        }
+
+        if (tablaDetalle.length === 0) {
+            alert('Debe agregar al menos un insumo antes de guardar.');
+            return;
+        }
+
         const selectedCategoria = categorias?.find(cat => cat.id === categoriaL);
         const selectedUMedida = unidadesMedida?.find(um => um.id === unidadMedidaL);
 
