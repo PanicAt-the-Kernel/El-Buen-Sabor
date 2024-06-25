@@ -21,10 +21,14 @@ import { CircularProgress } from '@mui/material';
 // LoginButton Component
 export const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
+  //MediaQuery para vista escritorio
+  const vistaEscritorio: boolean = useMediaQuery("(min-width:650px)");
+  //Si es falso, entonces estas en vista mobile
+  
 
   return (
     <Link to="#" className="btn btn-outline-light" onClick={() => loginWithRedirect()}>
-      Iniciar sesión / Registrarse&nbsp;
+      {vistaEscritorio ? ("Iniciar sesión / Registrarse ") : ("")}
       <Login />
     </Link>
   );
@@ -37,13 +41,6 @@ interface ClienteLayoutTypes {
 }
 
 export default function ClienteLayout({ children, setEstado=()=>{}, estado=false }: ClienteLayoutTypes) {  
-  const navigate = useNavigate();  
-  //Si no hay sucursal seleccionada, mandar al usuario al selector
-  if (localData.getSucursal("sucursal") == null) {
-    return (
-      <Navigate to="/cliente/bienvenida" />
-    )
-  }
   
   const now = moment().tz('America/Argentina/Buenos_Aires');
 
@@ -74,14 +71,16 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
   //MediaQuery para vista escritorio
   const vistaEscritorio: boolean = useMediaQuery("(min-width:650px)");
   //Si es falso, entonces estas en vista mobile
+  
   const { isAuthenticated, user} = useAuth0();
 
   if(isAuthenticated) {
-    //@ts-ignore
-    const { data, isLoading, error } = getClienteEmail(user.email);
+    
+    const { data, isLoading, error } = getClienteEmail(user?.email!);
     if (isLoading)
       return (
         <>
+          <h1>Recargo la pagina</h1>
           <CircularProgress color="inherit" />
         </>
       );

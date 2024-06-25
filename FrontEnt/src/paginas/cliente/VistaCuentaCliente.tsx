@@ -1,16 +1,19 @@
-import { Container, Paper } from "@mui/material";
+import { CircularProgress, Container, Paper } from "@mui/material";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 import FormularioCliente from "../../componentes/ui/cliente/VistaCuentaCliente/FormularioCliente";
-import { useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export default function VistaCuentaCliente() {
-  const [open, setOpen] = useState(false);
+  const { user, isLoading: userLoading } = useAuth0();
 
+  if(userLoading){
+    return <CircularProgress />
+  }
   return (
-    <ClienteLayout estado={open} setEstado={setOpen}>
+    <ClienteLayout>
       <Container>
         <Paper elevation={6} sx={{marginTop:2}}>
-          <FormularioCliente />
+          <FormularioCliente userEmail={user?.email!}/>
         </Paper>
       </Container>
     </ClienteLayout>

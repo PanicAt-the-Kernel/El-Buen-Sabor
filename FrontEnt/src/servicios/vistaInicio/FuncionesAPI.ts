@@ -1,4 +1,5 @@
 import useSWR, { SWRResponse } from "swr";
+import useSWRImmutable from 'swr/immutable'
 import ArticuloInsumo from "../../entidades/ArticuloInsumo";
 import Categoria from "../../entidades/Categoria";
 import Empresa from "../../entidades/Empresa";
@@ -34,10 +35,7 @@ export function getAllEmpresas(token: string | null): SWRResponse<Empresa[], any
     );
   }
   //Si el token es null ponemos en pausa a la funcion fetch
-  return useSWR<Empresa[]>(
-    null,
-    fetcher
-  );
+  return useSWR<Empresa[]>(null, fetcher);
 }
 
 export function getAllEmpleados(): SWRResponse<Empleado[], any, any> {
@@ -77,10 +75,7 @@ export function getAllInsumos(token: string | null): SWRResponse<ArticuloInsumo[
     );
   }
   //Si el token es null ponemos en pausa a la funcion fetch
-  return useSWR<ArticuloInsumo[]>(
-    null,
-    fetcher
-  );
+  return useSWR<ArticuloInsumo[]>(null, fetcher);
 }
 
 export function getAllPaises(): SWRResponse<Pais[], any, any> {
@@ -208,8 +203,8 @@ export function getPedidosCliente(clienteEmail: string): SWRResponse<Pedido[], a
   return useSWR<Pedido[]>(
     `https://traza-final.onrender.com/pedidos/cliente?userName=${clienteEmail}`,
     fetcher
-  )
-};
+  );
+}
 
 export function getClienteEmail(
   clienteEmail: string
@@ -891,3 +886,5 @@ export const localData = {
     localStorage.removeItem(key);
   },
 };
+
+
