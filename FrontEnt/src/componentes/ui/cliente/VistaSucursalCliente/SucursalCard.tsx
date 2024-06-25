@@ -27,8 +27,7 @@ export default function SucursalCard({ sucursal }: SucursalCardTypes) {
             Ubicado en: {sucursal.domicilio.calle} y {sucursal.domicilio.numero}
           </Typography>
           <Typography variant="body2" color="text.primary">
-            Horarios: Lunes-Viernes de {sucursal.horarioApertura}-
-            {sucursal.horarioCierre}
+            Horarios: Lunes a Domingos de 20:00 a 12:00, Sábados y Domingos de 11:00 a 15:00
           </Typography>
         </Stack>
       </CardContent>

@@ -22,9 +22,7 @@ export default function ItemGrillaPromocion({ item, children }: ItemGrillaPromoc
       <Card sx={{ width: 290 }}>
         <CardMedia
           sx={{ height: 190, margin: 1 }}
-          image={
-            "https://sdi-implant.com/wp-content/uploads/2018/02/placeholder-black.png"
-          }
+          image={item.imagenes[0].url}
         />
         <CardContent>
           <Typography color="text.secondary">

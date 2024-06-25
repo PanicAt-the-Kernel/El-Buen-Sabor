@@ -2,7 +2,7 @@ import { Button, Grid } from "@mui/material";
 import Promocion from "../../../../entidades/Promocion";
 import { editPromocion, getPromocionesIdSucursal } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import ItemGrillaPromocion from "./ItemGrillaPromocion";
-import { Info, Edit } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 import { useState } from "react";
 import AgregarPromocionModal from "./AgregarPromocionModal";
 
@@ -15,8 +15,6 @@ export default function GrillaPromocion({ busqueda }: GrillaPromocionTypes) {
   const { data: promociones } = getPromocionesIdSucursal(idSucursal);
   const [editingProm, setEditingProm] = useState<Promocion | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
-  //const [openInfo, setOpenInfo] = useState(false);
-
 
   const handleOpenEditar = (promocion: Promocion) => {
     console.log(promocion);
@@ -28,16 +26,6 @@ export default function GrillaPromocion({ busqueda }: GrillaPromocionTypes) {
     setEditingProm(null);
     setOpenEditar(false);
   };
-  /*
-  const handleOpenInfo = (promocion: Promocion) => {
-    setEditingProm(promocion);
-    setOpenInfo(true);
-  };
-
-  const handleCloseInfo = () => {
-    setEditingProm(null);
-    setOpenInfo(false);
-  };*/
 
   const handleSubmit = (promocion: Promocion) => {
     if (editingProm != null) {
@@ -62,8 +50,7 @@ export default function GrillaPromocion({ busqueda }: GrillaPromocionTypes) {
             key={item.id}
             item={item}
           >
-            <Button size="small" variant="contained" color="info" startIcon={<Info />} /*onClick={() => handleOpenInfo(item)}*/>Info</Button>
-            <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpenEditar(item)}>Editar</Button>
+            <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpenEditar(item)}>Ver Info / Editar</Button>
           </ItemGrillaPromocion>
         ))}
       </Grid>

@@ -73,21 +73,17 @@ export default function MostrarSucursalesModal({ open, onClose, iEmpresa }: Most
                         justifyContent: "center",
                         alignItems: "center",
                     }}>
-
-
-
                     {sucursales?.sort((a, b) => a.nombre.localeCompare(b.nombre))
                     .map((item: Sucursal) => (
-
                         <ItemGrilla
                             key={item.id}
                             nombre={item.nombre}
                             descripcion={item.domicilio.calle + " " + item.domicilio.numero + " - " + item.domicilio.localidad.nombre}
-                            info={"Horario: " + item.horarioApertura + " a " + item.horarioCierre}
+                            info={"Horario: Lunes a Domingos de 20:00 a 12:00, Sábados y Domingos de 11:00 a 15:00"}
                             info2={`¿Es casa matriz?: ${item.esCasaMatriz ? "Sí" : "No"}`}
                             urlImagen="/imgs/empresa.jpg"
                         >
-                            <Button component="a" href="/productos"  size="small" variant="contained" color="info" startIcon={<Info />}>Ingresar</Button>
+                            <Button component="a" href="/dashboard"  size="small" variant="contained" color="info" startIcon={<Info />}>Ingresar</Button>
                             <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpen(item)}>Editar</Button>
                         </ItemGrilla>
                     ))}

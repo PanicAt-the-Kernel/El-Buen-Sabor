@@ -3,7 +3,7 @@ import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import { editArticuloInsumo, getAllInsumos } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import ItemGrillaInsumos from "./ItemGrillaInsumos";
 import { useState } from "react";
-import { Edit, Info } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 import AgregarInsumoModal from "./AgregarInsumoModal";
 import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 
@@ -16,7 +16,6 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
   const { data: insumos } = getAllInsumos(token);
   const [editingInsumo, setEditingInsumo] = useState<ArticuloInsumo | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
-  //const [openInfo, setOpenInfo] = useState(false);
 
   const handleOpenEditar = (insumo: ArticuloInsumo) => {
     setEditingInsumo(insumo);
@@ -27,16 +26,6 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
     setEditingInsumo(null);
     setOpenEditar(false);
   };
-  /*
-  const handleOpenInfo = (insumo: ArticuloInsumo) => {
-    setEditingArtMan(artMan);
-    setOpenInfo(true);
-  };
-
-  const handleCloseInfo = () => {
-    setEditingArtMan(null);
-    setOpenInfo(false);
-  };*/
 
   const handleSubmit = (insumo: ArticuloInsumo) => {
     if (editingInsumo != null) {
@@ -64,8 +53,7 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
               precioCompra={"Precio de compra: $" + item.precioCompra}
               urlImagen={item.imagenes[0].url}
             >
-              <Button size="small" variant="contained" color="info" startIcon={<Info />} /*onClick={() => handleOpenInfo(item)}*/>Info</Button>
-              <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpenEditar(item)}>Editar</Button>
+              <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpenEditar(item)}>Ver Info / Editar</Button>
             </ItemGrillaInsumos>
           ))}
       </Grid>

@@ -83,26 +83,6 @@ function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal }: AgregarSuc
                             value={sucursal.nombre}
                             onChange={(e) => setSucursal({ ...sucursal, nombre: e.target.value })}
                         />
-                        <TextField
-                            label="Hora de Apertura"
-                            variant="outlined"
-                            type="time"
-                            value={sucursal.horarioApertura}
-                            onChange={(e) => setSucursal({ ...sucursal, horarioApertura: e.target.value })}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
-                        <TextField
-                            label="Hora de Cierre"
-                            variant="outlined"
-                            type="time"
-                            value={sucursal.horarioCierre}
-                            onChange={(e) => setSucursal({ ...sucursal, horarioCierre: e.target.value })}
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                        />
                         <FormControlLabel
                             control={
                                 <Checkbox

@@ -8,13 +8,11 @@ class Sucursal {
     eliminado: boolean = false;
     fechaBaja: string = '9999-12-31';
     nombre: string = '';
-    horarioApertura: string = '';
-    horarioCierre: string = '';
+    esCasaMatriz: boolean = false;
     domicilio: Domicilio = new Domicilio;
+    empresa: Empresa = new Empresa;
     promociones: Promocion[] = [];
     categorias: Categoria[] = [];
-    empresa: Empresa = new Empresa;
-    esCasaMatriz: boolean = false;
 }
 
 export default Sucursal
