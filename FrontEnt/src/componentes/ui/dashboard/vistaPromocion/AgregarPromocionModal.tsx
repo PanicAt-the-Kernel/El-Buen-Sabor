@@ -46,6 +46,16 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
   }
 
   const handleSubmit = () => {
+    if (imagenesL.length === 0) {
+      alert('Debe agregar al menos una imagen antes de guardar.');
+      return;
+    }
+
+    if (tablaDetalle.length === 0) {
+      alert('Debe agregar al menos un artículo antes de guardar.');
+      return;
+    }
+
     const sucursalIds = listaSucursales.map(sucursal => sucursal.id);
 
     const updatedPromocion = {

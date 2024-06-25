@@ -11,6 +11,9 @@ import { useContext, useState } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
 import { savePedido } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import Pedido from "../../../../entidades/Pedido";
+import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
+import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
+import DetallePedido from "../../../../entidades/DetallePedido";
 
 interface DrawerTypes {
   estado: boolean;
@@ -39,6 +42,22 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
     console.log(updatedPedido);
     setPedido(updatedPedido);
     savePedido(updatedPedido, setTotalPedido, vaciarCarrito, totalEnvio);
+  };
+
+  const verificarStock = (item: DetallePedido) => {
+    if ((item.articuloAux as ArticuloInsumo).esParaElaborar != null) {
+      return (item.articuloAux as ArticuloInsumo).stockActual > item.cantidad;
+    } else {
+      return (item.articuloAux as ArticuloManufacturado).articuloManufacturadoDetalles.every(detalle => detalle.articuloInsumo.stockActual >= (item.cantidad + 1) * detalle.cantidad);
+    }
+  };
+
+  const handleAddClick = (item: DetallePedido) => {
+    if (verificarStock(item)) {
+      addArticuloCarrito(item.articuloAux!);
+    } else {
+      alert("No hay stock suficiente");
+    }
   };
 
   const DrawerList = (
@@ -90,7 +109,7 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
                           variant="contained"
                           color="success"
                           startIcon={<Add />}
-                          onClick={() => { addArticuloCarrito(item.articuloAux!) }}
+                          onClick={() => { handleAddClick(item) }}
                           sx={{ minWidth: 30 }}
                         />
                       </Box>
