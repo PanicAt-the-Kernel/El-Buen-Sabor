@@ -1,8 +1,7 @@
 import { useState } from "react";
-import { Modal, Box, TextField, Stack, Button, MenuItem, Select, FormControl, InputLabel, IconButton } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
+import { Modal, Box, TextField, Stack, Button, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import Empleado from "../../../../entidades/Empleado";
-import ImagenEmpleado from "../../../../entidades/ImagenEmpleado";
+import { saveEmpleado } from "../../../../servicios/vistaInicio/FuncionesAPI";
 
 interface AgregarEmpleadoModalProps {
   open: boolean;
@@ -65,46 +64,13 @@ function validateFecha(e) {
   }
 }
 
-function AgregarEmpleadoModal({ open, onClose, onSubmit, iEmpleado }: AgregarEmpleadoModalProps) {
+function AgregarEmpleadoModal({ open, onClose, iEmpleado }: AgregarEmpleadoModalProps) {
   const [empleado, setEmpleado] = useState<Empleado>(iEmpleado);
-  const [imagen, setImagen] = useState<ImagenEmpleado>(empleado.imagenEmpleado);
 
-  const handleSubmit = () => {
-    onSubmit(empleado);
+  const handleSubmit = (empleado: Empleado) => {
+    saveEmpleado(empleado);
+    onClose();
   };
-
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    //@ts-ignore
-    const file = e.target.files[0];
-    if (file) {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', 'grupardo');
-
-      try {
-        const response = await fetch('https://api.cloudinary.com/v1_1/dafcqvadi/image/upload', {
-          method: 'POST',
-          body: formData,
-        });
-
-        const data = await response.json();
-
-        const imagenNueva = new ImagenEmpleado();
-        imagenNueva.id = 0;
-        imagenNueva.url = data.secure_url;
-        imagenNueva.eliminado = false;
-        imagenNueva.fechaBaja = "9999-12-31";
-        console.log(imagenNueva)
-        setImagen(imagenNueva);
-      } catch (error) {
-        console.error('Error uploading image:', error);
-      }
-    }
-  };
-
-  const handleDeleteImage = () => {
-    setImagen(new ImagenEmpleado());
-  }
 
   return (
     <Modal
@@ -129,7 +95,7 @@ function AgregarEmpleadoModal({ open, onClose, onSubmit, iEmpleado }: AgregarEmp
           autoComplete="off"
           onSubmit={(e) => {
             e.preventDefault();
-            handleSubmit();
+            handleSubmit(empleado);
           }}
         >
           <Stack spacing={2}>
@@ -198,30 +164,6 @@ function AgregarEmpleadoModal({ open, onClose, onSubmit, iEmpleado }: AgregarEmp
               }}
             />
             {errorFecha && <span style={{ color: "red" }}>Ingrese una fecha posible!</span>}
-            {imagen.url != "" ? (
-              <Stack
-              direction={ "row" }>
-                <img src={imagen.url} alt="Imagen Empleado" style={{ maxWidth: 200 }} />
-                <IconButton aria-label="eliminar" onClick={() => handleDeleteImage()}>
-                  <DeleteIcon />
-                </IconButton>
-              </Stack>
-            ) : (
-              <>
-                <input
-                  type="file"
-                  accept="image/*"
-                  id="file-upload"
-                  style={{ display: 'none' }}
-                  onChange={handleImageUpload}
-                />
-                <label htmlFor="file-upload">
-                  <Button variant="contained" component="span">
-                    Agregar Imagen
-                  </Button>
-                </label>
-              </>
-            )}
             <Button variant="contained" color="primary" type="submit" id="save" disabled={errorEmail || errorTelefono || errorNombre || errorTipo || errorFecha}>
               Guardar
             </Button>

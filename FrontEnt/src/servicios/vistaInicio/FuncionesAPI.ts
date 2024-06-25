@@ -861,6 +861,32 @@ export async function editCliente(cliente: Cliente) {
     }
 }
 
+//Manejo bajas lógicas
+export async function bajaEmpleado(empleado: Empleado) {
+  //Preparar llamada api
+  empleado.eliminado = true;
+  empleado.fechaBaja = new Date().toJSON().slice(0, 10);
+  let options = {
+      mode: "cors" as RequestMode,
+      method: "PUT",
+      headers: {
+          "Content-Type": "application/json"
+      },
+      body: JSON.stringify(empleado)
+  }
+  //Manejo de errores
+  try {
+      let response = await fetch(`https://traza-final.onrender.com/empleado/${empleado.id}`, options);
+      if (response.ok) {
+          alert("Empleado dado de baja correctamente");
+      } else {
+          alert("Error HTTP: " + response.status);
+      }
+  } catch {
+      alert("Error CORS, Revisa la URL o el back esta mal configurado")
+  }
+}
+
 //Manejo LocalStorage
 export const localData = {
   setUsuario(key: string, value: Usuario) {

@@ -1,4 +1,3 @@
-import ImagenEmpleado from "./ImagenEmpleado";
 import Sucursal from "./Sucursal";
 import UsuarioEmpleado from "./UsuarioEmpleado";
 
@@ -13,7 +12,6 @@ class Empleado {
     email: string = '';
     fechaNacimiento: string = '';
     usuarioEmpleado: UsuarioEmpleado = new UsuarioEmpleado;
-    imagenEmpleado: ImagenEmpleado = new ImagenEmpleado;
     sucursal: Sucursal = new Sucursal;
 }
 
