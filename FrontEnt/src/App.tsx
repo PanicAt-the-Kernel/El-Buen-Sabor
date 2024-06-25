@@ -26,7 +26,8 @@ import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
 import VistaPedidoCliente from "./paginas/cliente/VistaPedidoCliente";
-
+import { localData } from "./servicios/vistaInicio/FuncionesAPI";
+import { useEffect, useState } from "react";
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
   palette: {
@@ -54,6 +55,14 @@ const basilTheme = createTheme({
 });
 
 function App() {
+
+  const [userRoles, setUserRoles] = useState([]);
+
+  useEffect(() => {
+    const userRoles = localData.getRol("userRoles");
+    setUserRoles(userRoles);
+  });
+ 
   return (
     <Auth0Provider
     domain="dev-8qdogwh8uubh8qgz.us.auth0.com"
@@ -66,15 +75,15 @@ function App() {
         <Routes>
           <Route index element={<VistaBienvenida />} />
           {/*VISTA DE DASHBOARD*/}
-          <Route path="/dashboard" element={<DashboardVistaEmpresa />} />
-          <Route path="/dashboard/categorias" element={<DashboardVistaCategoria />} />
-          <Route path="/dashboard/informes" element={<DashboardVistaInformes />} />
-          <Route path="/dashboard/productos" element={<DashboardVistaProducto />} />
-          <Route path="/dashboard/empleados" element={<DashboardVistaEmpleado />} />
-          <Route path="/dashboard/promociones" element={<DashboardVistaPromocion />} />
-          <Route path="/dashboard/insumos" element={<DashboardVistaInsumo />} />
-          <Route path="/dashboard/uDeMedida" element={<DashboardVistaUMedida />} />
-          <Route path="/dashboard/pedidos" element={<DashboardVistaPedidos />} />
+          <Route path="/dashboard" element={ userRoles.includes("ADMIN") ? <DashboardVistaEmpresa /> : <VistaBienvenida />} />
+          <Route path="/dashboard/categorias" element={userRoles.includes("ADMIN") ? <DashboardVistaCategoria /> : <VistaBienvenida />} />
+          <Route path="/dashboard/informes" element={userRoles.includes("ADMIN") ?  <DashboardVistaInformes /> : <VistaBienvenida />} />
+          <Route path="/dashboard/productos" element={userRoles.includes("ADMIN") ? <DashboardVistaProducto /> : <VistaBienvenida />} />
+          <Route path="/dashboard/empleados" element={userRoles.includes("ADMIN") ? <DashboardVistaEmpleado /> : <VistaBienvenida />} />
+          <Route path="/dashboard/promociones" element={userRoles.includes("ADMIN") ? <DashboardVistaPromocion />: <VistaBienvenida />} />
+          <Route path="/dashboard/insumos" element={userRoles.includes("ADMIN") ? <DashboardVistaInsumo /> : <VistaBienvenida />} />
+          <Route path="/dashboard/uDeMedida" element={userRoles.includes("ADMIN") ? <DashboardVistaUMedida />: <VistaBienvenida />} />
+          <Route path="/dashboard/pedidos" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?   <DashboardVistaPedidos /> : <VistaBienvenida />} />
           {/*VISTA DE CLIENTE*/}
           <Route path="/register" element={<VistaRegister />} />
           <Route path="/login" element={<VistaLogin />} />

@@ -26,7 +26,6 @@ function Sidebar({ collapsed, setBroken, toggled }: SidebarProps) {
   const basil = useTheme();
 
   const userRoles:string[] = localData.getRol('userRoles');
-  console.log(localData.getRol('userRoles'));
   return (
     <SidebarPro
       style={{
