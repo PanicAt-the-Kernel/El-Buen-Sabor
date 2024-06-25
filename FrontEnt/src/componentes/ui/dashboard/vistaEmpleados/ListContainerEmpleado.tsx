@@ -1,7 +1,7 @@
 import { Avatar, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Empleado from "../../../../entidades/Empleado";
-import { editEmpleado, getAllEmpleados } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { bajaEmpleado, editEmpleado, getAllEmpleados } from "../../../../servicios/vistaInicio/FuncionesAPI";
 import { useState } from "react";
 import { Edit } from "@mui/icons-material";
 import AgregarEmpleadoModal from "./AgregarEmpleadoModal";
@@ -33,7 +33,7 @@ export default function ListContainerEmpleado({ busqueda }: ListContainerEmplead
   };
 
   const handleDelete = (empleado: Empleado) => {
-    
+    bajaEmpleado(empleado);
   }
 
   const empleadosFiltrados = empleados?.filter((item) => {
