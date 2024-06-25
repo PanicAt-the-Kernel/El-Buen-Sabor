@@ -57,15 +57,31 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
 
     // Horarios de sábados y domingos (11:00 - 15:00 y 20:00 - 00:00)
     if (dayOfWeek === 0 || dayOfWeek === 6) {
-      if ((hour === 11 && minute >= 0) || (hour >= 12 && hour < 15) || 
-          (hour === 20 && minute >= 0) || (hour >= 0 && hour < 24)) {
+      if ((hour === 11 && minute >= 0) || (hour >= 12 && hour < 15) ||
+        (hour === 20 && minute >= 0) || (hour >= 0 && hour < 24)) {
         return true;
       }
     }
 
     return false;
   };
-    
+
+  const verificarStock = () => {
+    if ((item as ArticuloInsumo).esParaElaborar != null) {
+      return (item as ArticuloInsumo).stockActual > (estaEnCarrito ? estaEnCarrito.cantidad : 0);
+    } else {
+      return (item as ArticuloManufacturado).articuloManufacturadoDetalles.every(detalle => detalle.articuloInsumo.stockActual >= (estaEnCarrito ? (estaEnCarrito.cantidad+1) * detalle.cantidad : 0));
+    }
+  };
+
+  const handleAddClick = () => {
+    if (verificarStock()) {
+      addArticuloCarrito(item);
+    } else {
+      alert("No hay stock suficiente");
+    }
+  };
+
   const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.articulo === item.id);
 
   return (
@@ -118,21 +134,21 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
               </List>
             )}
           </Popover>
-        {(isAuthenticated && isWithinTimeRange()) && (
-          <Stack direction={"row"}>
-            <Button
-              size="small"
-              startIcon={<Remove />}
-              onClick={() => { removeArticuloCarrito(item) }}
-            />
-            <Badge badgeContent={estaEnCarrito ? estaEnCarrito.cantidad : 0} color="info">
-             <ShoppingCart />
-            </Badge>
-            <Button size="small"
-              startIcon={<Add />}
-              onClick={() => { addArticuloCarrito(item) }}
-            />
-          </Stack>
+          {(isAuthenticated && isWithinTimeRange()) && (
+            <Stack direction={"row"}>
+              <Button
+                size="small"
+                startIcon={<Remove />}
+                onClick={() => { removeArticuloCarrito(item) }}
+              />
+              <Badge badgeContent={estaEnCarrito ? estaEnCarrito.cantidad : 0} color="info">
+                <ShoppingCart />
+              </Badge>
+              <Button size="small"
+                startIcon={<Add />}
+                onClick={() => { handleAddClick() }}
+              />
+            </Stack>
           )}
         </Stack>
       </CardActions>

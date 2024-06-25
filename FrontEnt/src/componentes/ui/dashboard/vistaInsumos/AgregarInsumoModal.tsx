@@ -166,7 +166,6 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             </Select>
                         </FormControl>
                         <input
-                            required
                             type="file"
                             accept="image/*"
                             multiple

@@ -38,7 +38,7 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
     setTablaDetalle([...tablaDetalle, ...nuevosDetalles]);
     setOpenDetalles(false);
   };
-  
+
   function removeDetalle(id: number) {
     setTablaDetalle((filasActuales) =>
       filasActuales.filter((item) => item.articulo.id !== id)
@@ -278,16 +278,11 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
                           <TextField
                             type="number"
                             value={fila.cantidad}
-                            inputProps={{ min: "1" }}
+                            inputProps={{ min: "1", step: '1' }}
                             onChange={(e) => {
-                              const newCantidad = parseFloat(e.target.value);
-                              if (newCantidad > 0) {
-                                const newTablaDetalle = [...tablaDetalle];
-                                newTablaDetalle[index] = { ...newTablaDetalle[index], cantidad: newCantidad };
-                                setTablaDetalle(newTablaDetalle);
-                              } else {
-                                alert("La cantidad debe ser un número positivo mayor a 0");
-                              }
+                              const newTablaDetalle = [...tablaDetalle];
+                              newTablaDetalle[index] = { ...newTablaDetalle[index], cantidad: parseFloat(e.target.value) };
+                              setTablaDetalle(newTablaDetalle);
                             }}
                           />
                         </TableCell>

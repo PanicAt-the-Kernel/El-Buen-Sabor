@@ -199,7 +199,6 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             onChange={(e) => setArticuloM({ ...articuloM, descripcion: e.target.value })}
                         />
                         <input
-                            required
                             type="file"
                             disabled={!userRoles.includes("ADMIN")}
                             accept="image/*"
@@ -209,7 +208,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             onChange={handleImageUpload}
                         />
                         <label htmlFor="file-upload">
-                            <Button variant="contained" component="span"  disabled={!userRoles.includes("ADMIN")}>
+                            <Button variant="contained" component="span" disabled={!userRoles.includes("ADMIN")}>
                                 Agregar Imagen
                             </Button>
                         </label>
@@ -218,7 +217,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             {imagenesL.map((imagen, index) => (
                                 <Grid item key={index} marginBottom={2}>
                                     <img src={imagen.url} alt={`Imagen ${index}`} style={{ maxWidth: 200 }} />
-                                    <IconButton aria-label="eliminar" onClick={() => handleDeleteImage(index)}  disabled={!userRoles.includes("ADMIN")}>
+                                    <IconButton aria-label="eliminar" onClick={() => handleDeleteImage(index)} disabled={!userRoles.includes("ADMIN")}>
                                         <DeleteIcon />
                                     </IconButton>
                                 </Grid>
@@ -277,16 +276,11 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                                                     <TextField
                                                         type="number"
                                                         value={fila.cantidad}
-                                                        inputProps={{ min: "1" }}
+                                                        inputProps={{ min: "0.01", step: '0.01' }}
                                                         onChange={(e) => {
-                                                            const newCantidad = parseFloat(e.target.value);
-                                                            if (newCantidad > 0) {
-                                                                const newTablaDetalle = [...tablaDetalle];
-                                                                newTablaDetalle[index] = { ...newTablaDetalle[index], cantidad: newCantidad };
-                                                                setTablaDetalle(newTablaDetalle);
-                                                            } else {
-                                                                alert("La cantidad debe ser un número positivo mayor a 0");
-                                                            }
+                                                            const newTablaDetalle = [...tablaDetalle];
+                                                            newTablaDetalle[index] = { ...newTablaDetalle[index], cantidad: parseFloat(e.target.value) };
+                                                            setTablaDetalle(newTablaDetalle);
                                                         }}
                                                     />
                                                 </TableCell>
