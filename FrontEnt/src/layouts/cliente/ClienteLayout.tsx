@@ -14,7 +14,6 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Login, ShoppingCart } from "@mui/icons-material";
 import { Link, Navigate } from "react-router-dom";
 import { getClienteEmail, localData } from "../../servicios/vistaInicio/FuncionesAPI";
-import PostLogin from "../../auth0/PostLogin";
 import LogOutButton from "../../auth0/Logout";
 import moment from 'moment-timezone';
 import { CircularProgress } from '@mui/material';
@@ -148,7 +147,6 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
       <Box component="main">
         {children}
       </Box>
-      {isAuthenticated && <PostLogin />}
     </>
   );
 }
