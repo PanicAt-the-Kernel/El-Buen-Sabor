@@ -78,6 +78,7 @@ function EditarCategoriaModal({ open, onClose, onSubmit, iCategoria }: EditarCat
                     </Typography>
                     <Stack spacing={2}>
                         <TextField
+                            required
                             label="Nombre"
                             variant="outlined"
                             value={categoria.denominacion}

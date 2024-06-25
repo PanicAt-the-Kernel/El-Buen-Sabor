@@ -48,6 +48,7 @@ function AgregarCategoriaModal({ open, onClose, onSubmit, iCategoria }: AgregarC
                     </Typography>
                     <Stack spacing={2}>
                         <TextField
+                            required
                             label="Nombre"
                             variant="outlined"
                             value={categoria.denominacion}

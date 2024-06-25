@@ -143,8 +143,8 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
               onChange={(e) => setPromocion({ ...promocion, denominacion: e.target.value })}
             />
             <TextField
-              label="Precio"
               required
+              label="Precio"
               variant="outlined"
               type="number"
               value={promocion.precioPromocional}

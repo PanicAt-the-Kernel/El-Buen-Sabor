@@ -1,20 +1,21 @@
 import { Grid, Card, CardMedia, CardContent, Typography, CardActions } from "@mui/material";
 import { ReactNode } from "react";
 
-interface ItemGrillaInsumosTypes{
-    denominacion:string;
-    stockActual:string;
-    precioCompra:string;
-    urlImagen:string;
-    children:ReactNode;
+interface ItemGrillaInsumosTypes {
+  denominacion: string;
+  stockActual: string;
+  precioCompra: string;
+  urlImagen: string;
+  isLowStock: boolean;
+  children: ReactNode;
 }
 
-export default function ItemGrillaInsumos({denominacion,stockActual,urlImagen,precioCompra,children}:ItemGrillaInsumosTypes){
-    return (
-      <Grid item sx={{marginBottom:2}}>
-      <Card sx={{ width: 230, textAlign: "center" }}>
+export default function ItemGrillaInsumos({ denominacion, stockActual, urlImagen, precioCompra, isLowStock, children }: ItemGrillaInsumosTypes) {
+  return (
+    <Grid item sx={{ marginBottom: 2 }}>
+      <Card sx={{ width: 230, textAlign: "center", backgroundColor: isLowStock ? '#e57373' : 'white' }}>
         <CardMedia
-          sx={{ height: 150, margin: 1}}
+          sx={{ height: 150, margin: 1 }}
           image={urlImagen}
         />
         <CardContent>
@@ -31,5 +32,5 @@ export default function ItemGrillaInsumos({denominacion,stockActual,urlImagen,pr
         <CardActions sx={{ justifyContent: "center" }}>{children}</CardActions>
       </Card>
     </Grid>
-      );
+  );
 }

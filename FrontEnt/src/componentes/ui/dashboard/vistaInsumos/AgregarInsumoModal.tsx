@@ -134,6 +134,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                         <FormControl variant="outlined">
                             <InputLabel id="uMedida-label">Unidad de medida</InputLabel>
                             <Select
+                                required
                                 labelId="uMedida-label"
                                 value={unidadMedidaL}
                                 onChange={(e) => setUnidadMedida(e.target.value as number)}
@@ -150,6 +151,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                         <FormControl variant="outlined">
                             <InputLabel id="categoria-label">Categoría</InputLabel>
                             <Select
+                                required
                                 labelId="categoria-label"
                                 value={categoriaL}
                                 onChange={(e) => setCategoria(e.target.value as number)}
@@ -164,6 +166,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             </Select>
                         </FormControl>
                         <input
+                            required
                             type="file"
                             accept="image/*"
                             multiple
@@ -193,24 +196,28 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             </Alert>
                         </Snackbar>
                         <TextField
+                            required
                             label="Precio de compra"
                             variant="outlined"
                             value={insumo.precioCompra}
                             onChange={(e) => setInsumo({ ...insumo, precioCompra: parseInt(e.target.value) })}
                         />
                         <TextField
+                            required
                             label="Stock Mínimo"
                             variant="outlined"
                             value={insumo.stockMinimo}
                             onChange={(e) => setInsumo({ ...insumo, stockMinimo: parseInt(e.target.value) })}
                         />
                         <TextField
+                            required
                             label="Stock Máximo"
                             variant="outlined"
                             value={insumo.stockMaximo}
                             onChange={(e) => setInsumo({ ...insumo, stockMaximo: parseInt(e.target.value) })}
                         />
                         <TextField
+                            required
                             label="Stock Actual"
                             variant="outlined"
                             value={insumo.stockActual}

@@ -48,6 +48,7 @@ function AgregarUnidadMedidaModal({ open, onClose, onSubmit, iUnidadMedida }: Ag
                     </Typography>
                     <Stack spacing={2}>
                         <TextField
+                            required
                             label="Nombre"
                             variant="outlined"
                             value={unidadMedida.denominacion}

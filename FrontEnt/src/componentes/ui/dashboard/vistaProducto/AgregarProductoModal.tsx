@@ -157,6 +157,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                         <FormControl variant="outlined">
                             <InputLabel id="uMedida-label">Unidad de medida</InputLabel>
                             <Select
+                                required
                                 labelId="uMedida-label"
                                 value={unidadMedidaL}
                                 disabled={!userRoles.includes("ADMIN")}
@@ -174,6 +175,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                         <FormControl variant="outlined">
                             <InputLabel id="categoria-label">Categoría</InputLabel>
                             <Select
+                                required
                                 labelId="categoria-label"
                                 value={categoriaL}
                                 disabled={!userRoles.includes("ADMIN")}
@@ -189,6 +191,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             </Select>
                         </FormControl>
                         <TextField
+                            required
                             label="Descripción"
                             variant="outlined"
                             disabled={!userRoles.includes("ADMIN")}
@@ -196,6 +199,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             onChange={(e) => setArticuloM({ ...articuloM, descripcion: e.target.value })}
                         />
                         <input
+                            required
                             type="file"
                             disabled={!userRoles.includes("ADMIN")}
                             accept="image/*"
@@ -226,12 +230,14 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             </Alert>
                         </Snackbar>
                         <TextField
+                            required
                             label="Tiempo estimado en minutos"
                             variant="outlined"
                             value={articuloM.tiempoEstimadoMinutos}
                             onChange={(e) => setArticuloM({ ...articuloM, tiempoEstimadoMinutos: parseInt(e.target.value) })}
                         />
                         <TextField
+                            required
                             label="Preparación"
                             variant="outlined"
                             value={articuloM.preparacion}
@@ -263,9 +269,6 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-
-
-
                                     {tablaDetalle.sort((a, b) => a.articuloInsumo.denominacion.localeCompare(b.articuloInsumo.denominacion))
                                         .map((fila, index) => (
                                             <TableRow key={fila.articuloInsumo.id}>
