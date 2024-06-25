@@ -3,7 +3,7 @@ import Localidad from "./Localidad";
 class Domicilio {
     id: number = 0;
     eliminado: boolean = false;
-    fechaBaja: string = '';
+    fechaBaja: string = '9999-12-31';
     calle: string = '';
     numero: number = 0;
     cp: number = 0;
