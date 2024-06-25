@@ -8,19 +8,19 @@ import {
   Typography,
 } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
+import Cliente from "../../../../entidades/Cliente";
+import { editCliente, localData } from "../../../../servicios/vistaInicio/FuncionesAPI";
 
 interface FormularioClienteTypes {
-  userEmail: string;
+  cliente:Cliente;
+  idSucursal:number;
 }
 
 export default function FormularioCliente({
-  userEmail,
+  cliente, idSucursal
 }: FormularioClienteTypes) {
-  const [nombre, setNombre] = useState<string>("");
-  const [apellido, setApellido] = useState<string>("");
-  const [telefono, setTelefono] = useState<string>("");
-  const [email, setEmail] = useState<string>(userEmail);
-  const [imagen, setImagen] = useState<string>("");
+  const [datosCliente,setDatosCliente]=useState<Cliente>(cliente);
+  const [imagen, setImagen] = useState<string>(cliente.imagenCliente.url);
 
 
   const handleImageUpload = async (event: any) => {
@@ -51,19 +51,25 @@ export default function FormularioCliente({
     setImagen("");
   };
 
-  const handleSubmit=(e:SyntheticEvent)=>{
+  const handleSubmit=async (e:SyntheticEvent)=>{
     e.preventDefault();
 
     if(imagen==""){
       alert("Debe seleccionar una imagen");
       return;
     }
-
-
+    let imgCliente=datosCliente.imagenCliente;
+    imgCliente.url=imagen;
+    setDatosCliente({...datosCliente,imagenCliente:imgCliente})
+    if(await editCliente(datosCliente)){
+      window.location.replace(`/cliente/sucursal/${idSucursal}`);
+    }
+    return;
+    
   }
 
   return (
-    <Box component="form" autoComplete="off">
+    <Box component="form" autoComplete="off" onSubmit={(e)=>handleSubmit(e)}>
       <Stack spacing={2} sx={{ padding: 4 }}>
         <Typography variant={"h4"} textAlign={"center"}>
           Edita tus datos
@@ -103,14 +109,14 @@ export default function FormularioCliente({
         <TextField
           required
           label="Nombre"
-          value={nombre}
-          onChange={(e) => setNombre(e.target.value)}
+          value={datosCliente.nombre}
+          onChange={(e) => setDatosCliente({...datosCliente,nombre:e.target.value})}
         />
         <TextField
           required
           label="Apellido"
-          value={apellido}
-          onChange={(e) => setApellido(e.target.value)}
+          value={datosCliente.apellido}
+          onChange={(e) => setDatosCliente({...datosCliente,apellido:e.target.value})}
         />
         <TextField
           required
@@ -120,17 +126,17 @@ export default function FormularioCliente({
           inputProps={{
             pattern: "[0-9]{3}-[0-9]{7}",
           }}
-          value={telefono}
-          onChange={(e) => setTelefono(e.target.value)}
+          value={datosCliente.telefono}
+          onChange={(e) => setDatosCliente({...datosCliente,telefono:e.target.value})}
         />
         <TextField
           disabled
           type="email"
           label="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          value={datosCliente.userName}
+          onChange={(e) => setDatosCliente({...datosCliente,userName:e.target.value})}
         />
-        <Button variant="contained" sx={{ color: "white" }} color="secondary">
+        <Button type="submit" variant="contained" sx={{ color: "white" }} color="secondary">
           Guardar Cambios
         </Button>
       </Stack>

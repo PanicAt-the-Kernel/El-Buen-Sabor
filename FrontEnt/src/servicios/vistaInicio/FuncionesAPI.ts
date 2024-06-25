@@ -828,11 +828,14 @@ export async function editCliente(cliente: Cliente) {
     let response = await fetch(`https://traza-final.onrender.com/cliente/${cliente.userName}`, options);
     if (response.ok) {
       alert("Cliente actualizado correctamente.");
+      return true;
     } else {
       alert("Error al actualizar cliente: " + response.status);
+      return false;
     }
   } catch (error) {
     alert("Error CORS, Revisa la URL o el back está mal configurado.");
+    return false;
   }
 }
 
