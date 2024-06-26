@@ -4,6 +4,7 @@ import DomicilioContainer from "../../componentes/ui/cliente/VistaDomiciliosClie
 import BotonAgregarDomicilio from "../../componentes/ui/cliente/VistaDomiciliosCliente/BotonAgregarDomicilio";
 import { useState } from "react";
 import ModalDomicilio from "../../componentes/ui/cliente/VistaDomiciliosCliente/ModalDomicilio";
+import Domicilio from "../../entidades/Domicilio";
 
 export default function VistaDomicilioCliente() {
   const [open, setOpen] = useState<boolean>(false);
@@ -25,7 +26,7 @@ export default function VistaDomicilioCliente() {
       <Container>
         <BotonAgregarDomicilio open={open} setOpen={setOpen} />
         <DomicilioContainer />
-        <ModalDomicilio open={open} setOpen={setOpen} />
+        <ModalDomicilio open={open} setOpen={setOpen} domiObj={new Domicilio()} editFlag={false}/>
       </Container>
     </ClienteLayout>
   );

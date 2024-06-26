@@ -12,7 +12,7 @@ import MenuOpcionesUsuario from "./MenuOpcionesUsuario";
 import { ReactNode } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Login, ShoppingCart } from "@mui/icons-material";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { getClienteEmail, localData } from "../../servicios/vistaInicio/FuncionesAPI";
 import LogOutButton from "../../auth0/Logout";
 import moment from 'moment-timezone';

@@ -85,7 +85,6 @@ export default function VistaBienvenida() {
       );
     }
   });
-  console.log(sucursal)
   return (
     <>
       <Box
