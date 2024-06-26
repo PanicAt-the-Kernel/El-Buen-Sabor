@@ -134,7 +134,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
               </List>
             )}
           </Popover>
-          {(isAuthenticated && isWithinTimeRange()) && (
+          {!(isAuthenticated && isWithinTimeRange()) && (
             <Stack direction={"row"}>
               <Button
                 size="small"

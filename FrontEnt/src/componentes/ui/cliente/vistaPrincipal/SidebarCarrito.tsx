@@ -14,6 +14,7 @@ import Pedido from "../../../../entidades/Pedido";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
 import DetallePedido from "../../../../entidades/DetallePedido";
+import { Link } from "react-router-dom";
 
 interface DrawerTypes {
   estado: boolean;
@@ -21,7 +22,6 @@ interface DrawerTypes {
 }
 
 export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
-  //const sucursal: Sucursal = await getSucursalIdF(1);
   const { carrito, vaciarCarrito, totalPedido, setTotalPedido, addArticuloCarrito, removeArticuloCarrito, addPromoCarrito, removePromoCarrito, totalEnvio } = useContext(CarritoContext);
   const [pedido, setPedido] = useState<Pedido>(new Pedido);
 
@@ -39,7 +39,6 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
       fechaPedido: fecha,
       detallePedidos: carrito,
     };
-    console.log(updatedPedido);
     setPedido(updatedPedido);
     savePedido(updatedPedido, setTotalPedido, vaciarCarrito, totalEnvio);
   };
@@ -180,7 +179,7 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
         Costo de envío: ${totalEnvio}
       </Typography>
       <Typography variant="h5" textAlign={"center"} marginBottom={2}>
-        Total: ${totalPedido + 20}
+        Total: ${totalPedido}
       </Typography>
       <Divider />
       <Stack direction="row" spacing={3} justifyContent={"center"}>
@@ -190,16 +189,10 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
             startIcon={<ShoppingCartCheckoutIcon />}
             disabled
           >
-            Pedir
+            Finalizar Compra
           </Button>
         ) : (
-          <Button
-            variant="contained"
-            startIcon={<ShoppingCartCheckoutIcon />}
-            onClick={handleSubmit}
-          >
-            Pedir
-          </Button>
+          <Link to="/cliente/miPedido" className="btn btn-success"><ShoppingCartCheckoutIcon />Finalizar Compra</Link>
         )}
         <Button
           variant="contained"

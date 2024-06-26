@@ -95,7 +95,6 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
         localData.setCliente("Cliente",data);
       } else if( isAuthenticated && !data) {
         navigate("/register", { replace: true });
-        console.log("hola");
       } 
   }
 

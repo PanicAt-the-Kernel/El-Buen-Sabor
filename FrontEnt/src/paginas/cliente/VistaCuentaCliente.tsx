@@ -6,7 +6,6 @@ import { localData } from "../../servicios/vistaInicio/FuncionesAPI";
 export default function VistaCuentaCliente() {
   const cliente=localData.getCliente("Cliente");
   const idSucursal=localData.getSucursal('sucursal').id;
-  console.log(cliente);
 
   return (
     <ClienteLayout>

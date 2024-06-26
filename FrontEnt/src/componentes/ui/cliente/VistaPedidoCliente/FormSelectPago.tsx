@@ -45,7 +45,7 @@ export default function FormSelectPago({
               disabled={metodoPago=="EFECTIVO"}
             />
             <FormControlLabel
-              value="RETIRO"
+              value="TAKE_AWAY"
               control={<Radio />}
               label="Retiro en local"
             />
