@@ -1,11 +1,7 @@
 import * as React from "react";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import GraficosHolder from "./GraficosHolder";
-import CardHolder from "./CardHolder";
 import AlertaHolder from "./AlertaHolder";
+import { Box, Button, Container, Paper, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { SyntheticEvent, useState } from "react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -25,7 +21,7 @@ function CustomTabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ p: 2 }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -42,6 +38,26 @@ function a11yProps(index: number) {
 
 export default function MUITabs() {
   const [value, setValue] = React.useState(0);
+  const [fecha1, setFecha1] = useState("1/01/2020");
+  const [fecha2, setFecha2] = useState("1/01/2020");
+
+  const onSubmit = (e: SyntheticEvent) => {
+    e.preventDefault();
+    if (fecha1 === "1/01/2020" && fecha2 === "1/01/2020") {
+      window.location.replace("http://localhost:8080/"); //endpoint back -> nico
+    } else {
+      let date1 = new Date(fecha1);
+      let date2 = new Date(fecha2);
+      if (date1.getTime() < date2.getTime()) {
+        const form = document.getElementById("form") as HTMLFormElement;
+        form.submit();
+      } else {
+        alert("La fecha 1 debe ser menor a la fecha 2")
+        return null;
+      }
+
+    }
+  };
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -56,18 +72,51 @@ export default function MUITabs() {
           aria-label="basic tabs example"
           centered
         >
-          <Tab label="Estadisticas" {...a11yProps(0)} />
-          <Tab label="Accesos Rapidos" {...a11yProps(1)} />
-          <Tab label="Alertas de Stock" {...a11yProps(2)} />
+          <Tab label="Estadísticas" {...a11yProps(0)} />
+          <Tab label="Alertas de Stock" {...a11yProps(1)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <GraficosHolder />
+        <Container>
+          <Paper elevation={6}>
+            <Box
+              component="form"
+              id="form"
+              onSubmit={(e) => onSubmit(e)}
+              action="http://localhost:8080/pedidos/exportExcel"
+              method="POST"
+              sx={{
+                padding: 5,
+                margin: 3
+              }}
+            >
+              <Stack
+                direction="column"
+                spacing={3}
+              >
+                <TextField
+                  type="date"
+                  name="fecha1"
+                  label="Fecha Inicio"
+                  value={fecha1}
+                  onChange={(e) => setFecha1(e.target.value)}
+                />
+                <TextField
+                  type="date"
+                  name="fecha2"
+                  label="Fecha Fin"
+                  value={fecha2}
+                  onChange={(e) => setFecha2(e.target.value)}
+                />
+                <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit" onClick={onSubmit}>
+                  Generar Excel
+                </Button>
+              </Stack>
+            </Box>
+          </Paper>
+        </Container>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <CardHolder />
-      </CustomTabPanel>
-      <CustomTabPanel value={value} index={2}>
         <AlertaHolder />
       </CustomTabPanel>
     </Box>
