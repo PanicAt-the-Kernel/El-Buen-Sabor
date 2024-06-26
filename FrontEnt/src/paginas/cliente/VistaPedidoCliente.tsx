@@ -10,15 +10,83 @@ import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 import ListContainerPedido from "../../componentes/ui/cliente/VistaPedidoCliente/ListContainerPedido";
 import FormSelectPago from "../../componentes/ui/cliente/VistaPedidoCliente/FormSelectPago";
 import FormSelectDomicilio from "../../componentes/ui/cliente/VistaPedidoCliente/FormSelectDomicilio";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { AttachMoney } from "@mui/icons-material";
+import { CarritoContext } from "../../context/CarritoContext";
+import { localData, savePedido } from "../../servicios/vistaInicio/FuncionesAPI";
+import Pedido from "../../entidades/Pedido";
+import Cliente from "../../entidades/Cliente";
+import Sucursal from "../../entidades/Sucursal";
 
 export default function VistaPedidoCliente() {
   const [open, setOpen] = useState(false);
-  const [metodoEntrega, setMetodoEntrega] = useState<string>("RETIRO");
+  const [metodoEntrega, setMetodoEntrega] = useState<string>("TAKE_AWAY");
   const [metodoPago, setMetodoPago] = useState<string>("MERCADO_PAGO");
   const [domicilio, setDomicilio] = useState<number>(0);
-  const price: number = 7500;
+  const {carrito,totalPedido,totalEnvio,setTotalPedido,vaciarCarrito } = useContext(CarritoContext);
+  const [pedido, setPedido] = useState<Pedido>(new Pedido);
+  const cliente:Cliente = localData.getCliente("Cliente");
+  const sucursal:Sucursal=localData.getSucursal("sucursal");
+
+  const postPedido = () => {
+    //POST SIN DOMICILIO
+    if (metodoEntrega == "TAKE_AWAY") {
+      if (metodoPago == "EFECTIVO") {
+        alert('LLAMADA A POST CON EFECTIVO Y TAKE AWAY');
+        var fecha = new Date().toJSON().slice(0, 10); //Dia actual
+
+        const updatedPedido = {
+          ...pedido,
+          horaEstimadaFinalizacion: "22:00:00.000",
+          total: totalPedido,
+          totalCosto: 0,
+          estado: "PENDIENTE",
+          tipoEnvio: metodoEntrega,
+          formaPago: metodoPago,
+          sucursal:sucursal,
+          cliente:cliente,
+          fechaPedido: fecha,
+          domicilio:sucursal.domicilio,
+          factura: null,
+          detallePedidos: carrito,
+        };
+        setPedido(updatedPedido);
+        savePedido(updatedPedido,setTotalPedido,vaciarCarrito,0);
+      } else {
+        //HACER POST Y LLAMAR MERCADOPAGO
+      }
+    } else {
+      //POST CON DOMICILIO
+      //HACER POST
+      
+    }
+  };
+
+  const generarBoton = () => {
+    if (metodoPago == "EFECTIVO") {
+      return (
+        <Button
+          variant="contained"
+          color="info"
+          sx={{ marginBottom: 2 }}
+          onClick={() => {postPedido()}}
+        >
+          Generar Pedido
+        </Button>
+      );
+    } else {
+      return (
+        <Button
+          variant="contained"
+          color="warning"
+          sx={{ marginBottom: 2 }}
+          onClick={() => {postPedido()}}
+        >
+          Ir a pagar
+        </Button>
+      );
+    }
+  };
   return (
     <ClienteLayout estado={open} setEstado={setOpen}>
       <Container>
@@ -47,7 +115,9 @@ export default function VistaPedidoCliente() {
             <Button variant="contained" color="success">
               Total Pedido <AttachMoney />
               <Typography>
-                {metodoEntrega == "RETIRO" ? price * (1 - 0.1) : price}
+                {metodoEntrega == "TAKE_AWAY"
+                  ? totalPedido * (1 - 0.1)
+                  : totalPedido + totalEnvio}
               </Typography>
             </Button>
             <FormSelectPago
@@ -64,15 +134,10 @@ export default function VistaPedidoCliente() {
             metodoEntrega={metodoEntrega}
             domicilio={domicilio}
             setDomicilio={setDomicilio}
+            domicilios={cliente.domicilios}
           />
           <Stack direction="row" justifyContent="center">
-            <Button
-              variant="contained"
-              sx={{ color: "white", marginBottom: 2 }}
-              color="info"
-            >
-              Confirmar Pedido
-            </Button>
+            {generarBoton()}
           </Stack>
         </Paper>
       </Container>

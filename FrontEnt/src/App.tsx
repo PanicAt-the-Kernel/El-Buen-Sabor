@@ -17,7 +17,6 @@ import VistaBienvenida from "./paginas/cliente/VistaBienvenida";
 import MercadoPagoSuccess from "./paginas/cliente/MercadoPagoSuccess";
 import MercadoPagoError from "./paginas/cliente/MercadoPagoError";
 import MercadoPagoPending from "./paginas/cliente/MercadoPagoPending";
-import { Auth0Provider } from "@auth0/auth0-react";
 import { Perfil } from "./componentes/ui/perfil/Perfil";
 import VistaRegister from "./paginas/cliente/VistaRegister";
 
@@ -28,6 +27,7 @@ import "@fontsource/roboto"
 import VistaPedidoCliente from "./paginas/cliente/VistaPedidoCliente";
 import { localData } from "./servicios/vistaInicio/FuncionesAPI";
 import { useEffect, useState } from "react";
+import { CarritoProvider } from "./context/CarritoContext";
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
   palette: {
@@ -64,14 +64,10 @@ function App() {
   });
  
   return (
-    <Auth0Provider
-    domain="dev-8qdogwh8uubh8qgz.us.auth0.com"
-    clientId="xhMHc3nocA0726QD697jsJlVdTkXXJdB"
-     authorizationParams={{ audience:'https://Auth0Example.com' ,redirect_uri: window.location.origin }}
-    cacheLocation="localstorage"
-    >      
+       
  <BrowserRouter>
       <ThemeProvider theme={basilTheme}>
+        <CarritoProvider>
         <Routes>
           <Route index element={<VistaBienvenida />} />
           {/*VISTA DE DASHBOARD*/}
@@ -98,9 +94,10 @@ function App() {
           <Route path="/cliente/mpError" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<MercadoPagoError />} />
           <Route path="/cliente/mpPending" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<MercadoPagoPending />} />
         </Routes>
+        </CarritoProvider>
+        
       </ThemeProvider>
     </BrowserRouter>
-    </Auth0Provider>
   );
 }
 

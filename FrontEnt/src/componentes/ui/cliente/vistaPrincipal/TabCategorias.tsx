@@ -42,7 +42,6 @@ function a11yProps(index: number) {
 export default function TabsCategorias() {
   const [value, setValue] = React.useState(0);
   const idSucursal = localData.getSucursal("sucursal").id;
-  //const { data, isLoading, error } = getCategoriasIdSucursal(idSucursal);
   const { data: articulos, isLoading, error } = getArticulosManufacturadosIdSucursal(idSucursal);
   const { data: insumosNoElab } = getAllArticuloInsumoNoElab();
   const { data: promociones } = getPromocionesIdSucursal(idSucursal);

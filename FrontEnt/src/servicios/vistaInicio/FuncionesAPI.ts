@@ -69,7 +69,7 @@ export function getAllInsumos(token: string | null): SWRResponse<ArticuloInsumo[
     const fetcher2 = (url: string) => fetch(url, options).then((res) => res.json());
     return useSWR<ArticuloInsumo[]>(
       "https://traza-final.onrender.com/articuloInsumo",
-      fetcher2
+      fetcher2,{refreshInterval:3600}
     );
   }
   //Si el token es null ponemos en pausa a la funcion fetch
@@ -205,12 +205,19 @@ export function getPedidosCliente(clienteEmail: string): SWRResponse<Pedido[], a
 }
 
 export function getClienteEmail(
-  clienteEmail: string
+  clienteEmail: string|undefined
 ): SWRResponse<Cliente, any, any> {
+  if(clienteEmail!=undefined){
+    return useSWR<Cliente>(
+      `https://traza-final.onrender.com/cliente/${clienteEmail}`,
+      fetcher
+    );
+  }
   return useSWR<Cliente>(
-    `https://traza-final.onrender.com/cliente/${clienteEmail}`,
+    null,
     fetcher
   );
+  
 }
 
 export function getArticulosManufacturadosIdSucursal(idSucursal: number): SWRResponse<ArticuloManufacturado[], any, any> {
@@ -498,17 +505,13 @@ export async function savePedido(
   };
 
   try {
-    const [domicilio, sucursal, empleado] = await Promise.all([
-      fetchData("https://traza-final.onrender.com/domicilio/1"),
-      fetchData("https://traza-final.onrender.com/sucursal/1"),
+    const [empleado] = await Promise.all([
       fetchData("https://traza-final.onrender.com/empleado/1"),
     ]);
 
-    pedido.domicilio = domicilio;
-    pedido.sucursal = sucursal;
+    
     pedido.empleado = empleado;
-    pedido.cliente = localData.getCliente("Cliente");
-    pedido.factura = null;
+ 
 
     const options = {
       mode: "cors" as RequestMode,
