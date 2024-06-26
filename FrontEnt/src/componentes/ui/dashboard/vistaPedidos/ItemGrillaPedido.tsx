@@ -70,18 +70,23 @@ export default function ItemGrillaPedido({ pedidoObj }: ItemGrillaPedidoTypes) {
           )}
 
           {pedidoObj.estado === "DELIVERY" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
-            <Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "FACTURADO")}>
+            <Button size="medium" variant="contained" color="primary" onClick={() =>  editPedido(pedidoObj.id, "FACTURADO")}>
               Facturar
             </Button>
           )}
-
-         
-
           {((userRoles.includes("ADMIN") || userRoles.includes("COCINERO")) && pedidoObj.estado === "APROBADO") && (
             <Button size="medium" variant="contained" color="primary" onClick={() => editPedido(pedidoObj.id, "TERMINADO")}>
               Listo
             </Button>
           )}
+
+          {pedidoObj.estado === "FACTURADO" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
+              <a href={`https://traza-final.onrender.com/facturas/${pedidoObj.id}`} target="_blank" rel="noopener noreferrer">
+              <Button variant="contained" color="warning">
+                <Typography sx={{ fontSize: 13 }}>Descargar Factura</Typography>
+               </Button>
+                </a>
+           )}
 
           <ModalPedidos open={open} setOpen={setOpen} pedido={pedidoObj} />
         </Stack>

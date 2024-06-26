@@ -66,7 +66,6 @@ export function getAllInsumos(token: string | null): SWRResponse<ArticuloInsumo[
         Authorization: `Bearer ${token}`,
       },
     };
-    console.log(token)
     const fetcher2 = (url: string) => fetch(url, options).then((res) => res.json());
     return useSWR<ArticuloInsumo[]>(
       "https://traza-final.onrender.com/articuloInsumo",
@@ -802,13 +801,41 @@ export async function editPedido(id: number, estado: string) {
       options
     );
     if (response.ok) {
-      window.location.reload();
+      if(estado === "FACTURADO") {
+        sendFactura(id)
+      }
       alert("Pedido actualizado correctamente.");
+
     } else {
       alert("Error al actualizar pedido: " + response.status);
     }
   } catch (error) {
     alert("Error CORS, Revisa la URL o el back está mal configurado.");
+  }
+}
+
+
+export async function sendFactura(id: Number) {
+  //Preparar llamada api
+  let options = {
+    mode: "cors" as RequestMode,
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    }
+  };
+  try {
+    let response = await fetch(
+      `https://traza-final.onrender.com/pedidos/${id}`,
+      options
+    );
+    if (response.ok) {
+      alert("Se envio correctamente el id");
+    } else {
+      alert("Error al enviar el correo: " + response.status);
+    }
+  } catch {
+    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
   }
 }
 
