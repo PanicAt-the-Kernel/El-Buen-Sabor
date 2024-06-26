@@ -19,10 +19,16 @@ function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarI
 
     const handleSelectInsumo = (insumo: ArticuloInsumo) => {
         const isAlreadySelected = filasActuales.some(fila => fila.articuloInsumo.id === insumo.id);
+        const alreadySelectedItem = filasActuales.find(fila => fila.articuloInsumo.id === insumo.id);
 
         if (isAlreadySelected) {
-            alert("El insumo ya está agregado.");
-            return;
+            if (alreadySelectedItem && !alreadySelectedItem.eliminado) {
+                alert("El articulo ya está agregado.");
+                return;
+            } else if (alreadySelectedItem && alreadySelectedItem.eliminado) {
+                const updatedItem = { ...alreadySelectedItem, eliminado: false, fechaBaja: "9999-12-31" };
+                setSelectedInsumos([...selectedInsumos, updatedItem]);
+            }
         }
 
         const index = selectedInsumos.findIndex(selected => selected.articuloInsumo.id === insumo.id);

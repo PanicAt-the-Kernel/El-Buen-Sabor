@@ -40,8 +40,11 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
   };
 
   function removeDetalle(id: number) {
+    var fecha = new Date().toJSON().slice(0, 10);//Dia actual
     setTablaDetalle((filasActuales) =>
-      filasActuales.filter((item) => item.articulo.id !== id)
+      filasActuales.map((item) =>
+        item.articulo.id === id ? { ...item, eliminado: true, fechaBaja: fecha } : item
+      )
     );
   }
 
@@ -53,6 +56,16 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
 
     if (tablaDetalle.length === 0) {
       alert('Debe agregar al menos un artículo antes de guardar.');
+      return;
+    }
+
+    if (promocion.fechaDesde > promocion.fechaHasta) {
+      alert('Fecha hasta no puede ser menor a fecha desde.');
+      return;
+    }
+
+    if (promocion.fechaDesde == promocion.fechaHasta && promocion.horaDesde >= promocion.horaHasta) {
+      alert('La promocion dura 1 dia, la hora hasta debe ser mayor a hora desde.');
       return;
     }
 
@@ -80,7 +93,7 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
     const uploadPromises = Array.from(files).map(async (file) => {
       const formData = new FormData();
       formData.append('file', file);
-      formData.append('upload_preset', 'grupardo'); // Reemplaza 'your_cloudinary_upload_preset' con tu preset de Cloudinary
+      formData.append('upload_preset', 'grupardo');
       const response = await fetch('https://api.cloudinary.com/v1_1/dafcqvadi/image/upload', {
         method: 'POST',
         body: formData,
@@ -280,7 +293,8 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {tablaDetalle.sort((a, b) => a.articulo.denominacion.localeCompare(b.articulo.denominacion))
+                  {tablaDetalle.filter((fila) => !fila.eliminado)
+                    .sort((a, b) => a.articulo.denominacion.localeCompare(b.articulo.denominacion))
                     .map((fila, index) => (
                       <TableRow key={fila.articulo.id}>
                         <TableCell>{fila.articulo.denominacion + " (" + fila.articulo.unidadMedida.denominacion.toLowerCase() + ")"}</TableCell>

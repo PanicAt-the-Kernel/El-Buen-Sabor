@@ -751,6 +751,11 @@ export async function editUnidadMedida(uMedida: UnidadMedida) {
 }
 
 export async function editPromocion(promocion: Promocion) {
+  
+  promocion.promocionDetalles.forEach(detalle => {
+    detalle.articuloId = detalle.articulo.id;
+  });
+  
   //Preparar llamada api
   let options = {
     mode: "cors" as RequestMode,

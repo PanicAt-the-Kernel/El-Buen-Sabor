@@ -27,6 +27,11 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
             alert('Debe agregar al menos una imagen antes de guardar.');
             return;
         }
+
+        if (insumo.stockActual < insumo.stockMinimo || insumo.stockActual > insumo.stockMaximo) {
+            alert('El stock actual no puede ser mayor al maximo ni menor al minimo.');
+            return;
+        }
         
         const selectedCategoria = categorias?.find(cat => cat.id === categoriaL);
         const selectedUMedida = unidadesMedida?.find(um => um.id === unidadMedidaL);
@@ -224,6 +229,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             required
                             label="Stock Actual"
                             variant="outlined"
+                            inputProps={{ min: insumo.stockMinimo, max: insumo.stockMaximo }}
                             value={insumo.stockActual}
                             onChange={(e) => setInsumo({ ...insumo, stockActual: parseInt(e.target.value) })}
                         />
