@@ -20,10 +20,18 @@ function AgregarArticuloModal({ open, onClose, onSubmit, filasActuales }: Agrega
 
     const handleSelectArticulo = (articulo: Articulo) => {
         const isAlreadySelected = filasActuales.some(fila => fila.articulo.id === articulo.id);
+        const alreadySelectedItem = filasActuales.find(fila => fila.articulo.id === articulo.id);
 
         if (isAlreadySelected) {
-            alert("El articulo ya está agregado.");
-            return;
+            if (alreadySelectedItem && !alreadySelectedItem.eliminado) {
+                alert("El articulo ya está agregado.");
+                return;
+            } else if (alreadySelectedItem && alreadySelectedItem.eliminado) {
+                const updatedFilas = filasActuales.map(fila => 
+                    fila.articulo.id === articulo.id ? { ...fila, eliminado: false, fechaBaja: "9999-12-31" } : fila
+                );
+                setSelectedArticulos(updatedFilas);
+            }
         }
 
         const index = selectedArticulos.findIndex(selected => selected.articulo.id === articulo.id);

@@ -38,24 +38,18 @@ function a11yProps(index: number) {
 
 export default function MUITabs() {
   const [value, setValue] = React.useState(0);
-  const [fecha1, setFecha1] = useState("1/01/2020");
-  const [fecha2, setFecha2] = useState("1/01/2020");
+  const [fecha1, setFecha1] = useState("2024-06-24");
+  const [fecha2, setFecha2] = useState("2024-06-24");
 
-  const onSubmit = (e: SyntheticEvent) => {
+  const onSubmit = (e: SyntheticEvent, url: string) => {
     e.preventDefault();
-    if (fecha1 === "1/01/2020" && fecha2 === "1/01/2020") {
-      window.location.replace("http://localhost:8080/"); //endpoint back -> nico
+    if (fecha1 < fecha2) {
+      const form = e.target as HTMLFormElement;
+      form.action = url;
+      form.submit();
     } else {
-      let date1 = new Date(fecha1);
-      let date2 = new Date(fecha2);
-      if (date1.getTime() < date2.getTime()) {
-        const form = document.getElementById("form") as HTMLFormElement;
-        form.submit();
-      } else {
-        alert("La fecha 1 debe ser menor a la fecha 2")
-        return null;
-      }
-
+      alert("La fecha 1 debe ser menor a la fecha 2")
+      return null;
     }
   };
 
@@ -79,39 +73,100 @@ export default function MUITabs() {
       <CustomTabPanel value={value} index={0}>
         <Container>
           <Paper elevation={6}>
+            <Stack
+              direction="column"
+              spacing={3}
+            >
+              <TextField
+                type="date"
+                name="fecha1"
+                label="Fecha Inicio"
+                value={fecha1}
+                onChange={(e) => setFecha1(e.target.value)}
+              />
+              <TextField
+                type="date"
+                name="fecha2"
+                label="Fecha Fin"
+                value={fecha2}
+                onChange={(e) => setFecha2(e.target.value)}
+              />
+            </Stack>
             <Box
               component="form"
-              id="form"
-              onSubmit={(e) => onSubmit(e)}
-              action="http://localhost:8080/pedidos/exportExcel"
+              id="form1"
+              onSubmit={(e) => onSubmit(e, `https://traza-final.onrender.com/estadisticas/excelIMensual?fechaDesde=${fecha1}&fechaHasta=${fecha2}`)}
               method="POST"
               sx={{
-                padding: 5,
-                margin: 3
+                margin: 1,
+                marginTop: 2,
+                paddingLeft: 2,
+                paddingRight: 2
               }}
             >
-              <Stack
-                direction="column"
-                spacing={3}
-              >
-                <TextField
-                  type="date"
-                  name="fecha1"
-                  label="Fecha Inicio"
-                  value={fecha1}
-                  onChange={(e) => setFecha1(e.target.value)}
-                />
-                <TextField
-                  type="date"
-                  name="fecha2"
-                  label="Fecha Fin"
-                  value={fecha2}
-                  onChange={(e) => setFecha2(e.target.value)}
-                />
-                <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit" onClick={onSubmit}>
-                  Generar Excel
-                </Button>
-              </Stack>
+              <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit">
+                Recaudaciones Mensuales
+              </Button>
+            </Box>
+            <Box
+              component="form"
+              id="form2"
+              onSubmit={(e) => onSubmit(e, `https://traza-final.onrender.com/estadisticas/excelIDiario?fechaDesde=${fecha1}&fechaHasta=${fecha2}`)}
+              method="POST"
+              sx={{
+                margin: 1,
+                paddingLeft: 2,
+                paddingRight: 2
+              }}
+            >
+              <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit">
+                Recaudaciones Diarias
+              </Button>
+            </Box>
+            <Box
+              component="form"
+              id="form3"
+              onSubmit={(e) => onSubmit(e, `https://traza-final.onrender.com/estadisticas/excelRanking?fechaDesde=${fecha1}&fechaHasta=${fecha2}`)}
+              method="POST"
+              sx={{
+                margin: 1,
+                paddingLeft: 2,
+                paddingRight: 2
+              }}
+            >
+              <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit">
+                Ranking de comidas
+              </Button>
+            </Box>
+            <Box
+              component="form"
+              id="form4"
+              onSubmit={(e) => onSubmit(e, `https://traza-final.onrender.com/estadisticas/excelPedidos?fechaDesde=${fecha1}&fechaHasta=${fecha2}`)}
+              method="POST"
+              sx={{
+                margin: 1,
+                paddingLeft: 2,
+                paddingRight: 2
+              }}
+            >
+              <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit">
+                Pedidos por Cliente
+              </Button>
+            </Box>
+            <Box
+              component="form"
+              id="form5"
+              onSubmit={(e) => onSubmit(e, `https://traza-final.onrender.com/estadisticas/excelGanancias?fechaDesde=${fecha1}&fechaHasta=${fecha2}`)}
+              method="POST"
+              sx={{
+                margin: 1,
+                paddingLeft: 2,
+                paddingRight: 2
+              }}
+            >
+              <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit">
+                Ganancias
+              </Button>
             </Box>
           </Paper>
         </Container>

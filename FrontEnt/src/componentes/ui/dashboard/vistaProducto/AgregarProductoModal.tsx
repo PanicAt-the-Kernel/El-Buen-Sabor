@@ -55,19 +55,21 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
             imagenes: imagenesL,
             articuloManufacturadoDetalles: tablaDetalle,
         };
-
+        console.log(updatedProducto)
         setArticuloM(updatedProducto);
         onSubmit(updatedProducto);
     };
 
     function removeInsumo(id: number) {
+        var fecha = new Date().toJSON().slice(0, 10);//Dia actual
         setTablaDetalle((filasActuales) =>
-            filasActuales.filter((item) => item.articuloInsumo.id !== id)
+            filasActuales.map((item) =>
+                item.articuloInsumo.id === id ? { ...item, eliminado: true, fechaBaja: fecha } : item
+            )
         );
     }
 
     const handleSubmitModal = (nuevosInsumos: ArticuloManufacturadoDetalle[]) => {
-        // Aquí puedes manejar los insumos seleccionados como desees
         setTablaDetalle([...tablaDetalle, ...nuevosInsumos]);
         setOpenInsumos(false);
     };
@@ -83,7 +85,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
         const uploadPromises = Array.from(files).map(async (file) => {
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('upload_preset', 'grupardo'); // Reemplaza 'your_cloudinary_upload_preset' con tu preset de Cloudinary
+            formData.append('upload_preset', 'grupardo');
             const response = await fetch('https://api.cloudinary.com/v1_1/dafcqvadi/image/upload', {
                 method: 'POST',
                 body: formData,
@@ -278,7 +280,8 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
-                                    {tablaDetalle.sort((a, b) => a.articuloInsumo.denominacion.localeCompare(b.articuloInsumo.denominacion))
+                                    {tablaDetalle.filter((fila) => !fila.eliminado)
+                                        .sort((a, b) => a.articuloInsumo.denominacion.localeCompare(b.articuloInsumo.denominacion))
                                         .map((fila, index) => (
                                             <TableRow key={fila.articuloInsumo.id}>
                                                 <TableCell>{fila.articuloInsumo.denominacion + " (" + fila.articuloInsumo.unidadMedida.denominacion.toLowerCase() + ")"}</TableCell>
