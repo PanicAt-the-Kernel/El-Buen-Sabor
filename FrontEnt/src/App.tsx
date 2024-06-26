@@ -56,7 +56,7 @@ const basilTheme = createTheme({
 
 function App() {
 
-  const [userRoles, setUserRoles] = useState([]);
+  const [userRoles, setUserRoles] = useState<string[]>([]);
 
   useEffect(() => {
     const userRoles = localData.getRol("userRoles");

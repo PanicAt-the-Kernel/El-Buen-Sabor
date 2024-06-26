@@ -1,5 +1,4 @@
 import useSWR, { SWRResponse } from "swr";
-import useSWRImmutable from 'swr/immutable'
 import ArticuloInsumo from "../../entidades/ArticuloInsumo";
 import Categoria from "../../entidades/Categoria";
 import Empresa from "../../entidades/Empresa";
