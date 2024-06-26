@@ -108,7 +108,7 @@ export default function MUITabs() {
                   value={fecha2}
                   onChange={(e) => setFecha2(e.target.value)}
                 />
-                <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit">
+                <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit" onClick={onSubmit}>
                   Generar Excel
                 </Button>
               </Stack>
