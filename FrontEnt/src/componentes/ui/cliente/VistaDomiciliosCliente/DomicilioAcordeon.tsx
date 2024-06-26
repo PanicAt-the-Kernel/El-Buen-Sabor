@@ -6,24 +6,32 @@ import {
   AccordionSummary,
   Button,
   FormControl,
-  Grid,
   InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
+  Stack,
   TextField,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import Domicilio from "../../../../entidades/Domicilio";
 import { useState } from "react";
-import { getClienteId, getLocalidadesIdProvincia, getProvinciasIdPais } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import {
+  getLocalidadesIdProvincia,
+  getProvinciasIdPais,
+} from "../../../../servicios/vistaInicio/FuncionesAPI";
+import ModalDomicilio from "./ModalDomicilio";
 
 interface DomicilioAcordeonTypes {
   iDomicilio: Domicilio;
 }
 
-export default function DomicilioAcordeon({ iDomicilio }: DomicilioAcordeonTypes) {
-  const { data: cliente } = getClienteId("velasconico003@gmail.com");
+export default function DomicilioAcordeon({
+  iDomicilio,
+}: DomicilioAcordeonTypes) {
+  const [open,setOpen]=useState<boolean>(false);
+  const vistaEscritorio: boolean = useMediaQuery("(min-width:600px)");
   const [domicilio, setDomicilio] = useState<Domicilio>(iDomicilio);
   const [provincia, setProvincia] = useState(domicilio.localidad.provincia.id);
   const [localidad, setLocalidad] = useState(domicilio.localidad.id);
@@ -38,70 +46,102 @@ export default function DomicilioAcordeon({ iDomicilio }: DomicilioAcordeonTypes
   return (
     <Accordion>
       <AccordionSummary expandIcon={<ArrowDownward />}>
-        <Typography>{domicilio.calle + " " + domicilio.numero + " " + domicilio.localidad.nombre}</Typography>
+        <Typography>
+          {domicilio.calle +
+            " " +
+            domicilio.numero +
+            " " +
+            domicilio.localidad.nombre}
+        </Typography>
       </AccordionSummary>
       <AccordionDetails>
-        <Grid
-          container
-          spacing={{ xs: 1, sm: 1, md: 1 }}
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Grid item xs={12} sm={12} md={3}>
+        <Stack direction={"column"} spacing={2}>
+          <Stack
+            direction={{ xs: "column", sm: "column", md: "row" }}
+            spacing={1}
+          >
             <TextField
-              required
+              inputProps={{ readOnly: true }}
               label="Calle"
               variant="outlined"
               value={domicilio.calle}
-              onChange={(e) => setDomicilio({ ...domicilio, calle: e.target.value })}
+              onChange={(e) =>
+                setDomicilio({ ...domicilio, calle: e.target.value })
+              }
+              sx={vistaEscritorio ? { width: 800 } : {}}
             />
-          </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+
             <TextField
-              required
+              inputProps={{ readOnly: true }}
               label="Numero"
+              type="number"
               variant="outlined"
               value={domicilio.numero}
-              onChange={(e) => setDomicilio({ ...domicilio, numero: Number(e.target.value) })}
+              onChange={(e) =>
+                setDomicilio({ ...domicilio, numero: Number(e.target.value) })
+              }
+              sx={vistaEscritorio ? { width: 300 } : {}}
             />
-          </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+          </Stack>
+          <Stack
+            direction={{ xs: "column", sm: "column", md: "row" }}
+            spacing={1}
+          >
             <TextField
-              required
+              inputProps={{ readOnly: true }}
               label="Codigo Postal"
+              type="number"
               variant="outlined"
               value={domicilio.cp}
-              onChange={(e) => setDomicilio({ ...domicilio, cp: Number(e.target.value) })}
+              onChange={(e) =>
+                setDomicilio({ ...domicilio, cp: Number(e.target.value) })
+              }
+              sx={vistaEscritorio ? { width: 365 } : {}}
             />
-          </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+
             <TextField
-              required
+              inputProps={{ readOnly: true }}
               label="Numero Piso"
+              type="number"
               variant="outlined"
               value={domicilio.piso}
-              onChange={(e) => setDomicilio({ ...domicilio, piso: Number(e.target.value) })}
+              onChange={(e) =>
+                setDomicilio({ ...domicilio, piso: Number(e.target.value) })
+              }
+              sx={vistaEscritorio ? { width: 365 } : {}}
             />
-          </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+
             <TextField
-              required
+              inputProps={{ readOnly: true }}
               label="Numero Departamento"
+              type="number"
               variant="outlined"
               value={domicilio.nroDpto}
-              onChange={(e) => setDomicilio({ ...domicilio, nroDpto: Number(e.target.value) })}
+              onChange={(e) =>
+                setDomicilio({
+                  ...domicilio,
+                  nroDpto: Number(e.target.value),
+                })
+              }
+              sx={vistaEscritorio ? { width: 365 } : {}}
             />
-          </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+          </Stack>
+          <Stack
+            direction={{ xs: "column", sm: "column", md: "row" }}
+            spacing={1}
+          >
             <FormControl fullWidth variant="outlined" disabled={!provincia}>
               <InputLabel id="localidad-label">Localidad</InputLabel>
               <Select
+                required
                 labelId="localidad-label"
                 value={localidad}
                 onChange={(e) => setLocalidad(e.target.value as number)}
                 label="Localidad"
+                inputProps={{ readOnly: true }}
               >
-                {localidades?.sort((a, b) => a.nombre.localeCompare(b.nombre))
+                {localidades
+                  ?.sort((a, b) => a.nombre.localeCompare(b.nombre))
                   .map((localidad) => (
                     <MenuItem key={localidad.id} value={localidad.id}>
                       {localidad.nombre}
@@ -109,8 +149,7 @@ export default function DomicilioAcordeon({ iDomicilio }: DomicilioAcordeonTypes
                   ))}
               </Select>
             </FormControl>
-          </Grid>
-          <Grid item xs={12} sm={12} md={3}>
+
             <FormControl fullWidth variant="outlined">
               <InputLabel id="provincia-label">Provincia</InputLabel>
               <Select
@@ -118,8 +157,10 @@ export default function DomicilioAcordeon({ iDomicilio }: DomicilioAcordeonTypes
                 value={provincia}
                 onChange={handleProvinciaChange}
                 label="Provincia"
+                inputProps={{ readOnly: true }}
               >
-                {provincias?.sort((a, b) => a.nombre.localeCompare(b.nombre))
+                {provincias
+                  ?.sort((a, b) => a.nombre.localeCompare(b.nombre))
                   .map((provincia) => (
                     <MenuItem key={provincia.id} value={provincia.id}>
                       {provincia.nombre}
@@ -127,13 +168,14 @@ export default function DomicilioAcordeon({ iDomicilio }: DomicilioAcordeonTypes
                   ))}
               </Select>
             </FormControl>
-          </Grid>
-        </Grid>
+          </Stack>
+        </Stack>
       </AccordionDetails>
       <AccordionActions>
-        <Button>Modificar</Button>
+        <Button onClick={()=>setOpen(!open)}>Modificar</Button>
         <Button>Eliminar</Button>
       </AccordionActions>
+      <ModalDomicilio open={open} setOpen={setOpen} domiObj={iDomicilio} editFlag={true}/>
     </Accordion>
   );
 }

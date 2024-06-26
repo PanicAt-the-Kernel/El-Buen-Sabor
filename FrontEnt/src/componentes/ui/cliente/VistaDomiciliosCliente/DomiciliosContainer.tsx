@@ -1,20 +1,29 @@
-import { Box, Stack } from "@mui/material";
+import { Box, CircularProgress, Stack } from "@mui/material";
 import DomicilioAcordeon from "./DomicilioAcordeon";
-import { getAllDomicilios } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import {
+  getClienteId,
+  localData,
+} from "../../../../servicios/vistaInicio/FuncionesAPI";
 import Domicilio from "../../../../entidades/Domicilio";
 
 export default function DomicilioContainer() {
-    const { data: domicilios } = getAllDomicilios();
-    return (
-        <Box component="div" sx={{ marginTop: 2 }}>
-            <Stack spacing={2}>
-                {domicilios?.sort((a, b) => b.id - a.id)
-                    .map((item: Domicilio) => (
-                        <>
-                            <DomicilioAcordeon iDomicilio={item} />
-                        </>
-                    ))}
-            </Stack>
-        </Box>
-    )
+  const { data: cliente, isLoading } = getClienteId(
+    localData.getCliente("Cliente").userName
+  );
+  if (isLoading) {
+    return <CircularProgress />;
+  }
+  return (
+    <Box component="div" sx={{ marginTop: 2 }}>
+      <Stack spacing={2}>
+        {cliente!.domicilios
+          ?.sort((a, b) => b.id - a.id)
+          .map((item: Domicilio,index:number) => (
+            <>
+              <DomicilioAcordeon key={index} iDomicilio={item} />
+            </>
+          ))}
+      </Stack>
+    </Box>
+  );
 }

@@ -105,13 +105,6 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
     cliente.domicilios = [domicilio];
 
     saveCliente(cliente);
-
-    //email
-    //nombre
-    //apellido
-    //telefono
-    //imagen
-    //objeto Domicilio
   };
 
   const handleImageUpload = async (event: any) => {

@@ -24,7 +24,7 @@ export default function VistaBienvenida() {
   //MediaQuery para vista escritorio
   const vistaEscritorio: boolean = useMediaQuery("(min-width:600px)");
   //Si es falso, entonces estas en vista mobile
-  const {isAuthenticated} = useAuth0();
+  const { isAuthenticated } = useAuth0();
   const [idProvincia, setIdProvincia] = useState<number>(0);
   const [idLocalidad, setIdLocalidad] = useState<number>(0);
   const {
@@ -46,7 +46,7 @@ export default function VistaBienvenida() {
         sx={{
           width: "100wh",
           height: "100vh",
-          backgroundImage: "url(/imgs/patronComida.jpg)",
+          backgroundImage: "url(/imgs/patronComida2.jpg)",
           backgroundSize: "auto",
         }}
       >
@@ -54,9 +54,9 @@ export default function VistaBienvenida() {
           <Paper
             elevation={5}
             sx={{
-              background: "rgba(255,255,255,0.48)",
+              background: "rgba(255,255,255,0.60)",
               backdropFilter: "blur(5px)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
+              border: "1px solid rgba(255, 255, 255, 0.5)",
               overflow: "hidden",
               maxHeight: 630,
               overflowY: "scroll",
@@ -76,7 +76,7 @@ export default function VistaBienvenida() {
       </Box>
     );
   }
- 
+  
   const sucursal = sucursales?.filter((item: Sucursal) => {
     if (idProvincia != 0 && idLocalidad != 0) {
       return (
@@ -87,84 +87,88 @@ export default function VistaBienvenida() {
   });
   return (
     <>
-<Box
-      component="div"
-      sx={{
-        width: "100wh",
-        height: "100vh",
-        backgroundImage: "url(/imgs/patronComida.jpg)",
-        backgroundSize: "auto",
-      }}
-    >
-      <Container sx={{ padding: 2 }}>
-        <Paper
-          elevation={5}
-          sx={{
-            background: "rgba(255,255,255,0.48)",
-            backdropFilter: "blur(5px)",
-            border: "1px solid rgba(255, 255, 255, 0.3)",
-          }}
-        >
-          <Stack
-            direction={{ xs: "column", sm: "column" }}
-            alignItems={"center"}
-          >
-            <Box
-              component="img"
-              src="/imgs/Icono.svg"
-              sx={vistaEscritorio ? { maxWidth: 150 } : { maxWidth: 100 }}
-            />
-            <Typography
-              textAlign="center"
-              sx={
-                vistaEscritorio
-                  ? { fontWeight: "bolder", fontSize: "17pt" }
-                  : { fontWeight: "bolder", fontSize: "12pt" }
-              }
-            >
-              Bienvenido a El Buen Sabor
-            </Typography>
-            <Typography
-              textAlign={"center"}
-              sx={vistaEscritorio ? { fontSize: "14pt" } : { fontSize: "11pt" }}
-            >
-              Selecciona una provincia y localidad para buscar sucursales
-            </Typography>
-          </Stack>
-          <FiltroSucursal
-            idProvincia={idProvincia}
-            idLocalidad={idLocalidad}
-            setIdProvincia={setIdProvincia}
-            setIdLocalidad={setIdLocalidad}
-            provincias={provincias!}
-            localidades={localidades!}
-          />
-          <Box
-            sx={
-              vistaEscritorio
-                ? { maxHeight: 380, overflow: "hidden", overflowY: "scroll" }
-                : { maxHeight: 330, overflow: "hidden", overflowY: "scroll" }
-            }
+      <Box
+        component="div"
+        sx={{
+          width: "100wh",
+          height: "100vh",
+          backgroundImage: "url(/imgs/patronComida2.jpg)",
+          backgroundSize: "auto",
+        }}
+      >
+        <Container sx={{ padding: 2 }}>
+          <Paper
+            elevation={5}
+            sx={{
+              background: "rgba(255,255,255,0.48)",
+              backdropFilter: "blur(5px)",
+              border: "1px solid rgba(255, 255, 255, 0.3)",
+            }}
           >
             <Stack
-              sx={{ padding: 1 }}
-              direction={{ xs: "column", sm: "column", md: "row" }}
-              spacing={1}
-              alignItems="center"
+              direction={{ xs: "column", sm: "column" }}
+              alignItems={"center"}
             >
-              {sucursal?.map((item: Sucursal) => (
-                <SucursalCard 
-                  key={item.id}
-                  sucursal={item} />
-              ))}
+              <Box
+                component="img"
+                src="/imgs/Icono.svg"
+                sx={vistaEscritorio ? { maxWidth: 150 } : { maxWidth: 100 }}
+              />
+              <Typography
+                textAlign="center"
+                sx={
+                  vistaEscritorio
+                    ? { fontWeight: "bolder", fontSize: "17pt" }
+                    : { fontWeight: "bolder", fontSize: "12pt" }
+                }
+              >
+                Bienvenido a El Buen Sabor
+              </Typography>
+              <Typography
+                textAlign={"center"}
+                sx={
+                  vistaEscritorio ? { fontSize: "14pt" } : { fontSize: "11pt" }
+                }
+              >
+                Selecciona una provincia y localidad para buscar sucursales
+              </Typography>
             </Stack>
-          </Box>
-        </Paper>
-      </Container>
-    </Box>
-    {isAuthenticated && <PostLogin />}
+            <FiltroSucursal
+              idProvincia={idProvincia}
+              idLocalidad={idLocalidad}
+              setIdProvincia={setIdProvincia}
+              setIdLocalidad={setIdLocalidad}
+              provincias={provincias!}
+              localidades={localidades!}
+            />
+            <Box
+              sx={
+                vistaEscritorio
+                  ? { maxHeight: 380, overflow: "hidden", overflowY: "scroll" }
+                  : { maxHeight: 330, overflow: "hidden", overflowY: "scroll" }
+              }
+            >
+              {(sucursal !=undefined && sucursal.length>0 ) ? (
+                <Stack
+                  sx={{ padding: 1 }}
+                  direction={{ xs: "column", sm: "column", md: "row" }}
+                  spacing={1}
+                  alignItems="center"
+                >
+                  {sucursal?.map((item: Sucursal) => (
+                    <SucursalCard key={item.id} sucursal={item} />
+                  ))}
+                </Stack>
+              ) : (
+                <Typography variant="h5" align="center">
+                  No hay sucursales registradas con esos parametros
+                </Typography>
+              )}
+            </Box>
+          </Paper>
+        </Container>
+      </Box>
+      {isAuthenticated && <PostLogin />}
     </>
-    
-     
   );
 }
