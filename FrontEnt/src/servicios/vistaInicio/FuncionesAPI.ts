@@ -205,12 +205,19 @@ export function getPedidosCliente(clienteEmail: string): SWRResponse<Pedido[], a
 }
 
 export function getClienteEmail(
-  clienteEmail: string
+  clienteEmail: string|undefined
 ): SWRResponse<Cliente, any, any> {
+  if(clienteEmail!=undefined){
+    return useSWR<Cliente>(
+      `https://traza-final.onrender.com/cliente/${clienteEmail}`,
+      fetcher
+    );
+  }
   return useSWR<Cliente>(
-    `https://traza-final.onrender.com/cliente/${clienteEmail}`,
+    null,
     fetcher
   );
+  
 }
 
 export function getArticulosManufacturadosIdSucursal(idSucursal: number): SWRResponse<ArticuloManufacturado[], any, any> {

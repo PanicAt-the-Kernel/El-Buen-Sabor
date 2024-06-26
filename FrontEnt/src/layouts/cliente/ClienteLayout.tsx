@@ -13,10 +13,13 @@ import { ReactNode } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Login, ShoppingCart } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import { getClienteEmail, localData } from "../../servicios/vistaInicio/FuncionesAPI";
+import {
+  getClienteEmail,
+  localData,
+} from "../../servicios/vistaInicio/FuncionesAPI";
 import LogOutButton from "../../auth0/Logout";
-import moment from 'moment-timezone';
-import { CircularProgress } from '@mui/material';
+import moment from "moment-timezone";
+import { CircularProgress } from "@mui/material";
 
 // LoginButton Component
 export const LoginButton = () => {
@@ -24,11 +27,14 @@ export const LoginButton = () => {
   //MediaQuery para vista escritorio
   const vistaEscritorio: boolean = useMediaQuery("(min-width:650px)");
   //Si es falso, entonces estas en vista mobile
-  
 
   return (
-    <Link to="#" className="btn btn-outline-light" onClick={() => loginWithRedirect()}>
-      {vistaEscritorio ? ("Iniciar sesión / Registrarse ") : ("")}
+    <Link
+      to="#"
+      className="btn btn-outline-light"
+      onClick={() => loginWithRedirect()}
+    >
+      {vistaEscritorio ? "Iniciar sesión / Registrarse " : ""}
       <Login />
     </Link>
   );
@@ -40,9 +46,13 @@ interface ClienteLayoutTypes {
   estado?: boolean;
 }
 
-export default function ClienteLayout({ children, setEstado=()=>{}, estado=false }: ClienteLayoutTypes) {  
+export default function ClienteLayout({
+  children,
+  setEstado = () => {},
+  estado = false,
+}: ClienteLayoutTypes) {
   const navigate = useNavigate();
-  const now = moment().tz('America/Argentina/Buenos_Aires');
+  const now = moment().tz("America/Argentina/Buenos_Aires");
 
   const isWithinTimeRange = () => {
     const dayOfWeek = now.day(); // 0 = domingo, 1 = lunes, ..., 6 = sábado
@@ -58,8 +68,12 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
 
     // Horarios de sábados y domingos (11:00 - 15:00 y 20:00 - 00:00)
     if (dayOfWeek === 0 || dayOfWeek === 6) {
-      if ((hour === 11 && minute >= 0) || (hour >= 12 && hour < 15) || 
-          (hour === 20 && minute >= 0) || (hour >= 0 && hour < 24)) {
+      if (
+        (hour === 11 && minute >= 0) ||
+        (hour >= 12 && hour < 15) ||
+        (hour === 20 && minute >= 0) ||
+        (hour >= 0 && hour < 24)
+      ) {
         return true;
       }
     }
@@ -71,33 +85,21 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
   //MediaQuery para vista escritorio
   const vistaEscritorio: boolean = useMediaQuery("(min-width:650px)");
   //Si es falso, entonces estas en vista mobile
-  
-  const { isAuthenticated, user} = useAuth0();
 
-  if(isAuthenticated) {
-    
-    const { data, isLoading, error } = getClienteEmail(user?.email!);
-    if (isLoading)
-      return (
-        <>
-          <h1>Recargo la pagina</h1>
-          <CircularProgress color="inherit" />
-        </>
-      );
-      if (error) {
-        <h1>
-        Ups! Ocurrio un error al obtener los menús. Reintente nuevamente en
-        unos minutos
-      </h1>
-      }
-  
-      if(isAuthenticated && data) {
-        localData.setCliente("Cliente",data);
-      } else if( isAuthenticated && !data) {
-        navigate("/register", { replace: true });
-      } 
+  const { isAuthenticated, user,isLoading:userLoading } = useAuth0();
+  const { data,isLoading:emailLoading } = getClienteEmail(user?.email!);
+
+  if(userLoading || emailLoading){
+    return(
+      <CircularProgress />
+    )
   }
 
+  if (isAuthenticated && !data) {
+    navigate("/register", { replace: true });
+  } else if (isAuthenticated && data) {
+    localData.setCliente("Cliente", data!);
+  }
   return (
     <>
       <CssBaseline />
@@ -110,23 +112,32 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
           />
           <Box component="div" sx={{ flexGrow: 1 }}>
             <Stack>
-              <Typography variant="body1"
-                sx={{ flexGrow: 1, textDecoration: 'none', color: 'inherit' }}
+              <Typography
+                variant="body1"
+                sx={{ flexGrow: 1, textDecoration: "none", color: "inherit" }}
                 component={Link}
-                to={`/cliente/sucursal/${localData.getSucursal("sucursal").id}`}>El Buen Sabor</Typography>
+                to={`/cliente/sucursal/${localData.getSucursal("sucursal").id}`}
+              >
+                El Buen Sabor
+              </Typography>
               <Typography variant="body2">{nombreSucursal}</Typography>
-              <Link to="/cliente/bienvenida" style={{ color: "white" }}><Typography variant="body2">Cambiar Sucursal</Typography></Link>
+              <Link to="/cliente/bienvenida" style={{ color: "white" }}>
+                <Typography variant="body2">Cambiar Sucursal</Typography>
+              </Link>
             </Stack>
           </Box>
           <Stack direction="row" spacing={3} marginRight={2}>
-          {isAuthenticated ? (
+            {isAuthenticated ? (
               <>
                 {isWithinTimeRange() && (
-                  <Button variant="text"
+                  <Button
+                    variant="text"
                     size="small"
                     sx={{ color: "whitesmoke" }}
                     color="primary"
-                    onClick={() => { setEstado(!estado) }}
+                    onClick={() => {
+                      setEstado(!estado);
+                    }}
                   >
                     <ShoppingCart />
                   </Button>
@@ -140,10 +151,7 @@ export default function ClienteLayout({ children, setEstado=()=>{}, estado=false
           </Stack>
         </Toolbar>
       </AppBar>
-      <Box component="main">
-        {children}
-      </Box>
+      <Box component="main">{children}</Box>
     </>
   );
 }
-

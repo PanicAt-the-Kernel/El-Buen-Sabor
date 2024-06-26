@@ -31,7 +31,7 @@ export default function VistaBienvenida() {
     data: provincias,
     isLoading: cargaProvincias,
     error,
-  } = getProvinciasIdPais(2);
+  } = getProvinciasIdPais(1);
   const { data: localidades, isLoading: cargaLocalidades } =
     getLocalidadesIdProvincia(idProvincia);
   const { data: sucursales, isLoading: cargaSucursales } = getAllSucursales();

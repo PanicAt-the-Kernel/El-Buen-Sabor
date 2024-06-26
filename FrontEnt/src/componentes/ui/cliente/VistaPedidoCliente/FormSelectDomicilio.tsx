@@ -19,7 +19,7 @@ export default function FormSelectDomicilio({metodoEntrega,domicilio,setDomicili
           id="demo-simple-select"
           label="Domicilios"
           value={domicilio}
-          disabled={metodoEntrega==="RETIRO"}
+          disabled={metodoEntrega==="TAKE_AWAY"}
           onChange={(e)=>setDomicilio(Number(e.target.value))}
         >
           <MenuItem value={0}>Selecciona un domicilio para enviar tu pedido</MenuItem>

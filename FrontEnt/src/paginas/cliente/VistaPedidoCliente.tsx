@@ -32,6 +32,7 @@ export default function VistaPedidoCliente() {
     //POST SIN DOMICILIO
     if (metodoEntrega == "TAKE_AWAY") {
       if (metodoPago == "EFECTIVO") {
+        alert('LLAMADA A POST CON EFECTIVO Y TAKE AWAY');
         var fecha = new Date().toJSON().slice(0, 10); //Dia actual
 
         const updatedPedido = {
@@ -68,7 +69,7 @@ export default function VistaPedidoCliente() {
           variant="contained"
           color="info"
           sx={{ marginBottom: 2 }}
-          onClick={() => postPedido}
+          onClick={() => {postPedido()}}
         >
           Generar Pedido
         </Button>
@@ -79,7 +80,7 @@ export default function VistaPedidoCliente() {
           variant="contained"
           color="warning"
           sx={{ marginBottom: 2 }}
-          onClick={() => postPedido}
+          onClick={() => {postPedido()}}
         >
           Ir a pagar
         </Button>
