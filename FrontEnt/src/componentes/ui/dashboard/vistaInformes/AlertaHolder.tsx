@@ -1,6 +1,6 @@
 import { Paper, Grid, Box, Typography, useTheme } from "@mui/material";
 import ItemAlerta from "./ItemAlerta";
-import { getAllInsumos } from "../../../../servicios/FuncionesAPI";
+import { getAllInsumos } from "../../../../servicios/ArticuloInsumoService";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import { controlNivelStockInsumo } from "../../../../servicios/FuncionesControl";
 import getTokenAuth0 from "../../../../hooks/getTokenAuth0";

@@ -12,7 +12,7 @@ import {
     Button
 } from '@mui/material';
 import Categoria from '../../../../entidades/Categoria';
-import { getCategoriasIdSucursal } from '../../../../servicios/FuncionesAPI';
+import { getCategoriasIdSucursal } from '../../../../servicios/CategoriaService';
 import { Add, Remove } from '@mui/icons-material';
 
 interface EditarSubCategoriasModalProps {

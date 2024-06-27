@@ -15,7 +15,7 @@ import DetallePedido from "../entidades/DetallePedido";
 import Empleado from "../entidades/Empleado";
 import Domicilio from "../entidades/Domicilio";
 import Cliente from "../entidades/Cliente";
-
+/*
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 //FUNCIONES GET ALL
@@ -899,7 +899,7 @@ export async function bajaEmpleado(empleado: Empleado) {
       alert("Error CORS, Revisa la URL o el back esta mal configurado")
   }
 }
-
+*/
 //Manejo LocalStorage
 export const localData = {
   setUsuario(key: string, value: Usuario) {

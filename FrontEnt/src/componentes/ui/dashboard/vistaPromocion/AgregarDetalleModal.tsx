@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableRow, Checkbox, Button, Paper } from '@mui/material';
 import PromocionDetalle from '../../../../entidades/PromocionDetalle';
-import { getAllArticuloInsumoNoElab, getAllArticulosManufacturados } from '../../../../servicios/FuncionesAPI';
+import { getAllArticulosManufacturados } from '../../../../servicios/ArticuloManufacturadoService';
+import { getAllArticuloInsumoNoElab } from '../../../../servicios/ArticuloInsumoService';
 import Articulo from '../../../../entidades/Articulo';
 
 interface AgregarArticuloModalProps {

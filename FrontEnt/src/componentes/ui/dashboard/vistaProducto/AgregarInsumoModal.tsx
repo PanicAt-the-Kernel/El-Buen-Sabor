@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableRow, Checkbox, Button, Paper } from '@mui/material';
 import ArticuloManufacturadoDetalle from '../../../../entidades/ArticuloManufacturadoDetalle';
-import { getAllArticuloInsumoElab } from '../../../../servicios/FuncionesAPI';
+import { getAllArticuloInsumoElab } from '../../../../servicios/ArticuloInsumoService';
 import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
 
 interface AgregarInsumoModalProps {

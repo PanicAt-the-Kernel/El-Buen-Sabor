@@ -6,7 +6,7 @@ import {
     Button
 } from '@mui/material';
 import Empresa from '../../../../entidades/Empresa';
-import { editSucursal, getSucursalesEmpresa } from '../../../../servicios/FuncionesAPI';
+import { editSucursal, getSucursalesEmpresa } from '../../../../servicios/SucursalService';
 import BotonAgregarSucursal from './BotonAgregarSucursal';
 import Sucursal from '../../../../entidades/Sucursal';
 import AgregarSucursalModal from './AgregarSucursalModal';

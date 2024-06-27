@@ -13,10 +13,8 @@ import FormSelectDomicilio from "../../componentes/ui/cliente/VistaPedidoCliente
 import { useContext, useState } from "react";
 import { AttachMoney } from "@mui/icons-material";
 import { CarritoContext } from "../../context/CarritoContext";
-import {
-  localData,
-  savePedido,
-} from "../../servicios/FuncionesAPI";
+import {localData} from "../../servicios/FuncionesAPI";
+import { savePedido } from "../../servicios/PedidoService";
 import Pedido from "../../entidades/Pedido";
 import Cliente from "../../entidades/Cliente";
 import Sucursal from "../../entidades/Sucursal";

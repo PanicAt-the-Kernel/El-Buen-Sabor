@@ -1,10 +1,5 @@
 import { SyntheticEvent, useState } from "react";
 import {
-  getProvinciasIdPais,
-  getLocalidadesIdProvincia,
-  saveCliente,
-} from "../../../servicios/FuncionesAPI";
-import {
   Box,
   Button,
   CircularProgress,
@@ -26,7 +21,9 @@ import Domicilio from "../../../entidades/Domicilio";
 import ImagenCliente from "../../../entidades/ImagenCliente";
 import Localidad from "../../../entidades/Localidad";
 import Provincia from "../../../entidades/Provincia";
-
+import { getProvinciasIdPais } from "../../../servicios/ProvinciaService";
+import { getLocalidadesIdProvincia } from "../../../servicios/LocalidadService";
+import { saveCliente } from "../../../servicios/ClienteService";
 interface FormRegistroTypes {
   userEmail: string;
 }

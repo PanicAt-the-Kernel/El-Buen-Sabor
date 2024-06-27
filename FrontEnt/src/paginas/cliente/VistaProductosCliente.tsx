@@ -4,10 +4,8 @@ import TabsCategorias from "../../componentes/ui/cliente/vistaPrincipal/TabCateg
 import { CarritoProvider } from "../../context/CarritoContext";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 import SidebarCarrito from "../../componentes/ui/cliente/vistaPrincipal/SidebarCarrito";
-import {
-  getSucursalId,
-  localData,
-} from "../../servicios/FuncionesAPI";
+import {localData} from "../../servicios/FuncionesAPI";
+import { getSucursalId } from "../../servicios/SucursalService";
 import { CircularProgress, Container } from "@mui/material";
 
 export default function VistaProductosCliente() {

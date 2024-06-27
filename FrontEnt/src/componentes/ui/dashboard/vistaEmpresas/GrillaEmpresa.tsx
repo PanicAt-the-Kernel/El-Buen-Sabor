@@ -2,7 +2,7 @@ import { Button, Grid } from "@mui/material";
 import {
   editEmpresa,
   getAllEmpresas,
-} from "../../../../servicios/FuncionesAPI";
+} from "../../../../servicios/EmpresaService";
 import Empresa from "../../../../entidades/Empresa";
 import ItemGrilla from "./ItemGrilla";
 import { useState } from "react";

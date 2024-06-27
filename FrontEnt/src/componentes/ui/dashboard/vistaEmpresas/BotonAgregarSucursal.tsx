@@ -2,7 +2,7 @@ import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarSucursalModal from './AgregarSucursalModal';
-import { saveSucursal } from '../../../../servicios/FuncionesAPI';
+import { saveSucursal } from '../../../../servicios/SucursalService';
 import Empresa from '../../../../entidades/Empresa';
 import Sucursal from '../../../../entidades/Sucursal';
 

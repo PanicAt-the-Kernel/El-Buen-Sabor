@@ -3,7 +3,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarCategoriaModal from './AgregarCategoriaModal';
 import Categoria from '../../../../entidades/Categoria';
-import { saveCategoria } from '../../../../servicios/FuncionesAPI';
+import { saveCategoria } from '../../../../servicios/CategoriaService';
 
 function BotonAgregarCategoria() {
     const [open, setOpen] = useState(false);

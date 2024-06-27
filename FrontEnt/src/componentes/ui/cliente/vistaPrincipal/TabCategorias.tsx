@@ -1,11 +1,13 @@
 import { Box, Typography, Tabs, Tab, CircularProgress } from "@mui/material";
 import React from "react";
-import { getAllArticuloInsumoNoElab, getArticulosManufacturadosIdSucursal, getPromocionesIdSucursal, localData } from "../../../../servicios/FuncionesAPI";
+import { localData } from "../../../../servicios/FuncionesAPI";
 import GrillaProductos from "./GrillaProductos";
 import GrillaPromo from "./GrillaPromo";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
-
+import { getAllArticuloInsumoNoElab } from "../../../../servicios/ArticuloInsumoService";
+import { getArticulosManufacturadosIdSucursal } from "../../../../servicios/ArticuloManufacturadoService";
+import { getPromocionesIdSucursal } from "../../../../servicios/PromocionService";
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;
