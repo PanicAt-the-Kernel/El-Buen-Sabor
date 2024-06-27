@@ -1,6 +1,6 @@
 import { Paper, List, ListItem, Stack, IconButton, ListItemText, Typography } from "@mui/material";
 import UnidadMedida from "../../../../entidades/UnidadMedida";
-import { editUnidadMedida, getAllUnidadMedida } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { editUnidadMedida, getAllUnidadMedida } from "../../../../servicios/FuncionesAPI";
 import { useState } from "react";
 import { Edit } from "@mui/icons-material";
 import AgregarUnidadMedidaModal from "./AgregarUMedidaModal";

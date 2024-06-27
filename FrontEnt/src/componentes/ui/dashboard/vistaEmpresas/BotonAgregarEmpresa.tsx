@@ -2,7 +2,7 @@ import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarEmpresaModal from './AgregarEmpresaModal';
-import { saveEmpresa } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { saveEmpresa } from '../../../../servicios/FuncionesAPI';
 import Empresa from '../../../../entidades/Empresa';
 
 function BotonAgregarEmpresa() {

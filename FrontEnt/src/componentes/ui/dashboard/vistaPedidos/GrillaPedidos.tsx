@@ -1,7 +1,7 @@
 import { CircularProgress, Container, Grid } from "@mui/material";
 import Pedido from "../../../../entidades/Pedido";
 import ItemGrillaPedido from "./ItemGrillaPedido";
-import { getAllPedidos } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { getAllPedidos } from "../../../../servicios/FuncionesAPI";
 import { useEffect, useState } from "react";
 
 export default function GrillaPedidos() {

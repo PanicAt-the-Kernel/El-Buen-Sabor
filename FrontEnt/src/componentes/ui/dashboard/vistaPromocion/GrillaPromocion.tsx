@@ -1,6 +1,6 @@
 import { Button, Grid } from "@mui/material";
 import Promocion from "../../../../entidades/Promocion";
-import { editPromocion, getPromocionesIdSucursal } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { editPromocion, getPromocionesIdSucursal } from "../../../../servicios/FuncionesAPI";
 import ItemGrillaPromocion from "./ItemGrillaPromocion";
 import { Edit } from "@mui/icons-material";
 import { useState } from "react";

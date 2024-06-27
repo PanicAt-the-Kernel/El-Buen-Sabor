@@ -20,7 +20,7 @@ import { useState } from "react";
 import {
   getLocalidadesIdProvincia,
   getProvinciasIdPais,
-} from "../../../../servicios/vistaInicio/FuncionesAPI";
+} from "../../../../servicios/FuncionesAPI";
 import ModalDomicilio from "./ModalDomicilio";
 
 interface DomicilioAcordeonTypes {

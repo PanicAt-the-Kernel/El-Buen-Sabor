@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableRow, Checkbox, Button, Paper } from '@mui/material';
 import PromocionDetalle from '../../../../entidades/PromocionDetalle';
-import { getAllArticuloInsumoNoElab, getAllArticulosManufacturados } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { getAllArticuloInsumoNoElab, getAllArticulosManufacturados } from '../../../../servicios/FuncionesAPI';
 import Articulo from '../../../../entidades/Articulo';
 
 interface AgregarArticuloModalProps {

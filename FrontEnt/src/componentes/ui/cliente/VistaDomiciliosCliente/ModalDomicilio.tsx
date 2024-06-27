@@ -22,7 +22,7 @@ import {
   getLocalidadesIdProvincia,
   getProvinciasIdPais,
   localData,
-} from "../../../../servicios/vistaInicio/FuncionesAPI";
+} from "../../../../servicios/FuncionesAPI";
 
 interface ModalDomicilioTypes {
   open: boolean;

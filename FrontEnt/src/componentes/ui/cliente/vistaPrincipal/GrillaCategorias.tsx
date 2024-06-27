@@ -2,7 +2,7 @@ import { CircularProgress, Grid } from "@mui/material";
 import {
   getCategoriasIdSucursal,
   localData,
-} from "../../../../servicios/vistaInicio/FuncionesAPI";
+} from "../../../../servicios/FuncionesAPI";
 import Categoria from "../../../../entidades/Categoria";
 //import GrillaProductos from "./GrillaProductos";
 

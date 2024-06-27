@@ -14,7 +14,7 @@ import CategoryIcon from "@mui/icons-material/Category";
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { useTheme } from "@emotion/react";
 import { Receipt, Straighten } from "@mui/icons-material";
-import { localData } from "../../servicios/vistaInicio/FuncionesAPI";
+import { localData } from "../../servicios/FuncionesAPI";
 
 interface SidebarProps {
   collapsed: boolean;

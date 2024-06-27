@@ -11,7 +11,7 @@ import {
   getAllSucursales,
   getLocalidadesIdProvincia,
   getProvinciasIdPais,
-} from "../../servicios/vistaInicio/FuncionesAPI";
+} from "../../servicios/FuncionesAPI";
 
 import { useState } from "react";
 import FiltroSucursal from "../../componentes/ui/cliente/VistaSucursalCliente/FiltroSucursal";

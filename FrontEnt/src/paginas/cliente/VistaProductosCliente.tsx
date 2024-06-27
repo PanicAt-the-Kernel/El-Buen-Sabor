@@ -7,7 +7,7 @@ import SidebarCarrito from "../../componentes/ui/cliente/vistaPrincipal/SidebarC
 import {
   getSucursalId,
   localData,
-} from "../../servicios/vistaInicio/FuncionesAPI";
+} from "../../servicios/FuncionesAPI";
 import { CircularProgress, Container } from "@mui/material";
 
 export default function VistaProductosCliente() {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Modal, Box, TextField, Stack, Button, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import Empleado from "../../../../entidades/Empleado";
-import { saveEmpleado } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { saveEmpleado } from "../../../../servicios/FuncionesAPI";
 
 interface AgregarEmpleadoModalProps {
   open: boolean;

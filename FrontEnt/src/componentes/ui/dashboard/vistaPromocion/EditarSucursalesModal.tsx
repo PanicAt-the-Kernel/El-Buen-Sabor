@@ -12,7 +12,7 @@ import {
     Button
 } from '@mui/material';
 import Promocion from '../../../../entidades/Promocion';
-import { getSucursalesEmpresa } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { getSucursalesEmpresa } from '../../../../servicios/FuncionesAPI';
 import { Add, Remove } from '@mui/icons-material';
 import Sucursal from '../../../../entidades/Sucursal';
 

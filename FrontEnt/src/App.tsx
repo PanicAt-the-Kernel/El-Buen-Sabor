@@ -25,7 +25,7 @@ import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
 import VistaPedidoCliente from "./paginas/cliente/VistaPedidoCliente";
-import { localData } from "./servicios/vistaInicio/FuncionesAPI";
+import { localData } from "./servicios/FuncionesAPI";
 import { useEffect, useState } from "react";
 import { CarritoProvider } from "./context/CarritoContext";
 //PALETA DE COLORES DEL PROYECTO

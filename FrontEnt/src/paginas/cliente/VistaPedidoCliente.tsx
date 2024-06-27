@@ -16,7 +16,7 @@ import { CarritoContext } from "../../context/CarritoContext";
 import {
   localData,
   savePedido,
-} from "../../servicios/vistaInicio/FuncionesAPI";
+} from "../../servicios/FuncionesAPI";
 import Pedido from "../../entidades/Pedido";
 import Cliente from "../../entidades/Cliente";
 import Sucursal from "../../entidades/Sucursal";

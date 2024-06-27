@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Modal, Box, TextField, Stack, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Grid, IconButton, Snackbar, Alert } from '@mui/material';
 import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
-import { getAllUnidadMedida, getCategoriasIdSucursal } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { getAllUnidadMedida, getCategoriasIdSucursal } from '../../../../servicios/FuncionesAPI';
 import Imagen from '../../../../entidades/Imagen';
 import DeleteIcon from '@mui/icons-material/Delete';
 

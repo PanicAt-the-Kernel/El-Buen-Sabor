@@ -9,7 +9,7 @@ import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import { Add, Remove, RemoveShoppingCart } from "@mui/icons-material";
 import { useContext, useState } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
-import { savePedido } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { savePedido } from "../../../../servicios/FuncionesAPI";
 import Pedido from "../../../../entidades/Pedido";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";

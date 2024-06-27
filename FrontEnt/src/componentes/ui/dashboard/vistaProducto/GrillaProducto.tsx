@@ -1,6 +1,6 @@
 import { Button, Grid } from "@mui/material";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
-import { editArticuloManufacturado, getAllArticulosManufacturados } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { editArticuloManufacturado, getAllArticulosManufacturados } from "../../../../servicios/FuncionesAPI";
 import ItemGrillaProducto from "./ItemGrillaProducto";
 import { useState } from "react";
 import AgregarProductoModal from "./AgregarProductoModal";

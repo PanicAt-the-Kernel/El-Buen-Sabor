@@ -3,7 +3,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarPromocionModal from './AgregarPromocionModal';
 import Promocion from '../../../../entidades/Promocion';
-import { savePromocion } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { savePromocion } from '../../../../servicios/FuncionesAPI';
 
 function BotonAgregarPromocion() {
     const [open, setOpen] = useState(false);

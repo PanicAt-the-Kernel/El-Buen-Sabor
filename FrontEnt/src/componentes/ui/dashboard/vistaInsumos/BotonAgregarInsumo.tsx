@@ -3,7 +3,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarInsumoModal from './AgregarInsumoModal';
 import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
-import { saveArticuloInsumo } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { saveArticuloInsumo } from '../../../../servicios/FuncionesAPI';
 
 function BotonAgregarInsumo() {
     const [open, setOpen] = useState(false);

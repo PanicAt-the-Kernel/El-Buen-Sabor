@@ -3,7 +3,7 @@ import DomicilioAcordeon from "./DomicilioAcordeon";
 import {
   getClienteId,
   localData,
-} from "../../../../servicios/vistaInicio/FuncionesAPI";
+} from "../../../../servicios/FuncionesAPI";
 import Domicilio from "../../../../entidades/Domicilio";
 
 export default function DomicilioContainer() {

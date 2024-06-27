@@ -1,6 +1,6 @@
 import { Paper, Stack } from "@mui/material";
 import AcordeonPedido from "./AcordeonPedido";
-import { getAllPedidos } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { getAllPedidos } from "../../../../servicios/FuncionesAPI";
 import Pedido from "../../../../entidades/Pedido";
 
 export default function PedidosContainer() {

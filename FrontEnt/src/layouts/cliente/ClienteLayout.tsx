@@ -16,7 +16,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   getClienteEmail,
   localData,
-} from "../../servicios/vistaInicio/FuncionesAPI";
+} from "../../servicios/FuncionesAPI";
 import LogOutButton from "../../auth0/Logout";
 import moment from "moment-timezone";
 import { CircularProgress } from "@mui/material";

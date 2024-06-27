@@ -3,7 +3,7 @@ import {
   getProvinciasIdPais,
   getLocalidadesIdProvincia,
   saveCliente,
-} from "../../../servicios/vistaInicio/FuncionesAPI";
+} from "../../../servicios/FuncionesAPI";
 import {
   Box,
   Button,

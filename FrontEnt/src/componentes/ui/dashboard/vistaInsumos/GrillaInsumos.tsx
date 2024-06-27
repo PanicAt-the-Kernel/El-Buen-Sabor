@@ -1,6 +1,6 @@
 import { Button, Checkbox, FormControlLabel, Grid } from "@mui/material";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
-import { editArticuloInsumo, getAllInsumos } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { editArticuloInsumo, getAllInsumos } from "../../../../servicios/FuncionesAPI";
 import ItemGrillaInsumos from "./ItemGrillaInsumos";
 import { useState } from "react";
 import { Edit } from "@mui/icons-material";

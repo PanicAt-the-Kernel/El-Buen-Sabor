@@ -1,6 +1,6 @@
 import { Box, Typography, Tabs, Tab, CircularProgress } from "@mui/material";
 import React from "react";
-import { getAllArticuloInsumoNoElab, getArticulosManufacturadosIdSucursal, getPromocionesIdSucursal, localData } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { getAllArticuloInsumoNoElab, getArticulosManufacturadosIdSucursal, getPromocionesIdSucursal, localData } from "../../../../servicios/FuncionesAPI";
 import GrillaProductos from "./GrillaProductos";
 import GrillaPromo from "./GrillaPromo";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";

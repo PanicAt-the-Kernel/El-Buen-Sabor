@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Modal, Box, TextField, Stack, Button, FormControlLabel, Checkbox, Select, MenuItem, InputLabel, FormControl, SelectChangeEvent } from '@mui/material';
-import { getAllPaises, getLocalidadesIdProvincia, getProvinciasIdPais } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { getAllPaises, getLocalidadesIdProvincia, getProvinciasIdPais } from '../../../../servicios/FuncionesAPI';
 import Sucursal from '../../../../entidades/Sucursal';
 
 interface AgregarSucursalModalProps {

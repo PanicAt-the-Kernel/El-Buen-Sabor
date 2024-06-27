@@ -1,20 +1,20 @@
 import useSWR, { SWRResponse } from "swr";
-import ArticuloInsumo from "../../entidades/ArticuloInsumo";
-import Categoria from "../../entidades/Categoria";
-import Empresa from "../../entidades/Empresa";
-import ArticuloManufacturado from "../../entidades/ArticuloManufacturado";
-import Sucursal from "../../entidades/Sucursal";
-import Promocion from "../../entidades/Promocion";
-import Pais from "../../entidades/Pais";
-import Provincia from "../../entidades/Provincia";
-import Localidad from "../../entidades/Localidad";
-import UnidadMedida from "../../entidades/UnidadMedida";
-import Pedido from "../../entidades/Pedido";
-import Usuario from "../../entidades/Usuario";
-import DetallePedido from "../../entidades/DetallePedido";
-import Empleado from "../../entidades/Empleado";
-import Domicilio from "../../entidades/Domicilio";
-import Cliente from "../../entidades/Cliente";
+import ArticuloInsumo from "../entidades/ArticuloInsumo";
+import Categoria from "../entidades/Categoria";
+import Empresa from "../entidades/Empresa";
+import ArticuloManufacturado from "../entidades/ArticuloManufacturado";
+import Sucursal from "../entidades/Sucursal";
+import Promocion from "../entidades/Promocion";
+import Pais from "../entidades/Pais";
+import Provincia from "../entidades/Provincia";
+import Localidad from "../entidades/Localidad";
+import UnidadMedida from "../entidades/UnidadMedida";
+import Pedido from "../entidades/Pedido";
+import Usuario from "../entidades/Usuario";
+import DetallePedido from "../entidades/DetallePedido";
+import Empleado from "../entidades/Empleado";
+import Domicilio from "../entidades/Domicilio";
+import Cliente from "../entidades/Cliente";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 

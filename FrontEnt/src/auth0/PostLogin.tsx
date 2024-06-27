@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import { jwtDecode } from "jwt-decode";
-import { localData } from '../servicios/vistaInicio/FuncionesAPI';
+import { localData } from '../servicios/FuncionesAPI';
 
 interface DecodedToken {
   "https://my-app.example.com/roles"?: string[];

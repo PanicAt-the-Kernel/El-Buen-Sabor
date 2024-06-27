@@ -3,7 +3,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarUnidadMedidaModal from './AgregarUMedidaModal';
 import UnidadMedida from '../../../../entidades/UnidadMedida';
-import { saveUnidadMedida } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { saveUnidadMedida } from '../../../../servicios/FuncionesAPI';
 
 function BotonAgregarUnidadMedida() {
     const [open, setOpen] = useState(false);

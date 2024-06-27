@@ -2,7 +2,7 @@ import { useState } from 'react';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarEmpleadoModal from './AgregarEmpleadoModal';
-import { saveEmpleado } from '../../../../servicios/vistaInicio/FuncionesAPI';
+import { saveEmpleado } from '../../../../servicios/FuncionesAPI';
 import Empleado from '../../../../entidades/Empleado';
 
 function BotonAgregarEmpleado() {

@@ -3,7 +3,7 @@ import DetallePedido from "../entidades/DetallePedido";
 import ArticuloInsumo from "../entidades/ArticuloInsumo";
 import ArticuloManufacturado from "../entidades/ArticuloManufacturado";
 import Promocion from "../entidades/Promocion";
-import { localData } from "../servicios/vistaInicio/FuncionesAPI";
+import { localData } from "../servicios/FuncionesAPI";
 
 interface CarritoTypes {
   carrito: DetallePedido[];

@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import Cliente from "../../../../entidades/Cliente";
-import { editCliente } from "../../../../servicios/vistaInicio/FuncionesAPI";
+import { editCliente } from "../../../../servicios/FuncionesAPI";
 
 interface FormularioClienteTypes {
   cliente:Cliente;
