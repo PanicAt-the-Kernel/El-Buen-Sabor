@@ -7,10 +7,8 @@ import ListItemText from "@mui/material/ListItemText";
 import { Avatar, Button, ListItemAvatar, Stack, Typography } from "@mui/material";
 import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import { Add, Remove, RemoveShoppingCart } from "@mui/icons-material";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
-import { savePedido } from "../../../../servicios/PedidoService";
-import Pedido from "../../../../entidades/Pedido";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
 import DetallePedido from "../../../../entidades/DetallePedido";
@@ -22,27 +20,8 @@ interface DrawerTypes {
 }
 
 export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
-  const { carrito, vaciarCarrito, totalPedido, setTotalPedido, addArticuloCarrito, removeArticuloCarrito, addPromoCarrito, removePromoCarrito, totalEnvio } = useContext(CarritoContext);
-  const [pedido, setPedido] = useState<Pedido>(new Pedido);
-
-  const handleSubmit = () => {
-    var fecha = new Date().toJSON().slice(0, 10);//Dia actual
-
-    const updatedPedido = {
-      ...pedido,
-      horaEstimadaFinalizacion: "22:00:00.000",
-      total: totalPedido,
-      totalCosto: 0,
-      estado: "PENDIENTE",
-      tipoEnvio: "DELIVERY",
-      formaPago: "EFECTIVO",
-      fechaPedido: fecha,
-      detallePedidos: carrito,
-    };
-    setPedido(updatedPedido);
-    savePedido(updatedPedido, setTotalPedido, vaciarCarrito, totalEnvio);
-  };
-
+  const { carrito, vaciarCarrito, totalPedido, addArticuloCarrito, removeArticuloCarrito, addPromoCarrito, removePromoCarrito, totalEnvio } = useContext(CarritoContext);
+  
   const verificarStock = (item: DetallePedido) => {
     if ((item.articuloAux as ArticuloInsumo).esParaElaborar != null) {
       return (item.articuloAux as ArticuloInsumo).stockActual > item.cantidad;
