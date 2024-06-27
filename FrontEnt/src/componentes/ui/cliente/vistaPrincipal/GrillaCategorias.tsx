@@ -1,10 +1,7 @@
 import { CircularProgress, Grid } from "@mui/material";
-import {
-  getCategoriasIdSucursal,
-  localData,
-} from "../../../../servicios/FuncionesAPI";
+import {localData} from "../../../../servicios/FuncionesAPI";
 import Categoria from "../../../../entidades/Categoria";
-//import GrillaProductos from "./GrillaProductos";
+import { getCategoriasIdSucursal } from "../../../../servicios/CategoriaService";
 
 export default function GrillaCategorias() {
   const idSucursal = localData.getSucursal("sucursal").id;

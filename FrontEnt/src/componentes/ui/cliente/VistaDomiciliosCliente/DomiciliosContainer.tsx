@@ -1,11 +1,8 @@
 import { Box, CircularProgress, Stack } from "@mui/material";
 import DomicilioAcordeon from "./DomicilioAcordeon";
-import {
-  getClienteId,
-  localData,
-} from "../../../../servicios/FuncionesAPI";
+import {localData} from "../../../../servicios/FuncionesAPI";
 import Domicilio from "../../../../entidades/Domicilio";
-
+import { getClienteId } from "../../../../servicios/ClienteService";
 export default function DomicilioContainer() {
   const { data: cliente, isLoading } = getClienteId(
     localData.getCliente("Cliente").userName

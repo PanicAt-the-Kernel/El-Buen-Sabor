@@ -3,7 +3,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarProductoModal from './AgregarProductoModal';
 import ArticuloManufacturado from '../../../../entidades/ArticuloManufacturado';
-import { saveArticuloManufacturado } from '../../../../servicios/FuncionesAPI';
+import { saveArticuloManufacturado } from '../../../../servicios/ArticuloManufacturadoService';
 
 function BotonAgregarProducto() {
     const [open, setOpen] = useState(false);

@@ -11,7 +11,7 @@ import {
 import Pedido from "../../../../entidades/Pedido";
 import { useState } from "react";
 import ModalPedidos from "./ModalPedidos";
-import { editPedido } from "../../../../servicios/FuncionesAPI";
+import { editPedido } from "../../../../servicios/PedidoService";
 
 
 interface ItemGrillaPedidoTypes {

@@ -7,12 +7,9 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {
-  getAllSucursales,
-  getLocalidadesIdProvincia,
-  getProvinciasIdPais,
-} from "../../servicios/FuncionesAPI";
-
+import { getProvinciasIdPais } from "../../servicios/ProvinciaService";
+import { getAllSucursales } from "../../servicios/SucursalService";
+import { getLocalidadesIdProvincia } from "../../servicios/LocalidadService";
 import { useState } from "react";
 import FiltroSucursal from "../../componentes/ui/cliente/VistaSucursalCliente/FiltroSucursal";
 import SucursalCard from "../../componentes/ui/cliente/VistaSucursalCliente/SucursalCard";
@@ -76,7 +73,7 @@ export default function VistaBienvenida() {
       </Box>
     );
   }
-  
+
   const sucursal = sucursales?.filter((item: Sucursal) => {
     if (idProvincia != 0 && idLocalidad != 0) {
       return (
@@ -148,7 +145,7 @@ export default function VistaBienvenida() {
                   : { maxHeight: 330, overflow: "hidden", overflowY: "scroll" }
               }
             >
-              {(sucursal !=undefined && sucursal.length>0 ) ? (
+              {sucursal != undefined && sucursal.length > 0 ? (
                 <Stack
                   sx={{ padding: 1 }}
                   direction={{ xs: "column", sm: "column", md: "row" }}

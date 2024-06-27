@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Modal, Box, TextField, Stack, Button, FormControl, InputLabel, Select, MenuItem, TableContainer, Table, TableHead, Paper, TableRow, TableBody, TableCell, Typography, Grid, IconButton, Snackbar, Alert } from '@mui/material';
 import ArticuloManufacturado from '../../../../entidades/ArticuloManufacturado';
-import { getAllUnidadMedida, getCategoriasIdSucursal } from '../../../../servicios/FuncionesAPI';
+import { getCategoriasIdSucursal } from '../../../../servicios/CategoriaService';
+import { getAllUnidadMedida } from '../../../../servicios/UnidadMedidaService';
 import ArticuloManufacturadoDetalle from '../../../../entidades/ArticuloManufacturadoDetalle';
 import AgregarInsumoModal from './AgregarInsumoModal';
 import DeleteIcon from '@mui/icons-material/Delete';

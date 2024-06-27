@@ -17,13 +17,11 @@ import {
 } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import Domicilio from "../../../../entidades/Domicilio";
-import {
-  editCliente,
-  getLocalidadesIdProvincia,
-  getProvinciasIdPais,
-  localData,
-} from "../../../../servicios/FuncionesAPI";
-
+import {localData} from "../../../../servicios/FuncionesAPI";
+import Localidad from "../../../../entidades/Localidad";
+import { editCliente } from "../../../../servicios/ClienteService";
+import { getLocalidadesIdProvincia } from "../../../../servicios/LocalidadService";
+import { getProvinciasIdPais } from "../../../../servicios/ProvinciaService";
 interface ModalDomicilioTypes {
   open: boolean;
   setOpen: (item: boolean) => void;
@@ -52,7 +50,7 @@ export default function ModalDomicilio({
 
   const onSubmit = async (e: SyntheticEvent) => {
     e.preventDefault();
-    const selectedLocalidad = localidades?.find((loc) => loc.id === localidad);
+    const selectedLocalidad = localidades?.find((loc:Localidad) => loc.id === localidad);
 
     if (!selectedLocalidad || !cliente) {
       console.error("La localidad seleccionada es inválida.");

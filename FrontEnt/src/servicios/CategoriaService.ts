@@ -89,3 +89,11 @@ export async function editCategoria(categoria: Categoria) {
       alert("Error CORS, Revisa la URL o el back esta mal configurado.");
     }
   }
+  export function getCategoriasIdSucursal(
+    idSucursal: number
+  ): SWRResponse<Categoria[], any, any> {
+    return useSWR<Categoria[]>(
+      `https://traza-final.onrender.com/categoria/sucursal/${idSucursal}`,
+      fetcher
+    );
+  }

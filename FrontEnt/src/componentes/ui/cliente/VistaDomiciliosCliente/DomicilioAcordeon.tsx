@@ -17,12 +17,9 @@ import {
 } from "@mui/material";
 import Domicilio from "../../../../entidades/Domicilio";
 import { useState } from "react";
-import {
-  getLocalidadesIdProvincia,
-  getProvinciasIdPais,
-} from "../../../../servicios/FuncionesAPI";
 import ModalDomicilio from "./ModalDomicilio";
-
+import { getLocalidadesIdProvincia } from "../../../../servicios/LocalidadService";
+import { getProvinciasIdPais } from "../../../../servicios/ProvinciaService";
 interface DomicilioAcordeonTypes {
   iDomicilio: Domicilio;
 }
