@@ -58,7 +58,8 @@ export default function VistaPedidoCliente() {
           formaPago: metodoPago,
           domicilio: sucursal.domicilio,
         })
-        savePedido(pedidoTemplate, setTotalPedido, vaciarCarrito, 0);
+        console.log(savePedido(pedidoTemplate, setTotalPedido, vaciarCarrito, 0));
+        
       } else {
         //HACER POST Y LLAMAR MERCADOPAGO
         setPedido({
