@@ -75,6 +75,7 @@ export default function ModalDomicilio({
         localData.removeCliente("Cliente");
         localData.setCliente("Cliente", cliente);
         setOpen(!open);
+        window.location.replace("/cliente/domicilios")
       }
       return;
     } else {
@@ -84,6 +85,7 @@ export default function ModalDomicilio({
         localData.removeCliente("Cliente");
         localData.setCliente("Cliente", cliente);
         setOpen(!open);
+        window.location.replace("/cliente/domicilios")
       }
       return;
     }

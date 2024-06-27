@@ -1,4 +1,4 @@
-import ArticuloInsumo from "../../entidades/ArticuloInsumo";
+import ArticuloInsumo from "../entidades/ArticuloInsumo";
 
 export function controlNivelStockInsumo(insumo:ArticuloInsumo):number{
     if(insumo.stockActual<=(insumo.stockMaximo/2) && insumo.stockActual>=(insumo.stockMaximo/3)){

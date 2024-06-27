@@ -2,13 +2,15 @@ import { Avatar, Box, Button, Menu, MenuItem } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
+import { localData } from "../../servicios/FuncionesAPI";
+import Cliente from "../../entidades/Cliente";
 
 export default function MenuOpcionesUsuario() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const navigate = useNavigate();
   const open = Boolean(anchorEl);
   const { user } = useAuth0();
-
+  const cliente:Cliente=localData.getCliente("Cliente");
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -26,7 +28,7 @@ export default function MenuOpcionesUsuario() {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <Avatar src="#">U</Avatar>
+        <Avatar src={cliente.imagenCliente.url}>U</Avatar>
       </Button>
       <Menu
         id="basic-menu"
