@@ -13,29 +13,34 @@ import FormSelectDomicilio from "../../componentes/ui/cliente/VistaPedidoCliente
 import { useContext, useState } from "react";
 import { AttachMoney } from "@mui/icons-material";
 import { CarritoContext } from "../../context/CarritoContext";
-import {localData} from "../../servicios/FuncionesAPI";
-import { savePedido } from "../../servicios/PedidoService";
+import { localData } from "../../servicios/FuncionesAPI";
+import { llamarMercadoPago, savePedido } from "../../servicios/PedidoService";
 import Pedido from "../../entidades/Pedido";
 import Cliente from "../../entidades/Cliente";
 import Sucursal from "../../entidades/Sucursal";
-import Domicilio from "../../entidades/Domicilio";
+//import Domicilio from "../../entidades/Domicilio";
+import PreferenceMP from "../../entidades/PreferenceMP";
+import CheckOutMP from "../../utils/mercadoPago/CheckOutMP";
 
 export default function VistaPedidoCliente() {
   const [open, setOpen] = useState(false);
   const [metodoEntrega, setMetodoEntrega] = useState<string>("TAKE_AWAY");
   const [metodoPago, setMetodoPago] = useState<string>("MERCADO_PAGO");
   const [domicilio, setDomicilio] = useState<number>(0);
+  const [preference, setPreference] = useState<PreferenceMP>(
+    new PreferenceMP()
+  );
   const { carrito, totalPedido, totalEnvio, setTotalPedido, vaciarCarrito } =
     useContext(CarritoContext);
-  const [pedido, setPedido] = useState<Pedido>(new Pedido());
+  let datosPedido: Pedido = new Pedido();
   const cliente: Cliente = localData.getCliente("Cliente");
   const sucursal: Sucursal = localData.getSucursal("sucursal");
 
-  const postPedido = () => {
+  const postPedido = async () => {
     var fecha = new Date().toJSON().slice(0, 10); //Dia actual
 
-    const pedidoTemplate = {
-      ...pedido,
+    datosPedido = {
+      ...datosPedido,
       horaEstimadaFinalizacion: "22:00:00.000",
       totalCosto: 0,
       estado: "PENDIENTE",
@@ -44,46 +49,52 @@ export default function VistaPedidoCliente() {
       fechaPedido: fecha,
       factura: null,
       detallePedidos: carrito,
+      empleado: null,
     };
-    setPedido(pedidoTemplate);
-
     //POST SIN DOMICILIO
     if (metodoEntrega == "TAKE_AWAY") {
       if (metodoPago == "EFECTIVO") {
-        alert("LLAMADA A POST CON EFECTIVO Y TAKE AWAY");
-        setPedido({
-          ...pedidoTemplate,
+        datosPedido = {
+          ...datosPedido,
           total: totalPedido,
           tipoEnvio: metodoEntrega,
           formaPago: metodoPago,
           domicilio: sucursal.domicilio,
-        })
-        console.log(savePedido(pedidoTemplate, setTotalPedido, vaciarCarrito, 0));
-        
+        };
+        savePedido(datosPedido, setTotalPedido, vaciarCarrito, 0);
+        window.location.replace("/");
       } else {
+        console.log("LLAMADA MERCADO PAGO Y RETIRO POR SUCURSAL");
         //HACER POST Y LLAMAR MERCADOPAGO
-        setPedido({
-          ...pedidoTemplate,
+        datosPedido = {
+          ...datosPedido,
           total: totalPedido,
           tipoEnvio: metodoEntrega,
           formaPago: metodoPago,
           domicilio: sucursal.domicilio,
-        })
-        savePedido(pedidoTemplate,setTotalPedido,vaciarCarrito,0);
-        //llamarMercadoPago(pedidoID)
+        };
+        let pedidoID = await savePedido(
+          datosPedido,
+          setTotalPedido,
+          vaciarCarrito,
+          0
+        );
+        if (pedidoID != undefined) {
+          let idMP = await llamarMercadoPago(pedidoID);
+          if (idMP != undefined) {
+            setPreference(idMP);
+            setOpen(!open);
+          } else {
+            return;
+          }
+        } else {
+          return;
+        }
       }
     } else {
       //POST CON DOMICILIO
-      const domi=cliente.domicilios.find((item:Domicilio)=>item.id==domicilio);
-      setPedido({
-        ...pedidoTemplate,
-        total: totalPedido,
-        tipoEnvio: metodoEntrega,
-        formaPago: metodoPago,
-        domicilio: domi!,
-      })
+      //const domi=cliente.domicilios.find((item:Domicilio)=>item.id==domicilio);
       //HACER POST
-      savePedido(pedidoTemplate,setTotalPedido,vaciarCarrito,20);
       //llamarMercadoPago(pedidoID)
     }
   };
@@ -141,7 +152,7 @@ export default function VistaPedidoCliente() {
           }}
         >
           <Stack alignItems="center">
-            <ListContainerPedido />
+            <ListContainerPedido carrito={carrito} />
             <Button variant="contained" color="success">
               Total Pedido <AttachMoney />
               <Typography>
@@ -169,6 +180,7 @@ export default function VistaPedidoCliente() {
           <Stack direction="row" justifyContent="center">
             {generarBoton()}
           </Stack>
+          <CheckOutMP preferenceID={preference.id} />
         </Paper>
       </Container>
     </ClienteLayout>
