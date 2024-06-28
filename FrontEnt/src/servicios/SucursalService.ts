@@ -28,44 +28,52 @@ export function getSucursalId(
   );
 }
 
-export async function saveSucursal(sucursal: Sucursal) {
+export async function saveSucursal(sucursal: Sucursal, token: string | null) {
   //Preparar llamada api
   let options = {
     mode: "cors" as RequestMode,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(sucursal),
   };
 
   //Manejo de errores
-  try {
-    let response = await fetch(
-      "https://traza-final.onrender.com/sucursal",
-      options
-    );
-    if (response.ok) {
-      alert("Sucursal agregada correctamente.");
-    } else {
-      alert("Error al agregar la sucursal: " + response.status);
+  if(token != null) {
+    try {
+      let response = await fetch(
+        "https://traza-final.onrender.com/sucursal",
+        options
+      );
+      if (response.ok) {
+        alert("Sucursal agregada correctamente.");
+      } else {
+        alert("Error al agregar la sucursal: " + response.status);
+      }
+    } catch {
+      alert("Error CORS, Revisa la URL o el back esta mal configurado.");
     }
-  } catch {
-    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+  } else {
+    alert("Accion denegada")
   }
+ 
 }
 
-export async function editSucursal(sucursal: Sucursal) {
+export async function editSucursal(sucursal: Sucursal, token: string | null) {
     //Preparar llamada api
     let options = {
       mode: "cors" as RequestMode,
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(sucursal),
     };
   
+    if(token != null) {
     //Manejo de errores
     try {
       let response = await fetch(
@@ -80,4 +88,7 @@ export async function editSucursal(sucursal: Sucursal) {
     } catch {
       alert("Error CORS, Revisa la URL o el back esta mal configurado.");
     }
+    } else {
+    alert("Accion denegada")
+   }
   }

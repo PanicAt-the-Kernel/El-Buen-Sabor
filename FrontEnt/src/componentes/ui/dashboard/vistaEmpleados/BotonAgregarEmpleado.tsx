@@ -5,15 +5,20 @@ import AgregarEmpleadoModal from './AgregarEmpleadoModal';
 import { saveEmpleado } from '../../../../servicios/EmpleadoService';
 import Empleado from '../../../../entidades/Empleado';
 
-function BotonAgregarEmpleado() {
-    const [open, setOpen] = useState(false);
 
+interface BotonAgregarEmpleadoProps {
+    token: string | null;
+}
+
+
+function BotonAgregarEmpleado({ token }: BotonAgregarEmpleadoProps) {
+    const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-
+  
     const handleSubmit = (empleado: Empleado) => {
         empleado.fechaBaja = "9999-12-31";
-        saveEmpleado(empleado);
+        saveEmpleado(empleado, token);
         handleClose();
     };
 

@@ -2,6 +2,9 @@ import { useState } from "react";
 import { Modal, Box, TextField, Stack, Button, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import Empleado from "../../../../entidades/Empleado";
 import { saveEmpleado } from "../../../../servicios/EmpleadoService";
+import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
+
+
 
 interface AgregarEmpleadoModalProps {
   open: boolean;
@@ -9,6 +12,7 @@ interface AgregarEmpleadoModalProps {
   onSubmit: (empleado: Empleado) => void;
   iEmpleado: Empleado;
 }
+
 
 let errorTelefono = false;
 let errorNombre = false;
@@ -66,9 +70,10 @@ function validateFecha(e) {
 
 function AgregarEmpleadoModal({ open, onClose, iEmpleado }: AgregarEmpleadoModalProps) {
   const [empleado, setEmpleado] = useState<Empleado>(iEmpleado);
+  const token = getTokenAuth0();
 
   const handleSubmit = (empleado: Empleado) => {
-    saveEmpleado(empleado);
+    saveEmpleado(empleado, token);
     onClose();
   };
 

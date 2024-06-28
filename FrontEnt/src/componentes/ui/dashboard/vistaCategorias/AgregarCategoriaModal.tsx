@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Modal, Box, TextField, Typography, Stack, Button } from '@mui/material';
 import Categoria from '../../../../entidades/Categoria';
 
+
 interface AgregarCategoriaModalProps {
     open: boolean;
     onClose: () => void;
@@ -11,7 +12,6 @@ interface AgregarCategoriaModalProps {
 
 function AgregarCategoriaModal({ open, onClose, onSubmit, iCategoria }: AgregarCategoriaModalProps) {
     const [categoria, setCategoria] = useState<Categoria>(iCategoria);
-
     const handleSubmit = () => {
         onSubmit(categoria);
     };

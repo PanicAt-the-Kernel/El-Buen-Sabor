@@ -5,19 +5,21 @@ import { bajaEmpleado, editEmpleado, getAllEmpleados } from "../../../../servici
 import { useState } from "react";
 import { Edit } from "@mui/icons-material";
 import AgregarEmpleadoModal from "./AgregarEmpleadoModal";
+import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 
 interface ListContainerEmpleadoTypes {
   busqueda: string;
 }
 
 export default function ListContainerEmpleado({ busqueda }: ListContainerEmpleadoTypes) {
-  const { data: empleados } = getAllEmpleados();
+  const token = getTokenAuth0();
+  const { data: empleados } = getAllEmpleados(token);
   const [editingEmpleado, setEditingEmpleado] = useState<Empleado | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
 
   const handleSubmit = (empleado: Empleado) => {
     if (editingEmpleado != null) {
-      editEmpleado(empleado);
+      editEmpleado(empleado, token);
       handleClose();
     }
   };
@@ -33,7 +35,7 @@ export default function ListContainerEmpleado({ busqueda }: ListContainerEmplead
   };
 
   const handleDelete = (empleado: Empleado) => {
-    bajaEmpleado(empleado);
+    bajaEmpleado(empleado, token);
   }
 
   const empleadosFiltrados = empleados?.filter((item) => {

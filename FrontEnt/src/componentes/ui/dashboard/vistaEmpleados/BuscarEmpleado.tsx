@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Box, FormControl, Input, Stack } from "@mui/material";
 import BtnAgregarEmpleado from "./BotonAgregarEmpleado";
 import ListContainerEmpleado from "./ListContainerEmpleado";
+import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 
 function BuscadorEmpleado() {
   const [nombre, setNombre] = useState("");
+  const token = getTokenAuth0();
 
   const handleBuscar = (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +32,7 @@ function BuscadorEmpleado() {
             />
           </FormControl>
         </Box>
-        <BtnAgregarEmpleado />
+        <BtnAgregarEmpleado token={token} />
       </Stack>
       <ListContainerEmpleado busqueda={nombre} />
     </Box>

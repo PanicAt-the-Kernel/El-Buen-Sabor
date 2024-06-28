@@ -5,6 +5,7 @@ import ItemGrillaProducto from "./ItemGrillaProducto";
 import { useState } from "react";
 import AgregarProductoModal from "./AgregarProductoModal";
 import { Edit } from "@mui/icons-material";
+import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 
 interface GrillaProductoTypes {
   busqueda: string;
@@ -14,6 +15,7 @@ export default function GrillaProducto({ busqueda }: GrillaProductoTypes) {
   const { data: articuloManufacturados } = getAllArticulosManufacturados();
   const [editingArtMan, setEditingArtMan] = useState<ArticuloManufacturado | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
+  const token = getTokenAuth0();
 
   const handleOpenEditar = (artMan: ArticuloManufacturado) => {
     setEditingArtMan(artMan);
@@ -27,7 +29,7 @@ export default function GrillaProducto({ busqueda }: GrillaProductoTypes) {
 
   const handleSubmit = (articuloM: ArticuloManufacturado) => {
     if (editingArtMan != null) {
-      editArticuloManufacturado(articuloM);
+      editArticuloManufacturado(articuloM, token);
       handleCloseEditar();
     }
   };

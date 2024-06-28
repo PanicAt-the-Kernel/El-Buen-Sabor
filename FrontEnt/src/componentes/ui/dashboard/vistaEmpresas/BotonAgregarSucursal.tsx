@@ -5,6 +5,7 @@ import AgregarSucursalModal from './AgregarSucursalModal';
 import { saveSucursal } from '../../../../servicios/SucursalService';
 import Empresa from '../../../../entidades/Empresa';
 import Sucursal from '../../../../entidades/Sucursal';
+import getTokenAuth0 from '../../../../hooks/getTokenAuth0';
 
 interface BotonAgregarSucursalProps {
     iEmpresa: Empresa;
@@ -12,6 +13,7 @@ interface BotonAgregarSucursalProps {
 
 function BotonAgregarSucursal({ iEmpresa }: BotonAgregarSucursalProps) {
     const [open, setOpen] = useState(false);
+    const token = getTokenAuth0();
 
     const handleOpen = () => {
         setOpen(true);
@@ -25,7 +27,7 @@ function BotonAgregarSucursal({ iEmpresa }: BotonAgregarSucursalProps) {
         sucursal.fechaBaja = "9999-12-31";
         sucursal.domicilio.fechaBaja = "9999-12-31";
         sucursal.empresa = iEmpresa;
-        saveSucursal(sucursal);
+        saveSucursal(sucursal, token);
         handleClose();
     };
 

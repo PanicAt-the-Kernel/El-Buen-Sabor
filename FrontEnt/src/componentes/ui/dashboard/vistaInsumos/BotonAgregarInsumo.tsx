@@ -4,16 +4,18 @@ import { Button } from '@mui/material';
 import AgregarInsumoModal from './AgregarInsumoModal';
 import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
 import { saveArticuloInsumo } from '../../../../servicios/ArticuloInsumoService';
+import getTokenAuth0 from '../../../../hooks/getTokenAuth0';
 
 function BotonAgregarInsumo() {
     const [open, setOpen] = useState(false);
+    const token = getTokenAuth0();
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const handleSubmit = (insumo: ArticuloInsumo) => {
         insumo.fechaBaja = "9999-12-31";
-        saveArticuloInsumo(insumo);
+        saveArticuloInsumo(insumo,token);
         handleClose();
     };
 

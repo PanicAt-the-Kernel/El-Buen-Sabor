@@ -18,7 +18,7 @@ export function getCategoriaId(
   );
 }
 
-export async function saveCategoria(categoria: Categoria, idSucursal: number) {
+export async function saveCategoria(categoria: Categoria, idSucursal: number, token: string | null) {
   //Traer sucursal
   let sucursal;
   try {
@@ -37,39 +37,13 @@ export async function saveCategoria(categoria: Categoria, idSucursal: number) {
 
   categoria.sucursales.push(sucursal);
 
-  //Preparar llamada api
-  let options = {
-    mode: "cors" as RequestMode,
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(categoria),
-  };
-
-  //Manejo de errores
-  try {
-    let response = await fetch(
-      "https://traza-final.onrender.com/categoria/padre",
-      options
-    );
-    if (response.ok) {
-      alert("Categoría agregada correctamente.");
-    } else {
-      alert("Error al agregar categoría: " + response.status);
-    }
-  } catch {
-    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
-  }
-}
-
-export async function editCategoria(categoria: Categoria) {
-    //Preparar llamada api
+  if(token != null) {
     let options = {
       mode: "cors" as RequestMode,
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(categoria),
     };
@@ -77,18 +51,56 @@ export async function editCategoria(categoria: Categoria) {
     //Manejo de errores
     try {
       let response = await fetch(
-        `https://traza-final.onrender.com/categoria/padre/${categoria.id}`,
+        "https://traza-final.onrender.com/categoria/padre",
         options
       );
       if (response.ok) {
-        alert("Categoría editada correctamente.");
+        alert("Categoría agregada correctamente.");
       } else {
-        alert("Error al editar categoría: " + response.status);
+        alert("Error al agregar categoría: " + response.status);
       }
     } catch {
       alert("Error CORS, Revisa la URL o el back esta mal configurado.");
     }
+  } else {
+    alert("Accion No permitida")
   }
+  //Preparar llamada api
+  
+}
+
+export async function editCategoria(categoria: Categoria, token: string | null) {
+    //Preparar llamada api
+    if(token != null) {
+      let options = {
+        mode: "cors" as RequestMode,
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(categoria),
+      };
+    
+      //Manejo de errores
+      try {
+        let response = await fetch(
+          `https://traza-final.onrender.com/categoria/padre/${categoria.id}`,
+          options
+        );
+        if (response.ok) {
+          alert("Categoría editada correctamente.");
+        } else {
+          alert("Error al editar categoría: " + response.status);
+        }
+      } catch {
+        alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+      }
+    } else {
+      alert("Accion no permitida")
+    }
+    }
+   
   export function getCategoriasIdSucursal(
     idSucursal: number
   ): SWRResponse<Categoria[], any, any> {

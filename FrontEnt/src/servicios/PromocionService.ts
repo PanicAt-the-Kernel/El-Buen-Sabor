@@ -12,34 +12,40 @@ export function getPromocionesIdSucursal(
   );
 }
 
-export async function savePromocion(promocion: Promocion) {
+export async function savePromocion(promocion: Promocion, token: string | null) {
   //Preparar llamada api
   let options = {
     mode: "cors" as RequestMode,
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
     },
     body: JSON.stringify(promocion),
   };
 
-  //Manejo de errores
-  try {
-    let response = await fetch(
-      "https://traza-final.onrender.com/promocion",
-      options
-    );
-    if (response.ok) {
-      alert("Promoción agregada correctamente.");
-    } else {
-      alert("Error al agregar promoción: " + response.status);
+  if(token != null) {
+    try {
+      let response = await fetch(
+        "https://traza-final.onrender.com/promocion",
+        options
+      );
+      if (response.ok) {
+        alert("Promoción agregada correctamente.");
+      } else {
+        alert("Error al agregar promoción: " + response.status);
+      }
+    } catch {
+      alert("Error CORS, Revisa la URL o el back esta mal configurado.");
     }
-  } catch {
-    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+  } else {
+    alert("Accion Denegada")
   }
+  //Manejo de errores
+ 
 }
 
-export async function editPromocion(promocion: Promocion) {
+export async function editPromocion(promocion: Promocion , token: string | null) {
   promocion.promocionDetalles.forEach((detalle) => {
     detalle.articuloId = detalle.articulo.id;
   });
@@ -59,7 +65,7 @@ export async function editPromocion(promocion: Promocion) {
   const mes = String(hoy.getMonth() + 1).padStart(2, "0");
   const dia = String(hoy.getDate()).padStart(2, "0");
   const fecha = `${anio}-${mes}-${dia}`;
-
+  if(token != null) {
   //Manejo de errores
   try {
     let response = await fetch(
@@ -73,5 +79,8 @@ export async function editPromocion(promocion: Promocion) {
     }
   } catch {
     alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+  }
+  } else {
+    alert("Accion Denegada")
   }
 }

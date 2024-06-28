@@ -4,17 +4,20 @@ import { Button } from '@mui/material';
 import AgregarUnidadMedidaModal from './AgregarUMedidaModal';
 import UnidadMedida from '../../../../entidades/UnidadMedida';
 import { saveUnidadMedida } from '../../../../servicios/UnidadMedidaService';
+import getTokenAuth0 from '../../../../hooks/getTokenAuth0';
 
 function BotonAgregarUnidadMedida() {
     const [open, setOpen] = useState(false);
+    const token = getTokenAuth0();
 
     const handleOpen = () => setOpen(true);
 
     const handleClose = () => setOpen(false);
 
+
     const handleSubmit = (unidadmedida: UnidadMedida) => {
         unidadmedida.fechaBaja = "9999-12-31";
-        saveUnidadMedida(unidadmedida);
+        saveUnidadMedida(unidadmedida, token);
         handleClose();
     };
 

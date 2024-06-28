@@ -30,7 +30,7 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
 
   const handleSubmit = (insumo: ArticuloInsumo) => {
     if (editingInsumo != null) {
-      editArticuloInsumo(insumo);
+      editArticuloInsumo(insumo, token);
       handleCloseEditar();
     }
   };

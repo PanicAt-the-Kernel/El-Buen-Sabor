@@ -12,6 +12,7 @@ import Pedido from "../../../../entidades/Pedido";
 import { useState } from "react";
 import ModalPedidos from "./ModalPedidos";
 import { editPedido } from "../../../../servicios/PedidoService";
+import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 
 
 interface ItemGrillaPedidoTypes {
@@ -20,6 +21,7 @@ interface ItemGrillaPedidoTypes {
 
 export default function ItemGrillaPedido({ pedidoObj }: ItemGrillaPedidoTypes) {
   const [open, setOpen] = useState(false);
+  const token = getTokenAuth0();
 
   const userRoles: string[] = JSON.parse(localStorage.getItem("userRoles") || "[]");
 
@@ -49,10 +51,10 @@ export default function ItemGrillaPedido({ pedidoObj }: ItemGrillaPedidoTypes) {
           </Button>
           {pedidoObj.estado === "PENDIENTE" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
             <ButtonGroup size="medium" variant="contained" color="primary">
-              <Button style={{ marginRight: 2 }} onClick={() => editPedido(pedidoObj.id, "APROBADO")}>
+              <Button style={{ marginRight: 2 }} onClick={() => editPedido(pedidoObj.id, "APROBADO", token)}>
                 APROBAR
               </Button>
-              <Button onClick={() => editPedido(pedidoObj.id, "RECHAZADO")}>
+              <Button onClick={() => editPedido(pedidoObj.id, "RECHAZADO", token)}>
                 RECHAZAR
               </Button>
             </ButtonGroup>
@@ -60,7 +62,7 @@ export default function ItemGrillaPedido({ pedidoObj }: ItemGrillaPedidoTypes) {
 
           {pedidoObj.estado === "TERMINADO" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
             <ButtonGroup size="medium" variant="contained" color="primary">
-              <Button style={{ marginRight: 2 }} onClick={() => editPedido(pedidoObj.id, "FACTURADO")}>
+              <Button style={{ marginRight: 2 }} onClick={() => editPedido(pedidoObj.id, "FACTURADO", token)}>
                 FACTURADO
               </Button>
               <Button onClick={() => editPedido(pedidoObj.id, "DELIVERY")}>
@@ -71,20 +73,20 @@ export default function ItemGrillaPedido({ pedidoObj }: ItemGrillaPedidoTypes) {
 
           {pedidoObj.estado === "DELIVERY" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
             <ButtonGroup size="medium" variant="contained" color="primary">
-           <Button size="medium" variant="contained" color="primary" onClick={() =>  editPedido(pedidoObj.id, "FACTURADO")}>
+           <Button size="medium" variant="contained" color="primary" onClick={() =>  editPedido(pedidoObj.id, "FACTURADO",token)}>
               Facturar
             </Button>
-            <Button onClick={() => editPedido(pedidoObj.id, "RECHAZADO")}>
+            <Button onClick={() => editPedido(pedidoObj.id, "RECHAZADO",token)}>
               RECHAZAR
             </Button>
           </ButtonGroup>
           )}
           {((userRoles.includes("ADMIN") || userRoles.includes("COCINERO")) && pedidoObj.estado === "APROBADO") && (
              <ButtonGroup size="medium" variant="contained" color="primary">
-             <Button style={{ marginRight: 2 }} onClick={() => editPedido(pedidoObj.id, "TERMINADO")}>
+             <Button style={{ marginRight: 2 }} onClick={() => editPedido(pedidoObj.id, "TERMINADO",token)}>
                Listo
              </Button>
-             <Button onClick={() => editPedido(pedidoObj.id, "RECHAZADO")}>
+             <Button onClick={() => editPedido(pedidoObj.id, "RECHAZADO",token)}>
                RECHAZAR
              </Button>
            </ButtonGroup>

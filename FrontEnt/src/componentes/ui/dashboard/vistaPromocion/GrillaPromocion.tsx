@@ -5,6 +5,7 @@ import ItemGrillaPromocion from "./ItemGrillaPromocion";
 import { Edit } from "@mui/icons-material";
 import { useState } from "react";
 import AgregarPromocionModal from "./AgregarPromocionModal";
+import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 
 interface GrillaPromocionTypes {
   busqueda: string;
@@ -15,6 +16,7 @@ export default function GrillaPromocion({ busqueda }: GrillaPromocionTypes) {
   const { data: promociones } = getPromocionesIdSucursal(idSucursal);
   const [editingProm, setEditingProm] = useState<Promocion | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
+  const token = getTokenAuth0();
 
   const handleOpenEditar = (promocion: Promocion) => {
     console.log(promocion);
@@ -29,7 +31,7 @@ export default function GrillaPromocion({ busqueda }: GrillaPromocionTypes) {
 
   const handleSubmit = (promocion: Promocion) => {
     if (editingProm != null) {
-      editPromocion(promocion);
+      editPromocion(promocion, token);
       handleCloseEditar();
     }
   };

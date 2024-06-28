@@ -18,7 +18,8 @@ export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
     pedido: Pedido,
     setTotalPedido: (total: number) => void,
     vaciarCarrrito: () => void,
-    totalEnvio: number
+    totalEnvio: number,
+    token: string | null
   ) {
     const fetchData = async (url: string) => {
       const response = await fetch(url);
@@ -28,6 +29,7 @@ export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
       return response.json();
     };
   
+    if(token != null) {
     try {
       const [empleado] = await Promise.all([
         fetchData("https://traza-final.onrender.com/empleado/1"),
@@ -36,44 +38,51 @@ export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
       
       pedido.empleado = empleado;
    
-  
-      const options = {
-        mode: "cors" as RequestMode,
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(pedido),
-      };
-  
-      const response = await fetch(
-        `https://traza-final.onrender.com/pedidos?precioDelivery=${totalEnvio}`,
-        options
-      );
-      if (response.ok) {
-        alert("Pedido cargado correctamente.");
-        vaciarCarrrito();
-        setTotalPedido(0);
-      } else {
-        alert("Error al cargar pedido: " + response.status);
+        const options = {
+          mode: "cors" as RequestMode,
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(pedido),
+        };
+    
+        const response = await fetch(
+          `https://traza-final.onrender.com/pedidos?precioDelivery=${totalEnvio}`,
+          options
+        );
+        if (response.ok) {
+          alert("Pedido cargado correctamente.");
+          vaciarCarrrito();
+          setTotalPedido(0);
+        } else {
+          alert("Error al cargar pedido: " + response.status);
+        }
+      } catch (error) {
+        //@ts-ignore
+        alert(`Error: ${error.message}`);
       }
-    } catch (error) {
-      //@ts-ignore
-      alert(`Error: ${error.message}`);
-    }
+
+      } else {
+        alert("Accion DENEGADA")
+      }
+     
   }
 
-  export async function editPedido(id: number, estado: string) {
+  export async function editPedido(id: number, estado: string, token: string | null) {
     // Preparar llamada API
     let options = {
       mode: "cors" as RequestMode,
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(estado),
     };
   
+    if(token != null) {
     // Manejo de errores
     try {
       let response = await fetch(
@@ -82,7 +91,7 @@ export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
       );
       if (response.ok) {
         if(estado === "FACTURADO") {
-          sendFactura(id)
+          sendFactura(id,token)
         }
         alert("Pedido actualizado correctamente.");
   
@@ -92,14 +101,20 @@ export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
     } catch (error) {
       alert("Error CORS, Revisa la URL o el back está mal configurado.");
     }
+  } else {
+    alert("Accion DENEGADA")
   }
-  export async function sendFactura(id: Number) {
+  }
+
+
+  export async function sendFactura(id: Number, token: string | null) {
     //Preparar llamada api
     let options = {
       mode: "cors" as RequestMode,
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       }
     };
     try {

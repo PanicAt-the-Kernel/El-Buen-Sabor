@@ -12,6 +12,7 @@ import Sucursal from '../../../../entidades/Sucursal';
 import AgregarSucursalModal from './AgregarSucursalModal';
 import ItemGrilla from './ItemGrilla';
 import { Edit, Info } from '@mui/icons-material';
+import getTokenAuth0 from '../../../../hooks/getTokenAuth0';
 
 interface MostrarSucursalesModalProps {
     open: boolean;
@@ -23,6 +24,7 @@ export default function MostrarSucursalesModal({ open, onClose, iEmpresa }: Most
     const { data: sucursales } = getSucursalesEmpresa(iEmpresa.id);
     const [editingSucursal, setEditingSucursal] = useState<Sucursal | null>(null);
     const [openSucursal, setOpenSucursal] = useState(false);
+    const token = getTokenAuth0();
 
     const handleOpen = (sucursal: Sucursal) => {
         setEditingSucursal(sucursal);
@@ -37,7 +39,7 @@ export default function MostrarSucursalesModal({ open, onClose, iEmpresa }: Most
     const handleSubmit = (sucursal: Sucursal) => {
         //LLAMADA API EDITAR EMPRESA
         if (editingSucursal != null) {
-            editSucursal(sucursal);
+            editSucursal(sucursal,token);
             handleClose();
         }
     };

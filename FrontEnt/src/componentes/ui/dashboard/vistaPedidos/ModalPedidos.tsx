@@ -138,7 +138,6 @@ export default function ModalPedidos({
                   <Card sx={{width:200,height:220,marginLeft:4}}>
                     <CardMedia
                       component="img"
-                      //@ts-ignore
                       image={detalle.articulo.imagenes[0].url}
                       sx={{padding:1,maxHeight:125}}
                     />

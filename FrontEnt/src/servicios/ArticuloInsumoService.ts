@@ -46,17 +46,21 @@ export function getAllArticuloInsumoNoElab(): SWRResponse<
   );
 }
 
-export async function saveArticuloInsumo(articulo: ArticuloInsumo) {
+export async function saveArticuloInsumo(articulo: ArticuloInsumo, token: string | null) {
   //Preparar llamada api
-  let options = {
-    mode: "cors" as RequestMode,
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(articulo),
-  };
-
+  if (token != null) {
+    let options = {
+      mode: "cors" as RequestMode,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(articulo),
+    };
+  
+    //Manejo de errores
+   
   //Manejo de errores
   try {
     let response = await fetch(
@@ -71,31 +75,41 @@ export async function saveArticuloInsumo(articulo: ArticuloInsumo) {
   } catch {
     alert("Error CORS, Revisa la URL o el back esta mal configurado.");
   }
+} else {
+  alert("No estas Autorizado para ejecutar esta accion")
+   
+}
 }
 
-export async function editArticuloInsumo(articulo: ArticuloInsumo) {
+export async function editArticuloInsumo(articulo: ArticuloInsumo,token: string | null) {
   //Preparar llamada api
-  let options = {
-    mode: "cors" as RequestMode,
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(articulo),
-  };
-
-  //Manejo de errores
-  try {
-    let response = await fetch(
-      `https://traza-final.onrender.com/articuloInsumo/${articulo.id}`,
-      options
-    );
-    if (response.ok) {
-      alert("Artículo editado correctamente.");
-    } else {
-      alert("Error al editar artículo: " + response.status);
+  if(token) {
+    let options = {
+      mode: "cors" as RequestMode,
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(articulo),
+    };
+  
+    //Manejo de errores
+    try {
+      let response = await fetch(
+        `https://traza-final.onrender.com/articuloInsumo/${articulo.id}`,
+        options
+      );
+      if (response.ok) {
+        alert("Artículo editado correctamente.");
+      } else {
+        alert("Error al editar artículo: " + response.status);
+      }
+    } catch {
+      alert("Error CORS, Revisa la URL o el back esta mal configurado.");
     }
-  } catch {
-    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+  } else {
+    alert("No estas Autorizado para ejecutar esta accion")
   }
+  
 }

@@ -4,16 +4,18 @@ import { Button } from '@mui/material';
 import AgregarPromocionModal from './AgregarPromocionModal';
 import Promocion from '../../../../entidades/Promocion';
 import { savePromocion } from '../../../../servicios/PromocionService';
+import getTokenAuth0 from '../../../../hooks/getTokenAuth0';
 
 function BotonAgregarPromocion() {
     const [open, setOpen] = useState(false);
+    const token = getTokenAuth0();
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
 
     const handleSubmit = (promocion: Promocion) => {
         promocion.fechaBaja = "9999-12-31";
-        savePromocion(promocion);
+        savePromocion(promocion, token);
         handleClose();
     };
 

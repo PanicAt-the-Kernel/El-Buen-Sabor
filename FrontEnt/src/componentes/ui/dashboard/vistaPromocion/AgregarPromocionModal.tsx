@@ -8,6 +8,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import AgregarDetalleModal from "./AgregarDetalleModal";
 import EditarSucursalesModal from "./EditarSucursalesModal";
 
+
 interface AgregarPromocionModalProps {
   open: boolean;
   onClose: () => void;
@@ -38,6 +39,7 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
     setTablaDetalle([...tablaDetalle, ...nuevosDetalles]);
     setOpenDetalles(false);
   };
+  
 
   function removeDetalle(id: number) {
     var fecha = new Date().toJSON().slice(0, 10);//Dia actual

@@ -4,6 +4,7 @@ import { editCategoria, getAllCategorias, getCategoriasIdSucursal } from "../../
 import { useState } from "react";
 import { Edit } from "@mui/icons-material";
 import EditarCategoriaModal from "./EditarCategoriaModal";
+import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 
 interface ListContainerCategoriaTypes {
   busqueda: string;
@@ -12,6 +13,7 @@ interface ListContainerCategoriaTypes {
 export default function ListContainerCategoria({ busqueda }: ListContainerCategoriaTypes) {
   const { data: categoriasSuc } = getCategoriasIdSucursal(1);
   const { data: allCategorias } = getAllCategorias();
+  const token = getTokenAuth0();
   const [editingCategoria, setEditingCategoria] = useState<Categoria | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
   const categoriasNoSuc = allCategorias?.filter((categoria: Categoria) =>
@@ -20,7 +22,7 @@ export default function ListContainerCategoria({ busqueda }: ListContainerCatego
 
   const handleSubmit = (categoria: Categoria) => {
     if (editingCategoria != null) {
-      editCategoria(categoria);
+      editCategoria(categoria, token);
       handleClose();
     }
   };

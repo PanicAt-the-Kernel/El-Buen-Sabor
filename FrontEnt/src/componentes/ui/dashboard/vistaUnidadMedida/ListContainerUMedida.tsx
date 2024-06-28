@@ -4,6 +4,7 @@ import { editUnidadMedida, getAllUnidadMedida } from "../../../../servicios/Unid
 import { useState } from "react";
 import { Edit } from "@mui/icons-material";
 import AgregarUnidadMedidaModal from "./AgregarUMedidaModal";
+import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 
 interface ListContainerUnidadMedidaTypes {
   busqueda: string;
@@ -11,12 +12,13 @@ interface ListContainerUnidadMedidaTypes {
 
 export default function ListContainerUnidadMedida({ busqueda }: ListContainerUnidadMedidaTypes) {
   const { data: unidadesMedida } = getAllUnidadMedida();
+  const token = getTokenAuth0();
   const [editingUnidadMedida, setEditingUnidadMedida] = useState<UnidadMedida | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
 
   const handleSubmit = (unidadmedida: UnidadMedida) => {
     if (editingUnidadMedida != null) {
-      editUnidadMedida(unidadmedida);
+      editUnidadMedida(unidadmedida, token);
       handleClose();
     }
   };

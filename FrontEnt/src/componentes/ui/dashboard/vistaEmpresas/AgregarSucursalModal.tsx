@@ -20,7 +20,7 @@ function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal }: AgregarSuc
     const { data: paises } = getAllPaises();
     const { data: provincias } = getProvinciasIdPais(pais);
     const { data: localidades } = getLocalidadesIdProvincia(provincia);
-
+    
     const handlePaisChange = (event: SelectChangeEvent<number>) => {
         setPais(event.target.value as number);
         setProvincia(0);

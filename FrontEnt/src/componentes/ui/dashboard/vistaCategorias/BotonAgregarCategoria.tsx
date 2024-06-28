@@ -4,10 +4,12 @@ import { Button } from '@mui/material';
 import AgregarCategoriaModal from './AgregarCategoriaModal';
 import Categoria from '../../../../entidades/Categoria';
 import { saveCategoria } from '../../../../servicios/CategoriaService';
+import getTokenAuth0 from '../../../../hooks/getTokenAuth0';
 
 function BotonAgregarCategoria() {
     const [open, setOpen] = useState(false);
     const idSucursal = 1;
+    const token = getTokenAuth0();
 
     const handleOpen = () => setOpen(true);
 
@@ -15,7 +17,7 @@ function BotonAgregarCategoria() {
 
     const handleSubmit = (categoria: Categoria) => {
         categoria.fechaBaja = "9999-12-31";
-        saveCategoria(categoria, idSucursal);
+        saveCategoria(categoria, idSucursal, token);
         handleClose();
     };
 

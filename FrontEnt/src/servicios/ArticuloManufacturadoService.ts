@@ -23,36 +23,43 @@ export function getArticulosManufacturadosIdSucursal(
 }
 
 export async function saveArticuloManufacturado(
-  articulo: ArticuloManufacturado
+  articulo: ArticuloManufacturado, token: string | null
 ) {
   //Preparar llamada api
-  let options = {
-    mode: "cors" as RequestMode,
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(articulo),
-  };
-
-  //Manejo de errores
-  try {
-    let response = await fetch(
-      "https://traza-final.onrender.com/articuloManufacturado",
-      options
-    );
-    if (response.ok) {
-      alert("Artículo agregado correctamente.");
-    } else {
-      alert("Error al agregar artículo: " + response.status);
+  if(token != null) {
+    let options = {
+      mode: "cors" as RequestMode,
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(articulo),
+    };
+  
+    //Manejo de errores
+    try {
+      let response = await fetch(
+        "https://traza-final.onrender.com/articuloManufacturado",
+        options
+      );
+      if (response.ok) {
+        alert("Artículo agregado correctamente.");
+      } else {
+        alert("Error al agregar artículo: " + response.status);
+      }
+    } catch {
+      alert("Error CORS, Revisa la URL o el back esta mal configurado.");
     }
-  } catch {
-    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+  } else {
+    alert("Acceso Denegado")
   }
+  
 }
 
 export async function editArticuloManufacturado(
-    articulo: ArticuloManufacturado
+    articulo: ArticuloManufacturado, 
+    token: string | null
   ) {
     //Preparar llamada api
     let options = {
@@ -60,6 +67,7 @@ export async function editArticuloManufacturado(
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(articulo),
     };
