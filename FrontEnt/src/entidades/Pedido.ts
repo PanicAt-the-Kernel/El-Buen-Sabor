@@ -21,7 +21,7 @@ class Pedido {
     factura: Factura | null = new Factura;
     cliente: Cliente = new Cliente;
     detallePedidos: DetallePedido[] = [];
-    empleado: Empleado = new Empleado;
+    empleado: Empleado|null = new Empleado;
 }
 
 export default Pedido

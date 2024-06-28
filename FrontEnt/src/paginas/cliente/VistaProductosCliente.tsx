@@ -1,10 +1,9 @@
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import TabsCategorias from "../../componentes/ui/cliente/vistaPrincipal/TabCategorias";
-import { CarritoProvider } from "../../context/CarritoContext";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 import SidebarCarrito from "../../componentes/ui/cliente/vistaPrincipal/SidebarCarrito";
-import {localData} from "../../servicios/FuncionesAPI";
+import { localData } from "../../servicios/FuncionesAPI";
 import { getSucursalId } from "../../servicios/SucursalService";
 import { CircularProgress, Container } from "@mui/material";
 
@@ -20,13 +19,13 @@ export default function VistaProductosCliente() {
   }
   localData.setSucursal("sucursal", sucursal!);
   return (
-    <CarritoProvider>
+    <>
       <ClienteLayout estado={open} setEstado={setOpen}>
         <Container>
           <TabsCategorias />
         </Container>
       </ClienteLayout>
       <SidebarCarrito estado={open} setEstado={setOpen} />
-    </CarritoProvider>
+    </>
   );
 }

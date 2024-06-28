@@ -3,7 +3,6 @@ import DetallePedido from "../entidades/DetallePedido";
 import ArticuloInsumo from "../entidades/ArticuloInsumo";
 import ArticuloManufacturado from "../entidades/ArticuloManufacturado";
 import Promocion from "../entidades/Promocion";
-import { localData } from "../servicios/FuncionesAPI";
 
 interface CarritoTypes {
   carrito: DetallePedido[];
@@ -32,7 +31,7 @@ export const CarritoContext = createContext<CarritoTypes>({
 });
 
 export const CarritoProvider = ({ children }: { children: ReactNode }) => {
-  const [carrito, setCarrito] = useState<DetallePedido[]>(localData.getCarrito('carrito') || []);
+  const [carrito, setCarrito] = useState<DetallePedido[]>([]);
   const [totalPedido, setTotalPedido] = useState<number>(0);
   const [totalEnvio, setTotalEnvio] = useState<number>(0);
 
@@ -47,7 +46,6 @@ export const CarritoProvider = ({ children }: { children: ReactNode }) => {
     };
 
     calcularTotal();
-    localData.setCarrito('carrito', carrito); // Guardar el carrito en localStorage cada vez que cambia
   }, [carrito]);
 
   const addArticuloCarrito = (item: ArticuloInsumo | ArticuloManufacturado) => {

@@ -1,6 +1,5 @@
 import Sucursal from "../entidades/Sucursal";
 import Usuario from "../entidades/Usuario";
-import DetallePedido from "../entidades/DetallePedido";
 import Cliente from "../entidades/Cliente";
 /*
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
@@ -907,16 +906,6 @@ export const localData = {
     return sucursalStored == null ? null : JSON.parse(sucursalStored);
   },
   removeSucursal(key: string) {
-    localStorage.removeItem(key);
-  },
-  setCarrito(key: string, value: DetallePedido[]) {
-    localStorage.setItem(key, JSON.stringify(value));
-  },
-  getCarrito(key: string) {
-    const carritoStored = localStorage.getItem(key);
-    return carritoStored == null ? null : JSON.parse(carritoStored);
-  },
-  removeCarrito(key: string) {
     localStorage.removeItem(key);
   },
   setRol(key: string, value: string[]) {
