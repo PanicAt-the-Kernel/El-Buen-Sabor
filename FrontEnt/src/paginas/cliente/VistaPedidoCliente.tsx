@@ -18,9 +18,9 @@ import { llamarMercadoPago, savePedido } from "../../servicios/PedidoService";
 import Pedido from "../../entidades/Pedido";
 import Cliente from "../../entidades/Cliente";
 import Sucursal from "../../entidades/Sucursal";
-//import Domicilio from "../../entidades/Domicilio";
 import PreferenceMP from "../../entidades/PreferenceMP";
 import CheckOutMP from "../../utils/mercadoPago/CheckOutMP";
+import Domicilio from "../../entidades/Domicilio";
 
 export default function VistaPedidoCliente() {
   const [open, setOpen] = useState(false);
@@ -62,7 +62,7 @@ export default function VistaPedidoCliente() {
           domicilio: sucursal.domicilio,
         };
         savePedido(datosPedido, setTotalPedido, vaciarCarrito, 0);
-        window.location.replace("/");
+        window.location.replace("/cliente/pedidos");
       } else {
         console.log("LLAMADA MERCADO PAGO Y RETIRO POR SUCURSAL");
         //HACER POST Y LLAMAR MERCADOPAGO
@@ -93,9 +93,32 @@ export default function VistaPedidoCliente() {
       }
     } else {
       //POST CON DOMICILIO
-      //const domi=cliente.domicilios.find((item:Domicilio)=>item.id==domicilio);
+      const domi=cliente.domicilios.find((item:Domicilio)=>item.id==domicilio);
+      datosPedido = {
+        ...datosPedido,
+        total: totalPedido,
+        tipoEnvio: metodoEntrega,
+        formaPago: metodoPago,
+        domicilio: domi!,
+      };
       //HACER POST
-      //llamarMercadoPago(pedidoID)
+      let pedidoID = await savePedido(
+        datosPedido,
+        setTotalPedido,
+        vaciarCarrito,
+        0
+      );
+      if (pedidoID != undefined) {
+        let idMP = await llamarMercadoPago(pedidoID);
+        if (idMP != undefined) {
+          setPreference(idMP);
+          setOpen(!open);
+        } else {
+          return;
+        }
+      } else {
+        return;
+      }
     }
   };
 
