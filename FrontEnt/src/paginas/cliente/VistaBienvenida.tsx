@@ -15,13 +15,13 @@ import FiltroSucursal from "../../componentes/ui/cliente/VistaSucursalCliente/Fi
 import SucursalCard from "../../componentes/ui/cliente/VistaSucursalCliente/SucursalCard";
 import Sucursal from "../../entidades/Sucursal";
 import PostLogin from "../../auth0/PostLogin";
-import { useAuth0 } from "@auth0/auth0-react";
+import getTokenAuth0 from "../../hooks/getTokenAuth0";
 
 export default function VistaBienvenida() {
   //MediaQuery para vista escritorio
   const vistaEscritorio: boolean = useMediaQuery("(min-width:600px)");
   //Si es falso, entonces estas en vista mobile
-  const { isAuthenticated } = useAuth0();
+  const token = getTokenAuth0();
   const [idProvincia, setIdProvincia] = useState<number>(0);
   const [idLocalidad, setIdLocalidad] = useState<number>(0);
   const {
@@ -165,7 +165,7 @@ export default function VistaBienvenida() {
           </Paper>
         </Container>
       </Box>
-      {isAuthenticated && <PostLogin />}
+      {token != null && <PostLogin />}
     </>
   );
 }

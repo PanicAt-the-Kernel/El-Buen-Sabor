@@ -22,21 +22,25 @@ const PostLogin = () => {
           const token = tokenClaims!.__raw;
           const decodedToken = jwtDecode<DecodedToken>(token);
           const roles = decodedToken["https://my-app.example.com/roles"];
-      
+          console.log("Hola Estoy en el post")
 
 
           if (roles) {
             localData.setRol("userRoles", roles);
-            // Verificar y redirigir según el primer rol encontrado
             if (roles.includes("COCINERO")) {
               navigate("/dashboard/pedidos", { replace: true });
+              window.location.reload();
             } else if (roles.includes("ADMIN")) {
               navigate("/dashboard", { replace: true });
+              window.location.reload();
             } else if (roles.includes("CAJERO")) {
               navigate("/dashboard/pedidos", { replace: true });
+              window.location.reload();
             } else if (roles.includes("DELIVERY")) {
               navigate("/dashboard/pedidos", { replace: true });
+              window.location.reload();
             } else {
+              localData.setRol("userRoles", ['CLIENTE']);
               navigate(`/cliente/sucursal/${sucursal.id}`, { replace: true });
             }
           }

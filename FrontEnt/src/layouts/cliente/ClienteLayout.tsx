@@ -18,6 +18,7 @@ import { getClienteEmail } from "../../servicios/ClienteService";
 import LogOutButton from "../../auth0/Logout";
 import moment from "moment-timezone";
 import { CircularProgress } from "@mui/material";
+import getTokenAuth0 from "../../hooks/getTokenAuth0";
 
 // LoginButton Component
 export const LoginButton = () => {
@@ -83,8 +84,8 @@ export default function ClienteLayout({
   //MediaQuery para vista escritorio
   const vistaEscritorio: boolean = useMediaQuery("(min-width:650px)");
   //Si es falso, entonces estas en vista mobile
-
-  const { isAuthenticated, user,isLoading:userLoading } = useAuth0();
+  const token = getTokenAuth0();
+  const { user,isLoading:userLoading } = useAuth0();
   const { data,isLoading:emailLoading } = getClienteEmail(user?.email!);
 
   if(userLoading || emailLoading){
@@ -93,9 +94,9 @@ export default function ClienteLayout({
     )
   }
 
-  if (isAuthenticated && !data) {
+  if (token !=null && !data) {
     navigate("/register", { replace: true });
-  } else if (isAuthenticated && data) {
+  } else if (token && data) {
     localData.setCliente("Cliente", data!);
   }
   return (
@@ -125,7 +126,7 @@ export default function ClienteLayout({
             </Stack>
           </Box>
           <Stack direction="row" spacing={3} marginRight={2}>
-            {isAuthenticated ? (
+            {token != null ? (
               <>
                 {isWithinTimeRange() && (
                   <Button

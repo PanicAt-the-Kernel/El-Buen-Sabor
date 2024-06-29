@@ -56,13 +56,15 @@ const basilTheme = createTheme({
 
 function App() {
 
-  const [userRoles, setUserRoles] = useState<string[]>([]);
+  const [userRoles, setUserRoles] = useState([""]);
+    const fetchUserRoles = async () => {
+    const roles = await localData.getRol("userRoles");
+    setUserRoles(roles);
+  };
 
   useEffect(() => {
-    const userRoles = localData.getRol("userRoles");
-    setUserRoles(userRoles);
-  });
- 
+   fetchUserRoles();
+  }, []);
   return (
        
  <BrowserRouter>
@@ -95,7 +97,7 @@ function App() {
           <Route path="/cliente/mpPending" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<MercadoPagoPending />} />
         </Routes>
         </CarritoProvider>
-        
+
       </ThemeProvider>
     </BrowserRouter>
   );
