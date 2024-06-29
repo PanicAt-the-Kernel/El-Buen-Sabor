@@ -8,10 +8,13 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import ClienteLayout from "../../layouts/cliente/ClienteLayout";
+import { localData } from "../../servicios/FuncionesAPI";
+import { Link } from "react-router-dom";
 
 export default function MercadoPagoSuccess() {
   return (
-    
+    <ClienteLayout>
       <Box
         component="div"
         sx={{
@@ -21,15 +24,14 @@ export default function MercadoPagoSuccess() {
             "linear-gradient(-45deg, rgba(255,255,255,1) 0%, rgba(42,213,85,1) 100%);",
         }}
       >
-        <Container sx={{padding:2}}>
+        <Container sx={{ padding: 2 }}>
           <Paper
             elevation={5}
             sx={{
               background: "rgba(255,255,255,0.48)",
               backdropFilter: "blur(5px)",
               border: "1px solid rgba(255, 255, 255, 0.3)",
-              padding:3
-              
+              padding: 3,
             }}
           >
             <Stack
@@ -50,13 +52,11 @@ export default function MercadoPagoSuccess() {
                   Disfruta de tu compra!
                 </Typography>
               </Box>
-              <Button variant="contained" color="info">
-                Regresar a la tienda
-              </Button>
+              <Link to={`cliente/sucursal/${localData.getSucursal("sucursal").id}`} className="btn btn-primary">Regresar a la tienda</Link>
             </Stack>
           </Paper>
         </Container>
       </Box>
-    
+    </ClienteLayout>
   );
 }
