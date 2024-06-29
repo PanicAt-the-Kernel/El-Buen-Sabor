@@ -9,6 +9,8 @@ import {
   Button,
 } from "@mui/material";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
+import { Link } from "react-router-dom";
+import { localData } from "../../servicios/FuncionesAPI";
 
 export default function MercadoPagoError() {
   return (
@@ -51,10 +53,8 @@ export default function MercadoPagoError() {
                 </Typography>
               </Box>
               <Stack direction="row" spacing={2}>
-                <Button variant="contained" color="info">
-                  Regresar a la tienda
-                </Button>
-                <Button variant="contained" color="warning">Ver mis Pedidos</Button>
+              <Link to={`/cliente/sucursal/${localData.getSucursal("sucursal").id}`} className="btn btn-primary">Regresar a la tienda</Link>
+              <Link to={`/cliente/pedidos`} className="btn btn-warning">Ver mis pedidos</Link>
               </Stack>
             </Stack>
           </Paper>

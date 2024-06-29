@@ -21,6 +21,7 @@ import Sucursal from "../../entidades/Sucursal";
 import PreferenceMP from "../../entidades/PreferenceMP";
 import CheckOutMP from "../../utils/mercadoPago/CheckOutMP";
 import Domicilio from "../../entidades/Domicilio";
+import ModalMercadoPago from "../../componentes/ui/cliente/VistaPedidoCliente/ModalMercadoPago";
 
 export default function VistaPedidoCliente() {
   const [open, setOpen] = useState(false);
@@ -203,8 +204,8 @@ export default function VistaPedidoCliente() {
           <Stack direction="row" justifyContent="center">
             {generarBoton()}
           </Stack>
-          <CheckOutMP preferenceID={preference.id} />
         </Paper>
+        <ModalMercadoPago preferenceID={preference} open={open} />
       </Container>
     </ClienteLayout>
   );

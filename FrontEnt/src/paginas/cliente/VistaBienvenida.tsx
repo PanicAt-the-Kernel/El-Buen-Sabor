@@ -152,8 +152,8 @@ export default function VistaBienvenida() {
                   spacing={1}
                   alignItems="center"
                 >
-                  {sucursal?.map((item: Sucursal) => (
-                    <SucursalCard key={item.id} sucursal={item} />
+                  {sucursal?.map((item: Sucursal,index:number) => (
+                    <SucursalCard key={index} sucursal={item} />
                   ))}
                 </Stack>
               ) : (
