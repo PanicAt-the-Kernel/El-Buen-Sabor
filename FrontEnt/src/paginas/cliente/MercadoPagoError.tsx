@@ -6,11 +6,10 @@ import {
   Stack,
   Divider,
   Typography,
-  Button,
 } from "@mui/material";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 import { Link } from "react-router-dom";
-import { localData } from "../../servicios/FuncionesAPI";
+import { localSession } from "../../servicios/localSession";
 
 export default function MercadoPagoError() {
   return (
@@ -53,7 +52,7 @@ export default function MercadoPagoError() {
                 </Typography>
               </Box>
               <Stack direction="row" spacing={2}>
-              <Link to={`/cliente/sucursal/${localData.getSucursal("sucursal").id}`} className="btn btn-primary">Regresar a la tienda</Link>
+              <Link to={`/cliente/sucursal/${localSession.getSucursal("sucursal").id}`} className="btn btn-primary">Regresar a la tienda</Link>
               <Link to={`/cliente/pedidos`} className="btn btn-warning">Ver mis pedidos</Link>
               </Stack>
             </Stack>

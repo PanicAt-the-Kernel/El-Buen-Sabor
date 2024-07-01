@@ -1,11 +1,11 @@
 import { Container, Paper } from "@mui/material";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 import FormularioCliente from "../../componentes/ui/cliente/VistaCuentaCliente/FormularioCliente";
-import { localData } from "../../servicios/FuncionesAPI";
+import { localSession } from "../../servicios/localSession";
 
 export default function VistaCuentaCliente() {
-  const cliente=localData.getCliente("Cliente");
-  const idSucursal=localData.getSucursal('sucursal').id;
+  const cliente=localSession.getCliente("Cliente");
+  const idSucursal=localSession.getSucursal('sucursal').id;
 
   return (
     <ClienteLayout>

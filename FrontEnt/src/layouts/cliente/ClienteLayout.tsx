@@ -13,12 +13,12 @@ import { ReactNode } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Login, ShoppingCart } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import {localData} from "../../servicios/FuncionesAPI";
 import { getClienteEmail } from "../../servicios/ClienteService";
 import LogOutButton from "../../auth0/Logout";
 import moment from "moment-timezone";
 import { CircularProgress } from "@mui/material";
 import getTokenAuth0 from "../../hooks/getTokenAuth0";
+import { localSession } from "../../servicios/localSession";
 
 // LoginButton Component
 export const LoginButton = () => {
@@ -80,7 +80,7 @@ export default function ClienteLayout({
     return false;
   };
 
-  const nombreSucursal = localData.getSucursal("sucursal").nombre;
+  const nombreSucursal = localSession.getSucursal("sucursal").nombre;
   //MediaQuery para vista escritorio
   const vistaEscritorio: boolean = useMediaQuery("(min-width:650px)");
   //Si es falso, entonces estas en vista mobile
@@ -97,7 +97,7 @@ export default function ClienteLayout({
   if (token !=null && !data) {
     navigate("/register", { replace: true });
   } else if (token && data) {
-    localData.setCliente("Cliente", data!);
+    localSession.setCliente("Cliente", data!);
   }
   return (
     <>
@@ -115,7 +115,7 @@ export default function ClienteLayout({
                 variant="body1"
                 sx={{ flexGrow: 1, textDecoration: "none", color: "inherit" }}
                 component={Link}
-                to={`/cliente/sucursal/${localData.getSucursal("sucursal").id}`}
+                to={`/cliente/sucursal/${localSession.getSucursal("sucursal").id}`}
               >
                 El Buen Sabor
               </Typography>

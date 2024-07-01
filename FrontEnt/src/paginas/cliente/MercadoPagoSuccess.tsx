@@ -1,7 +1,6 @@
 import { CheckCircle } from "@mui/icons-material";
 import {
   Box,
-  Button,
   Container,
   Divider,
   Paper,
@@ -9,8 +8,8 @@ import {
   Typography,
 } from "@mui/material";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
-import { localData } from "../../servicios/FuncionesAPI";
 import { Link } from "react-router-dom";
+import { localSession } from "../../servicios/localSession";
 
 export default function MercadoPagoSuccess() {
   return (
@@ -52,7 +51,7 @@ export default function MercadoPagoSuccess() {
                   Disfruta de tu compra!
                 </Typography>
               </Box>
-              <Link to={`cliente/sucursal/${localData.getSucursal("sucursal").id}`} className="btn btn-primary">Regresar a la tienda</Link>
+              <Link to={`cliente/sucursal/${localSession.getSucursal("sucursal").id}`} className="btn btn-primary">Regresar a la tienda</Link>
             </Stack>
           </Paper>
         </Container>

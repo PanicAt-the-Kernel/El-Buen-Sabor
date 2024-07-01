@@ -13,15 +13,14 @@ import FormSelectDomicilio from "../../componentes/ui/cliente/VistaPedidoCliente
 import { useContext, useState } from "react";
 import { AttachMoney } from "@mui/icons-material";
 import { CarritoContext } from "../../context/CarritoContext";
-import { localData } from "../../servicios/FuncionesAPI";
 import { llamarMercadoPago, savePedido } from "../../servicios/PedidoService";
 import Pedido from "../../entidades/Pedido";
 import Cliente from "../../entidades/Cliente";
 import Sucursal from "../../entidades/Sucursal";
 import PreferenceMP from "../../entidades/PreferenceMP";
-import CheckOutMP from "../../utils/mercadoPago/CheckOutMP";
 import Domicilio from "../../entidades/Domicilio";
 import ModalMercadoPago from "../../componentes/ui/cliente/VistaPedidoCliente/ModalMercadoPago";
+import { localSession } from "../../servicios/localSession";
 
 export default function VistaPedidoCliente() {
   const [open, setOpen] = useState(false);
@@ -34,8 +33,8 @@ export default function VistaPedidoCliente() {
   const { carrito, totalPedido, totalEnvio, setTotalPedido, vaciarCarrito } =
     useContext(CarritoContext);
   let datosPedido: Pedido = new Pedido();
-  const cliente: Cliente = localData.getCliente("Cliente");
-  const sucursal: Sucursal = localData.getSucursal("sucursal");
+  const cliente: Cliente = localSession.getCliente("Cliente");
+  const sucursal: Sucursal = localSession.getSucursal("sucursal");
 
   const postPedido = async () => {
     var fecha = new Date().toJSON().slice(0, 10); //Dia actual
