@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth0 } from "@auth0/auth0-react";
 import { jwtDecode } from "jwt-decode";
-import { localData } from '../servicios/FuncionesAPI';
+import { localSession } from '../servicios/localSession';
 
 interface DecodedToken {
   "https://my-app.example.com/roles"?: string[];
@@ -12,7 +12,7 @@ interface DecodedToken {
 const PostLogin = () => {
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
   const navigate = useNavigate();
-  const sucursal = localData.getSucursal("sucursal")
+  const sucursal = localSession.getSucursal("sucursal")
 
   useEffect(() => {
     const processToken = async () => {
@@ -26,7 +26,7 @@ const PostLogin = () => {
 
 
           if (roles) {
-            localData.setRol("userRoles", roles);
+            localSession.setRol("userRoles", roles);
             if (roles.includes("COCINERO")) {
               navigate("/dashboard/pedidos", { replace: true });
               window.location.reload();
@@ -40,7 +40,7 @@ const PostLogin = () => {
               navigate("/dashboard/pedidos", { replace: true });
               window.location.reload();
             } else {
-              localData.setRol("userRoles", ['CLIENTE']);
+              localSession.setRol("userRoles", ['CLIENTE']);
               navigate(`/cliente/sucursal/${sucursal.id}`, { replace: true });
             }
           }

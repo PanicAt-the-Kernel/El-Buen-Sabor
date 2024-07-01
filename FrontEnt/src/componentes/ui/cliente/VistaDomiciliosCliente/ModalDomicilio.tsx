@@ -17,11 +17,11 @@ import {
 } from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 import Domicilio from "../../../../entidades/Domicilio";
-import {localData} from "../../../../servicios/FuncionesAPI";
 import Localidad from "../../../../entidades/Localidad";
 import { editCliente } from "../../../../servicios/ClienteService";
 import { getLocalidadesIdProvincia } from "../../../../servicios/LocalidadService";
 import { getProvinciasIdPais } from "../../../../servicios/ProvinciaService";
+import { localSession } from "../../../../servicios/localSession";
 interface ModalDomicilioTypes {
   open: boolean;
   setOpen: (item: boolean) => void;
@@ -36,7 +36,7 @@ export default function ModalDomicilio({
   editFlag,
 }: ModalDomicilioTypes) {
   const [check, setChecked] = useState<boolean>(false);
-  const cliente = localData.getCliente("Cliente");
+  const cliente = localSession.getCliente("Cliente");
   const [domicilio, setDomicilio] = useState<Domicilio>(domiObj);
   const [provincia, setProvincia] = useState(domicilio.localidad.provincia.id);
   const [localidad, setLocalidad] = useState(domicilio.localidad.id);
@@ -70,8 +70,8 @@ export default function ModalDomicilio({
       listDomicilios.push(updatedDomicilio);
       cliente.domicilios = listDomicilios;
       if (await editCliente(cliente)) {
-        localData.removeCliente("Cliente");
-        localData.setCliente("Cliente", cliente);
+        localSession.removeCliente("Cliente");
+        localSession.setCliente("Cliente", cliente);
         setOpen(!open);
         window.location.replace("/cliente/domicilios")
       }
@@ -80,8 +80,8 @@ export default function ModalDomicilio({
       cliente.domicilios.push(updatedDomicilio);
       console.log(JSON.stringify(cliente));
       if (await editCliente(cliente)) {
-        localData.removeCliente("Cliente");
-        localData.setCliente("Cliente", cliente);
+        localSession.removeCliente("Cliente");
+        localSession.setCliente("Cliente", cliente);
         setOpen(!open);
         window.location.replace("/cliente/domicilios")
       }

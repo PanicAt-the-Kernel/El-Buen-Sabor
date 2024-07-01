@@ -14,7 +14,8 @@ import CategoryIcon from "@mui/icons-material/Category";
 import BarChartIcon from '@mui/icons-material/BarChart';
 import { useTheme } from "@emotion/react";
 import { Receipt, Straighten } from "@mui/icons-material";
-import { localData } from "../../servicios/FuncionesAPI";
+import { localSession } from "../../servicios/localSession";
+
 
 interface SidebarProps {
   collapsed: boolean;
@@ -25,7 +26,7 @@ interface SidebarProps {
 function Sidebar({ collapsed, setBroken, toggled }: SidebarProps) {
   const basil = useTheme();
 
-  const userRoles:string[] = localData.getRol('userRoles');
+  const userRoles:string[] = localSession.getRol('userRoles');
   return (
     <SidebarPro
       style={{

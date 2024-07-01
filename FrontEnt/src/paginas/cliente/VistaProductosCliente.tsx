@@ -3,9 +3,9 @@ import { useState } from "react";
 import TabsCategorias from "../../componentes/ui/cliente/vistaPrincipal/TabCategorias";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 import SidebarCarrito from "../../componentes/ui/cliente/vistaPrincipal/SidebarCarrito";
-import { localData } from "../../servicios/FuncionesAPI";
 import { getSucursalId } from "../../servicios/SucursalService";
 import { CircularProgress, Container } from "@mui/material";
+import { localSession } from "../../servicios/localSession";
 
 export default function VistaProductosCliente() {
   const { id } = useParams();
@@ -17,7 +17,7 @@ export default function VistaProductosCliente() {
   if (isLoading) {
     return <CircularProgress />;
   }
-  localData.setSucursal("sucursal", sucursal!);
+  localSession.setSucursal("sucursal", sucursal!);
   return (
     <>
       <ClienteLayout estado={open} setEstado={setOpen}>

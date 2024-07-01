@@ -1,11 +1,11 @@
 import { Box, CircularProgress, Stack } from "@mui/material";
 import DomicilioAcordeon from "./DomicilioAcordeon";
-import {localData} from "../../../../servicios/FuncionesAPI";
 import Domicilio from "../../../../entidades/Domicilio";
 import { getClienteId } from "../../../../servicios/ClienteService";
+import { localSession } from "../../../../servicios/localSession";
 export default function DomicilioContainer() {
   const { data: cliente, isLoading } = getClienteId(
-    localData.getCliente("Cliente").userName
+    localSession.getCliente("Cliente").userName
   );
   if (isLoading) {
     return <CircularProgress />;

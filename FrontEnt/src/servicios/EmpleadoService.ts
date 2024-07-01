@@ -1,6 +1,6 @@
 import useSWR, { SWRResponse } from "swr";
 import Empleado from "../entidades/Empleado";
-import { localData } from "./FuncionesAPI";
+import { localSession } from "./localSession";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
@@ -13,7 +13,7 @@ export function getAllEmpleados(): SWRResponse<Empleado[], any, any> {
 
 export async function saveEmpleado(empleado: Empleado) {
   //Preparar llamada api
-  empleado.sucursal = localData.getSucursal("sucursal");
+  empleado.sucursal = localSession.getSucursal("sucursal");
   const options = {
     mode: "cors" as RequestMode,
     method: "POST",

@@ -25,9 +25,9 @@ import "@fontsource/montserrat"
 import "@fontsource/lekton"
 import "@fontsource/roboto"
 import VistaPedidoCliente from "./paginas/cliente/VistaPedidoCliente";
-import { localData } from "./servicios/FuncionesAPI";
 import { useEffect, useState } from "react";
 import { CarritoProvider } from "./context/CarritoContext";
+import { localSession } from "./servicios/localSession";
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
   palette: {
@@ -58,7 +58,7 @@ function App() {
 
   const [userRoles, setUserRoles] = useState([""]);
     const fetchUserRoles = async () => {
-    const roles = await localData.getRol("userRoles");
+    const roles = await localSession.getRol("userRoles");
     setUserRoles(roles);
   };
 
