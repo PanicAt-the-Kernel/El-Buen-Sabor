@@ -18,6 +18,7 @@ import { CarritoContext } from "../../../../context/CarritoContext";
 import Promocion from "../../../../entidades/Promocion";
 import { useAuth0 } from "@auth0/auth0-react";
 import moment from "moment";
+import getHora from "../../../../hooks/getHora";
 
 interface ItemGrillaProductoTypes {
   item: Promocion;
@@ -26,6 +27,7 @@ interface ItemGrillaProductoTypes {
 export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   const { carrito, addPromoCarrito, removePromoCarrito } = useContext(CarritoContext);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+  const estaEnHorario=getHora();
   const { isAuthenticated } = useAuth0();
 
   const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
@@ -37,31 +39,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   };
 
   const open = Boolean(anchorEl);
-
-  const now = moment().tz('America/Argentina/Buenos_Aires');
-
-  const isWithinTimeRange = () => {
-    const dayOfWeek = now.day(); // 0 = domingo, 1 = lunes, ..., 6 = sábado
-    const hour = now.hour();
-    const minute = now.minute();
-
-    // Horarios de lunes a viernes (20:00 - 00:00)
-    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
-      if ((hour === 17 && minute >= 0) || (hour >= 18 && hour < 24)) {
-        return true;
-      }
-    }
-
-    // Horarios de sábados y domingos (11:00 - 15:00 y 20:00 - 00:00)
-    if (dayOfWeek === 0 || dayOfWeek === 6) {
-      if ((hour === 11 && minute >= 0) || (hour >= 12 && hour < 15) || 
-          (hour === 20 && minute >= 0) || (hour >= 0 && hour < 24)) {
-        return true;
-      }
-    }
-
-    return false;
-  };
+  console.log(estaEnHorario);
 
   const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.promocion === item.id);
 
@@ -112,7 +90,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
               ))}
             </List>
           </Popover>
-          {(isAuthenticated && isWithinTimeRange()) && (
+          {(isAuthenticated && estaEnHorario) && (
           <Stack direction={"row"}>
             <Button
               size="small"
