@@ -2,6 +2,11 @@ import useSWR, { SWRResponse } from "swr";
 import Cliente from "../entidades/Cliente";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+export function getAllClientes():SWRResponse<Cliente[],any,any>{
+  return useSWR<Cliente[]>("https://traza-final.onrender.com/cliente",fetcher);
+}
+
 export function getClienteEmail(
   clienteEmail: string | undefined
 ): SWRResponse<Cliente, any, any> {

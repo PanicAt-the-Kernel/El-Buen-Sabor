@@ -28,6 +28,7 @@ import VistaPedidoCliente from "./paginas/cliente/VistaPedidoCliente";
 import { useEffect, useState } from "react";
 import { CarritoProvider } from "./context/CarritoContext";
 import { localSession } from "./servicios/localSession";
+import DashboardVistaClientes from "./paginas/dashboardAdmin/DashboardVistaClientes";
 //PALETA DE COLORES DEL PROYECTO
 const basilTheme = createTheme({
   palette: {
@@ -74,6 +75,7 @@ function App() {
           <Route index element={<VistaBienvenida />} />
           {/*VISTA DE DASHBOARD*/}
           <Route path="/dashboard" element={ userRoles.includes("ADMIN") ? <DashboardVistaEmpresa /> : <VistaBienvenida />} />
+          <Route path="/dashboard/clientes" element={userRoles.includes("ADMIN") ? <DashboardVistaClientes /> : <VistaBienvenida />} />
           <Route path="/dashboard/categorias" element={userRoles.includes("ADMIN") ? <DashboardVistaCategoria /> : <VistaBienvenida />} />
           <Route path="/dashboard/informes" element={userRoles.includes("ADMIN") ?  <DashboardVistaInformes /> : <VistaBienvenida />} />
           <Route path="/dashboard/productos" element={userRoles.includes("ADMIN") ? <DashboardVistaProducto /> : <VistaBienvenida />} />

@@ -22,8 +22,6 @@ const PostLogin = () => {
           const token = tokenClaims!.__raw;
           const decodedToken = jwtDecode<DecodedToken>(token);
           const roles = decodedToken["https://my-app.example.com/roles"];
-          console.log("Hola Estoy en el post")
-
 
           if (roles) {
             localSession.setRol("userRoles", roles);
@@ -48,7 +46,7 @@ const PostLogin = () => {
           console.error("Error decoding token:", error);
         }
       } else {
-        localStorage.setItem("userRoles", "");
+        localSession.setRol("userRoles", [""]);
       }
     };
 

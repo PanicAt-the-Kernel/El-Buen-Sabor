@@ -3,6 +3,7 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link } from "react-router-dom";
 import { Logout } from "@mui/icons-material";
+import { localSession } from "../../servicios/localSession";
 
 // LogOutButton Component
 export const LogOutButton = () => {
@@ -11,7 +12,7 @@ export const LogOutButton = () => {
   return (
       <Link to="#" className="btn btn-outline-light" onClick={()  =>  {
         logout({ logoutParams: { returnTo: window.location.origin } });
-        localStorage.removeItem("userRoles");
+        localSession.removeRol("userRoles");
       }}
         >
           Cerrar sesión&nbsp;

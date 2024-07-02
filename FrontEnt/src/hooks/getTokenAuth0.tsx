@@ -16,7 +16,6 @@ export default function getTokenAuth0() {
           audience: "https://Auth0Example.com",
         },
       });
-      //console.log(authToken);
       setToken(authToken)
     } catch (error) {
       console.log("Error al obtener el token Hello");

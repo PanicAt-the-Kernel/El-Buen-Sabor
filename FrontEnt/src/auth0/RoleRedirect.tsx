@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { localSession } from '../servicios/localSession';
 
 const RoleRedirect = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
     // Obtener roles del almacenamiento local
-    const userRoles = JSON.parse(localStorage.getItem("userRoles") || "[]");
+    const userRoles = JSON.parse(localSession.getRol("userRoles") || "[]");
 
     // Verificar y redirigir según el primer rol encontrado
     if (userRoles && userRoles.length > 0) {
