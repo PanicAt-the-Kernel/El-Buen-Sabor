@@ -18,7 +18,6 @@ import { CarritoContext } from "../../../../context/CarritoContext";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
 import { useAuth0 } from "@auth0/auth0-react";
-import moment from "moment";
 import getHora from "../../../../hooks/getHora";
 
 interface ItemGrillaProductoTypes {

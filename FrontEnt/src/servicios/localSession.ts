@@ -30,6 +30,9 @@ export const localSession={
         const rolStored = sessionStorage.getItem(key);
         return rolStored == null ? [""] : JSON.parse(rolStored);
       },
+      removeRol(key:string){
+        sessionStorage.removeItem(key)
+      },
       setCliente(key: string, value: Cliente) {
         sessionStorage.setItem(key, JSON.stringify(value));
       },
