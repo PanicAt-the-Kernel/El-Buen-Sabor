@@ -162,6 +162,9 @@ function AgregarEmpleadoModal({ open, onClose, iEmpleado }: AgregarEmpleadoModal
               InputLabelProps={{
                 shrink: true,
               }}
+              inputProps={{
+                max:new Date().toISOString().split("T")[0]
+              }}
             />
             {errorFecha && <span style={{ color: "red" }}>Ingrese una fecha posible!</span>}
             <Button variant="contained" color="primary" type="submit" id="save" disabled={errorEmail || errorTelefono || errorNombre || errorTipo || errorFecha}>

@@ -3,10 +3,11 @@ import Pedido from "../../../../entidades/Pedido";
 import ItemGrillaPedido from "./ItemGrillaPedido";
 import { getAllPedidos } from "../../../../servicios/PedidoService";
 import { useEffect, useState } from "react";
+import { localSession } from "../../../../servicios/localSession";
 
 export default function GrillaPedidos() {
   const { data, isLoading, error } = getAllPedidos();
-  const userRoles: string[] = JSON.parse(localStorage.getItem("userRoles") || "[]");
+  const userRoles: string[] = localSession.getRol("userRoles") || [""];
   const [pedidos, setPedidos] = useState<Pedido[] | null>(null);
 
   useEffect(() => {
