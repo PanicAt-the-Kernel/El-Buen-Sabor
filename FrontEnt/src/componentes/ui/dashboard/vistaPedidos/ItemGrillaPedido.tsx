@@ -12,6 +12,7 @@ import Pedido from "../../../../entidades/Pedido";
 import { useState } from "react";
 import ModalPedidos from "./ModalPedidos";
 import { editPedido } from "../../../../servicios/PedidoService";
+import { localSession } from "../../../../servicios/localSession";
 
 
 interface ItemGrillaPedidoTypes {
@@ -21,7 +22,7 @@ interface ItemGrillaPedidoTypes {
 export default function ItemGrillaPedido({ pedidoObj }: ItemGrillaPedidoTypes) {
   const [open, setOpen] = useState(false);
 
-  const userRoles: string[] = JSON.parse(localStorage.getItem("userRoles") || "[]");
+  const userRoles: string[] = localSession.getRol("userRoles") || [""];
 
   return (
     <Card>

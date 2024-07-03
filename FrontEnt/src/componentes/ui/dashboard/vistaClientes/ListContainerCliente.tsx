@@ -5,8 +5,7 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Paper,
-  Typography,
+  Paper
 } from "@mui/material";
 import Cliente from "../../../../entidades/Cliente";
 import { getAllClientes } from "../../../../servicios/ClienteService";
