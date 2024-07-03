@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { Box, FormControl, Input, Stack } from "@mui/material";
 import BotonAgregarProducto from "./BotonAgregarProducto";
 import GrillaProducto from "./GrillaProducto";
+import { localSession } from "../../../../servicios/localSession";
 
 function BuscarProducto() {
   const [nombre, setNombre] = useState("");
-  const userRoles: string[] = JSON.parse(localStorage.getItem("userRoles") || "[]");
+  const userRoles: string[] = localSession.getRol("userRoles") || [""];
 
   const handleBuscar = (e: React.FormEvent) => {
     e.preventDefault();

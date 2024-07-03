@@ -86,6 +86,9 @@ function AgregarEmpresaModal({ open, onClose, onSubmit, iEmpresa }: AgregarEmpre
               value={empresa.nombre}
               onInput={validateNombre}
               onChange={(e) => setEmpresa({ ...empresa, nombre: e.target.value })}
+              inputProps={{
+                maxLength:30
+              }}
             />
             {errorNombre && <span style={{color : "red"}}>Formato de Nombre Inválido!</span>}
             <TextField
@@ -95,6 +98,9 @@ function AgregarEmpresaModal({ open, onClose, onSubmit, iEmpresa }: AgregarEmpre
               value={empresa.razonSocial}
               onInput={validateRazonSocial}
               onChange={(e) => setEmpresa({ ...empresa, razonSocial: e.target.value })}
+              inputProps={{
+                maxLength:40
+              }}
             />
             {errorRazon && <span style={{color : "red"}}>Formato de Razón Social Inválido!</span>}
             <TextField

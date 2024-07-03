@@ -53,6 +53,9 @@ function AgregarUnidadMedidaModal({ open, onClose, onSubmit, iUnidadMedida }: Ag
                             variant="outlined"
                             value={unidadMedida.denominacion}
                             onChange={(e) => setUnidadMedida({ ...unidadMedida, denominacion: e.target.value })}
+                            inputProps={{
+                                maxLength:20
+                            }}
                         />
                         <Button variant="contained" color="primary" type="submit">
                             Guardar

@@ -85,6 +85,9 @@ function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal }: AgregarSuc
                             variant="outlined"
                             value={sucursal.nombre}
                             onChange={(e) => setSucursal({ ...sucursal, nombre: e.target.value })}
+                            inputProps={{
+                                maxLength:30
+                            }}
                         />
                         <FormControlLabel
                             control={
@@ -110,6 +113,11 @@ function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal }: AgregarSuc
                             variant="outlined"
                             value={sucursal.domicilio.numero}
                             onChange={(e) => setSucursal({ ...sucursal, domicilio: { ...sucursal.domicilio, numero: parseInt(e.target.value) } })}
+                            inputProps={{
+                                min:0,
+                                step:1,
+                                max:9999,
+                            }}
                         />
                         <TextField
                             required
@@ -118,6 +126,11 @@ function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal }: AgregarSuc
                             type="number"
                             value={sucursal.domicilio.cp}
                             onChange={(e) => setSucursal({ ...sucursal, domicilio: { ...sucursal.domicilio, cp: parseInt(e.target.value) } })}
+                            inputProps={{
+                                min:0,
+                                step:1,
+                                max:9999,
+                            }}
                         />
                         <TextField
                             required
@@ -126,6 +139,11 @@ function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal }: AgregarSuc
                             type="number"
                             value={sucursal.domicilio.piso}
                             onChange={(e) => setSucursal({ ...sucursal, domicilio: { ...sucursal.domicilio, piso: parseInt(e.target.value) } })}
+                            inputProps={{
+                                min:0,
+                                step:1,
+                                max:15,
+                            }}
                         />
                         <TextField
                             required
@@ -134,6 +152,11 @@ function AgregarSucursalModal({ open, onClose, onSubmit, iSucursal }: AgregarSuc
                             type="number"
                             value={sucursal.domicilio.nroDpto}
                             onChange={(e) => setSucursal({ ...sucursal, domicilio: { ...sucursal.domicilio, nroDpto: parseInt(e.target.value) } })}
+                            inputProps={{
+                                min:1,
+                                step:1,
+                                max:30,
+                            }}
                         />
                         <FormControl variant="outlined">
                             <InputLabel id="pais-label">País</InputLabel>

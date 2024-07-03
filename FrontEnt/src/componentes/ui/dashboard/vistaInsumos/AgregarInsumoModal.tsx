@@ -134,13 +134,22 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             variant="outlined"
                             value={insumo.denominacion}
                             onChange={(e) => setInsumo({ ...insumo, denominacion: e.target.value })}
+                            inputProps={{
+                                maxLength:30
+                            }}
                         />
                         <TextField
                             required
                             label="Precio de venta"
+                            type="number"
                             variant="outlined"
                             value={insumo.precioVenta}
                             onChange={(e) => setInsumo({ ...insumo, precioVenta: parseInt(e.target.value) })}
+                            inputProps={{
+                                min:0,
+                                step:0.01,
+                                max:99999999
+                            }}
                         />
                         <FormControl variant="outlined">
                             <InputLabel id="uMedida-label">Unidad de medida</InputLabel>
@@ -208,28 +217,47 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                         <TextField
                             required
                             label="Precio de compra"
+                            type='number'
                             variant="outlined"
                             value={insumo.precioCompra}
                             onChange={(e) => setInsumo({ ...insumo, precioCompra: parseInt(e.target.value) })}
+                            inputProps={{
+                                min:0,
+                                step:0.01,
+                                max:99999999
+                            }}
                         />
                         <TextField
                             required
                             label="Stock Mínimo"
                             variant="outlined"
+                            type="number"
                             value={insumo.stockMinimo}
                             onChange={(e) => setInsumo({ ...insumo, stockMinimo: parseInt(e.target.value) })}
+                            inputProps={{
+                                min:0,
+                                step:0.01,
+                                max:99999999
+                            }}
                         />
                         <TextField
                             required
                             label="Stock Máximo"
                             variant="outlined"
+                            type="number"
                             value={insumo.stockMaximo}
                             onChange={(e) => setInsumo({ ...insumo, stockMaximo: parseInt(e.target.value) })}
+                            inputProps={{
+                                min:0,
+                                step:0.01,
+                                max:99999999
+                            }}
                         />
                         <TextField
                             required
                             label="Stock Actual"
                             variant="outlined"
+                            type="number"
                             inputProps={{ min: insumo.stockMinimo, max: insumo.stockMaximo }}
                             value={insumo.stockActual}
                             onChange={(e) => setInsumo({ ...insumo, stockActual: parseInt(e.target.value) })}

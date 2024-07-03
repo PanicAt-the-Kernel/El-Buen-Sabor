@@ -7,6 +7,7 @@ import ArticuloManufacturadoDetalle from '../../../../entidades/ArticuloManufact
 import AgregarInsumoModal from './AgregarInsumoModal';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Imagen from '../../../../entidades/Imagen';
+import { localSession } from '../../../../servicios/localSession';
 
 interface AgregarProductoModalProps {
     open: boolean;
@@ -26,7 +27,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
     const [tablaDetalle, setTablaDetalle] = useState<ArticuloManufacturadoDetalle[]>(iArticuloM.articuloManufacturadoDetalles);
     const [openInsumos, setOpenInsumos] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
-    const userRoles: string[] = JSON.parse(localStorage.getItem("userRoles") || "[]");
+    const userRoles: string[] = localSession.getRol("userRoles") || [""];
     const handleOpenInsumos = () => setOpenInsumos(true);
     const handleCloseInsumos = () => setOpenInsumos(false);
 
@@ -158,14 +159,24 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             value={articuloM.denominacion}
                             disabled={!userRoles.includes("ADMIN")}
                             onChange={(e) => setArticuloM({ ...articuloM, denominacion: e.target.value })}
+                            inputProps={{
+                                maxLength:30
+                            }}
                         />
                         <TextField
                             required
                             label="Precio de venta"
+                            type="number"
                             variant="outlined"
                             value={articuloM.precioVenta}
                             disabled={!userRoles.includes("ADMIN")}
                             onChange={(e) => setArticuloM({ ...articuloM, precioVenta: parseInt(e.target.value) })}
+                            inputProps={{
+                                min:0,
+                                step:0.01,
+                                max:999999
+                            }}
+
                         />
                         <FormControl variant="outlined">
                             <InputLabel id="uMedida-label">Unidad de medida</InputLabel>
@@ -177,6 +188,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                                 onChange={(e) => setUnidadMedida(e.target.value as number)}
                                 label="Unidad de medida"
                             >
+                                <MenuItem value={0}>Seleccione una unidad de medida</MenuItem>
                                 {unidadesMedida?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
                                     .map((unidadMedida) => (
                                         <MenuItem key={unidadMedida.id} value={unidadMedida.id}>
@@ -195,6 +207,7 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                                 onChange={(e) => setCategoria(e.target.value as number)}
                                 label="Categoria"
                             >
+                                <MenuItem value={0}>Seleccione una categoria</MenuItem>
                                 {categorias?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
                                     .map((categoria) => (
                                         <MenuItem key={categoria.id} value={categoria.id}>
@@ -210,6 +223,8 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             disabled={!userRoles.includes("ADMIN")}
                             value={articuloM.descripcion}
                             onChange={(e) => setArticuloM({ ...articuloM, descripcion: e.target.value })}
+                            multiline
+                            rows={3}
                         />
                         <input
                             type="file"
@@ -245,8 +260,14 @@ function AgregarProductoModal({ open, onClose, onSubmit, iArticuloM }: AgregarPr
                             required
                             label="Tiempo estimado en minutos"
                             variant="outlined"
+                            type="number"
                             value={articuloM.tiempoEstimadoMinutos}
                             onChange={(e) => setArticuloM({ ...articuloM, tiempoEstimadoMinutos: parseInt(e.target.value) })}
+                            inputProps={{
+                                min:0,
+                                step:1,
+                                max:1000
+                            }}
                         />
                         <TextField
                             required
