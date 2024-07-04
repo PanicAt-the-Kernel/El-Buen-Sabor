@@ -19,11 +19,13 @@ interface ModalPedidosTypes {
   setOpen: (item: boolean) => void;
 }
 
+
 export default function ModalPedidos({
   open,
   setOpen,
   pedido,
 }: ModalPedidosTypes) {
+  
   return (
     <Modal open={open} onClose={() => setOpen(!open)}>
       <Box
@@ -138,13 +140,18 @@ export default function ModalPedidos({
                   <Card sx={{width:200,height:220,marginLeft:4}}>
                     <CardMedia
                       component="img"
-                      //@ts-ignore
-                      image={detalle.articulo.imagenes[0].url}
+
+                        image={
+                          detalle.articulo ? detalle.articulo.imagenes[0].url : detalle.promocion.imagenes[0].url
+                        }
+
+                     
                       sx={{padding:1,maxHeight:125}}
                     />
+                     
                     <CardContent>
                       {/*@ts-ignore */}
-                        <Typography variant="body1"textAlign={"center"}>{detalle.articulo.denominacion}</Typography>
+                        <Typography variant="body1"textAlign={"center"}>{ detalle.articulo ? detalle.articulo.denominacion : detalle.promocion.denominacion}</Typography>
                         <Typography variant="body1"textAlign={"center"}>{"Precio x unidad: $"+detalle.subTotal/detalle.cantidad}</Typography>
                         <Typography variant="body1"textAlign={"center"}>{"Cantidad: "+detalle.cantidad}</Typography>
                     </CardContent>
