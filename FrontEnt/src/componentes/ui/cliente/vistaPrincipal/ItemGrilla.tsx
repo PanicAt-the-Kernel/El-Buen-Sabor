@@ -19,6 +19,8 @@ import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
 import { useAuth0 } from "@auth0/auth0-react";
 import getHora from "../../../../hooks/getHora";
+import { verificarStockArticulo } from "../../../../servicios/PedidoService";
+import Pedido from "../../../../entidades/Pedido";
 
 interface ItemGrillaProductoTypes {
   item: ArticuloInsumo | ArticuloManufacturado;
@@ -43,11 +45,12 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   if ((item as ArticuloInsumo).esParaElaborar != null) mostrarIngredientes = false;
 
   const verificarStock = () => {
-    if ((item as ArticuloInsumo).esParaElaborar != null) {
-      return (item as ArticuloInsumo).stockActual > (estaEnCarrito ? estaEnCarrito.cantidad : 0);
-    } else {
-      return (item as ArticuloManufacturado).articuloManufacturadoDetalles.every(detalle => detalle.articuloInsumo.stockActual >= (estaEnCarrito ? (estaEnCarrito.cantidad+1) * detalle.cantidad : 0));
-    }
+    let pedido=new Pedido();
+    pedido.detallePedidos=carrito;
+    pedido.factura=null;
+    pedido.empleado=null;
+    verificarStockArticulo(item.id,pedido);
+    return true
   };
 
   const handleAddClick = () => {

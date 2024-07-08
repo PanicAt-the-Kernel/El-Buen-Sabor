@@ -19,6 +19,8 @@ import Promocion from "../../../../entidades/Promocion";
 import { useAuth0 } from "@auth0/auth0-react";
 import moment from "moment";
 import getHora from "../../../../hooks/getHora";
+import Pedido from "../../../../entidades/Pedido";
+import { verificarStockPromo } from "../../../../servicios/PedidoService";
 
 interface ItemGrillaProductoTypes {
   item: Promocion;
@@ -42,6 +44,15 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   console.log(estaEnHorario);
 
   const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.promocion === item.id);
+
+  const handleClick = ()=>{
+    let pedido=new Pedido();
+    pedido.detallePedidos=carrito;
+    pedido.factura=null;
+    pedido.empleado=null;
+    verificarStockPromo(item.id,pedido)
+    addPromoCarrito(item);
+  }
 
   return (
     <Card sx={{ maxWidth: 330, textAlign: "center" }}>
@@ -102,7 +113,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
             </Badge>
             <Button size="small"
               startIcon={<Add />}
-              onClick={() => { addPromoCarrito(item) }}
+              onClick={() =>handleClick() }
             />
           </Stack>
           )}
