@@ -4,5 +4,5 @@ import Pais from "../entidades/Pais";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function getAllPaises(): SWRResponse<Pais[], any, any> {
-  return useSWR<Pais[]>(`https://traza-final.onrender.com/pais`, fetcher);
+  return useSWR<Pais[]>(`https://back-magni-0zhl.onrender.com/pais`, fetcher);
 }

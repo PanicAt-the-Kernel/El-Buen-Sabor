@@ -4,7 +4,7 @@ import UnidadMedida from "../entidades/UnidadMedida";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export function getAllUnidadMedida(): SWRResponse<UnidadMedida[], any, any> {
   return useSWR<UnidadMedida[]>(
-    `https://traza-final.onrender.com/unidadMedida`,
+    `https://back-magni-0zhl.onrender.com/unidadMedida`,
     fetcher
   );
 }
@@ -22,7 +22,7 @@ export async function saveUnidadMedida(uMedida: UnidadMedida) {
   //Manejo de errores
   try {
     let response = await fetch(
-      "https://traza-final.onrender.com/unidadMedida",
+      "https://back-magni-0zhl.onrender.com/unidadMedida",
       options
     );
     if (response.ok) {
@@ -48,7 +48,7 @@ export async function editUnidadMedida(uMedida: UnidadMedida) {
     //Manejo de errores
     try {
       let response = await fetch(
-        `https://traza-final.onrender.com/unidadMedida/${uMedida.id}`,
+        `https://back-magni-0zhl.onrender.com/unidadMedida/${uMedida.id}`,
         options
       );
       if (response.ok) {
