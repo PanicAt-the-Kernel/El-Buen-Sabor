@@ -31,6 +31,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const estaEnHorario=getHora();
   const { isAuthenticated } = useAuth0();
+  const [sinStock,SetSinStock]=useState<boolean>(false);
 
   const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -44,21 +45,26 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
 
   if ((item as ArticuloInsumo).esParaElaborar != null) mostrarIngredientes = false;
 
-  const verificarStock = () => {
-    let pedido=new Pedido();
-    pedido.detallePedidos=carrito;
-    pedido.factura=null;
+  const handleClick =async () => {
+    let pedido = new Pedido();
+    pedido.formaPago=null;
+    pedido.estado=null;
+    pedido.tipoEnvio=null;
+    pedido.totalCosto=null;
+    pedido.total=null;
+    pedido.cliente=null;
+    pedido.domicilio=null;
     pedido.empleado=null;
-    verificarStockArticulo(item.id,pedido);
-    return true
-  };
-
-  const handleAddClick = () => {
-    if (verificarStock()) {
+    pedido.factura=null;
+    pedido.sucursal=null;
+    pedido.detallePedidos=carrito;
+    if(await verificarStockArticulo(item.id, pedido)){
       addArticuloCarrito(item);
-    } else {
-      alert("No hay stock suficiente");
+    }else{
+      alert("Este articulo esta sin stock"); 
+      SetSinStock(true);
     }
+    
   };
 
   const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.articulo === item.id);
@@ -125,7 +131,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
               </Badge>
               <Button size="small"
                 startIcon={<Add />}
-                onClick={() => { handleAddClick() }}
+                onClick={() => { handleClick() }}
               />
             </Stack>
           )}

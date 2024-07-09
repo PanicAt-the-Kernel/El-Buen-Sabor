@@ -128,10 +128,13 @@ export async function llamarMercadoPago(idPedido: number) {
   }
 }
 
-export async function verificarStockPromo(id: number, pedido: Pedido) {
+export async function verificarStockPromo(id: number, pedido: any) {
   let options = {
     mode: "cors" as RequestMode,
-    method: "GET",
+    method: "POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
     body: JSON.stringify(pedido),
   };
   try {
@@ -141,39 +144,44 @@ export async function verificarStockPromo(id: number, pedido: Pedido) {
     );
     if (response.ok) {
       let data=await response.json();
-      console.log(data);
+      return data as boolean;
     } else {
-      alert("No hay stock promo");
+      alert("Error HTTP");
       let data=await response.json();
       console.log(data);
+      return false;
     }
-  } catch {
+  } catch(error) {
     alert("Error CORS, Revisa la URL o el back esta mal configurado.");
-    
+    console.log(error)
+    return false;
   }
 }
 
 export async function verificarStockArticulo(id:number,pedido:Pedido){
   let options = {
     mode: "cors" as RequestMode,
-    method: "GET",
+    method: "POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
     body:JSON.stringify(pedido)
   }
   try{
     let response = await fetch(`https://back-magni-0zhl.onrender.com/pedidos/stockArticulo/${id}`,options);
     if(response.ok){
-      alert("Hay stock articulo");
       let data=await response.json();
       console.log(data);
       return true;
     }else{
-      alert("No hay stock articulo");
+      alert("ERROR HTTP");
       let data=await response.json();
       console.log(data);
       return false;
     }
-  }catch{
+  }catch(error){
     alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+    console.log(error)
     return false;
   }
 }

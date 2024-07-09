@@ -16,8 +16,7 @@ export function getAllInsumos(
       fetch(url, options).then((res) => res.json());
     return useSWR<ArticuloInsumo[]>(
       "https://back-magni-0zhl.onrender.com/articuloInsumo",
-      fetcher2,
-      { refreshInterval: 3600 }
+      fetcher2
     );
   }
   //Si el token es null ponemos en pausa a la funcion fetch
