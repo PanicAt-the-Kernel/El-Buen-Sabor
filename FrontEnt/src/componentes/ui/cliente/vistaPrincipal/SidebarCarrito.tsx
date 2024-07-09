@@ -9,8 +9,6 @@ import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import { Add, Remove, RemoveShoppingCart } from "@mui/icons-material";
 import { useContext } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
-import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
-import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
 import DetallePedido from "../../../../entidades/DetallePedido";
 import { Link } from "react-router-dom";
 import Pedido from "../../../../entidades/Pedido";
