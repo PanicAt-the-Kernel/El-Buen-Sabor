@@ -5,14 +5,14 @@ import PreferenceMP from "../entidades/PreferenceMP";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
-  return useSWR<Pedido[]>("https://traza-final.onrender.com/pedidos", fetcher);
+  return useSWR<Pedido[]>("https://back-magni-0zhl.onrender.com/pedidos", fetcher);
 }
 
 export function getPedidosCliente(
   clienteEmail: string
 ): SWRResponse<Pedido[], any, any> {
   return useSWR<Pedido[]>(
-    `https://traza-final.onrender.com/pedidos/cliente?userName=${clienteEmail}`,
+    `https://back-magni-0zhl.onrender.com/pedidos/cliente?userName=${clienteEmail}`,
     fetcher
   );
 }
@@ -33,18 +33,17 @@ export async function savePedido(
       body: JSON.stringify(pedido),
     };
     const response = await fetch(
-      `https://traza-final.onrender.com/pedidos?precioDelivery=${totalEnvio}`,
+      `https://back-magni-0zhl.onrender.com/pedidos?precioDelivery=${totalEnvio}`,
       options
     );
     if (response.ok) {
       vaciarCarrrito();
       setTotalPedido(0);
-      let data:Pedido = await response.json();
-      alert("Pedido cargado correctamente con codigo: "+data.id);
-      return (data.id as number);
+      let data: Pedido = await response.json();
+      alert("Pedido cargado correctamente con codigo: " + data.id);
+      return data.id as number;
     } else {
       alert("Error al cargar pedido: " + response.status);
-      
     }
   } catch (error) {
     //@ts-ignore
@@ -67,7 +66,7 @@ export async function editPedido(id: number, estado: string) {
   // Manejo de errores
   try {
     let response = await fetch(
-      `https://traza-final.onrender.com/pedidos/${id}`,
+      `https://back-magni-0zhl.onrender.com/pedidos/${id}`,
       options
     );
     if (response.ok) {
@@ -93,7 +92,7 @@ export async function sendFactura(id: Number) {
   };
   try {
     let response = await fetch(
-      `https://traza-final.onrender.com/pedidos/${id}`,
+      `https://back-magni-0zhl.onrender.com/pedidos/${id}`,
       options
     );
     if (response.ok) {
@@ -106,22 +105,83 @@ export async function sendFactura(id: Number) {
   }
 }
 
-export async function llamarMercadoPago(idPedido:number){
-  let options={
-    mode:"cors" as RequestMode,
-    method:"GET"
-  }
-  try{
-    let response = await fetch(`https://traza-final.onrender.com/pedidos/llamarMercadoPago/${idPedido}`,options)
-    if(response.ok){
+export async function llamarMercadoPago(idPedido: number) {
+  let options = {
+    mode: "cors" as RequestMode,
+    method: "GET",
+  };
+  try {
+    let response = await fetch(
+      `https://back-magni-0zhl.onrender.com/pedidos/llamarMercadoPago/${idPedido}`,
+      options
+    );
+    if (response.ok) {
       let data = await response.json();
       return data as PreferenceMP;
-    }else{
-      alert("Error al obtener el preferenceID "+"Error: "+response.status)
+    } else {
+      alert("Error al obtener el preferenceID " + "Error: " + response.status);
       return undefined;
     }
-  }catch{
-    alert("Error CORS, Revisa la URL o el back esta mal configurado.")
-    return undefined
+  } catch {
+    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+    return undefined;
+  }
+}
+
+export async function verificarStockPromo(id: number, pedido: any) {
+  let options = {
+    mode: "cors" as RequestMode,
+    method: "POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body: JSON.stringify(pedido),
+  };
+  try {
+    let response = await fetch(
+      `https://back-magni-0zhl.onrender.com/pedidos/stockPromo/${id}`,
+      options
+    );
+    if (response.ok) {
+      let data=await response.json();
+      return data as boolean;
+    } else {
+      alert("Error HTTP");
+      let data=await response.json();
+      console.log(data);
+      return false;
+    }
+  } catch(error) {
+    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+    console.log(error)
+    return false;
+  }
+}
+
+export async function verificarStockArticulo(id:number,pedido:Pedido){
+  let options = {
+    mode: "cors" as RequestMode,
+    method: "POST",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify(pedido)
+  }
+  try{
+    let response = await fetch(`https://back-magni-0zhl.onrender.com/pedidos/stockArticulo/${id}`,options);
+    if(response.ok){
+      let data=await response.json();
+      console.log(data);
+      return true;
+    }else{
+      alert("ERROR HTTP");
+      let data=await response.json();
+      console.log(data);
+      return false;
+    }
+  }catch(error){
+    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+    console.log(error)
+    return false;
   }
 }

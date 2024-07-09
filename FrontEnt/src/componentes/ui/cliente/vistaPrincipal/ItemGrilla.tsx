@@ -19,6 +19,8 @@ import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
 import { useAuth0 } from "@auth0/auth0-react";
 import getHora from "../../../../hooks/getHora";
+import { verificarStockArticulo } from "../../../../servicios/PedidoService";
+import Pedido from "../../../../entidades/Pedido";
 
 interface ItemGrillaProductoTypes {
   item: ArticuloInsumo | ArticuloManufacturado;
@@ -29,6 +31,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
   const estaEnHorario=getHora();
   const { isAuthenticated } = useAuth0();
+  const [sinStock,SetSinStock]=useState<boolean>(false);
 
   const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -42,20 +45,26 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
 
   if ((item as ArticuloInsumo).esParaElaborar != null) mostrarIngredientes = false;
 
-  const verificarStock = () => {
-    if ((item as ArticuloInsumo).esParaElaborar != null) {
-      return (item as ArticuloInsumo).stockActual > (estaEnCarrito ? estaEnCarrito.cantidad : 0);
-    } else {
-      return (item as ArticuloManufacturado).articuloManufacturadoDetalles.every(detalle => detalle.articuloInsumo.stockActual >= (estaEnCarrito ? (estaEnCarrito.cantidad+1) * detalle.cantidad : 0));
-    }
-  };
-
-  const handleAddClick = () => {
-    if (verificarStock()) {
+  const handleClick =async () => {
+    let pedido = new Pedido();
+    pedido.formaPago=null;
+    pedido.estado=null;
+    pedido.tipoEnvio=null;
+    pedido.totalCosto=null;
+    pedido.total=null;
+    pedido.cliente=null;
+    pedido.domicilio=null;
+    pedido.empleado=null;
+    pedido.factura=null;
+    pedido.sucursal=null;
+    pedido.detallePedidos=carrito;
+    if(await verificarStockArticulo(item.id, pedido)){
       addArticuloCarrito(item);
-    } else {
-      alert("No hay stock suficiente");
+    }else{
+      alert("Este articulo esta sin stock"); 
+      SetSinStock(true);
     }
+    
   };
 
   const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.articulo === item.id);
@@ -122,7 +131,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
               </Badge>
               <Button size="small"
                 startIcon={<Add />}
-                onClick={() => { handleAddClick() }}
+                onClick={() => { handleClick() }}
               />
             </Stack>
           )}

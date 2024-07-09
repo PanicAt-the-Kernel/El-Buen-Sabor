@@ -15,9 +15,8 @@ export function getAllInsumos(
     const fetcher2 = (url: string) =>
       fetch(url, options).then((res) => res.json());
     return useSWR<ArticuloInsumo[]>(
-      "https://traza-final.onrender.com/articuloInsumo",
-      fetcher2,
-      { refreshInterval: 3600 }
+      "https://back-magni-0zhl.onrender.com/articuloInsumo",
+      fetcher2
     );
   }
   //Si el token es null ponemos en pausa a la funcion fetch
@@ -30,7 +29,7 @@ export function getAllArticuloInsumoElab(): SWRResponse<
   any
 > {
   return useSWR<ArticuloInsumo[]>(
-    `https://traza-final.onrender.com/articuloInsumo/elaborados`,
+    `https://back-magni-0zhl.onrender.com/articuloInsumo/elaborados`,
     fetcher
   );
 }
@@ -41,7 +40,7 @@ export function getAllArticuloInsumoNoElab(): SWRResponse<
   any
 > {
   return useSWR<ArticuloInsumo[]>(
-    `https://traza-final.onrender.com/articuloInsumo/noElaborados`,
+    `https://back-magni-0zhl.onrender.com/articuloInsumo/noElaborados`,
     fetcher
   );
 }
@@ -60,7 +59,7 @@ export async function saveArticuloInsumo(articulo: ArticuloInsumo) {
   //Manejo de errores
   try {
     let response = await fetch(
-      "https://traza-final.onrender.com/articuloInsumo",
+      "https://back-magni-0zhl.onrender.com/articuloInsumo",
       options
     );
     if (response.ok) {
@@ -87,7 +86,7 @@ export async function editArticuloInsumo(articulo: ArticuloInsumo) {
   //Manejo de errores
   try {
     let response = await fetch(
-      `https://traza-final.onrender.com/articuloInsumo/${articulo.id}`,
+      `https://back-magni-0zhl.onrender.com/articuloInsumo/${articulo.id}`,
       options
     );
     if (response.ok) {

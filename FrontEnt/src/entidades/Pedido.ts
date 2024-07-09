@@ -9,17 +9,17 @@ class Pedido {
     id: number = 0;
     eliminado: boolean = false;
     fechaBaja: string = '9999-12-31';
-    horaEstimadaFinalizacion: string = '';
-    total: number = 0;
-    totalCosto: number = 0;
-    estado: string = '';
-    tipoEnvio: string = '';
-    formaPago: string = '';
-    fechaPedido: string = '';
-    domicilio: Domicilio = new Domicilio;
-    sucursal: Sucursal = new Sucursal;
+    horaEstimadaFinalizacion: string | null = '';
+    total: number | null = 0;
+    totalCosto: number | null = 0;
+    estado: string | null = '';
+    tipoEnvio: string | null = '';
+    formaPago: string | null = '';
+    fechaPedido: string | null = '';
+    domicilio: Domicilio | null = new Domicilio;
+    sucursal: Sucursal | null = new Sucursal;
     factura: Factura | null = new Factura;
-    cliente: Cliente = new Cliente;
+    cliente: Cliente | null = new Cliente;
     detallePedidos: DetallePedido[] = [];
     empleado: Empleado|null = new Empleado;
 }

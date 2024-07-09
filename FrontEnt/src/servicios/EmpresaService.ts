@@ -16,7 +16,7 @@ export function getAllEmpresas(
     const fetcher2 = (url: string) =>
       fetch(url, options).then((res) => res.json());
     return useSWR<Empresa[]>(
-      "https://traza-final.onrender.com/empresa",
+      "https://back-magni-0zhl.onrender.com/empresa",
       fetcher2
     );
   }
@@ -38,7 +38,7 @@ export async function saveEmpresa(empresa: Empresa) {
   //Manejo de errores
   try {
     let response = await fetch(
-      "https://traza-final.onrender.com/empresa",
+      "https://back-magni-0zhl.onrender.com/empresa",
       options
     );
     if (response.ok) {
@@ -64,7 +64,7 @@ export async function editEmpresa(empresa: Empresa) {
   //Manejo de errores
   try {
     let response = await fetch(
-      `https://traza-final.onrender.com/empresa/${empresa.id}`,
+      `https://back-magni-0zhl.onrender.com/empresa/${empresa.id}`,
       options
     );
     if (response.ok) {

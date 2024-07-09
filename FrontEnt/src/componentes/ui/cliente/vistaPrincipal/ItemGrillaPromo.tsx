@@ -17,18 +17,21 @@ import { useContext, useState } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
 import Promocion from "../../../../entidades/Promocion";
 import { useAuth0 } from "@auth0/auth0-react";
-import moment from "moment";
 import getHora from "../../../../hooks/getHora";
+import Pedido from "../../../../entidades/Pedido";
+import { verificarStockPromo } from "../../../../servicios/PedidoService";
 
 interface ItemGrillaProductoTypes {
   item: Promocion;
 }
 
 export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
-  const { carrito, addPromoCarrito, removePromoCarrito } = useContext(CarritoContext);
+  const { carrito, addPromoCarrito, removePromoCarrito } =
+    useContext(CarritoContext);
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const estaEnHorario=getHora();
+  const estaEnHorario = getHora();
   const { isAuthenticated } = useAuth0();
+  const [sinStock,SetSinStock]=useState<boolean>(false);
 
   const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -39,16 +42,36 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   };
 
   const open = Boolean(anchorEl);
-  console.log(estaEnHorario);
 
-  const estaEnCarrito = carrito.find((itemCarrito) => itemCarrito.promocion === item.id);
+  const estaEnCarrito = carrito.find(
+    (itemCarrito) => itemCarrito.promocion === item.id
+  );
+
+  const handleClick =async () => {
+    let pedido = new Pedido();
+    pedido.formaPago=null;
+    pedido.estado=null;
+    pedido.tipoEnvio=null;
+    pedido.totalCosto=null;
+    pedido.total=null;
+    pedido.cliente=null;
+    pedido.domicilio=null;
+    pedido.empleado=null;
+    pedido.factura=null;
+    pedido.sucursal=null;
+    pedido.detallePedidos=carrito;
+    if(await verificarStockPromo(item.id, pedido)){
+      addPromoCarrito(item);
+    }else{
+      alert("Esta promo esta sin stock"); 
+      SetSinStock(true);
+    }
+    
+  };
 
   return (
     <Card sx={{ maxWidth: 330, textAlign: "center" }}>
-      <CardMedia
-        sx={{ height: 150, margin: 1 }}
-        image={item.imagenes[0].url}
-      />
+      <CardMedia sx={{ height: 150, margin: 1 }} image={item.imagenes[0].url} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
           {item.denominacion}
@@ -85,26 +108,37 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
             <List>
               {item.promocionDetalles.map((detalle, index) => (
                 <ListItem key={index}>
-                  <ListItemText primary={detalle.cantidad + " " + detalle.articulo.denominacion} />
+                  <ListItemText
+                    primary={
+                      detalle.cantidad + " " + detalle.articulo.denominacion
+                    }
+                  />
                 </ListItem>
               ))}
             </List>
           </Popover>
-          {(isAuthenticated && estaEnHorario) && (
-          <Stack direction={"row"}>
-            <Button
-              size="small"
-              startIcon={<Remove />}
-              onClick={() => { removePromoCarrito(item) }}
-            />
-            <Badge badgeContent={estaEnCarrito ? estaEnCarrito.cantidad : 0} color="info">
-              <ShoppingCart />
-            </Badge>
-            <Button size="small"
-              startIcon={<Add />}
-              onClick={() => { addPromoCarrito(item) }}
-            />
-          </Stack>
+          {isAuthenticated && estaEnHorario && (
+            <Stack direction={"row"}>
+              <Button
+                size="small"
+                startIcon={<Remove />}
+                onClick={() => {
+                  removePromoCarrito(item);
+                }}
+              />
+              <Badge
+                badgeContent={estaEnCarrito ? estaEnCarrito.cantidad : 0}
+                color="info"
+              >
+                <ShoppingCart />
+              </Badge>
+              <Button
+                size="small"
+                startIcon={<Add />}
+                onClick={() => handleClick()}
+                disabled={sinStock}
+              />
+            </Stack>
           )}
         </Stack>
       </CardActions>

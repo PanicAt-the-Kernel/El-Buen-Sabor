@@ -4,7 +4,7 @@ import Categoria from "../entidades/Categoria";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 export function getAllCategorias(): SWRResponse<Categoria[], any, any> {
   return useSWR<Categoria[]>(
-    `https://traza-final.onrender.com/categoria`,
+    `https://back-magni-0zhl.onrender.com/categoria`,
     fetcher
   );
 }
@@ -13,7 +13,7 @@ export function getCategoriaId(
   idCategoria: number
 ): SWRResponse<Categoria, any, any> {
   return useSWR<Categoria>(
-    `https://traza-final.onrender.com/categoria/${idCategoria}`,
+    `https://back-magni-0zhl.onrender.com/categoria/${idCategoria}`,
     fetcher
   );
 }
@@ -23,7 +23,7 @@ export async function saveCategoria(categoria: Categoria, idSucursal: number) {
   let sucursal;
   try {
     const response = await fetch(
-      `https://traza-final.onrender.com/sucursal/${idSucursal}`
+      `https://back-magni-0zhl.onrender.com/sucursal/${idSucursal}`
     );
     if (!response.ok) {
       throw new Error(`Error HTTP: ${response.status}`);
@@ -50,7 +50,7 @@ export async function saveCategoria(categoria: Categoria, idSucursal: number) {
   //Manejo de errores
   try {
     let response = await fetch(
-      "https://traza-final.onrender.com/categoria/padre",
+      "https://back-magni-0zhl.onrender.com/categoria/padre",
       options
     );
     if (response.ok) {
@@ -77,7 +77,7 @@ export async function editCategoria(categoria: Categoria) {
     //Manejo de errores
     try {
       let response = await fetch(
-        `https://traza-final.onrender.com/categoria/padre/${categoria.id}`,
+        `https://back-magni-0zhl.onrender.com/categoria/padre/${categoria.id}`,
         options
       );
       if (response.ok) {
@@ -93,7 +93,7 @@ export async function editCategoria(categoria: Categoria) {
     idSucursal: number
   ): SWRResponse<Categoria[], any, any> {
     return useSWR<Categoria[]>(
-      `https://traza-final.onrender.com/categoria/sucursal/${idSucursal}`,
+      `https://back-magni-0zhl.onrender.com/categoria/sucursal/${idSucursal}`,
       fetcher
     );
   }

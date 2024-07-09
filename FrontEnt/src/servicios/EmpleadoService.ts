@@ -6,7 +6,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function getAllEmpleados(): SWRResponse<Empleado[], any, any> {
   return useSWR<Empleado[]>(
-    `https://traza-final.onrender.com/empleado`,
+    `https://back-magni-0zhl.onrender.com/empleado`,
     fetcher
   );
 }
@@ -26,7 +26,7 @@ export async function saveEmpleado(empleado: Empleado) {
   //Manejo de errores
   try {
     let response = await fetch(
-      "https://traza-final.onrender.com/empleado",
+      "https://back-magni-0zhl.onrender.com/empleado",
       options
     );
     if (response.ok) {
@@ -52,7 +52,7 @@ export async function editEmpleado(empleado: Empleado) {
   //Manejo de errores
   try {
     let response = await fetch(
-      `https://traza-final.onrender.com/empleado/${empleado.id}`,
+      `https://back-magni-0zhl.onrender.com/empleado/${empleado.id}`,
       options
     );
     if (response.ok) {
@@ -80,7 +80,7 @@ export async function bajaEmpleado(empleado: Empleado) {
   //Manejo de errores
   try {
     let response = await fetch(
-      `https://traza-final.onrender.com/empleado/${empleado.id}`,
+      `https://back-magni-0zhl.onrender.com/empleado/${empleado.id}`,
       options
     );
     if (response.ok) {

@@ -9,10 +9,10 @@ import ShoppingCartCheckoutIcon from "@mui/icons-material/ShoppingCartCheckout";
 import { Add, Remove, RemoveShoppingCart } from "@mui/icons-material";
 import { useContext } from "react";
 import { CarritoContext } from "../../../../context/CarritoContext";
-import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
-import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
 import DetallePedido from "../../../../entidades/DetallePedido";
 import { Link } from "react-router-dom";
+import Pedido from "../../../../entidades/Pedido";
+import { verificarStockArticulo, verificarStockPromo } from "../../../../servicios/PedidoService";
 
 interface DrawerTypes {
   estado: boolean;
@@ -22,20 +22,48 @@ interface DrawerTypes {
 export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
   const { carrito, vaciarCarrito, totalPedido, addArticuloCarrito, removeArticuloCarrito, addPromoCarrito, removePromoCarrito, totalEnvio } = useContext(CarritoContext);
   
-  const verificarStock = (item: DetallePedido) => {
-    if ((item.articuloAux as ArticuloInsumo).esParaElaborar != null) {
-      return (item.articuloAux as ArticuloInsumo).stockActual > item.cantidad;
-    } else {
-      return (item.articuloAux as ArticuloManufacturado).articuloManufacturadoDetalles.every(detalle => detalle.articuloInsumo.stockActual >= (item.cantidad + 1) * detalle.cantidad);
+  const verificarStock = async (item: DetallePedido) => {
+    if(item.articuloAux){
+      let pedido = new Pedido();
+      pedido.formaPago=null;
+      pedido.estado=null;
+      pedido.tipoEnvio=null;
+      pedido.totalCosto=null;
+      pedido.total=null;
+      pedido.cliente=null;
+      pedido.domicilio=null;
+      pedido.empleado=null;
+      pedido.factura=null;
+      pedido.sucursal=null;
+      pedido.detallePedidos=carrito;
+      if(await verificarStockArticulo(item.articuloAux.id, pedido)){
+        addArticuloCarrito(item.articuloAux!);
+      }else{
+        alert("Este articulo esta sin stock");
+      }
+    }else{
+      let pedido = new Pedido();
+      pedido.formaPago=null;
+      pedido.estado=null;
+      pedido.tipoEnvio=null;
+      pedido.totalCosto=null;
+      pedido.total=null;
+      pedido.cliente=null;
+      pedido.domicilio=null;
+      pedido.empleado=null;
+      pedido.factura=null;
+      pedido.sucursal=null;
+      pedido.detallePedidos=carrito;
+      if(await verificarStockPromo(item.promocionAux?.id!, pedido)){
+        addPromoCarrito(item.promocionAux!);
+      }else{
+        alert("Esta promo esta sin stock"); 
+      }
     }
   };
 
   const handleAddClick = (item: DetallePedido) => {
-    if (verificarStock(item)) {
-      addArticuloCarrito(item.articuloAux!);
-    } else {
-      alert("No hay stock suficiente");
-    }
+    verificarStock(item);
   };
 
   const DrawerList = (
@@ -136,7 +164,7 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
                           variant="contained"
                           color="success"
                           startIcon={<Add />}
-                          onClick={() => { addPromoCarrito(item.promocionAux!) }}
+                          onClick={() => { handleAddClick(item) }}
                           sx={{ minWidth: 30 }}
                         />
                       </Box>
