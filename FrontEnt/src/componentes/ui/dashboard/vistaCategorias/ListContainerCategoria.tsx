@@ -1,21 +1,39 @@
-import { Paper, List, ListItem, Stack, IconButton, ListItemText, Typography } from "@mui/material";
+import {
+  Paper,
+  List,
+  ListItem,
+  Stack,
+  IconButton,
+  ListItemText,
+  Typography,
+} from "@mui/material";
 import Categoria from "../../../../entidades/Categoria";
-import { editCategoria, getAllCategorias, getCategoriasIdSucursal } from "../../../../servicios/CategoriaService";
+import {
+  editCategoria,
+  getAllCategorias,
+  getCategoriasIdSucursal,
+} from "../../../../servicios/CategoriaService";
 import { useState } from "react";
 import { Edit } from "@mui/icons-material";
 import EditarCategoriaModal from "./EditarCategoriaModal";
+import AcordeonCategoria from "./AcordeonCategoria";
 
 interface ListContainerCategoriaTypes {
   busqueda: string;
 }
 
-export default function ListContainerCategoria({ busqueda }: ListContainerCategoriaTypes) {
+export default function ListContainerCategoria({
+  busqueda,
+}: ListContainerCategoriaTypes) {
   const { data: categoriasSuc } = getCategoriasIdSucursal(1);
   const { data: allCategorias } = getAllCategorias();
-  const [editingCategoria, setEditingCategoria] = useState<Categoria | null>(null);
+  const [editingCategoria, setEditingCategoria] = useState<Categoria | null>(
+    null
+  );
   const [openEditar, setOpenEditar] = useState(false);
-  const categoriasNoSuc = allCategorias?.filter((categoria: Categoria) =>
-    !categoriasSuc?.some((catSuc: Categoria) => catSuc.id === categoria.id)
+  const categoriasNoSuc = allCategorias?.filter(
+    (categoria: Categoria) =>
+      !categoriasSuc?.some((catSuc: Categoria) => catSuc.id === categoria.id)
   );
 
   const handleSubmit = (categoria: Categoria) => {
@@ -42,69 +60,52 @@ export default function ListContainerCategoria({ busqueda }: ListContainerCatego
     );
   });
 
-  const categoriasNoSucFiltradas = categoriasNoSuc?.filter((item: Categoria) => {
-    return (
-      busqueda == "" ||
-      item.denominacion.toLowerCase().includes(busqueda.toLowerCase())
-    );
-  });
+  const categoriasNoSucFiltradas = categoriasNoSuc?.filter(
+    (item: Categoria) => {
+      return (
+        busqueda == "" ||
+        item.denominacion.toLowerCase().includes(busqueda.toLowerCase())
+      );
+    }
+  );
 
   return (
     <>
       <Paper elevation={5} sx={{ marginTop: 2 }}>
-        <Typography variant="h6" sx={{ padding: 2, backgroundColor: "#f5f5f5" }}>
+        <Typography
+          variant="h6"
+          sx={{ padding: 2, backgroundColor: "#f5f5f5" }}
+        >
           Categorías de la sucursal
         </Typography>
-        <List sx={{ backgroundColor: "white" }}>
-
-
-
-          {categoriasSucFiltradas?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+        {categoriasSucFiltradas
+          ?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
           .map((item: Categoria) => (
-
-            <ListItem
-              key={item.id}
-              secondaryAction={
-                <Stack direction="row" spacing={2}>
-                  <IconButton edge="end" aria-label="Editar" onClick={() => handleOpenEditar(item)}>
-                    <Edit />
-                  </IconButton>
-                </Stack>
-              }
-            >
-              <ListItemText primary={item.denominacion} />
-            </ListItem>
+            <AcordeonCategoria
+              categoria={item}
+              openEditFunction={handleOpenEditar}
+            />
           ))}
-        </List>
       </Paper>
 
       <Paper elevation={5} sx={{ marginTop: 2 }}>
-        <Typography variant="h6" sx={{ padding: 2, backgroundColor: "#f5f5f5" }}>
+        <Typography
+          variant="h6"
+          sx={{ padding: 2, backgroundColor: "#f5f5f5" }}
+        >
           Categorías de otras sucursales
         </Typography>
-        <List sx={{ backgroundColor: "white" }}>
 
-
-
-          {categoriasNoSucFiltradas?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+        {categoriasNoSucFiltradas
+          ?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
           .map((item: Categoria) => (
-
-            <ListItem
-              key={item.id}
-              secondaryAction={
-                <Stack direction="row" spacing={2}>
-                  <IconButton edge="end" aria-label="Editar" onClick={() => handleOpenEditar(item)}>
-                    <Edit />
-                  </IconButton>
-                </Stack>
-              }
-            >
-              <ListItemText primary={item.denominacion} />
-            </ListItem>
+            <AcordeonCategoria
+              categoria={item}
+              openEditFunction={handleOpenEditar}
+            />
           ))}
-        </List>
       </Paper>
-      
+
       {openEditar && editingCategoria && (
         <EditarCategoriaModal
           open={openEditar}
@@ -114,5 +115,5 @@ export default function ListContainerCategoria({ busqueda }: ListContainerCatego
         />
       )}
     </>
-  )
+  );
 }
