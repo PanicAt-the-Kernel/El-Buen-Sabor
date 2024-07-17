@@ -11,6 +11,7 @@ import {
 import { useState } from "react";
 import EditarCategoriaModal from "./EditarCategoriaModal";
 import AcordeonCategoria from "./AcordeonCategoria";
+import { localSession } from "../../../../servicios/localSession";
 
 interface ListContainerCategoriaTypes {
   busqueda: string;
@@ -19,12 +20,13 @@ interface ListContainerCategoriaTypes {
 export default function ListContainerCategoria({
   busqueda,
 }: ListContainerCategoriaTypes) {
-  const { data: categoriasSuc } = getCategoriasIdSucursal(1);
+  const { data: categoriasSuc } = getCategoriasIdSucursal(localSession.getSucursal("sucursal").id);
   const { data: allCategorias } = getAllCategorias();
   const [editingCategoria, setEditingCategoria] = useState<Categoria | null>(
     null
   );
   const [openEditar, setOpenEditar] = useState(false);
+
   const categoriasNoSuc = allCategorias?.filter(
     (categoria: Categoria) =>
       !categoriasSuc?.some((catSuc: Categoria) => catSuc.id === categoria.id)
