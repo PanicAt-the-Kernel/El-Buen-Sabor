@@ -20,7 +20,7 @@ export default function BuscarCliente(){
         <Box component="form" onSubmit={handleBuscar}>
           <FormControl fullWidth margin="normal">
             <Input
-              placeholder="Buscar empleado"
+              placeholder="Buscar Cliente"
               id="nombreEmpleado"
               value={nombre}
               onChange={(e) => setNombre(e.target.value)}
