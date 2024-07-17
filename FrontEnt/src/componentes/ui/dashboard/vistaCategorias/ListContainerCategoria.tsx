@@ -1,10 +1,5 @@
 import {
   Paper,
-  List,
-  ListItem,
-  Stack,
-  IconButton,
-  ListItemText,
   Typography,
 } from "@mui/material";
 import Categoria from "../../../../entidades/Categoria";
@@ -14,7 +9,6 @@ import {
   getCategoriasIdSucursal,
 } from "../../../../servicios/CategoriaService";
 import { useState } from "react";
-import { Edit } from "@mui/icons-material";
 import EditarCategoriaModal from "./EditarCategoriaModal";
 import AcordeonCategoria from "./AcordeonCategoria";
 
