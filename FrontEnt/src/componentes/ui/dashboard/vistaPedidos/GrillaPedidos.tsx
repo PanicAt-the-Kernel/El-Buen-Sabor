@@ -24,10 +24,10 @@ export default function GrillaPedidos() {
         setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'APROBADO') || []);
       }
       if (userRoles.includes("CAJERO") && pedidos) {
-        setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'PENDIENTE' || pedido.estado === "TERMINADO" || pedido.estado === 'EN DELIVERY') || []);
+        setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'PENDIENTE' || pedido.estado === "TERMINADO" || pedido.estado === 'DELIVERY') || []);
       }
       if (userRoles.includes("DELIVERY") && pedidos) {
-        setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'EN DELIVERY') || []);
+        setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'DELIVERY') || []);
       }
     }
   }, [pedidos, userRoles]);
