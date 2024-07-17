@@ -5,19 +5,19 @@ import ItemGrillaPromocion from "./ItemGrillaPromocion";
 import { Edit } from "@mui/icons-material";
 import { useState } from "react";
 import AgregarPromocionModal from "./AgregarPromocionModal";
+import { localSession } from "../../../../servicios/localSession";
 
 interface GrillaPromocionTypes {
   busqueda: string;
 }
 
 export default function GrillaPromocion({ busqueda }: GrillaPromocionTypes) {
-  const idSucursal = 1;
+  const idSucursal = localSession.getSucursal("sucursal").id;
   const { data: promociones } = getPromocionesIdSucursal(idSucursal);
   const [editingProm, setEditingProm] = useState<Promocion | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
 
   const handleOpenEditar = (promocion: Promocion) => {
-    console.log(promocion);
     setEditingProm(promocion);
     setOpenEditar(true);
   };
@@ -44,6 +44,7 @@ export default function GrillaPromocion({ busqueda }: GrillaPromocionTypes) {
   return (
     <>
       <Grid container sx={{ marginTop: 2 }} spacing={2}>
+        {promocionesFiltradas?.length==0 && (<h1>No hay promociones disponibles</h1>)}
         {promocionesFiltradas?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
         .map((item: Promocion) => (
           <ItemGrillaPromocion

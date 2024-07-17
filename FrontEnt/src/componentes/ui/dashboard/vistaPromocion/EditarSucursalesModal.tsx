@@ -15,6 +15,7 @@ import Promocion from '../../../../entidades/Promocion';
 import { getSucursalesEmpresa } from '../../../../servicios/SucursalService';
 import { Add, Remove } from '@mui/icons-material';
 import Sucursal from '../../../../entidades/Sucursal';
+import { localSession } from '../../../../servicios/localSession';
 
 interface EditarSucursalesModalProps {
     open: boolean;
@@ -26,7 +27,7 @@ interface EditarSucursalesModalProps {
 function EditarSucursalesModal({ open, onClose, onSubmit, iPromocion }: EditarSucursalesModalProps) {
     const [sucursales, setSucursales] = useState<Sucursal[]>(iPromocion.sucursales);
     const [sucursalesNoAgreg, setSucursalesNoAgreg] = useState<Sucursal[]>([]);
-    const idEmpresa = 1;
+    const idEmpresa = localSession.getSucursal("sucursal").empresa.id;
     const { data: sucursalesEmp } = getSucursalesEmpresa(idEmpresa);
     
     useEffect(() => {
