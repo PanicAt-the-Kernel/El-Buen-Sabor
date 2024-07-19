@@ -61,6 +61,7 @@ export default function VistaPedidoCliente() {
           formaPago: metodoPago,
           domicilio: sucursal.domicilio,
         };
+        
         savePedido(datosPedido, setTotalPedido, vaciarCarrito, 0);
         window.location.replace("/cliente/pedidos");
       } else {
@@ -106,7 +107,7 @@ export default function VistaPedidoCliente() {
         datosPedido,
         setTotalPedido,
         vaciarCarrito,
-        0
+        20
       );
       if (pedidoID != undefined) {
         let idMP = await llamarMercadoPago(pedidoID);
