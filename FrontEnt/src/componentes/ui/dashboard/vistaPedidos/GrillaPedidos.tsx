@@ -1,12 +1,12 @@
 import { CircularProgress, Container, Grid } from "@mui/material";
 import Pedido from "../../../../entidades/Pedido";
 import ItemGrillaPedido from "./ItemGrillaPedido";
-import { getAllPedidos } from "../../../../servicios/PedidoService";
+import {  getPedidosPorSucursal } from "../../../../servicios/PedidoService";
 import { useEffect, useState } from "react";
 import { localSession } from "../../../../servicios/localSession";
 
 export default function GrillaPedidos() {
-  const { data, isLoading, error } = getAllPedidos();
+  const { data, isLoading, error } = getPedidosPorSucursal(localSession.getSucursal("sucursal").id)
   const userRoles: string[] = localSession.getRol("userRoles") || [""];
   const [pedidos, setPedidos] = useState<Pedido[] | null>(null);
 
