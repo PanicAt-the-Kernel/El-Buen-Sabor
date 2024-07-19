@@ -1,17 +1,18 @@
 import { Button, Grid } from "@mui/material";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
-import { editArticuloManufacturado, getAllArticulosManufacturados } from "../../../../servicios/ArticuloManufacturadoService";
+import { editArticuloManufacturado, getArticulosManufacturadosIdSucursal } from "../../../../servicios/ArticuloManufacturadoService";
 import ItemGrillaProducto from "./ItemGrillaProducto";
 import { useState } from "react";
 import AgregarProductoModal from "./AgregarProductoModal";
 import { Edit } from "@mui/icons-material";
+import { localSession } from "../../../../servicios/localSession";
 
 interface GrillaProductoTypes {
   busqueda: string;
 }
 
 export default function GrillaProducto({ busqueda }: GrillaProductoTypes) {
-  const { data: articuloManufacturados } = getAllArticulosManufacturados();
+  const { data: articuloManufacturados } = getArticulosManufacturadosIdSucursal(localSession.getSucursal("sucursal").id);
   const [editingArtMan, setEditingArtMan] = useState<ArticuloManufacturado | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
 

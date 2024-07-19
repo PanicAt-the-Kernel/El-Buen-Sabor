@@ -170,9 +170,8 @@ export async function verificarStockArticulo(id:number,pedido:Pedido){
   try{
     let response = await fetch(`https://back-magni-0zhl.onrender.com/pedidos/stockArticulo/${id}`,options);
     if(response.ok){
-      let data=await response.json();
-      console.log(data);
-      return true;
+      let data = await response.json();
+      return data as boolean;
     }else{
       alert("ERROR HTTP");
       let data=await response.json();

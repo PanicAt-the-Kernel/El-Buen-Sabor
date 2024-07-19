@@ -23,6 +23,24 @@ export function getAllInsumos(
   return useSWR<ArticuloInsumo[]>(null, fetcher);
 }
 
+export function getInsumosPorSucursal(token:string|null,idSucursal:number){
+  if (token != null) {
+    const options = {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+    const fetcher2 = (url: string) =>
+      fetch(url, options).then((res) => res.json());
+    return useSWR<ArticuloInsumo[]>(
+      `https://back-magni-0zhl.onrender.com/articuloInsumo/sucursal/${idSucursal}`,
+      fetcher2
+    );
+  }
+  //Si el token es null ponemos en pausa a la funcion fetch
+  return useSWR<ArticuloInsumo[]>(null, fetcher);
+}
+
 export function getAllArticuloInsumoElab(): SWRResponse<
   ArticuloInsumo[],
   any,

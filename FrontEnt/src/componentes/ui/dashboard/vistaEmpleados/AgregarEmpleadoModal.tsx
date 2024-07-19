@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Modal, Box, TextField, Stack, Button, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import Empleado from "../../../../entidades/Empleado";
-import { saveEmpleado } from "../../../../servicios/EmpleadoService";
 
 interface AgregarEmpleadoModalProps {
   open: boolean;
@@ -64,11 +63,11 @@ function validateFecha(e) {
   }
 }
 
-function AgregarEmpleadoModal({ open, onClose, iEmpleado }: AgregarEmpleadoModalProps) {
+function AgregarEmpleadoModal({ open, onClose, iEmpleado, onSubmit }: AgregarEmpleadoModalProps) {
   const [empleado, setEmpleado] = useState<Empleado>(iEmpleado);
 
   const handleSubmit = (empleado: Empleado) => {
-    saveEmpleado(empleado);
+    onSubmit(empleado);
     onClose();
   };
 

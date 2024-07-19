@@ -4,10 +4,11 @@ import { Button } from '@mui/material';
 import AgregarCategoriaModal from './AgregarCategoriaModal';
 import Categoria from '../../../../entidades/Categoria';
 import { saveCategoria } from '../../../../servicios/CategoriaService';
+import { localSession } from '../../../../servicios/localSession';
 
 function BotonAgregarCategoria() {
     const [open, setOpen] = useState(false);
-    const idSucursal = 1;
+    const idSucursal = localSession.getSucursal("sucursal").id;
 
     const handleOpen = () => setOpen(true);
 

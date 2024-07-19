@@ -117,9 +117,11 @@ export default function VistaPedidoCliente() {
         } else {
           return;
         }
-      } else {
+      }else{
+        alert("Debes seleccionar un domicilio")
         return;
       }
+      
     }
   };
 

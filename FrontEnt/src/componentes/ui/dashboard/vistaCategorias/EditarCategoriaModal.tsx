@@ -83,6 +83,9 @@ function EditarCategoriaModal({ open, onClose, onSubmit, iCategoria }: EditarCat
                             variant="outlined"
                             value={categoria.denominacion}
                             onChange={(e) => setCategoria({ ...categoria, denominacion: e.target.value })}
+                            inputProps={{
+                                maxLength:20
+                            }}
                         />
                         <Button variant="contained" color="info" onClick={handleOpenSubCat}>
                             Editar SubCategorías

@@ -1,19 +1,19 @@
 import { Button, Checkbox, FormControlLabel, Grid } from "@mui/material";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
-import { editArticuloInsumo, getAllInsumos } from "../../../../servicios/ArticuloInsumoService";
+import { editArticuloInsumo, getInsumosPorSucursal } from "../../../../servicios/ArticuloInsumoService";
 import ItemGrillaInsumos from "./ItemGrillaInsumos";
 import { useState } from "react";
 import { Edit } from "@mui/icons-material";
 import AgregarInsumoModal from "./AgregarInsumoModal";
 import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
+import { localSession } from "../../../../servicios/localSession";
 
 interface GrillaProps {
   busqueda: string;
 }
 export default function GrillaInsumos({ busqueda }: GrillaProps) {
-  //const idSucursal = 1;
   const token = getTokenAuth0();
-  const { data: insumos } = getAllInsumos(token);
+  const { data: insumos } = getInsumosPorSucursal(token,localSession.getSucursal('sucursal').id);
   const [editingInsumo, setEditingInsumo] = useState<ArticuloInsumo | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
   const [showLowStock, setShowLowStock] = useState(false);

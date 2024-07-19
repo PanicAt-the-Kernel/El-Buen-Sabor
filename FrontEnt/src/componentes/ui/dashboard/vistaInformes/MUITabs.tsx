@@ -1,6 +1,16 @@
 import * as React from "react";
 import AlertaHolder from "./AlertaHolder";
-import { Box, Button, Container, Paper, Stack, Tab, Tabs, TextField, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Paper,
+  Stack,
+  Tab,
+  Tabs,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { SyntheticEvent, useState } from "react";
 
 interface TabPanelProps {
@@ -48,7 +58,7 @@ export default function MUITabs() {
       form.action = url;
       form.submit();
     } else {
-      alert("La fecha 1 debe ser menor a la fecha 2")
+      alert("La fecha 1 debe ser menor a la fecha 2");
       return null;
     }
   };
@@ -74,8 +84,9 @@ export default function MUITabs() {
         <Container>
           <Paper elevation={6}>
             <Stack
-              direction="column"
+              direction={{ sm: "column", xs: "column", md: "row" }}
               spacing={3}
+              sx={{ padding: 2 }}
             >
               <TextField
                 type="date"
@@ -92,82 +103,104 @@ export default function MUITabs() {
                 onChange={(e) => setFecha2(e.target.value)}
               />
             </Stack>
-            <Box
-              component="form"
-              id="form1"
-              onSubmit={(e) => onSubmit(e, `https://traza-final.onrender.com/estadisticas/excelIMensual?fechaDesde=${fecha1}&fechaHasta=${fecha2}`)}
-              method="POST"
-              sx={{
-                margin: 1,
-                marginTop: 2,
-                paddingLeft: 2,
-                paddingRight: 2
-              }}
-            >
-              <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit">
-                Recaudaciones Mensuales
-              </Button>
-            </Box>
-            <Box
-              component="form"
-              id="form2"
-              onSubmit={(e) => onSubmit(e, `https://traza-final.onrender.com/estadisticas/excelIDiario?fechaDesde=${fecha1}&fechaHasta=${fecha2}`)}
-              method="POST"
-              sx={{
-                margin: 1,
-                paddingLeft: 2,
-                paddingRight: 2
-              }}
-            >
-              <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit">
-                Recaudaciones Diarias
-              </Button>
-            </Box>
-            <Box
-              component="form"
-              id="form3"
-              onSubmit={(e) => onSubmit(e, `https://traza-final.onrender.com/estadisticas/excelRanking?fechaDesde=${fecha1}&fechaHasta=${fecha2}`)}
-              method="POST"
-              sx={{
-                margin: 1,
-                paddingLeft: 2,
-                paddingRight: 2
-              }}
-            >
-              <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit">
-                Ranking de comidas
-              </Button>
-            </Box>
-            <Box
-              component="form"
-              id="form4"
-              onSubmit={(e) => onSubmit(e, `https://traza-final.onrender.com/estadisticas/excelPedidos?fechaDesde=${fecha1}&fechaHasta=${fecha2}`)}
-              method="POST"
-              sx={{
-                margin: 1,
-                paddingLeft: 2,
-                paddingRight: 2
-              }}
-            >
-              <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit">
-                Pedidos por Cliente
-              </Button>
-            </Box>
-            <Box
-              component="form"
-              id="form5"
-              onSubmit={(e) => onSubmit(e, `https://traza-final.onrender.com/estadisticas/excelGanancias?fechaDesde=${fecha1}&fechaHasta=${fecha2}`)}
-              method="POST"
-              sx={{
-                margin: 1,
-                paddingLeft: 2,
-                paddingRight: 2
-              }}
-            >
-              <Button sx={{ marginBottom: 3 }} variant="contained" color="primary" type="submit">
-                Ganancias
-              </Button>
-            </Box>
+            <Stack alignItems={"center"} sx={{padding:3}} spacing={2}>
+              <Box
+                component="form"
+                id="form1"
+                onSubmit={(e) =>
+                  onSubmit(
+                    e,
+                    `https://back-magni-0zhl.onrender.com/estadisticas/excelIMensual?fechaDesde=${fecha1}&fechaHasta=${fecha2}`
+                  )
+                }
+                method="POST"
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Recaudaciones Mensuales
+                </Button>
+              </Box>
+              <Box
+                component="form"
+                id="form2"
+                onSubmit={(e) =>
+                  onSubmit(
+                    e,
+                    `https://back-magni-0zhl.onrender.com/estadisticas/excelIDiario?fechaDesde=${fecha1}&fechaHasta=${fecha2}`
+                  )
+                }
+                method="POST"
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Recaudaciones Diarias
+                </Button>
+              </Box>
+              <Box
+                component="form"
+                id="form3"
+                onSubmit={(e) =>
+                  onSubmit(
+                    e,
+                    `https://back-magni-0zhl.onrender.com/estadisticas/excelRanking?fechaDesde=${fecha1}&fechaHasta=${fecha2}`
+                  )
+                }
+                method="POST"
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Ranking de comidas
+                </Button>
+              </Box>
+              <Box
+                component="form"
+                id="form4"
+                onSubmit={(e) =>
+                  onSubmit(
+                    e,
+                    `https://back-magni-0zhl.onrender.com/estadisticas/excelPedidos?fechaDesde=${fecha1}&fechaHasta=${fecha2}`
+                  )
+                }
+                method="POST"
+              >
+                <Button
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Pedidos por Cliente
+                </Button>
+              </Box>
+              <Box
+                component="form"
+                id="form5"
+                onSubmit={(e) =>
+                  onSubmit(
+                    e,
+                    `https://back-magni-0zhl.onrender.com/estadisticas/excelGanancias?fechaDesde=${fecha1}&fechaHasta=${fecha2}`
+                  )
+                }
+                method="POST"
+              >
+                <Button
+                  sx={{ marginBottom: 3 }}
+                  variant="contained"
+                  color="primary"
+                  type="submit"
+                >
+                  Ganancias
+                </Button>
+              </Box>
+            </Stack>
           </Paper>
         </Container>
       </CustomTabPanel>

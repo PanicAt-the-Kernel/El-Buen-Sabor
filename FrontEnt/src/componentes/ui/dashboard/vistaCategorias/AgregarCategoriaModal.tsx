@@ -54,7 +54,7 @@ function AgregarCategoriaModal({ open, onClose, onSubmit, iCategoria }: AgregarC
                             value={categoria.denominacion}
                             onChange={(e) => setCategoria({ ...categoria, denominacion: e.target.value })}
                             inputProps={{
-                                maxLength:10
+                                maxLength:20
                             }}
                         />
                         <Button variant="contained" color="primary" type="submit">
