@@ -61,6 +61,7 @@ export default function VistaPedidoCliente() {
           formaPago: metodoPago,
           domicilio: sucursal.domicilio,
         };
+        
         savePedido(datosPedido, setTotalPedido, vaciarCarrito, 0);
         window.location.replace("/cliente/pedidos");
       } else {
@@ -93,30 +94,26 @@ export default function VistaPedidoCliente() {
       }
     } else {
       //POST CON DOMICILIO
-      if(domicilio!=0){
-        const domi=cliente.domicilios.find((item:Domicilio)=>item.id==domicilio);
-        datosPedido = {
-          ...datosPedido,
-          total: totalPedido,
-          tipoEnvio: metodoEntrega,
-          formaPago: metodoPago,
-          domicilio: domi!,
-        };
-        //HACER POST
-        let pedidoID = await savePedido(
-          datosPedido,
-          setTotalPedido,
-          vaciarCarrito,
-          0
-        );
-        if (pedidoID != undefined) {
-          let idMP = await llamarMercadoPago(pedidoID);
-          if (idMP != undefined) {
-            setPreference(idMP);
-            setOpen(!open);
-          } else {
-            return;
-          }
+      const domi=cliente.domicilios.find((item:Domicilio)=>item.id==domicilio);
+      datosPedido = {
+        ...datosPedido,
+        total: totalPedido,
+        tipoEnvio: metodoEntrega,
+        formaPago: metodoPago,
+        domicilio: domi!,
+      };
+      //HACER POST
+      let pedidoID = await savePedido(
+        datosPedido,
+        setTotalPedido,
+        vaciarCarrito,
+        20
+      );
+      if (pedidoID != undefined) {
+        let idMP = await llamarMercadoPago(pedidoID);
+        if (idMP != undefined) {
+          setPreference(idMP);
+          setOpen(!open);
         } else {
           return;
         }

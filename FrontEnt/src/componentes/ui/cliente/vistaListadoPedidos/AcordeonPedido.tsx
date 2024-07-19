@@ -65,7 +65,7 @@ export default function AcordeonPedido({ pedido }: AcordeonPedidoTypes) {
         <Button variant="contained" color="info">
           <Typography sx={{ fontSize: 13 }} onClick={() => setOpenModal(!openModal)}>Productos Pedidos</Typography>
         </Button>
-        <a href={`https://traza-final.onrender.com/facturas/${pedido.id}`} target="_blank" rel="noopener noreferrer">
+        <a href={`https://back-magni-0zhl.onrender.com/facturas/${pedido.id}`} target="_blank" rel="noopener noreferrer">
           <Button variant="contained" color="warning">
             <Typography sx={{ fontSize: 13 }}>Descargar Factura</Typography>
           </Button>
