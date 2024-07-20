@@ -20,7 +20,7 @@ export default function MercadoPagoError() {
           width: "100wh",
           height: "100vh",
           background:
-            "linear-gradient(-45deg, rgba(242,242,239,1) 0%, rgba(245,38,38,1) 100%)"
+            "linear-gradient(-45deg, rgba(242,242,239,1) 0%, rgba(245,38,38,1) 100%)",
         }}
       >
         <Container sx={{ padding: 2 }}>
@@ -52,8 +52,17 @@ export default function MercadoPagoError() {
                 </Typography>
               </Box>
               <Stack direction="row" spacing={2}>
-              <Link to={`/cliente/sucursal/${localSession.getSucursal("sucursal").id}`} className="btn btn-primary">Regresar a la tienda</Link>
-              <Link to={`/cliente/pedidos`} className="btn btn-warning">Ver mis pedidos</Link>
+                <Link
+                  to={`/cliente/sucursal/${
+                    localSession.getSucursal("sucursal").id
+                  }`}
+                  className="btn btn-primary"
+                >
+                  Regresar a la tienda
+                </Link>
+                <Link to={`/cliente/pedidos`} className="btn btn-warning">
+                  Ver mis pedidos
+                </Link>
               </Stack>
             </Stack>
           </Paper>
