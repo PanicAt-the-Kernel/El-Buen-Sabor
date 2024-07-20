@@ -8,12 +8,16 @@ export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
   return useSWR<Pedido[]>("https://back-magni-0zhl.onrender.com/pedidos", fetcher);
 }
 
+export function getPedidosPorSucursal(id:number):SWRResponse<Pedido[],any,any>{
+  return useSWR<Pedido[]>(`https://back-magni-0zhl.onrender.com/pedidos/sucursal/${id}`,fetcher);
+}
+
 export function getPedidosCliente(
   clienteEmail: string
 ): SWRResponse<Pedido[], any, any> {
   return useSWR<Pedido[]>(
     `https://back-magni-0zhl.onrender.com/pedidos/cliente?userName=${clienteEmail}`,
-    fetcher
+    fetcher,{refreshInterval:2000}
   );
 }
 
@@ -183,4 +187,23 @@ export async function verificarStockArticulo(id:number,pedido:Pedido){
     console.log(error)
     return false;
   }
+}
+
+export async function cancelarPedido(id:number){
+    const options={
+      mode:"cors" as RequestMode,
+      method:"PATCH",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify("CANCELADO")
+    }
+    try{
+      const response=await fetch(`https://back-magni-0zhl.onrender.com/pedidos/${id}`,options);
+      if(response.ok){
+
+      }
+    }catch{
+      
+    }
 }

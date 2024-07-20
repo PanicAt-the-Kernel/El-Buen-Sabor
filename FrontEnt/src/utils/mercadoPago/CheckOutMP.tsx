@@ -1,5 +1,6 @@
 import { Wallet, initMercadoPago } from "@mercadopago/sdk-react";
 import { useEffect } from "react";
+import { localSession } from "../../servicios/localSession";
 
 interface CheckOutMPTypes {
   preferenceID: string;
@@ -12,18 +13,25 @@ export default function CheckOutMP({ preferenceID }: CheckOutMPTypes) {
     });
   }, []);
 
-  console.log(preferenceID)
+  console.log(preferenceID);
   return (
     <div
-    id="wallet_container"
-  >
-    <Wallet
-      initialization={{
-        preferenceId: preferenceID,
-        redirectMode: "blank",
-      }}
-      customization={{ texts: { valueProp: "smart_option" } }}
-    />
-  </div>
+      id="wallet_container"
+      onClick={() =>
+        setTimeout(function () {
+          window.location.replace(
+            `/cliente/sucursal/${localSession.getSucursal("sucursal").id}`
+          );
+        }, 3000)
+      }
+    >
+      <Wallet
+        initialization={{
+          preferenceId: preferenceID,
+          redirectMode: "blank",
+        }}
+        customization={{ texts: { valueProp: "smart_option" } }}
+      />
+    </div>
   );
 }
