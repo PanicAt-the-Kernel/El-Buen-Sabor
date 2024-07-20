@@ -29,8 +29,8 @@ export default function ModalListadoProductos({ open, setOpen, detalles }: Modal
       >
         <Box component="div">
           <Stack spacing={2}>
-            {detalles.map((item: DetallePedido) => (
-              <CardArticulo detalle={item} />
+            {detalles.map((item: DetallePedido,index:number) => (
+              <CardArticulo key={index} detalle={item} />
             ))}
           </Stack>
         </Box>

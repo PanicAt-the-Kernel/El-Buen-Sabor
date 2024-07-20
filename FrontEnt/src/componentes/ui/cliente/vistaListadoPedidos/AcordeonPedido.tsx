@@ -11,6 +11,7 @@ import {
 import Pedido from "../../../../entidades/Pedido";
 import ModalListadoProductos from "./ModalListadoProductos";
 import { useState } from "react";
+import { cancelarPedido } from "../../../../servicios/PedidoService";
 
 interface AcordeonPedidoTypes {
   pedido: Pedido;
@@ -18,8 +19,21 @@ interface AcordeonPedidoTypes {
 
 export default function AcordeonPedido({ pedido }: AcordeonPedidoTypes) {
   const [openModal, setOpenModal] = useState<boolean>(false);
+  function colorFondo(){
+    switch(pedido.estado){
+      case "PENDIENTE": return {backgroundColor: "#ffe69c"};
+      case "CANCELADO": return {backgroundColor: "#ea868f" };
+      case "RECHAZADO": return {backgroundColor: "#ea868f" };
+      case "TERMINADO": return {backgroundColor: "#75b798"};
+      case "DELIVERY": return {backgroundColor: "#6ea8fe"};
+      case "APROBADO": return {backgroundColor: "#79dfc1"};
+      case "FACTURADO": return {backgroundColor: "#feb272"};
+      default: return {};
+
+    }
+  }
   return (
-    <Accordion sx={{ backgroundColor: "#B9E4C9" }}>
+    <Accordion sx={colorFondo()}>
       <AccordionSummary expandIcon={<ArrowDropDown />}>
         <Stack direction="row" spacing={1} alignItems={"center"}>
           <Typography>Pedido N°{pedido.id}</Typography>
@@ -35,23 +49,39 @@ export default function AcordeonPedido({ pedido }: AcordeonPedidoTypes) {
             <Stack>
               <Typography>Metodo de Entrega: {pedido.tipoEnvio}</Typography>
               <Typography>Metodo de Pago: {pedido.formaPago}</Typography>
-              <Typography>Domicilio: {pedido.domicilio.calle + " " + pedido.domicilio.numero}</Typography>
+              <Typography>
+                {/*@ts-ignore */}
+                Domicilio: {pedido.domicilio.calle == null ? "Error" : pedido.domicilio.calle} {pedido.domicilio.numero == null ? "Error" : pedido.domicilio.numero}
+              </Typography>
             </Stack>
           </fieldset>
           <fieldset>
             <legend>Datos Cliente</legend>
             <Stack>
-              <Typography>Nombre: {pedido.cliente.nombre}</Typography>
-              <Typography>Apellido: {pedido.cliente.apellido}</Typography>
-              <Typography>Telefono: {pedido.cliente.telefono}</Typography>
+              {/*@ts-ignore */}
+              <Typography>Nombre: {pedido.cliente.nombre == null ? "Error" : pedido.cliente.nombre }</Typography>
+              {/*@ts-ignore */}
+              <Typography>Apellido: {pedido.cliente.apellido == null ? "Error" : pedido.cliente.apellido}</Typography>
+              {/*@ts-ignore */}
+              <Typography>Telefono: {pedido.cliente.telefono == null ? "Error" : pedido.cliente.telefono}</Typography>
             </Stack>
           </fieldset>
           <fieldset>
             <legend>Datos Sucursal</legend>
-            <Typography>Nombre Sucursal: {pedido.sucursal.nombre}</Typography>
-            <Typography>Direccion: {pedido.sucursal.domicilio.calle + " " + pedido.sucursal.domicilio.numero}</Typography>
-            <Typography>Localidad: {pedido.sucursal.domicilio.localidad.nombre}</Typography>
-            <Typography>Provincia: {pedido.sucursal.domicilio.localidad.provincia.nombre}</Typography>
+            {/*@ts-ignore */}
+            <Typography>Nombre Sucursal: {pedido.sucursal.nombre == null ? "Error" : pedido.sucursal.nombre}</Typography>
+            <Typography>
+              {/*@ts-ignore */}
+              Direccion: {pedido.sucursal.domicilio.calle = null ? "Error" : pedido.sucursal.domicilio.calle} {pedido.sucursal.domicilio.numero == null ? "Error" : pedido.sucursal.domicilio.numero}
+            </Typography>
+            <Typography>
+              {/*@ts-ignore */}
+              Localidad: {pedido.sucursal.domicilio.localidad.nombre == null ? "Error" : pedido.sucursal.domicilio.localidad.nombre}
+            </Typography>
+            <Typography>
+              {/*@ts-ignore */}
+              Provincia: {pedido.sucursal.domicilio.localidad.provincia.nombre == null ? "Error" : pedido.sucursal.domicilio.localidad.provincia.nombre}
+            </Typography>
           </fieldset>
           <fieldset>
             <legend>Datos Pedido</legend>
@@ -63,15 +93,39 @@ export default function AcordeonPedido({ pedido }: AcordeonPedidoTypes) {
       </AccordionDetails>
       <AccordionActions>
         <Button variant="contained" color="info">
-          <Typography sx={{ fontSize: 13 }} onClick={() => setOpenModal(!openModal)}>Productos Pedidos</Typography>
+          <Typography
+            sx={{ fontSize: 13 }}
+            onClick={() => setOpenModal(!openModal)}
+          >
+            Productos Pedidos
+          </Typography>
         </Button>
-        <a href={`https://back-magni-0zhl.onrender.com/facturas/${pedido.id}`} target="_blank" rel="noopener noreferrer">
-          <Button variant="contained" color="warning">
-            <Typography sx={{ fontSize: 13 }}>Descargar Factura</Typography>
+        {pedido.estado == "FACTURADO" && (
+          <a
+            href={`https://back-magni-0zhl.onrender.com/facturas/${pedido.id}`}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <Button variant="contained" color="warning">
+              <Typography sx={{ fontSize: 13 }}>Descargar Factura</Typography>
+            </Button>
+          </a>
+        )}
+        {pedido.estado == "PENDIENTE" && (
+          <Button
+            variant="contained"
+            color="error"
+            onClick={() => cancelarPedido(pedido.id)}
+          >
+            Cancelar Pedido
           </Button>
-        </a>
+        )}
       </AccordionActions>
-      <ModalListadoProductos open={openModal} setOpen={setOpenModal} detalles={pedido.detallePedidos} />
+      <ModalListadoProductos
+        open={openModal}
+        setOpen={setOpenModal}
+        detalles={pedido.detallePedidos}
+      />
     </Accordion>
   );
 }

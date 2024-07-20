@@ -17,7 +17,7 @@ export function getPedidosCliente(
 ): SWRResponse<Pedido[], any, any> {
   return useSWR<Pedido[]>(
     `https://back-magni-0zhl.onrender.com/pedidos/cliente?userName=${clienteEmail}`,
-    fetcher
+    fetcher,{refreshInterval:2000}
   );
 }
 
@@ -201,7 +201,7 @@ export async function cancelarPedido(id:number){
     try{
       const response=await fetch(`https://back-magni-0zhl.onrender.com/pedidos/${id}`,options);
       if(response.ok){
-        
+
       }
     }catch{
       
