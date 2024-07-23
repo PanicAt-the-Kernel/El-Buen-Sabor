@@ -8,10 +8,17 @@ import {
   Typography,
 } from "@mui/material";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { localSession } from "../../servicios/localSession";
+import { actualizarEstadoPago } from "../../servicios/PedidoService";
+import { useEffect } from "react";
 
 export default function MercadoPagoSuccess() {
+  const {id}=useParams();
+  useEffect(()=>{
+    actualizarEstadoPago(Number(id),"PAGO_REALIZADO");
+  })
+  
   return (
     <ClienteLayout>
       <Box
@@ -51,7 +58,14 @@ export default function MercadoPagoSuccess() {
                   Disfruta de tu compra!
                 </Typography>
               </Box>
-              <Link to={`cliente/sucursal/${localSession.getSucursal("sucursal").id}`} className="btn btn-primary">Regresar a la tienda</Link>
+              <Link
+                to={`/cliente/sucursal/${
+                  localSession.getSucursal("sucursal").id
+                }`}
+                className="btn btn-primary"
+              >
+                Regresar a la tienda
+              </Link>
             </Stack>
           </Paper>
         </Container>

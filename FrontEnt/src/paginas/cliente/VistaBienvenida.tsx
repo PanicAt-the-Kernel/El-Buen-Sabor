@@ -51,9 +51,6 @@ export default function VistaBienvenida() {
           <Paper
             elevation={5}
             sx={{
-              background: "rgba(255,255,255,0.60)",
-              backdropFilter: "blur(5px)",
-              border: "1px solid rgba(255, 255, 255, 0.5)",
               overflow: "hidden",
               maxHeight: 630,
               overflowY: "scroll",
@@ -96,11 +93,6 @@ export default function VistaBienvenida() {
         <Container sx={{ padding: 2 }}>
           <Paper
             elevation={5}
-            sx={{
-              background: "rgba(255,255,255,0.48)",
-              backdropFilter: "blur(5px)",
-              border: "1px solid rgba(255, 255, 255, 0.3)",
-            }}
           >
             <Stack
               direction={{ xs: "column", sm: "column" }}

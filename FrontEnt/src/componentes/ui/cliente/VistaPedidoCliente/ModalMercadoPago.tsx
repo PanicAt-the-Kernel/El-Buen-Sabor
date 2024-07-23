@@ -5,17 +5,19 @@ import PreferenceMP from "../../../../entidades/PreferenceMP";
 interface ModalMercadoPagoTypes {
   open: boolean;
   preferenceID: PreferenceMP;
+  setOpen:(item:boolean)=>void;
 }
 
 export default function ModalMercadoPago({
   open,
   preferenceID,
+  setOpen=()=>{},
 }: ModalMercadoPagoTypes) {
   if (preferenceID.id == "") {
     return null;
   }
   return (
-    <Modal open={open} onClose={() =>{}}>
+    <Modal open={open} onClose={() =>{setOpen(!open)}}>
       <Container>
         <Paper
           elevation={5}

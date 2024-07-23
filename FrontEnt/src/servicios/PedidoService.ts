@@ -17,7 +17,7 @@ export function getPedidosCliente(
 ): SWRResponse<Pedido[], any, any> {
   return useSWR<Pedido[]>(
     `https://back-magni-0zhl.onrender.com/pedidos/cliente?userName=${clienteEmail}`,
-    fetcher,{refreshInterval:2000}
+    fetcher
   );
 }
 
@@ -201,9 +201,32 @@ export async function cancelarPedido(id:number){
     try{
       const response=await fetch(`https://back-magni-0zhl.onrender.com/pedidos/${id}`,options);
       if(response.ok){
-
+        alert("Tu pedido ha sido cancelado correctamente");
+      }else{
+        alert("Ocurrio un error al cancelar el pedido");
       }
     }catch{
-      
+      alert("Ocurrio un error al cancelar el pedido");
     }
+}
+
+export async function actualizarEstadoPago(id:number,estado:string){
+  const options={
+    mode:"cors" as RequestMode,
+    method:"PATCH",
+    headers:{
+      "Content-Type":"application/json"
+    },
+    body:JSON.stringify(estado)
+  }
+  try{
+    const response=await fetch(`https://back-magni-0zhl.onrender.com/pedidos/${id}`,options);
+    if(response.ok){
+      console.log("Estado actualizado correctamenete");
+    }else{
+      console.log("Ocurrio un error al actualizar el estado")
+    }
+  }catch{
+    console.log("Ocurrio un error al actualizar el estado de pago");
+  }
 }
