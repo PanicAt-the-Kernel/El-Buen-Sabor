@@ -56,10 +56,16 @@ function validateTipo(e) {
 
 //@ts-ignore
 function validateFecha(e) {
-  if (e.target.value > Date.now()) {
-    errorTipo = true;
+  const selectedDate = new Date(e.target.value);
+  const today = new Date();
+  const age = today.getFullYear() - selectedDate.getFullYear();
+  const monthDifference = today.getMonth() - selectedDate.getMonth();
+  const dayDifference = today.getDate() - selectedDate.getDate();
+
+  if (age > 16 || (age === 16 && (monthDifference > 0 || (monthDifference === 0 && dayDifference >= 0)))) {
+    errorFecha = false;
   } else {
-    errorTipo = false;
+    errorFecha = true;
   }
 }
 
@@ -132,6 +138,9 @@ function AgregarEmpleadoModal({ open, onClose, iEmpleado, onSubmit }: AgregarEmp
               value={empleado.email}
               onChange={(e) => setEmpleado({ ...empleado, email: e.target.value })}
               onInput={validateEmail}
+              inputProps={{
+                maxLength: 320,
+              }}
             />
             {errorEmail && <span style={{ color: "red" }}>Formato de Email Inválido!</span>}
             <FormControl variant="outlined">
@@ -157,15 +166,18 @@ function AgregarEmpleadoModal({ open, onClose, iEmpleado, onSubmit }: AgregarEmp
               variant="outlined"
               type="date"
               value={empleado.fechaNacimiento}
-              onChange={(e) => setEmpleado({ ...empleado, fechaNacimiento: e.target.value })}
+              onChange={(e) => {
+                setEmpleado({ ...empleado, fechaNacimiento: e.target.value });
+                validateFecha(e);
+              }}
               InputLabelProps={{
                 shrink: true,
               }}
               inputProps={{
-                max:new Date().toISOString().split("T")[0]
+                max: new Date().toISOString().split("T")[0]
               }}
             />
-            {errorFecha && <span style={{ color: "red" }}>Ingrese una fecha posible!</span>}
+            {errorFecha && <span style={{ color: "red" }}>Debe ser mayor de 16 años</span>}
             <Button variant="contained" color="primary" type="submit" id="save" disabled={errorEmail || errorTelefono || errorNombre || errorTipo || errorFecha}>
               Guardar
             </Button>
