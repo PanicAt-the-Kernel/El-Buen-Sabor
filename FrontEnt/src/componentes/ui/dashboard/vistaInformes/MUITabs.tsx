@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { SyntheticEvent, useState } from "react";
+import { useState } from "react";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -51,15 +51,17 @@ export default function MUITabs() {
   const [fecha1, setFecha1] = useState("2024-06-24");
   const [fecha2, setFecha2] = useState("2024-06-24");
 
-  const onSubmit = (e: SyntheticEvent, url: string) => {
+  const onSubmit = (e: React.SyntheticEvent, endpoint: string) => {
     e.preventDefault();
-    if (fecha1 < fecha2) {
-      const form = e.target as HTMLFormElement;
-      form.action = url;
-      form.submit();
+    if (new Date(fecha1) < new Date(fecha2)) {
+      const url = new URL(endpoint);
+      const params = new URLSearchParams();
+      params.append("fechaDesde", fecha1);
+      params.append("fechaHasta", fecha2);
+      url.search = params.toString();
+      window.location.href = url.toString();
     } else {
-      alert("La fecha 1 debe ser menor a la fecha 2");
-      return null;
+      alert("La fecha inicio debe ser menor a la fecha fin.");
     }
   };
 
@@ -110,10 +112,10 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://back-magni-0zhl.onrender.com/estadisticas/excelIMensual?fechaDesde=${fecha1}&fechaHasta=${fecha2}`
+                    `https://back-magni-0zhl.onrender.com/estadisticas/excelIMensual`
                   )
                 }
-                method="POST"
+                method="GET"
               >
                 <Button
                   variant="contained"
@@ -129,10 +131,10 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://back-magni-0zhl.onrender.com/estadisticas/excelIDiario?fechaDesde=${fecha1}&fechaHasta=${fecha2}`
+                    `https://back-magni-0zhl.onrender.com/estadisticas/excelIDiario`
                   )
                 }
-                method="POST"
+                method="GET"
               >
                 <Button
                   variant="contained"
@@ -148,10 +150,10 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://back-magni-0zhl.onrender.com/estadisticas/excelRanking?fechaDesde=${fecha1}&fechaHasta=${fecha2}`
+                    `https://back-magni-0zhl.onrender.com/estadisticas/excelRanking`
                   )
                 }
-                method="POST"
+                method="GET"
               >
                 <Button
                   variant="contained"
@@ -167,10 +169,10 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://back-magni-0zhl.onrender.com/estadisticas/excelPedidos?fechaDesde=${fecha1}&fechaHasta=${fecha2}`
+                    `https://back-magni-0zhl.onrender.com/estadisticas/excelPedidos`
                   )
                 }
-                method="POST"
+                method="GET"
               >
                 <Button
                   variant="contained"
@@ -186,10 +188,10 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://back-magni-0zhl.onrender.com/estadisticas/excelGanancias?fechaDesde=${fecha1}&fechaHasta=${fecha2}`
+                    `https://back-magni-0zhl.onrender.com/estadisticas/excelGanancias`
                   )
                 }
-                method="POST"
+                method="GET"
               >
                 <Button
                   sx={{ marginBottom: 3 }}
