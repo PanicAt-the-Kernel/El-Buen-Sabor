@@ -1,11 +1,18 @@
 import { Help } from "@mui/icons-material";
 import { Box, Container, Paper, Stack, Divider, Typography } from "@mui/material";
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { localSession } from "../../servicios/localSession";
+import { actualizarEstadoPago } from "../../servicios/PedidoService";
+import { useEffect } from "react";
 
 
 export default function MercadoPagoPending() {
+  const {id}=useParams();
+  useEffect(()=>{
+    actualizarEstadoPago(Number(id),"PAGO_RECHAZADO");
+  })
+  
   return (
     <ClienteLayout>
       <Box

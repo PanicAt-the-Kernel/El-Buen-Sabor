@@ -94,9 +94,9 @@ function App() {
           <Route path="/cliente/cuenta" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<VistaCuentaCliente />} />
           <Route path="/cliente/domicilios" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<VistaDomicilioCliente />} />
           <Route path="/cliente/miPedido" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<VistaPedidoCliente />} />
-          <Route path="/cliente/mpExito" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<MercadoPagoSuccess />} />
-          <Route path="/cliente/mpError" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<MercadoPagoError />} />
-          <Route path="/cliente/mpPending" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<MercadoPagoPending />} />
+          <Route path="/cliente/mpExito/:id" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<MercadoPagoSuccess />} />
+          <Route path="/cliente/mpError/:id" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<MercadoPagoError />} />
+          <Route path="/cliente/mpPending/:id" element={(userRoles.some(role => ["ADMIN", "COCINERO", "CAJERO", "DELIVERY"].includes(role))) ?  <DashboardVistaPedidos /> :<MercadoPagoPending />} />
         </Routes>
         </CarritoProvider>
 
