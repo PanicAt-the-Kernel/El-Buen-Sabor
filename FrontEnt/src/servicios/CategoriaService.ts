@@ -2,41 +2,36 @@ import useSWR, { SWRResponse } from "swr";
 import Categoria from "../entidades/Categoria";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
-export function getAllCategorias(): SWRResponse<Categoria[], any, any> {
+
+export function getAllCategoriasPadre(): SWRResponse<Categoria[], any, any> {
   return useSWR<Categoria[]>(
-    `https://back-magni-0zhl.onrender.com/categoria`,
+    `https://back-magni-0zhl.onrender.com/categoria/padres`,
     fetcher
   );
 }
 
-export function getCategoriaId(
-  idCategoria: number
-): SWRResponse<Categoria, any, any> {
-  return useSWR<Categoria>(
-    `https://back-magni-0zhl.onrender.com/categoria/${idCategoria}`,
+export function getSubCategoriasPadre(idPadre: number): SWRResponse<Categoria[], any, any> {
+  return useSWR<Categoria[]>(
+    `https://back-magni-0zhl.onrender.com/categoria/hijas/${idPadre}`,
     fetcher
   );
 }
 
-export async function saveCategoria(categoria: Categoria, idSucursal: number) {
-  //Traer sucursal
-  let sucursal;
-  try {
-    const response = await fetch(
-      `https://back-magni-0zhl.onrender.com/sucursal/${idSucursal}`
-    );
-    if (!response.ok) {
-      throw new Error(`Error HTTP: ${response.status}`);
-    }
-    sucursal = await response.json();
-  } catch (error) {
-    //@ts-ignore
-    alert(`Error obteniendo la sucursal: ${error.message}`);
-    return;
-  }
+export function getCategoriasPadreIdSucursal(idSucursal: number): SWRResponse<Categoria[], any, any> {
+  return useSWR<Categoria[]>(
+    `https://back-magni-0zhl.onrender.com/categoria/padres/${idSucursal}`,
+    fetcher
+  );
+}
 
-  categoria.sucursales.push(sucursal);
+export function getSubCategoriasPadreIdSucursal(idPadre: number, idSucursal: number): SWRResponse<Categoria[], any, any> {
+  return useSWR<Categoria[]>(
+    `https://back-magni-0zhl.onrender.com/categoria/${idSucursal}/hijo/${idPadre}`,
+    fetcher
+  );
+}
 
+export async function saveCategoria(categoria: Categoria) {
   //Preparar llamada api
   let options = {
     mode: "cors" as RequestMode,
@@ -54,7 +49,34 @@ export async function saveCategoria(categoria: Categoria, idSucursal: number) {
       options
     );
     if (response.ok) {
-      alert("Categoría agregada correctamente.");
+      alert("Categoría padre agregada correctamente.");
+    } else {
+      alert("Error al agregar categoría: " + response.status);
+    }
+  } catch {
+    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+  }
+}
+
+export async function saveCategoriaHija(categoria: Categoria, idPadre: number) {
+  //Preparar llamada api
+  let options = {
+    mode: "cors" as RequestMode,
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(categoria),
+  };
+
+  //Manejo de errores
+  try {
+    let response = await fetch(
+      `https://back-magni-0zhl.onrender.com/categoria/hijo/${idPadre}`,
+      options
+    );
+    if (response.ok) {
+      alert("Categoría hija agregada correctamente.");
     } else {
       alert("Error al agregar categoría: " + response.status);
     }
@@ -64,36 +86,64 @@ export async function saveCategoria(categoria: Categoria, idSucursal: number) {
 }
 
 export async function editCategoria(categoria: Categoria) {
-    //Preparar llamada api
-    let options = {
-      mode: "cors" as RequestMode,
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(categoria),
-    };
-  
-    //Manejo de errores
-    try {
-      let response = await fetch(
-        `https://back-magni-0zhl.onrender.com/categoria/padre/${categoria.id}`,
-        options
-      );
-      if (response.ok) {
-        alert("Categoría editada correctamente.");
-      } else {
-        alert("Error al editar categoría: " + response.status);
-      }
-    } catch {
-      alert("Error CORS, Revisa la URL o el back esta mal configurado.");
-    }
-  }
-  export function getCategoriasIdSucursal(
-    idSucursal: number
-  ): SWRResponse<Categoria[], any, any> {
-    return useSWR<Categoria[]>(
-      `https://back-magni-0zhl.onrender.com/categoria/sucursal/${idSucursal}`,
-      fetcher
+  //Preparar llamada api
+  let options = {
+    mode: "cors" as RequestMode,
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(categoria),
+  };
+
+  //Manejo de errores
+  try {
+    let response = await fetch(
+      `https://back-magni-0zhl.onrender.com/categoria/padre/${categoria.id}`,
+      options
     );
+    if (response.ok) {
+      alert("Categoría editada correctamente.");
+    } else {
+      alert("Error al editar categoría: " + response.status);
+    }
+  } catch {
+    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
   }
+}
+
+export async function editCategoriaHija(categoria: Categoria) {
+  //Preparar llamada api
+  let options = {
+    mode: "cors" as RequestMode,
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(categoria),
+  };
+
+  //Manejo de errores
+  try {
+    let response = await fetch(
+      `https://back-magni-0zhl.onrender.com/categoria/hijo/${categoria.id}`,
+      options
+    );
+    if (response.ok) {
+      alert("Categoría hija editada correctamente.");
+    } else {
+      alert("Error al editar categoría: " + response.status);
+    }
+  } catch {
+    alert("Error CORS, Revisa la URL o el back esta mal configurado.");
+  }
+}
+
+export function getCategoriasIdSucursal(
+  idSucursal: number
+): SWRResponse<Categoria[], any, any> {
+  return useSWR<Categoria[]>(
+    `https://back-magni-0zhl.onrender.com/categoria/sucursal/${idSucursal}`,
+    fetcher
+  );
+}

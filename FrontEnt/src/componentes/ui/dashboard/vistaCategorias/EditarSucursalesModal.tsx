@@ -19,7 +19,7 @@ import Sucursal from '../../../../entidades/Sucursal';
 interface EditarSucursalesModalProps {
     open: boolean;
     onClose: () => void;
-    onSubmit: (sucursales: Sucursal[]) => void;
+    onSubmit: (categoria: Categoria) => void;
     iCategoria: Categoria;
 }
 
@@ -49,7 +49,8 @@ function EditarSucursalesModal({ open, onClose, onSubmit, iCategoria }: EditarSu
     };
 
     const handleSubmit = () => {
-        onSubmit(sucursales);
+        iCategoria.sucursales = sucursales;
+        onSubmit(iCategoria);
         setSucursales([]);
         setSucursalesNoAgreg([]);
         onClose();
