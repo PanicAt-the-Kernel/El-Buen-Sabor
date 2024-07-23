@@ -61,8 +61,7 @@ export default function VistaPedidoCliente() {
           formaPago: metodoPago,
           domicilio: sucursal.domicilio,
         };
-        
-        savePedido(datosPedido, setTotalPedido, vaciarCarrito, 0);
+        await savePedido(datosPedido, setTotalPedido, vaciarCarrito, 0);
         window.location.replace("/cliente/pedidos");
       } else {
         console.log("LLAMADA MERCADO PAGO Y RETIRO POR SUCURSAL");
@@ -207,7 +206,7 @@ export default function VistaPedidoCliente() {
             {generarBoton()}
           </Stack>
         </Paper>
-        <ModalMercadoPago preferenceID={preference} open={open} />
+        <ModalMercadoPago preferenceID={preference} open={open} setOpen={()=>{}}/>
       </Container>
     </ClienteLayout>
   );
