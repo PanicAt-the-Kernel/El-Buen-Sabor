@@ -1,44 +1,88 @@
 import {
   Accordion,
-  AccordionActions,
   AccordionDetails,
   AccordionSummary,
   Button,
-  List,
-  ListItem,
   Typography,
 } from "@mui/material";
 import Categoria from "../../../../entidades/Categoria";
 import { Edit, ExpandMore } from "@mui/icons-material";
+import { editCategoria, getSubCategoriasPadreIdSucursal } from "../../../../servicios/CategoriaService";
+import { localSession } from "../../../../servicios/localSession";
+import { useState } from "react";
+import AgregarCategoriaModal from "./AgregarCategoriaModal";
+import EditarSubCategModal from "./EditarSubCategModal";
+import EditarSucursalesModal from "./EditarSucursalesModal";
+import BotonAgregarSubCategoria from "./BotonAgregarSubCategoria";
+import EditarSubCateg from "./EditarSubCateg";
 
 interface AcordeonCategoriaTypes {
   categoria: Categoria;
-  openEditFunction: (item: Categoria) => void;
 }
 
-export default function AcordeonCategoria({
-  categoria,
-  openEditFunction,
+export default function AcordeonCategoria({ categoria,
 }: AcordeonCategoriaTypes) {
+  const { data: subCategorias } = getSubCategoriasPadreIdSucursal(categoria.id, localSession.getSucursal("sucursal").id);
+  if (subCategorias) categoria.subCategorias = subCategorias;
+  const [openNombre, setOpenNombre] = useState(false);
+  const [openSubCategorias, setOpenSubCategorias] = useState(false);
+  const [openSucursales, setOpenSucursales] = useState(false);
+
+  const handleOpenNombre = () => setOpenNombre(true);
+  const handleOpenSucursales = () => setOpenSucursales(true);
+
+  const handleClose = () => {
+    setOpenNombre(false);
+    setOpenSubCategorias(false);
+    setOpenSucursales(false);
+  };
+
+  const handleSubmit = (categoria: Categoria) => { 
+    console.log(categoria);
+    editCategoria(categoria);
+    handleClose();
+  };
+
   return (
-    <Accordion>
+    <Accordion sx={{backgroundColor:'#fffdef'}}>
       <AccordionSummary expandIcon={<ExpandMore />}>
-        <Typography variant="h6">{categoria.denominacion}</Typography>
+        <Typography variant="h5" fontWeight={'bold'}>{categoria.denominacion}</Typography>
+        <Button onClick={() => handleOpenNombre()} endIcon={<Edit />} /*sx={{ marginTop: -7, marginLeft: -1 }}*/>
+          Nombre
+        </Button>
+        <Button onClick={() => handleOpenSucursales()} endIcon={<Edit />} /*sx={{ marginTop: -7 }}*/>
+          Sucursales
+        </Button>
       </AccordionSummary>
       <AccordionDetails>
-        <List>
-          {categoria.subCategorias.map((item: Categoria) => (
-            <ListItem>
-              <Typography variant="body1">{item.denominacion}</Typography>
-            </ListItem>
-          ))}
-        </List>
+        <EditarSubCateg iCategoria={categoria} />
+        <BotonAgregarSubCategoria categoriaPadre={categoria} />
       </AccordionDetails>
-      <AccordionActions>
-        <Button onClick={() => openEditFunction(categoria)} endIcon={<Edit />}>
-          Editar Categoria
-        </Button>
-      </AccordionActions>
+      {openNombre && (
+        <AgregarCategoriaModal
+          open={openNombre}
+          onClose={handleClose}
+          onSubmit={handleSubmit}
+          iCategoria={categoria}
+          texto={"Editar Categoría"}
+        />
+      )}
+      {openSubCategorias && (
+        <EditarSubCategModal
+          open={openSubCategorias}
+          onClose={handleClose}
+          onSubmit={handleSubmit}
+          iCategoria={categoria}
+        />
+      )}
+      {openSucursales && (
+        <EditarSucursalesModal
+          open={openSucursales}
+          onClose={handleClose}
+          onSubmit={handleSubmit}
+          iCategoria={categoria}
+        />
+      )}
     </Accordion>
   );
 }

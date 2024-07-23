@@ -11,6 +11,13 @@ export function getAllEmpleados(): SWRResponse<Empleado[], any, any> {
   );
 }
 
+export function getEmpleadosIdSucursal(idSucursal: number): SWRResponse<Empleado[], any, any> {
+  return useSWR<Empleado[]>(
+    `https://back-magni-0zhl.onrender.com/empleado/sucursal/${idSucursal}`,
+    fetcher
+  );
+}
+
 export async function saveEmpleado(empleado: Empleado) {
   //Preparar llamada api
   empleado.sucursal = localSession.getSucursal("sucursal");

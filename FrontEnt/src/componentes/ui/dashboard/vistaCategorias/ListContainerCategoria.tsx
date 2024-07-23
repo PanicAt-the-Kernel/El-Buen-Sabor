@@ -3,13 +3,7 @@ import {
   Typography,
 } from "@mui/material";
 import Categoria from "../../../../entidades/Categoria";
-import {
-  editCategoria,
-  getAllCategorias,
-  getCategoriasIdSucursal,
-} from "../../../../servicios/CategoriaService";
-import { useState } from "react";
-import EditarCategoriaModal from "./EditarCategoriaModal";
+import { getAllCategoriasPadre, getCategoriasPadreIdSucursal } from "../../../../servicios/CategoriaService";
 import AcordeonCategoria from "./AcordeonCategoria";
 import { localSession } from "../../../../servicios/localSession";
 
@@ -20,34 +14,13 @@ interface ListContainerCategoriaTypes {
 export default function ListContainerCategoria({
   busqueda,
 }: ListContainerCategoriaTypes) {
-  const { data: categoriasSuc } = getCategoriasIdSucursal(localSession.getSucursal("sucursal").id);
-  const { data: allCategorias } = getAllCategorias();
-  const [editingCategoria, setEditingCategoria] = useState<Categoria | null>(
-    null
-  );
-  const [openEditar, setOpenEditar] = useState(false);
+  const { data: categoriasSuc } = getCategoriasPadreIdSucursal(localSession.getSucursal("sucursal").id);
+  const { data: allCategorias } = getAllCategoriasPadre();
 
   const categoriasNoSuc = allCategorias?.filter(
     (categoria: Categoria) =>
       !categoriasSuc?.some((catSuc: Categoria) => catSuc.id === categoria.id)
   );
-
-  const handleSubmit = (categoria: Categoria) => {
-    if (editingCategoria != null) {
-      editCategoria(categoria);
-      handleClose();
-    }
-  };
-
-  const handleOpenEditar = (categoria: Categoria) => {
-    setEditingCategoria(categoria);
-    setOpenEditar(true);
-  };
-
-  const handleClose = () => {
-    setEditingCategoria(null);
-    setOpenEditar(false);
-  };
 
   const categoriasSucFiltradas = categoriasSuc?.filter((item: Categoria) => {
     return (
@@ -72,14 +45,13 @@ export default function ListContainerCategoria({
           variant="h6"
           sx={{ padding: 2, backgroundColor: "#f5f5f5" }}
         >
-          Categorías de la sucursal
+          Categorías padre de la sucursal
         </Typography>
         {categoriasSucFiltradas
           ?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
           .map((item: Categoria) => (
             <AcordeonCategoria
               categoria={item}
-              openEditFunction={handleOpenEditar}
             />
           ))}
       </Paper>
@@ -89,7 +61,7 @@ export default function ListContainerCategoria({
           variant="h6"
           sx={{ padding: 2, backgroundColor: "#f5f5f5" }}
         >
-          Categorías de otras sucursales
+          Categorías padre de otras sucursales
         </Typography>
 
         {categoriasNoSucFiltradas
@@ -97,19 +69,9 @@ export default function ListContainerCategoria({
           .map((item: Categoria) => (
             <AcordeonCategoria
               categoria={item}
-              openEditFunction={handleOpenEditar}
             />
           ))}
       </Paper>
-
-      {openEditar && editingCategoria && (
-        <EditarCategoriaModal
-          open={openEditar}
-          onClose={handleClose}
-          onSubmit={handleSubmit}
-          iCategoria={editingCategoria}
-        />
-      )}
     </>
   );
 }

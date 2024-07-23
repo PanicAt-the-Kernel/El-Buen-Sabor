@@ -7,9 +7,10 @@ interface AgregarCategoriaModalProps {
     onClose: () => void;
     onSubmit: (categoria: Categoria) => void;
     iCategoria: Categoria;
+    texto: string;
 }
 
-function AgregarCategoriaModal({ open, onClose, onSubmit, iCategoria }: AgregarCategoriaModalProps) {
+function AgregarCategoriaModal({ open, onClose, onSubmit, iCategoria, texto }: AgregarCategoriaModalProps) {
     const [categoria, setCategoria] = useState<Categoria>(iCategoria);
 
     const handleSubmit = () => {
@@ -44,7 +45,7 @@ function AgregarCategoriaModal({ open, onClose, onSubmit, iCategoria }: AgregarC
                     }}
                 >
                     <Typography variant="h6" id="modal-title" gutterBottom>
-                        Agregar Nueva Categoria
+                        {texto}
                     </Typography>
                     <Stack spacing={2}>
                         <TextField

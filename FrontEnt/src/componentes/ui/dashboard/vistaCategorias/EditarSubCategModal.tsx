@@ -12,21 +12,20 @@ import {
     Button
 } from '@mui/material';
 import Categoria from '../../../../entidades/Categoria';
-import { getCategoriasIdSucursal } from '../../../../servicios/CategoriaService';
+import { getSubCategoriasPadre } from '../../../../servicios/CategoriaService';
 import { Add, Remove } from '@mui/icons-material';
 
 interface EditarSubCategoriasModalProps {
     open: boolean;
     onClose: () => void;
-    onSubmit: (subCategorias: Categoria[]) => void;
+    onSubmit: (categoria: Categoria) => void;
     iCategoria: Categoria;
 }
 
 function EditarSubCategoriasModal({ open, onClose, onSubmit, iCategoria }: EditarSubCategoriasModalProps) {
     const [subCategorias, setSubCategorias] = useState<Categoria[]>(iCategoria.subCategorias);
     const [subCatNoAgreg, setSubCatNoAgreg] = useState<Categoria[]>([]);
-    const idSucursal = 1;
-    const { data: categoriasSuc } = getCategoriasIdSucursal(idSucursal);
+    const { data: categoriasSuc } = getSubCategoriasPadre(iCategoria.id);
 
     useEffect(() => {
         if (categoriasSuc) {
@@ -49,7 +48,8 @@ function EditarSubCategoriasModal({ open, onClose, onSubmit, iCategoria }: Edita
     };
 
     const handleSubmit = () => {
-        onSubmit(subCategorias);
+        iCategoria.subCategorias = subCategorias
+        onSubmit(iCategoria);
         setSubCategorias([]);
         setSubCatNoAgreg([]);
         onClose();
@@ -82,54 +82,48 @@ function EditarSubCategoriasModal({ open, onClose, onSubmit, iCategoria }: Edita
             >
                 <Paper elevation={5} sx={{ marginTop: 2 }}>
                     <Typography variant="h6" sx={{ padding: 2, backgroundColor: "#f5f5f5" }}>
-                        Subcategorías
+                        Activas
                     </Typography>
                     <List sx={{ backgroundColor: "white" }}>
-
-
-
                         {subCategorias?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
-                        .map((item: Categoria) => (
+                            .map((item: Categoria) => (
 
-                            <ListItem
-                                key={item.id}
-                                secondaryAction={
-                                    <Stack direction="row" spacing={2}>
-                                        <IconButton edge="end" aria-label="Eliminar" onClick={() => handleEliminarCategoria(item)}>
-                                            <Remove />
-                                        </IconButton>
-                                    </Stack>
-                                }
-                            >
-                                <ListItemText primary={item.denominacion} />
-                            </ListItem>
-                        ))}
+                                <ListItem
+                                    key={item.id}
+                                    secondaryAction={
+                                        <Stack direction="row" spacing={2}>
+                                            <IconButton edge="end" aria-label="Eliminar" onClick={() => handleEliminarCategoria(item)}>
+                                                <Remove />
+                                            </IconButton>
+                                        </Stack>
+                                    }
+                                >
+                                    <ListItemText primary={item.denominacion} />
+                                </ListItem>
+                            ))}
                     </List>
                 </Paper>
                 <Paper elevation={5} sx={{ marginTop: 2 }}>
                     <Typography variant="h6" sx={{ padding: 2, backgroundColor: "#f5f5f5" }}>
-                        Agregar subcategorías
+                        Inactivas
                     </Typography>
                     <List sx={{ backgroundColor: "white" }}>
-
-
-
                         {subCatNoAgreg?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
-                        .map((item: Categoria) => (
+                            .map((item: Categoria) => (
 
-                            <ListItem
-                                key={item.id}
-                                secondaryAction={
-                                    <Stack direction="row" spacing={2}>
-                                        <IconButton edge="end" aria-label="Eliminar" onClick={() => handleAgregarCategoria(item)}>
-                                            <Add />
-                                        </IconButton>
-                                    </Stack>
-                                }
-                            >
-                                <ListItemText primary={item.denominacion} />
-                            </ListItem>
-                        ))}
+                                <ListItem
+                                    key={item.id}
+                                    secondaryAction={
+                                        <Stack direction="row" spacing={2}>
+                                            <IconButton edge="end" aria-label="Eliminar" onClick={() => handleAgregarCategoria(item)}>
+                                                <Add />
+                                            </IconButton>
+                                        </Stack>
+                                    }
+                                >
+                                    <ListItemText primary={item.denominacion} />
+                                </ListItem>
+                            ))}
                     </List>
                 </Paper>
                 <Button variant="contained" color="primary" onClick={handleSubmit} style={{ margin: 25 }}>

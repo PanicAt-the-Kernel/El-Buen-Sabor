@@ -3,17 +3,22 @@ import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { Button } from '@mui/material';
 import AgregarCategoriaModal from './AgregarCategoriaModal';
 import Categoria from '../../../../entidades/Categoria';
-import { saveCategoria } from '../../../../servicios/CategoriaService';
+import { saveCategoriaHija } from '../../../../servicios/CategoriaService';
 import { localSession } from '../../../../servicios/localSession';
 
-function BotonAgregarCategoria() {
+interface BotonAgregarCategoriaTypes {
+    categoriaPadre: Categoria;
+}
+
+export default function BotonAgregarCategoria({ categoriaPadre,
+}: BotonAgregarCategoriaTypes) {
     const [open, setOpen] = useState(false);
 
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleSubmit = (categoria: Categoria) => {
         categoria.sucursales.push(localSession.getSucursal("sucursal"));
-        saveCategoria(categoria);
+        saveCategoriaHija(categoria, categoriaPadre.id);
         handleClose();
     };
 
@@ -25,7 +30,7 @@ function BotonAgregarCategoria() {
                 startIcon={<AddCircleIcon />}
                 onClick={handleOpen}
             >
-                Agregar Categoria Padre
+                Nueva SubCategoría
             </Button>
             {open && (
                 <AgregarCategoriaModal
@@ -33,11 +38,9 @@ function BotonAgregarCategoria() {
                     onClose={handleClose}
                     onSubmit={handleSubmit}
                     iCategoria={new Categoria}
-                    texto={"Nueva Categoría Padre"}
+                    texto={"Nueva SubCategoría"}
                 />
             )}
         </>
     );
 }
-
-export default BotonAgregarCategoria;

@@ -1,17 +1,18 @@
 import { Avatar, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemText, Paper, Typography } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import Empleado from "../../../../entidades/Empleado";
-import { bajaEmpleado, editEmpleado, getAllEmpleados } from "../../../../servicios/EmpleadoService";
+import { bajaEmpleado, editEmpleado, getEmpleadosIdSucursal } from "../../../../servicios/EmpleadoService";
 import { useState } from "react";
 import { Edit } from "@mui/icons-material";
 import AgregarEmpleadoModal from "./AgregarEmpleadoModal";
+import { localSession } from "../../../../servicios/localSession";
 
 interface ListContainerEmpleadoTypes {
   busqueda: string;
 }
 
 export default function ListContainerEmpleado({ busqueda }: ListContainerEmpleadoTypes) {
-  const { data: empleados } = getAllEmpleados();
+  const { data: empleados } = getEmpleadosIdSucursal(localSession.getSucursal("sucursal").id);
   const [editingEmpleado, setEditingEmpleado] = useState<Empleado | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
 
