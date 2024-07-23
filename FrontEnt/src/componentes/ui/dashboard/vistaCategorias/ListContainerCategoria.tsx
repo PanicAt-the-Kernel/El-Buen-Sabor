@@ -3,7 +3,7 @@ import {
   Typography,
 } from "@mui/material";
 import Categoria from "../../../../entidades/Categoria";
-import { getCategoriasPadreIdSucursal } from "../../../../servicios/CategoriaService";
+import { getAllCategoriasPadre, getCategoriasPadreIdSucursal } from "../../../../servicios/CategoriaService";
 import AcordeonCategoria from "./AcordeonCategoria";
 import { localSession } from "../../../../servicios/localSession";
 
@@ -15,8 +15,7 @@ export default function ListContainerCategoria({
   busqueda,
 }: ListContainerCategoriaTypes) {
   const { data: categoriasSuc } = getCategoriasPadreIdSucursal(localSession.getSucursal("sucursal").id);
-  //const { data: allCategorias } = getAllCategoriasPadre();
-  const { data: allCategorias } = getCategoriasPadreIdSucursal(localSession.getSucursal("sucursal").id);
+  const { data: allCategorias } = getAllCategoriasPadre();
 
   const categoriasNoSuc = allCategorias?.filter(
     (categoria: Categoria) =>
