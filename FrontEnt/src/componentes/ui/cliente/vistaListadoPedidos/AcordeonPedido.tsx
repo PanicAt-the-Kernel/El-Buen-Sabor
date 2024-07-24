@@ -12,7 +12,7 @@ import Pedido from "../../../../entidades/Pedido";
 import ModalListadoProductos from "./ModalListadoProductos";
 import { useState } from "react";
 import {
-  cancelarPedido,
+  actualizarEstadoPedido,
   llamarMercadoPago,
 } from "../../../../servicios/PedidoService";
 import PreferenceMP from "../../../../entidades/PreferenceMP";
@@ -69,7 +69,7 @@ export default function AcordeonPedido({ pedido }: AcordeonPedidoTypes) {
           <Button
             variant="contained"
             color="error"
-            onClick={() => cancelarPedido(pedido.id)}
+            onClick={() => actualizarEstadoPedido(pedido.id,"CANCELADO")}
           >
             Cancelar Pedido
           </Button>
@@ -92,7 +92,7 @@ export default function AcordeonPedido({ pedido }: AcordeonPedidoTypes) {
             <Button
               variant="contained"
               color="error"
-              onClick={() => cancelarPedido(pedido.id)}
+              onClick={() => actualizarEstadoPedido(pedido.id,"CANCELADO")}
             >
               Cancelar Pedido
             </Button>
