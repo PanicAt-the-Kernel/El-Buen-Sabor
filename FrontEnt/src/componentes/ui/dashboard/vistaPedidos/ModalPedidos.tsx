@@ -52,41 +52,41 @@ export default function ModalPedidos({
               <Stack direction="row" spacing={2}>
                 <TextField
                   label="Calle"
-                  defaultValue={pedido.domicilio.calle}
+                  defaultValue={pedido.domicilio!.calle}
                   inputProps={{ readOnly: true }}
                 />
                 <TextField
                   label="Numero"
-                  defaultValue={pedido.domicilio.numero}
+                  defaultValue={pedido.domicilio!.numero}
                   inputProps={{ readOnly: true }}
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
                 <TextField
                   label="Piso"
-                  defaultValue={pedido.domicilio.piso}
+                  defaultValue={pedido.domicilio!.piso}
                   inputProps={{ readOnly: true }}
                 />
                 <TextField
                   label="Numero Departamento"
-                  defaultValue={pedido.domicilio.nroDpto}
+                  defaultValue={pedido.domicilio!.nroDpto}
                   inputProps={{ readOnly: true }}
                 />
               </Stack>
               <TextField
                 label="Codigo Postal"
-                defaultValue={pedido.domicilio.cp}
+                defaultValue={pedido.domicilio!.cp}
                 inputProps={{ readOnly: true }}
               />
               <Stack direction="row" spacing={2}>
                 <TextField
                   label="Localidad"
-                  defaultValue={pedido.domicilio.localidad.nombre}
+                  defaultValue={pedido.domicilio!.localidad.nombre}
                   inputProps={{ readOnly: true }}
                 />
                 <TextField
                   label="Provincia"
-                  defaultValue={pedido.domicilio.localidad.provincia.nombre}
+                  defaultValue={pedido.domicilio!.localidad.provincia.nombre}
                   inputProps={{ readOnly: true }}
                 />
               </Stack>
@@ -98,24 +98,24 @@ export default function ModalPedidos({
               <Stack direction="row" spacing={2}>
                 <TextField
                   label="Nombre Cliente"
-                  defaultValue={pedido.cliente.nombre}
+                  defaultValue={pedido.cliente!.nombre}
                   inputProps={{ readOnly: true }}
                 />
                 <TextField
                   label="Apellido Cliente"
-                  defaultValue={pedido.cliente.apellido}
+                  defaultValue={pedido.cliente!.apellido}
                   inputProps={{ readOnly: true }}
                 />
               </Stack>
               <Stack direction="row" spacing={2}>
                 <TextField
                   label="Email"
-                  defaultValue={pedido.cliente.userName}
+                  defaultValue={pedido.cliente!.userName}
                   inputProps={{ readOnly: true }}
                 />
                 <TextField
                   label="Telefono"
-                  defaultValue={pedido.cliente.telefono}
+                  defaultValue={pedido.cliente!.telefono}
                   inputProps={{ readOnly: true }}
                 />
               </Stack>
@@ -140,8 +140,9 @@ export default function ModalPedidos({
                   <Card sx={{width:200,height:220,marginLeft:4}}>
                     <CardMedia
                       component="img"
-
+                        
                         image={
+                          //@ts-ignore
                           detalle.articulo ? detalle.articulo.imagenes[0].url : detalle.promocion.imagenes[0].url
                         }
 
