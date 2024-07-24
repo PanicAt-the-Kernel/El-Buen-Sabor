@@ -16,16 +16,16 @@ function AlertaHolder() {
     return(<h1>Obteniendo datos...</h1>)
   }
   return (
-    <Box>
-      <Typography variant="h3" sx={{ textAlign: "center" }}>
+    <Box component="div" sx={{width:430}}>
+      <Typography variant="h5" sx={{ textAlign: "center" }}>
         Listado de Insumos con Bajo Stock
       </Typography>
-      <Grid container spacing={1}>
+      <Grid container spacing={1} >
         {data?.map((item: ArticuloInsumo) => {
           switch (controlNivelStockInsumo(item)) {
             case 1:
               return (
-                <Grid item>
+                <Grid item xs={12} sm={12} md={6}>
                   <Paper elevation={3}>
                     <ItemAlerta
                       nombre={item.denominacion}

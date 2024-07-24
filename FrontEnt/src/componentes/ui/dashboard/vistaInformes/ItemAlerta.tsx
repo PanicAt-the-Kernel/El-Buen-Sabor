@@ -15,10 +15,10 @@ function ItemAlerta({nombre,cantidad,unidadMedida,estiloColor,nivelAlerta}:ItemA
         <Typography gutterBottom variant="h5" component="div">
           {nombre}
         </Typography>
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body2">
           Cantidad: {cantidad} {unidadMedida}
         </Typography>
-        <Typography variant="body1">
+        <Typography variant="body2">
           {nivelAlerta}
         </Typography>
       </CardContent>
