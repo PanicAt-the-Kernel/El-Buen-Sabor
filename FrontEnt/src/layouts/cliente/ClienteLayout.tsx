@@ -12,7 +12,7 @@ import MenuOpcionesUsuario from "./MenuOpcionesUsuario";
 import { ReactNode } from "react";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Login, ShoppingCart } from "@mui/icons-material";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getClienteEmail } from "../../servicios/ClienteService";
 import { CircularProgress } from "@mui/material";
 import getTokenAuth0 from "../../hooks/getTokenAuth0";
@@ -59,6 +59,7 @@ export default function ClienteLayout({
   const token = getTokenAuth0();
   const { user,isLoading:userLoading } = useAuth0();
   const { data,isLoading:emailLoading } = getClienteEmail(user?.email!);
+  const url=useLocation().pathname;
 
   if(userLoading || emailLoading){
     return(
@@ -92,16 +93,17 @@ export default function ClienteLayout({
                 El Buen Sabor
               </Typography>
               <Typography variant="body2">{nombreSucursal}</Typography>
+              <Link to={"/cliente/bienvenida"} style={{color:"white"}} onClick={()=>localSession.removeSucursal("sucursal")}>Cambiar Sucursal</Link>
             </Stack>
           </Box>
           <Stack direction="row" spacing={3} marginRight={2}>
             {token != null ? (
               <>
-                {estaEnHorario && (
+                {!estaEnHorario && (
                   <Button
                     variant="text"
                     size="small"
-                    sx={{ color: "whitesmoke" }}
+                    sx={url !=`/cliente/sucursal/${localSession.getSucursal("sucursal").id}` ? { display:"none" } : {color: "whitesmoke"} }
                     color="primary"
                     onClick={() => {
                       setEstado(!estado);

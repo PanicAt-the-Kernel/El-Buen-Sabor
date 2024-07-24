@@ -1,7 +1,6 @@
 import useSWR, { SWRResponse } from "swr";
 import Pedido from "../entidades/Pedido";
 import PreferenceMP from "../entidades/PreferenceMP";
-
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
@@ -56,7 +55,8 @@ export async function savePedido(
   }
 }
 
-export async function editPedido(id: number, estado: string) {
+export async function actualizarEstadoPedido(id: number, estado: string) {
+  
   // Preparar llamada API
   let options = {
     mode: "cors" as RequestMode,
@@ -186,47 +186,5 @@ export async function verificarStockArticulo(id:number,pedido:Pedido){
     alert("Error CORS, Revisa la URL o el back esta mal configurado.");
     console.log(error)
     return false;
-  }
-}
-
-export async function cancelarPedido(id:number){
-    const options={
-      mode:"cors" as RequestMode,
-      method:"PATCH",
-      headers:{
-        "Content-Type":"application/json"
-      },
-      body:JSON.stringify("CANCELADO")
-    }
-    try{
-      const response=await fetch(`https://back-magni-0zhl.onrender.com/pedidos/${id}`,options);
-      if(response.ok){
-        alert("Tu pedido ha sido cancelado correctamente");
-      }else{
-        alert("Ocurrio un error al cancelar el pedido");
-      }
-    }catch{
-      alert("Ocurrio un error al cancelar el pedido");
-    }
-}
-
-export async function actualizarEstadoPago(id:number,estado:string){
-  const options={
-    mode:"cors" as RequestMode,
-    method:"PATCH",
-    headers:{
-      "Content-Type":"application/json"
-    },
-    body:JSON.stringify(estado)
-  }
-  try{
-    const response=await fetch(`https://back-magni-0zhl.onrender.com/pedidos/${id}`,options);
-    if(response.ok){
-      console.log("Estado actualizado correctamenete");
-    }else{
-      console.log("Ocurrio un error al actualizar el estado")
-    }
-  }catch{
-    console.log("Ocurrio un error al actualizar el estado de pago");
   }
 }

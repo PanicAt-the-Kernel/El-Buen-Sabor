@@ -10,13 +10,13 @@ import {
 import ClienteLayout from "../../layouts/cliente/ClienteLayout";
 import { Link, useParams } from "react-router-dom";
 import { localSession } from "../../servicios/localSession";
-import { actualizarEstadoPago } from "../../servicios/PedidoService";
+import { actualizarEstadoPedido } from "../../servicios/PedidoService";
 import { useEffect } from "react";
 
 export default function MercadoPagoSuccess() {
   const {id}=useParams();
   useEffect(()=>{
-    actualizarEstadoPago(Number(id),"PAGO_REALIZADO");
+    actualizarEstadoPedido(Number(id),"PAGO_REALIZADO");
   })
   
   return (

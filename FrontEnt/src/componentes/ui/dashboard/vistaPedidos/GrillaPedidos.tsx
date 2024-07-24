@@ -1,36 +1,14 @@
-import { CircularProgress, Container, Grid } from "@mui/material";
+import {  CircularProgress, Container, Grid } from "@mui/material";
 import Pedido from "../../../../entidades/Pedido";
 import ItemGrillaPedido from "./ItemGrillaPedido";
-import {  getPedidosPorSucursal } from "../../../../servicios/PedidoService";
-import { useEffect, useState } from "react";
+import { getPedidosPorSucursal } from "../../../../servicios/PedidoService";
 import { localSession } from "../../../../servicios/localSession";
 
 export default function GrillaPedidos() {
-  const { data, isLoading, error } = getPedidosPorSucursal(localSession.getSucursal("sucursal").id)
+  const { data, isLoading, error,mutate } = getPedidosPorSucursal(
+    localSession.getSucursal("sucursal").id
+  );
   const userRoles: string[] = localSession.getRol("userRoles") || [""];
-  const [pedidos, setPedidos] = useState<Pedido[] | null>(null);
-
-  useEffect(() => {
-    if (data && !pedidos) {
-      setTimeout(() => {
-        setPedidos(data);
-      }, 500); 
-    }
-  }, [data, pedidos]);
-
-  useEffect(() => {
-    if(!isLoading) {
-      if (userRoles.includes("COCINERO") && pedidos) {
-        setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'APROBADO') || []);
-      }
-      if (userRoles.includes("CAJERO") && pedidos) {
-        setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'PENDIENTE' || pedido.estado === "TERMINADO" || pedido.estado === 'DELIVERY') || []);
-      }
-      if (userRoles.includes("DELIVERY") && pedidos) {
-        setPedidos(prevPedidos => prevPedidos?.filter(pedido => pedido.estado === 'DELIVERY') || []);
-      }
-    }
-  }, [pedidos, userRoles]);
 
   if (isLoading) {
     return (
@@ -47,20 +25,94 @@ export default function GrillaPedidos() {
       </Container>
     );
   }
-
+  if (userRoles.includes("COCINERO")) {
+    return (
+      <Grid container spacing={3} sx={{ marginTop: 3 }}>
+        {data && data.length === 0 ? (
+          <Grid item xs={12}>
+            <p>Este local no tiene pedidos</p>
+          </Grid>
+        ) : (
+          data?.map((item: Pedido, index: number) => {
+            if (item.estado == "APROBADO") {
+              return (
+                <Grid item key={item.id}>
+                  <ItemGrillaPedido key={index} pedidoObj={item} mutador={mutate}/>
+                </Grid>
+              );
+            } else {
+              return null;
+            }
+          })
+        )}
+      </Grid>
+    );
+  }
+  if (userRoles.includes("CAJERO")) {
+    return (
+      <Grid container spacing={3} sx={{ marginTop: 3 }}>
+        {data && data.length === 0 ? (
+          <Grid item xs={12}>
+            <p>Este local no tiene pedidos</p>
+          </Grid>
+        ) : (
+          data?.map((item: Pedido, index: number) => {
+            if (item.estado === "DELIVERY") {
+              return (
+                <Grid item key={item.id}>
+                  <ItemGrillaPedido key={index} pedidoObj={item} mutador={mutate}/>
+                </Grid>
+              );
+            } else {
+              return null;
+            }
+          })
+        )}
+      </Grid>
+    );
+  }
+  if (userRoles.includes("DELIVERY")) {
+    return (
+      <Grid container spacing={3} sx={{ marginTop: 3 }}>
+        {data && data.length === 0 ? (
+          <Grid item xs={12}>
+            <p>Este local no tiene pedidos</p>
+          </Grid>
+        ) : (
+          data?.map((item: Pedido, index: number) => {
+            if (
+              item.estado === "PENDIENTE" ||
+              item.estado === "TERMINADO" ||
+              item.estado === "DELIVERY"
+            ) {
+              return (
+                <Grid item key={item.id}>
+                  <ItemGrillaPedido key={index} pedidoObj={item} mutador={mutate}/>
+                </Grid>
+              );
+            } else {
+              return null;
+            }
+          })
+        )}
+      </Grid>
+    );
+  }
   return (
     <Grid container spacing={3} sx={{ marginTop: 3 }}>
-      {!pedidos || pedidos.length === 0 ? (
+      {data && data.length === 0 ? (
         <Grid item xs={12}>
           <p>No hay pedidos que administrar</p>
         </Grid>
       ) : (
-        pedidos.map((item) => (
+        data?.map((item: Pedido, index: number) => (
           <Grid item key={item.id}>
-            <ItemGrillaPedido pedidoObj={item} />
+            <ItemGrillaPedido key={index} pedidoObj={item} mutador={mutate}/>
           </Grid>
         ))
       )}
+      
     </Grid>
   );
+  
 }

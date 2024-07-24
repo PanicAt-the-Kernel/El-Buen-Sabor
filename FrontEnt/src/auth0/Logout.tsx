@@ -10,6 +10,7 @@ export const LogOutButton = () => {
         <button onClick={() =>{
             logout({ logoutParams: { returnTo: window.location.origin }});
             localSession.removeCliente("Cliente");
+            localSession.removeRol("userRoles")
             }}>
             <Logout />
         </button>
