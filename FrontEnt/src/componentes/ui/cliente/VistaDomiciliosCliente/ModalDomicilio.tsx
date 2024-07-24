@@ -118,14 +118,24 @@ export default function ModalDomicilio({
               onChange={(e) =>
                 setDomicilio({ ...domicilio, calle: e.target.value })
               }
+              inputProps={{
+                maxLength:30,
+                pattern:"^[A-Za-z\s]{0,30}$"
+              }}
             />
             <TextField
+              type="number"
               label="Numero"
               required
               value={domicilio.numero}
               onChange={(e) =>
                 setDomicilio({ ...domicilio, numero: Number(e.target.value) })
               }
+              inputProps={{
+                min:0,
+                max:9999,
+                step:1
+              }}
             />
             <TextField
               label="Codigo Postal"
@@ -135,6 +145,11 @@ export default function ModalDomicilio({
               onChange={(e) =>
                 setDomicilio({ ...domicilio, cp: Number(e.target.value) })
               }
+              inputProps={{
+                min:1000,
+                max:9999,
+                step:1
+              }}
             />
             <FormGroup>
               <FormControlLabel
@@ -154,6 +169,11 @@ export default function ModalDomicilio({
                   onChange={(e) =>
                     setDomicilio({ ...domicilio, piso: Number(e.target.value) })
                   }
+                  inputProps={{
+                    min:0,
+                    max:99,
+                    step:1
+                  }}
                 />
                 <TextField
                   label="Numero Departamento"
@@ -166,6 +186,11 @@ export default function ModalDomicilio({
                       nroDpto: Number(e.target.value),
                     })
                   }
+                  inputProps={{
+                    min:1,
+                    max:99,
+                    step:1
+                  }}
                 />
               </Stack>
             </Box>

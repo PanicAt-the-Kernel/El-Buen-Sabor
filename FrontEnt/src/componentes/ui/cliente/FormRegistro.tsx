@@ -155,6 +155,10 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   value={nombre}
                   onChange={(e) => setNombre(e.target.value)}
                   sx={vistaEscritorio ? { width: 350 } : {}}
+                  inputProps={{
+                    maxLength:30,
+                    pattern:"^[A-Za-z\s]{0,30}$"
+                  }}
                 />
                 <TextField
                   required
@@ -162,6 +166,10 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   value={apellido}
                   onChange={(e) => setApellido(e.target.value)}
                   sx={vistaEscritorio ? { width: 350 } : {}}
+                  inputProps={{
+                    maxLength:30,
+                    pattern:"^[A-Za-z\s]{0,30}$"
+                  }}
                 />
                 <TextField
                   required
@@ -215,6 +223,9 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                 placeholder="ejemplo@ejemplo.com.ar"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                inputProps={{
+                  maxLength:50
+                }}
               />
               <Typography>Datos de envio</Typography>
               <Stack
@@ -227,6 +238,10 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   sx={vistaEscritorio ? { width: 710 } : {}}
                   value={calle}
                   onChange={(e) => setCalle(e.target.value)}
+                  inputProps={{
+                    maxLength:30,
+                    pattern:"^[A-Za-z\s]{0,30}$"
+                  }}
                 />
                 <TextField
                   required
@@ -235,6 +250,11 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   type="number"
                   value={numero}
                   onChange={(e) => setNumero(Number(e.target.value))}
+                  inputProps={{
+                    min:1,
+                    max:9999,
+                    step:1
+                  }}
                 />
               </Stack>
               <Stack
@@ -247,6 +267,11 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   sx={vistaEscritorio ? { width: 350 } : {}}
                   value={codPostal}
                   onChange={(e) => setCodPostal(Number(e.target.value))}
+                  inputProps={{
+                    min:1000,
+                    max:9999,
+                    step:1
+                  }}
                 />
                 <TextField
                   required
@@ -255,13 +280,24 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   sx={vistaEscritorio ? { width: 350 } : {}}
                   value={nroPiso}
                   onChange={(e) => setNroPiso(Number(e.target.value))}
+                  inputProps={{
+                    min:1,
+                    max:99,
+                    step:1
+                  }}
                 />
                 <TextField
                   required
+                  type="number"
                   label="Nro Departamento"
                   sx={vistaEscritorio ? { width: 350 } : {}}
                   value={nroDepto}
                   onChange={(e) => setNroDepto(Number(e.target.value))}
+                  inputProps={{
+                    min:1,
+                    max:99,
+                    step:1
+                  }}
                 />
               </Stack>
               <Stack
