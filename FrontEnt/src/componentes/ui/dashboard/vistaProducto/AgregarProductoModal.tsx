@@ -406,7 +406,7 @@ function AgregarProductoModal({
                           <TextField
                             type="number"
                             value={fila.cantidad}
-                            inputProps={{ min: "0.01", step: "0.01" }}
+                            inputProps={{ min: 0.01, step: 0.01 }}
                             onChange={(e) => {
                               const newTablaDetalle = [...tablaDetalle];
                               newTablaDetalle[index] = {
