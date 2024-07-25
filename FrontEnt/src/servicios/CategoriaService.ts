@@ -138,12 +138,3 @@ export async function editCategoriaHija(categoria: Categoria) {
     alert("Error CORS, Revisa la URL o el back esta mal configurado.");
   }
 }
-
-export function getCategoriasIdSucursal(
-  idSucursal: number
-): SWRResponse<Categoria[], any, any> {
-  return useSWR<Categoria[]>(
-    `https://back-magni-0zhl.onrender.com/categoria/sucursal/${idSucursal}`,
-    fetcher
-  );
-}

@@ -6,7 +6,7 @@ import { localSession } from "../../../../servicios/localSession";
 
 function BuscarProducto() {
   const [nombre, setNombre] = useState("");
-  const userRoles: string[] = localSession.getRol("userRoles") || [""];
+  const userRoles: string[] = localSession.getRol("userRoles");
 
   const handleBuscar = (e: React.FormEvent) => {
     e.preventDefault();

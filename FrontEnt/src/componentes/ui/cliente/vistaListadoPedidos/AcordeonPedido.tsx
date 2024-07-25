@@ -17,12 +17,14 @@ import {
 } from "../../../../servicios/PedidoService";
 import PreferenceMP from "../../../../entidades/PreferenceMP";
 import ModalMercadoPago from "../VistaPedidoCliente/ModalMercadoPago";
+import { KeyedMutator } from "swr";
 
 interface AcordeonPedidoTypes {
   pedido: Pedido;
+  mutador:KeyedMutator<Pedido[]>
 }
 
-export default function AcordeonPedido({ pedido }: AcordeonPedidoTypes) {
+export default function AcordeonPedido({ pedido,mutador }: AcordeonPedidoTypes) {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [openMercadoPago, setOpenMercadoPago] = useState<boolean>(false);
   const [preference, setPreference] = useState<PreferenceMP>(
@@ -69,7 +71,7 @@ export default function AcordeonPedido({ pedido }: AcordeonPedidoTypes) {
           <Button
             variant="contained"
             color="error"
-            onClick={() => actualizarEstadoPedido(pedido.id,"CANCELADO")}
+            onClick={async () => {await actualizarEstadoPedido(pedido.id,"CANCELADO"); mutador();}}
           >
             Cancelar Pedido
           </Button>

@@ -78,7 +78,7 @@ function App() {
           <Route path="/dashboard/clientes" element={userRoles.includes("ADMIN") ? <DashboardVistaClientes /> : <VistaBienvenida />} />
           <Route path="/dashboard/categorias" element={userRoles.includes("ADMIN") ? <DashboardVistaCategoria /> : <VistaBienvenida />} />
           <Route path="/dashboard/informes" element={userRoles.includes("ADMIN") ?  <DashboardVistaInformes /> : <VistaBienvenida />} />
-          <Route path="/dashboard/productos" element={userRoles.includes("ADMIN") ? <DashboardVistaProducto /> : <VistaBienvenida />} />
+          <Route path="/dashboard/productos" element={userRoles.some(role=>["ADMIN","COCINERO"].includes(role)) ? <DashboardVistaProducto /> : <VistaBienvenida />} />
           <Route path="/dashboard/empleados" element={userRoles.includes("ADMIN") ? <DashboardVistaEmpleado /> : <VistaBienvenida />} />
           <Route path="/dashboard/promociones" element={userRoles.includes("ADMIN") ? <DashboardVistaPromocion />: <VistaBienvenida />} />
           <Route path="/dashboard/insumos" element={userRoles.includes("ADMIN") ? <DashboardVistaInsumo /> : <VistaBienvenida />} />
