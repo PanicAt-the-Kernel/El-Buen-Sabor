@@ -23,7 +23,7 @@ import {
   Alert,
 } from "@mui/material";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
-import { getCategoriasIdSucursal } from "../../../../servicios/CategoriaService";
+import { getCategoriasPadreIdSucursal } from "../../../../servicios/CategoriaService";
 import { getAllUnidadMedida } from "../../../../servicios/UnidadMedidaService";
 import ArticuloManufacturadoDetalle from "../../../../entidades/ArticuloManufacturadoDetalle";
 import AgregarInsumoModal from "./AgregarInsumoModal";
@@ -50,13 +50,13 @@ function AgregarProductoModal({
   const [categoriaL, setCategoria] = useState(articuloM.categoria.id);
   const [imagenesL, setImagenesL] = useState<Imagen[]>(articuloM.imagenes);
   const { data: unidadesMedida } = getAllUnidadMedida();
-  const { data: categorias } = getCategoriasIdSucursal(idSucursal);
+  const { data: categorias } = getCategoriasPadreIdSucursal(idSucursal);
   const [tablaDetalle, setTablaDetalle] = useState<
     ArticuloManufacturadoDetalle[]
   >(iArticuloM.articuloManufacturadoDetalles);
   const [openInsumos, setOpenInsumos] = useState(false);
   const [openSnackbar, setOpenSnackbar] = useState(false);
-  const userRoles: string[] = localSession.getRol("userRoles") || [""];
+  const userRoles: string[] = localSession.getRol("userRoles");
   const handleOpenInsumos = () => setOpenInsumos(true);
   const handleCloseInsumos = () => setOpenInsumos(false);
 
