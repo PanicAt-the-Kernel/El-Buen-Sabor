@@ -94,7 +94,7 @@ export default function ItemGrillaPedido({ pedidoObj,mutador }: ItemGrillaPedido
           )}
 
           {pedidoObj.estado === "FACTURADO" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
-              <a href={`https://back-magni-0zhl.onrender.com/facturas/${pedidoObj.id}`} target="_blank" rel="noopener noreferrer">
+              <a href={`https://traza-ending.onrender.com/om/facturas/${pedidoObj.id}`} target="_blank" rel="noopener noreferrer">
               <Button variant="contained" color="warning">
                 <Typography sx={{ fontSize: 13 }}>Descargar Factura</Typography>
                </Button>
