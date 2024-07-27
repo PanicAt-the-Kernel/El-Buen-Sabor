@@ -112,7 +112,7 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://traza-ending.onrender.com/om/estadisticas/excelIMensual`
+                    `https://traza-ending.onrender.com/estadisticas/excelIMensual`
                   )
                 }
                 method="GET"
@@ -131,7 +131,7 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://traza-ending.onrender.com/om/estadisticas/excelIDiario`
+                    `https://traza-ending.onrender.com/estadisticas/excelIDiario`
                   )
                 }
                 method="GET"
@@ -150,7 +150,7 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://traza-ending.onrender.com/om/estadisticas/excelRanking`
+                    `https://traza-ending.onrender.com/estadisticas/excelRanking`
                   )
                 }
                 method="GET"
@@ -169,7 +169,7 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://traza-ending.onrender.com/om/estadisticas/excelPedidos`
+                    `https://traza-ending.onrender.com/estadisticas/excelPedidos`
                   )
                 }
                 method="GET"
@@ -188,7 +188,7 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://traza-ending.onrender.com/om/estadisticas/excelGanancias`
+                    `https://traza-ending.onrender.com/estadisticas/excelGanancias`
                   )
                 }
                 method="GET"

@@ -6,7 +6,7 @@ export function getProvinciasIdPais(
   idPais: number
 ): SWRResponse<Provincia[], any, any> {
   return useSWR<Provincia[]>(
-    `https://traza-ending.onrender.com/om/provincia/findByPais/${idPais}`,
+    `https://traza-ending.onrender.com/provincia/findByPais/${idPais}`,
     fetcher
   );
 }

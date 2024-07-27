@@ -4,7 +4,7 @@ import Cliente from "../entidades/Cliente";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function getAllClientes():SWRResponse<Cliente[],any,any>{
-  return useSWR<Cliente[]>("https://traza-ending.onrender.com/om/cliente",fetcher);
+  return useSWR<Cliente[]>("https://traza-ending.onrender.com/cliente",fetcher);
 }
 
 export function getClienteEmail(
@@ -12,7 +12,7 @@ export function getClienteEmail(
 ): SWRResponse<Cliente, any, any> {
   if (clienteEmail != undefined) {
     return useSWR<Cliente>(
-      `https://traza-ending.onrender.com/om/cliente/${clienteEmail}`,
+      `https://traza-ending.onrender.com/cliente/${clienteEmail}`,
       fetcher
     );
   }
@@ -23,7 +23,7 @@ export function getClienteId(
   idCliente: string
 ): SWRResponse<Cliente, any, any> {
   return useSWR<Cliente>(
-    `https://traza-ending.onrender.com/om/cliente/${idCliente}`,
+    `https://traza-ending.onrender.com/cliente/${idCliente}`,
     fetcher
   );
 }
@@ -40,7 +40,7 @@ export async function saveCliente(cliente: Cliente) {
   console.log(options.body);
   try {
     let response = await fetch(
-      "https://traza-ending.onrender.com/om/cliente",
+      "https://traza-ending.onrender.com/cliente",
       options
     );
     if (response.ok) {
@@ -70,7 +70,7 @@ export async function editCliente(cliente: Cliente) {
   // Manejo de errores
   try {
     let response = await fetch(
-      `https://traza-ending.onrender.com/om/cliente/${cliente.userName}`,
+      `https://traza-ending.onrender.com/cliente/${cliente.userName}`,
       options
     );
     if (response.ok) {
