@@ -24,6 +24,13 @@ export function getCategoriasPadreIdSucursal(idSucursal: number): SWRResponse<Ca
   );
 }
 
+export function getCategoriasHijaIdSucursal(idSucursal: number): SWRResponse<Categoria[], any, any> {
+  return useSWR<Categoria[]>(
+    `https://back-magni-0zhl.onrender.com/categoria/hijas/${idSucursal}`,
+    fetcher
+  );
+}
+
 export function getSubCategoriasPadreIdSucursal(idPadre: number, idSucursal: number): SWRResponse<Categoria[], any, any> {
   return useSWR<Categoria[]>(
     `https://back-magni-0zhl.onrender.com/categoria/${idSucursal}/hijo/${idPadre}`,

@@ -1,18 +1,5 @@
 import { useState } from "react";
-import {
-  Modal,
-  Box,
-  Typography,
-  TextField,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableRow,
-  Checkbox,
-  Button,
-  Paper,
-} from "@mui/material";
+import { Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableRow, Checkbox, Button, Paper } from "@mui/material";
 import PromocionDetalle from "../../../../entidades/PromocionDetalle";
 import { getAllArticulosManufacturados } from "../../../../servicios/ArticuloManufacturadoService";
 import { getAllArticuloInsumoNoElab } from "../../../../servicios/ArticuloInsumoService";
@@ -31,63 +18,15 @@ function AgregarArticuloModal({
   onSubmit,
   filasActuales,
 }: AgregarArticuloModalProps) {
-  const [selectedArticulos, setSelectedArticulos] = useState<
-    PromocionDetalle[]
-  >([]);
+  const [selectedArticulos, setSelectedArticulos] = useState<PromocionDetalle[]>([]);
   const { data: articulos } = getAllArticulosManufacturados();
   const { data: insumosNoElab } = getAllArticuloInsumoNoElab();
-  const [nombreArticulo, setNombreArticulo] = useState<string>("");
-
-  const handleSelectArticulo = (articulo: Articulo) => {
-    const isAlreadySelected = filasActuales.some(
-      (fila) => fila.articulo.id === articulo.id
-    );
-    const alreadySelectedItem = filasActuales.find(
-      (fila) => fila.articulo.id === articulo.id
-    );
-
-    if (isAlreadySelected) {
-      if (alreadySelectedItem && !alreadySelectedItem.eliminado) {
-        alert("El articulo ya está agregado.");
-        return;
-      } else if (alreadySelectedItem && alreadySelectedItem.eliminado) {
-        const updatedFilas = filasActuales.map((fila) =>
-          fila.articulo.id === articulo.id
-            ? { ...fila, eliminado: false, fechaBaja: "9999-12-31" }
-            : fila
-        );
-        setSelectedArticulos(updatedFilas);
-      }
-    }
-
-    const index = selectedArticulos.findIndex(
-      (selected) => selected.articulo.id === articulo.id
-    );
-    if (index !== -1) {
-      setSelectedArticulos((prevState) => {
-        const updatedArticulos = [...prevState];
-        updatedArticulos.splice(index, 1);
-        return updatedArticulos;
-      });
-    } else {
-      const nuevoArticulo: PromocionDetalle = new PromocionDetalle();
-      nuevoArticulo.articulo = articulo;
-      nuevoArticulo.articuloId = articulo.id;
-      nuevoArticulo.cantidad = 1;
-      nuevoArticulo.fechaBaja = "9999-12-31";
-      setSelectedArticulos([...selectedArticulos, nuevoArticulo]);
-    }
-  };
-
-  const handleSubmit = () => {
-    onSubmit(selectedArticulos);
-    setSelectedArticulos([]);
-    onClose();
-  };
-
   const articulosCombinados = [...(articulos || []), ...(insumosNoElab || [])];
-
-  const articulosFiltrados = articulosCombinados?.filter((item: Articulo) => {
+  const detallesActivos = filasActuales.filter(fila => fila.eliminado === false);
+  const articulosSinActivos = articulosCombinados.filter(articulo => !detallesActivos.map(fila => fila.articulo.id).includes(articulo.id)); //No mostrar artículos activos
+  //Búsqueda
+  const [nombreArticulo, setNombreArticulo] = useState<string>("");
+  const articulosFiltrados = articulosSinActivos?.filter((item: Articulo) => {
     return (
       (nombreArticulo === "" ||
         item.denominacion
@@ -96,6 +35,55 @@ function AgregarArticuloModal({
       !item.eliminado
     );
   });
+
+  const handleSelectArticulo = (articuloSel: Articulo) => {
+    const estaEliminado = filasActuales.some(
+      (fila) => fila.articulo.id === articuloSel.id && fila.eliminado == true
+    );
+
+    const index = selectedArticulos.findIndex(
+      (selected) => selected.articulo.id === articuloSel.id
+    );
+
+    if (index == -1) {
+      if (!estaEliminado) {
+        const nuevoDetalle: PromocionDetalle = new PromocionDetalle();
+        nuevoDetalle.articulo = articuloSel;
+        nuevoDetalle.articuloId = articuloSel.id;
+        nuevoDetalle.cantidad = 1;
+        nuevoDetalle.fechaBaja = "9999-12-31";
+        setSelectedArticulos([...selectedArticulos, nuevoDetalle]);
+      } else {
+        const filaEditada = filasActuales.find((fila) => fila.articulo.id === articuloSel.id);
+        if (filaEditada) {
+          const filaEditadaCopia = { ...filaEditada, eliminado: false, fechaBaja: "9999-12-31" };
+          setSelectedArticulos([...selectedArticulos, filaEditadaCopia]);
+        }
+      }
+    } else {
+      setSelectedArticulos((prevState) => {
+        const updatedArticulos = [...prevState];
+        updatedArticulos.splice(index, 1);
+        return updatedArticulos;
+      });
+    }
+    console.log("Despues de seleccionar")
+    console.log(selectedArticulos);
+    console.log(filasActuales);
+  };
+
+  const handleSubmit = () => {
+    const selectedIds = selectedArticulos.map((detalle) => detalle.id);
+
+    const filasSinEditar = filasActuales.filter(
+      (detalle) => !selectedIds.includes(detalle.id)
+    );
+
+    const filasFinal = [...filasSinEditar, ...selectedArticulos];
+    onSubmit(filasFinal);
+    setSelectedArticulos([]);
+    onClose();
+  };
 
   return (
     <Modal open={open} onClose={onClose}>

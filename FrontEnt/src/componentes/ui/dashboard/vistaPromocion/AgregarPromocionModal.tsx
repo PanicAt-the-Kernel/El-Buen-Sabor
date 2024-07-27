@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Modal, Box, TextField, Typography, Stack, Button, Grid, IconButton, Snackbar, Alert, TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody } from "@mui/material";
+import { Modal, Box, TextField, Typography, Stack, Button, Grid, IconButton, Snackbar, Alert, TableContainer, Table, TableHead, TableRow, TableCell, Paper, TableBody, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
 import Promocion from "../../../../entidades/Promocion";
 import PromocionDetalle from "../../../../entidades/PromocionDetalle";
 import Imagen from "../../../../entidades/Imagen";
@@ -16,7 +16,6 @@ interface AgregarPromocionModalProps {
 }
 
 function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarPromocionModalProps) {
-  //const idSucursal = 1;
   const [promocion, setPromocion] = useState<Promocion>(iPromocion);
   const [imagenesL, setImagenesL] = useState<Imagen[]>(promocion.imagenes);
   const [tablaDetalle, setTablaDetalle] = useState<PromocionDetalle[]>(promocion.promocionDetalles);
@@ -35,7 +34,7 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
   const handleOpenDetalles = () => setOpenDetalles(true);
   const handleCloseDetalles = () => setOpenDetalles(false);
   const handleSubmitModalDetalle = (nuevosDetalles: PromocionDetalle[]) => {
-    setTablaDetalle([...tablaDetalle, ...nuevosDetalles]);
+    setTablaDetalle(nuevosDetalles);
     setOpenDetalles(false);
   };
 
@@ -230,13 +229,19 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
               multiline
               rows={3}
             />
-            <TextField
-              label="Tipo de promoción"
-              required
-              variant="outlined"
-              value={promocion.tipoPromocion}
-              onChange={(e) => setPromocion({ ...promocion, tipoPromocion: e.target.value })}
-            />
+            <FormControl variant="outlined">
+              <InputLabel id="tipo-label">Tipo de promoción</InputLabel>
+              <Select
+                label="Tipo de promoción"
+                required
+                variant="outlined"
+                value={promocion.tipoPromocion}
+                onChange={(e) => setPromocion({ ...promocion, tipoPromocion: e.target.value })}
+              >
+                <MenuItem value="HAPPY_HOUR">HAPPY_HOUR</MenuItem>
+                <MenuItem value="PROMOCION">PROMOCION</MenuItem>
+              </Select>
+            </FormControl>
             <input
               type="file"
               accept="image/*"
@@ -295,7 +300,7 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
                 <TableBody>
                   {tablaDetalle.filter((fila) => !fila.eliminado)
                     .sort((a, b) => a.articulo.denominacion.localeCompare(b.articulo.denominacion))
-                    .map((fila, index) => (
+                    .map((fila) => (
                       <TableRow key={fila.articulo.id}>
                         <TableCell>{fila.articulo.denominacion + " (" + fila.articulo.unidadMedida.denominacion.toLowerCase() + ")"}</TableCell>
                         <TableCell>
@@ -304,9 +309,13 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
                             value={fila.cantidad}
                             inputProps={{ min: "1", step: '1' }}
                             onChange={(e) => {
-                              const newTablaDetalle = [...tablaDetalle];
-                              newTablaDetalle[index] = { ...newTablaDetalle[index], cantidad: parseFloat(e.target.value) };
-                              setTablaDetalle(newTablaDetalle);
+                              setTablaDetalle((prevTablaDetalle) => {
+                                return prevTablaDetalle.map((item) =>
+                                  item.articulo.id === fila.articulo.id
+                                    ? { ...item, cantidad: parseFloat(e.target.value) }
+                                    : item
+                                );
+                              });
                             }}
                           />
                         </TableCell>

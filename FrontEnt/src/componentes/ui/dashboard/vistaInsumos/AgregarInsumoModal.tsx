@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Modal, Box, TextField, Stack, Button, FormControl, InputLabel, Select, MenuItem, FormControlLabel, Checkbox, Grid, IconButton, Snackbar, Alert } from '@mui/material';
 import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
 import { getAllUnidadMedida } from '../../../../servicios/UnidadMedidaService';
-import { getCategoriasPadreIdSucursal } from '../../../../servicios/CategoriaService';
+import { getCategoriasHijaIdSucursal, getCategoriasPadreIdSucursal } from '../../../../servicios/CategoriaService';
 import Imagen from '../../../../entidades/Imagen';
 import DeleteIcon from '@mui/icons-material/Delete';
 
@@ -20,7 +20,9 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
     const [categoriaL, setCategoria] = useState(insumo.categoria.id);
     const [imagenesL, setImagenesL] = useState<Imagen[]>(insumo.imagenes);
     const { data: unidadesMedida } = getAllUnidadMedida();
-    const { data: categorias } = getCategoriasPadreIdSucursal(idSucursal);
+    const { data: categoriasPadre } = getCategoriasPadreIdSucursal(idSucursal);
+    const { data: categoriasHija } = getCategoriasHijaIdSucursal(idSucursal);
+    const categorias = [...(categoriasPadre || []), ...(categoriasHija || [])];
     const [openSnackbar, setOpenSnackbar] = useState(false);
 
     const handleSubmit = () => {

@@ -23,7 +23,7 @@ import {
   Alert,
 } from "@mui/material";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
-import { getCategoriasPadreIdSucursal } from "../../../../servicios/CategoriaService";
+import { getCategoriasHijaIdSucursal, getCategoriasPadreIdSucursal } from "../../../../servicios/CategoriaService";
 import { getAllUnidadMedida } from "../../../../servicios/UnidadMedidaService";
 import ArticuloManufacturadoDetalle from "../../../../entidades/ArticuloManufacturadoDetalle";
 import AgregarInsumoModal from "./AgregarInsumoModal";
@@ -50,7 +50,9 @@ function AgregarProductoModal({
   const [categoriaL, setCategoria] = useState(articuloM.categoria.id);
   const [imagenesL, setImagenesL] = useState<Imagen[]>(articuloM.imagenes);
   const { data: unidadesMedida } = getAllUnidadMedida();
-  const { data: categorias } = getCategoriasPadreIdSucursal(idSucursal);
+  const { data: categoriasPadre } = getCategoriasPadreIdSucursal(idSucursal);
+  const { data: categoriasHija } = getCategoriasHijaIdSucursal(idSucursal);
+  const categorias = [...(categoriasPadre || []), ...(categoriasHija || [])];
   const [tablaDetalle, setTablaDetalle] = useState<
     ArticuloManufacturadoDetalle[]
   >(iArticuloM.articuloManufacturadoDetalles);
