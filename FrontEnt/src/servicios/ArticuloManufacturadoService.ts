@@ -8,7 +8,7 @@ export function getAllArticulosManufacturados(): SWRResponse<
   any
 > {
   return useSWR<ArticuloManufacturado[]>(
-    `https://back-magni-0zhl.onrender.com/articuloManufacturado`,
+    `https://traza-ending.onrender.com/om/articuloManufacturado`,
     fetcher
   );
 }
@@ -17,7 +17,7 @@ export function getArticulosManufacturadosIdSucursal(
   idSucursal: number
 ): SWRResponse<ArticuloManufacturado[], any, any> {
   return useSWR<ArticuloManufacturado[]>(
-    `https://back-magni-0zhl.onrender.com/articuloManufacturado/sucursal/${idSucursal}`,
+    `https://traza-ending.onrender.com/om/articuloManufacturado/sucursal/${idSucursal}`,
     fetcher
   );
 }
@@ -38,7 +38,7 @@ export async function saveArticuloManufacturado(
   //Manejo de errores
   try {
     let response = await fetch(
-      "https://back-magni-0zhl.onrender.com/articuloManufacturado",
+      "https://traza-ending.onrender.com/om/articuloManufacturado",
       options
     );
     if (response.ok) {
@@ -67,7 +67,7 @@ export async function editArticuloManufacturado(
     //Manejo de errores
     try {
       let response = await fetch(
-        `https://back-magni-0zhl.onrender.com/articuloManufacturado/${articulo.id}`,
+        `https://traza-ending.onrender.com/om/articuloManufacturado/${articulo.id}`,
         options
       );
       if (response.ok) {

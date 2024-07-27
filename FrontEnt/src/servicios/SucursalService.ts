@@ -5,7 +5,7 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function getAllSucursales(): SWRResponse<Sucursal[], any, any> {
   return useSWR<Sucursal[]>(
-    "https://back-magni-0zhl.onrender.com/sucursal",
+    "https://traza-ending.onrender.com/om/sucursal",
     fetcher
   );
 }
@@ -14,7 +14,7 @@ export function getSucursalesEmpresa(
   idEmpresa: number
 ): SWRResponse<Sucursal[], any, any> {
   return useSWR<Sucursal[]>(
-    `https://back-magni-0zhl.onrender.com/sucursal/empresa/${idEmpresa}`,
+    `https://traza-ending.onrender.com/om/sucursal/empresa/${idEmpresa}`,
     fetcher
   );
 }
@@ -23,7 +23,7 @@ export function getSucursalId(
   idSucursal: number
 ): SWRResponse<Sucursal, any, any> {
   return useSWR<Sucursal>(
-    `https://back-magni-0zhl.onrender.com/sucursal/${idSucursal}`,
+    `https://traza-ending.onrender.com/om/sucursal/${idSucursal}`,
     fetcher
   );
 }
@@ -42,7 +42,7 @@ export async function saveSucursal(sucursal: Sucursal) {
   //Manejo de errores
   try {
     let response = await fetch(
-      "https://back-magni-0zhl.onrender.com/sucursal",
+      "https://traza-ending.onrender.com/om/sucursal",
       options
     );
     if (response.ok) {
@@ -69,7 +69,7 @@ export async function editSucursal(sucursal: Sucursal) {
     //Manejo de errores
     try {
       let response = await fetch(
-        `https://back-magni-0zhl.onrender.com/sucursal/${sucursal.id}`,
+        `https://traza-ending.onrender.com/om/sucursal/${sucursal.id}`,
         options
       );
       if (response.ok) {

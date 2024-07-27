@@ -6,14 +6,14 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function getAllEmpleados(): SWRResponse<Empleado[], any, any> {
   return useSWR<Empleado[]>(
-    `https://back-magni-0zhl.onrender.com/empleado`,
+    `https://traza-ending.onrender.com/om/empleado`,
     fetcher
   );
 }
 
 export function getEmpleadosIdSucursal(idSucursal: number): SWRResponse<Empleado[], any, any> {
   return useSWR<Empleado[]>(
-    `https://back-magni-0zhl.onrender.com/empleado/sucursal/${idSucursal}`,
+    `https://traza-ending.onrender.com/om/empleado/sucursal/${idSucursal}`,
     fetcher
   );
 }
@@ -33,7 +33,7 @@ export async function saveEmpleado(empleado: Empleado) {
   //Manejo de errores
   try {
     let response = await fetch(
-      "https://back-magni-0zhl.onrender.com/empleado",
+      "https://traza-ending.onrender.com/om/empleado",
       options
     );
     if (response.ok) {
@@ -59,7 +59,7 @@ export async function editEmpleado(empleado: Empleado) {
   //Manejo de errores
   try {
     let response = await fetch(
-      `https://back-magni-0zhl.onrender.com/empleado/${empleado.id}`,
+      `https://traza-ending.onrender.com/om/empleado/${empleado.id}`,
       options
     );
     if (response.ok) {
@@ -87,7 +87,7 @@ export async function bajaEmpleado(empleado: Empleado) {
   //Manejo de errores
   try {
     let response = await fetch(
-      `https://back-magni-0zhl.onrender.com/empleado/${empleado.id}`,
+      `https://traza-ending.onrender.com/om/empleado/${empleado.id}`,
       options
     );
     if (response.ok) {

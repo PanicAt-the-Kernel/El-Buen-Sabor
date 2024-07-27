@@ -4,18 +4,18 @@ import PreferenceMP from "../entidades/PreferenceMP";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
-  return useSWR<Pedido[]>("https://back-magni-0zhl.onrender.com/pedidos", fetcher);
+  return useSWR<Pedido[]>("https://traza-ending.onrender.com/om/pedidos", fetcher);
 }
 
 export function getPedidosPorSucursal(id:number):SWRResponse<Pedido[],any,any>{
-  return useSWR<Pedido[]>(`https://back-magni-0zhl.onrender.com/pedidos/sucursal/${id}`,fetcher);
+  return useSWR<Pedido[]>(`https://traza-ending.onrender.com/om/pedidos/sucursal/${id}`,fetcher);
 }
 
 export function getPedidosCliente(
   clienteEmail: string
 ): SWRResponse<Pedido[], any, any> {
   return useSWR<Pedido[]>(
-    `https://back-magni-0zhl.onrender.com/pedidos/cliente?userName=${clienteEmail}`,
+    `https://traza-ending.onrender.com/om/pedidos/cliente?userName=${clienteEmail}`,
     fetcher
   );
 }
@@ -36,7 +36,7 @@ export async function savePedido(
       body: JSON.stringify(pedido),
     };
     const response = await fetch(
-      `https://back-magni-0zhl.onrender.com/pedidos?precioDelivery=${totalEnvio}`,
+      `https://traza-ending.onrender.com/om/pedidos?precioDelivery=${totalEnvio}`,
       options
     );
     if (response.ok) {
@@ -70,7 +70,7 @@ export async function actualizarEstadoPedido(id: number, estado: string) {
   // Manejo de errores
   try {
     let response = await fetch(
-      `https://back-magni-0zhl.onrender.com/pedidos/${id}`,
+      `https://traza-ending.onrender.com/om/pedidos/${id}`,
       options
     );
     if (response.ok) {
@@ -96,7 +96,7 @@ export async function sendFactura(id: Number) {
   };
   try {
     let response = await fetch(
-      `https://back-magni-0zhl.onrender.com/pedidos/${id}`,
+      `https://traza-ending.onrender.com/om/pedidos/${id}`,
       options
     );
     if (response.ok) {
@@ -116,7 +116,7 @@ export async function llamarMercadoPago(idPedido: number) {
   };
   try {
     let response = await fetch(
-      `https://back-magni-0zhl.onrender.com/pedidos/llamarMercadoPago/${idPedido}`,
+      `https://traza-ending.onrender.com/om/pedidos/llamarMercadoPago/${idPedido}`,
       options
     );
     if (response.ok) {
@@ -143,7 +143,7 @@ export async function verificarStockPromo(id: number, pedido: any) {
   };
   try {
     let response = await fetch(
-      `https://back-magni-0zhl.onrender.com/pedidos/stockPromo/${id}`,
+      `https://traza-ending.onrender.com/om/pedidos/stockPromo/${id}`,
       options
     );
     if (response.ok) {
@@ -172,7 +172,7 @@ export async function verificarStockArticulo(id:number,pedido:Pedido){
     body:JSON.stringify(pedido)
   }
   try{
-    let response = await fetch(`https://back-magni-0zhl.onrender.com/pedidos/stockArticulo/${id}`,options);
+    let response = await fetch(`https://traza-ending.onrender.com/om/pedidos/stockArticulo/${id}`,options);
     if(response.ok){
       let data = await response.json();
       return data as boolean;
