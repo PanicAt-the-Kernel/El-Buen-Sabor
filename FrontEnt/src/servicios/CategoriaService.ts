@@ -5,35 +5,35 @@ const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function getAllCategoriasPadre(): SWRResponse<Categoria[], any, any> {
   return useSWR<Categoria[]>(
-    `https://traza-ending.onrender.com/om/categoria/padres`,
+    `https://traza-ending.onrender.com/categoria/padres`,
     fetcher
   );
 }
 
 export function getSubCategoriasPadre(idPadre: number): SWRResponse<Categoria[], any, any> {
   return useSWR<Categoria[]>(
-    `https://traza-ending.onrender.com/om/categoria/hijas/${idPadre}`,
+    `https://traza-ending.onrender.com/categoria/hijas/${idPadre}`,
     fetcher
   );
 }
 
 export function getCategoriasPadreIdSucursal(idSucursal: number): SWRResponse<Categoria[], any, any> {
   return useSWR<Categoria[]>(
-    `https://traza-ending.onrender.com/om/categoria/padres/${idSucursal}`,
+    `https://traza-ending.onrender.com/categoria/padres/${idSucursal}`,
     fetcher
   );
 }
 
 export function getCategoriasHijaIdSucursal(idSucursal: number): SWRResponse<Categoria[], any, any> {
   return useSWR<Categoria[]>(
-    `https://traza-ending.onrender.com/om/categoria/hijas/${idSucursal}`,
+    `https://traza-ending.onrender.com/categoria/hijas/${idSucursal}`,
     fetcher
   );
 }
 
 export function getSubCategoriasPadreIdSucursal(idPadre: number, idSucursal: number): SWRResponse<Categoria[], any, any> {
   return useSWR<Categoria[]>(
-    `https://traza-ending.onrender.com/om/categoria/${idSucursal}/hijo/${idPadre}`,
+    `https://traza-ending.onrender.com/categoria/${idSucursal}/hijo/${idPadre}`,
     fetcher
   );
 }
@@ -52,7 +52,7 @@ export async function saveCategoria(categoria: Categoria) {
   //Manejo de errores
   try {
     let response = await fetch(
-      "https://traza-ending.onrender.com/om/categoria/padre",
+      "https://traza-ending.onrender.com/categoria/padre",
       options
     );
     if (response.ok) {
@@ -79,7 +79,7 @@ export async function saveCategoriaHija(categoria: Categoria, idPadre: number) {
   //Manejo de errores
   try {
     let response = await fetch(
-      `https://traza-ending.onrender.com/om/categoria/hijo/${idPadre}`,
+      `https://traza-ending.onrender.com/categoria/hijo/${idPadre}`,
       options
     );
     if (response.ok) {
@@ -106,7 +106,7 @@ export async function editCategoria(categoria: Categoria) {
   //Manejo de errores
   try {
     let response = await fetch(
-      `https://traza-ending.onrender.com/om/categoria/padre/${categoria.id}`,
+      `https://traza-ending.onrender.com/categoria/padre/${categoria.id}`,
       options
     );
     if (response.ok) {
@@ -133,7 +133,7 @@ export async function editCategoriaHija(categoria: Categoria) {
   //Manejo de errores
   try {
     let response = await fetch(
-      `https://traza-ending.onrender.com/om/categoria/hijo/${categoria.id}`,
+      `https://traza-ending.onrender.com/categoria/hijo/${categoria.id}`,
       options
     );
     if (response.ok) {

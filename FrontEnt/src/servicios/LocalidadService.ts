@@ -7,7 +7,7 @@ export function getLocalidadesIdProvincia(
   idProvincia: number
 ): SWRResponse<Localidad[], any, any> {
   return useSWR<Localidad[]>(
-    `https://traza-ending.onrender.com/om/localidad/findByProvincia/${idProvincia}`,
+    `https://traza-ending.onrender.com/localidad/findByProvincia/${idProvincia}`,
     fetcher
   );
 }
@@ -16,7 +16,7 @@ export function getLocalidadesId(
   idLocalidad: number
 ): SWRResponse<Localidad[], any, any> {
   return useSWR<Localidad[]>(
-    `https://traza-ending.onrender.com/om/localidad/${idLocalidad}`,
+    `https://traza-ending.onrender.com/localidad/${idLocalidad}`,
     fetcher
   );
 }

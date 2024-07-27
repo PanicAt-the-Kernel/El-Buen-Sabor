@@ -7,7 +7,7 @@ export function getPromocionesIdSucursal(
   idSucursal: number
 ): SWRResponse<Promocion[], any, any> {
   return useSWR<Promocion[]>(
-    `https://traza-ending.onrender.com/om/promocion/sucursal/${idSucursal}`,
+    `https://traza-ending.onrender.com/promocion/sucursal/${idSucursal}`,
     fetcher
   );
 }
@@ -26,7 +26,7 @@ export async function savePromocion(promocion: Promocion) {
   //Manejo de errores
   try {
     let response = await fetch(
-      "https://traza-ending.onrender.com/om/promocion",
+      "https://traza-ending.onrender.com/promocion",
       options
     );
     if (response.ok) {
@@ -63,7 +63,7 @@ export async function editPromocion(promocion: Promocion) {
   //Manejo de errores
   try {
     let response = await fetch(
-      `https://traza-ending.onrender.com/om/promocion/${promocion.id}?fechaActual=${fecha}`,
+      `https://traza-ending.onrender.com/promocion/${promocion.id}?fechaActual=${fecha}`,
       options
     );
     if (response.ok) {
