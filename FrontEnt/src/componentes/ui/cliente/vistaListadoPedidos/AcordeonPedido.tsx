@@ -79,7 +79,7 @@ export default function AcordeonPedido({ pedido,mutador }: AcordeonPedidoTypes) 
       case "FACTURADO":
         return (
           <a
-            href={`https://traza-ending.onrender.com/om/facturas/${pedido.id}`}
+            href={`https://traza-ending.onrender.com/facturas/${pedido.id}`}
             target="_blank"
             rel="noopener noreferrer"
           >

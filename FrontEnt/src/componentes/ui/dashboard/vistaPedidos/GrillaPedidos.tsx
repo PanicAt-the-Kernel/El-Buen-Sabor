@@ -48,7 +48,7 @@ export default function GrillaPedidos() {
       </Grid>
     );
   }
-  if (userRoles.includes("CAJERO")) {
+  if (userRoles.includes("DELIVERY")) {
     return (
       <Grid container spacing={3} sx={{ marginTop: 3 }}>
         {data && data.length === 0 ? (
@@ -71,7 +71,7 @@ export default function GrillaPedidos() {
       </Grid>
     );
   }
-  if (userRoles.includes("DELIVERY")) {
+  if (userRoles.includes("CAJERO")) {
     return (
       <Grid container spacing={3} sx={{ marginTop: 3 }}>
         {data && data.length === 0 ? (

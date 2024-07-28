@@ -1,6 +1,7 @@
 import useSWR, { SWRResponse } from "swr";
 import Pedido from "../entidades/Pedido";
 import PreferenceMP from "../entidades/PreferenceMP";
+import {localSession} from "./localSession.ts";
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
@@ -96,11 +97,11 @@ export async function sendFactura(id: Number) {
   };
   try {
     let response = await fetch(
-      `https://traza-ending.onrender.com/pedidos/${id}`,
+      `https://traza-ending.onrender.com/pedidos/${id}?idEmpleado=1`,
       options
     );
     if (response.ok) {
-      alert("Se envio correctamente el id");
+      alert("Se envio correctamente el correo");
     } else {
       alert("Error al enviar el correo: " + response.status);
     }

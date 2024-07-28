@@ -170,7 +170,6 @@ export default function DomicilioAcordeon({
       </AccordionDetails>
       <AccordionActions>
         <Button onClick={()=>setOpen(!open)}>Modificar</Button>
-        <Button>Eliminar</Button>
       </AccordionActions>
       <ModalDomicilio open={open} setOpen={setOpen} domiObj={iDomicilio} editFlag={true}/>
     </Accordion>

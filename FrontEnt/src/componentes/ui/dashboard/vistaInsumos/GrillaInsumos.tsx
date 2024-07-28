@@ -26,7 +26,7 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
       <h1>Ocurrio un error al cargar los insumos</h1>
     )
   }
-  console.log(insumos)
+
   const handleOpenEditar = (insumo: ArticuloInsumo) => {
     setEditingInsumo(insumo);
     setOpenEditar(true);
@@ -48,13 +48,23 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
     setShowLowStock(event.target.checked);
   };
 
-  const insumosFiltrados = insumos?.filter((item: ArticuloInsumo) => {
+
+
+  let insumosFiltrados = insumos?.filter((item: ArticuloInsumo) => {
     const matchesSearch = busqueda === "" || item.denominacion.toLowerCase().includes(busqueda.toLowerCase());
     const matchesLowStock = !showLowStock || item.stocksInsumo[0].stockActual < item.stocksInsumo[0].stockMinimo;
     return matchesSearch && matchesLowStock;
   });
 
-  console.log(insumos)
+
+  const insumosFiltradosConStock = insumosFiltrados.map(insumo => {
+    const stockFiltrado = insumo.stocksInsumo.find(stock => stock.sucursal.id === localSession.getSucursal('sucursal').id);
+
+    return {
+      ...insumo,
+      stocksInsumo: stockFiltrado ? [stockFiltrado] : [] // Retorna un array con el stock filtrado o vacío si no se encuentra
+    };
+  });
 
   return (
     <>
@@ -63,7 +73,7 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
         label="Insumos con stock bajo"
       />
       <Grid container sx={{ marginTop: 2 }} spacing={1}>
-        {insumosFiltrados?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
+        {insumosFiltradosConStock?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
           .map((item: ArticuloInsumo) => (
             <ItemGrillaInsumos
               key={item.id}

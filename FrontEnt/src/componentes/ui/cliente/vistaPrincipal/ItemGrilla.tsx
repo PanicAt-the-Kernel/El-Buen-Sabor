@@ -24,6 +24,7 @@ import Pedido from "../../../../entidades/Pedido";
 
 import Sucursal from "../../../../entidades/Sucursal.ts";
 import {localSession} from "../../../../servicios/localSession.ts";
+import DetallePedido from "../../../../entidades/DetallePedido.ts";
 
 interface ItemGrillaProductoTypes {
   item: ArticuloInsumo | ArticuloManufacturado;
