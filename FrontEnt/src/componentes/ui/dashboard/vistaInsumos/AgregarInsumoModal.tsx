@@ -274,6 +274,7 @@ function AgregarInsumoModal({
               autoHideDuration={6000}
               onClose={handleCloseSnackbar}
             >
+
               <Alert
                 elevation={6}
                 variant="filled"
@@ -390,5 +391,4 @@ function AgregarInsumoModal({
     </Modal>
   );
 }
-
 export default AgregarInsumoModal;

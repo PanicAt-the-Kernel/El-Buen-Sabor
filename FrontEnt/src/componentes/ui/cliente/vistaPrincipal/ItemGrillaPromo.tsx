@@ -20,7 +20,9 @@ import { useAuth0 } from "@auth0/auth0-react";
 import getHora from "../../../../hooks/getHora";
 import Pedido from "../../../../entidades/Pedido";
 import { verificarStockPromo } from "../../../../servicios/PedidoService";
-import { localSession } from "../../../../servicios/localSession";
+
+import Sucursal from "../../../../entidades/Sucursal.ts";
+import {localSession} from "../../../../servicios/localSession.ts";
 
 interface ItemGrillaProductoTypes {
   item: Promocion;
@@ -37,6 +39,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+  const sucursal: Sucursal = localSession.getSucursal("sucursal");
 
   const handleClosePopover = () => {
     setAnchorEl(null);
@@ -59,7 +62,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     pedido.domicilio=null;
     pedido.empleado=null;
     pedido.factura=null;
-    pedido.sucursal=localSession.getSucursal("sucursal");
+    pedido.sucursal=sucursal;
     pedido.detallePedidos=carrito;
     console.log(JSON.stringify(pedido));
     console.log(item.id);

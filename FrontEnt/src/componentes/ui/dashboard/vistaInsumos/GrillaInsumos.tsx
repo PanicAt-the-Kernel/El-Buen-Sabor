@@ -54,6 +54,8 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
     return matchesSearch && matchesLowStock;
   });
 
+  console.log(insumos)
+
   return (
     <>
     <FormControlLabel
@@ -66,7 +68,8 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
             <ItemGrillaInsumos
               key={item.id}
               denominacion={item.denominacion}
-              stockActual={"Stock actual: " + item.stocksInsumo[0].stockActual + " " + item.unidadMedida.denominacion.toLowerCase()}
+              stockActual={"Stock actual: " + item.
+                  stocksInsumo[0].stockActual + " " + item.unidadMedida.denominacion.toLowerCase()}
               precioCompra={"Precio de compra: $" + item.precioCompra}
               urlImagen={item.imagenes[0].url}
               isLowStock={item.stocksInsumo[0].stockActual < item.stocksInsumo[0].stockMinimo+5}

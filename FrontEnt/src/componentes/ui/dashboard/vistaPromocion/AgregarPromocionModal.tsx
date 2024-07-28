@@ -127,6 +127,9 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
     setOpenSnackbar(false);
   };
 
+
+
+
   return (
     <Modal
       open={open}
