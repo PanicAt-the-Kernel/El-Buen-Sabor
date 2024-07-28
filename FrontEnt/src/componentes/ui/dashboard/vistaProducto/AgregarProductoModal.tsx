@@ -91,6 +91,7 @@ function AgregarProductoModal({
       unidadMedida: selectedUMedida,
       imagenes: imagenesL,
       articuloManufacturadoDetalles: tablaDetalle,
+      sucursales: [localSession.getSucursal("sucursal")]
     };
     console.log(updatedProducto);
     setArticuloM(updatedProducto);
@@ -164,7 +165,17 @@ function AgregarProductoModal({
     setOpenSnackbar(false);
   };
 
-  return (
+    const handleQuantityChange = (index, newQuantity) => {
+      const newTablaDetalle = [...tablaDetalle];
+      newTablaDetalle[index] = {
+        ...newTablaDetalle[index],
+        cantidad: parseFloat(newQuantity),
+      };
+      setTablaDetalle(newTablaDetalle);
+    };
+
+
+    return (
     <Modal
       open={open}
       onClose={onClose}
@@ -375,8 +386,8 @@ function AgregarProductoModal({
             )}
             <TableContainer component={Paper} className="form-group mt-3">
               <Typography
-                variant="h6"
-                sx={{ padding: 2, backgroundColor: "#f5f5f5" }}
+                  variant="h6"
+                  sx={{ padding: 2, backgroundColor: "#f5f5f5" }}
               >
                 Insumos
               </Typography>
@@ -390,48 +401,41 @@ function AgregarProductoModal({
                 </TableHead>
                 <TableBody>
                   {tablaDetalle
-                    .filter((fila) => !fila.eliminado)
-                    .sort((a, b) =>
-                      a.articuloInsumo.denominacion.localeCompare(
-                        b.articuloInsumo.denominacion
+                      .filter((fila) => !fila.eliminado)
+                      .sort((a, b) =>
+                          a.articuloInsumo.denominacion.localeCompare(
+                              b.articuloInsumo.denominacion
+                          )
                       )
-                    )
-                    .map((fila, index) => (
-                      <TableRow key={fila.articuloInsumo.id}>
-                        <TableCell>
-                          {fila.articuloInsumo.denominacion +
-                            " (" +
-                            fila.articuloInsumo.unidadMedida.denominacion.toLowerCase() +
-                            ")"}
-                        </TableCell>
-                        <TableCell>
-                          <TextField
-                            type="number"
-                            value={fila.cantidad}
-                            inputProps={{ min: 0.01, step: 0.01 }}
-                            onChange={(e) => {
-                              const newTablaDetalle = [...tablaDetalle];
-                              newTablaDetalle[index] = {
-                                ...newTablaDetalle[index],
-                                cantidad: parseFloat(e.target.value),
-                              };
-                              setTablaDetalle(newTablaDetalle);
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <Button
-                            variant="contained"
-                            color="secondary"
-                            onClick={() =>
-                              removeInsumo(Number(fila.articuloInsumo.id))
-                            }
-                          >
-                            -
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
+                      .map((fila, index) => (
+                          <TableRow key={fila.articuloInsumo.id}>
+                            <TableCell>
+                              {fila.articuloInsumo.denominacion +
+                                  " (" +
+                                  fila.articuloInsumo.unidadMedida.denominacion.toLowerCase() +
+                                  ")"}
+                            </TableCell>
+                            <TableCell>
+                              <TextField
+                                  type="number"
+                                  value={fila.cantidad}
+                                  inputProps={{ min: 0.01, step: 0.01 }}
+                                  onChange={(e) => handleQuantityChange(index, e.target.value)}
+                              />
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                  variant="contained"
+                                  color="secondary"
+                                  onClick={() =>
+                                      removeInsumo(Number(fila.articuloInsumo.id))
+                                  }
+                              >
+                                -
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                      ))}
                 </TableBody>
               </Table>
             </TableContainer>

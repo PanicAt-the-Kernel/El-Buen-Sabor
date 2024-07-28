@@ -234,7 +234,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             label="Stock Mínimo"
                             variant="outlined"
                             type="number"
-                            value={insumo.stockMinimo}
+                            value={insumo.stocksInsumo[0].stockMinimo}
                             onChange={(e) => setInsumo({ ...insumo, stockMinimo: parseInt(e.target.value) })}
                             inputProps={{
                                 min:0,
@@ -247,7 +247,7 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             label="Stock Máximo"
                             variant="outlined"
                             type="number"
-                            value={insumo.stockMaximo}
+                            value={insumo.stocksInsumo[0].stockMaximo}
                             onChange={(e) => setInsumo({ ...insumo, stockMaximo: parseInt(e.target.value) })}
                             inputProps={{
                                 min:0,
@@ -260,8 +260,8 @@ function AgregarInsumoModal({ open, onClose, onSubmit, iInsumo }: AgregarInsumoM
                             label="Stock Actual"
                             variant="outlined"
                             type="number"
-                            inputProps={{ min: insumo.stockMinimo, max: insumo.stockMaximo }}
-                            value={insumo.stockActual}
+                            inputProps={{ min: insumo.stocksInsumo[0].stockMinimo, max: insumo.stocksInsumo[0].stockMaximo }}
+                            value={insumo.stocksInsumo[0].stockActual}
                             onChange={(e) => setInsumo({ ...insumo, stockActual: parseInt(e.target.value) })}
                         />
                         <FormControlLabel

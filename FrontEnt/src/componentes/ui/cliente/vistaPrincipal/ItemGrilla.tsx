@@ -21,6 +21,8 @@ import { useAuth0 } from "@auth0/auth0-react";
 import getHora from "../../../../hooks/getHora";
 import { verificarStockArticulo } from "../../../../servicios/PedidoService";
 import Pedido from "../../../../entidades/Pedido";
+import Sucursal from "../../../../entidades/Sucursal.ts";
+import {localSession} from "../../../../servicios/localSession.ts";
 
 interface ItemGrillaProductoTypes {
   item: ArticuloInsumo | ArticuloManufacturado;
@@ -33,6 +35,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
   const { isAuthenticated } = useAuth0();
   const [sinStock,SetSinStock]=useState<boolean>(false);
 
+  const sucursal: Sucursal = localSession.getSucursal("sucursal");
   const handleOpenPopover = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -56,7 +59,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     pedido.domicilio=null;
     pedido.empleado=null;
     pedido.factura=null;
-    pedido.sucursal=null;
+    pedido.sucursal=sucursal;
     pedido.detallePedidos=carrito;
     if(await verificarStockArticulo(item.id, pedido)){
       addArticuloCarrito(item);

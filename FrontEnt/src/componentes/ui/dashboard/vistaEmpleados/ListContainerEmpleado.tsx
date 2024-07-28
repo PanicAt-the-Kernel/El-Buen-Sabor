@@ -39,7 +39,8 @@ export default function ListContainerEmpleado({ busqueda }: ListContainerEmplead
 
   const empleadosFiltrados = empleados?.filter((item) => {
     return (
-      busqueda == "" || item.nombre.toLowerCase().includes(busqueda.toLowerCase())
+        (busqueda === "" || item.nombre.toLowerCase().includes(busqueda.toLowerCase())) &&
+        !item.eliminado
     );
   });
 
