@@ -15,13 +15,6 @@ export default function ListContainerEmpleado({ busqueda }: ListContainerEmplead
   const [editingEmpleado, setEditingEmpleado] = useState<Empleado | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
 
-  const handleSubmit = (empleado: Empleado) => {
-    if (editingEmpleado != null) {
-      editEmpleado(empleado);
-      handleClose();
-    }
-  };
-
   const handleOpenEditar = (empleado: Empleado) => {
     setEditingEmpleado(empleado);
     setOpenEditar(true);
@@ -36,6 +29,11 @@ export default function ListContainerEmpleado({ busqueda }: ListContainerEmplead
     bajaEmpleado(empleado);
   }
 
+  const handleSubmit = (empleado: Empleado) => {
+    editEmpleado(empleado);
+    handleClose();
+  };
+
   const empleadosFiltrados = empleados?.filter((item) => {
     return (
       busqueda == "" || item.nombre.toLowerCase().includes(busqueda.toLowerCase())
@@ -46,7 +44,7 @@ export default function ListContainerEmpleado({ busqueda }: ListContainerEmplead
     const nombreInicial = nombre.split(" ")[0]?.[0] || "";
     const apellidoInicial = apellido.split(" ")[0]?.[0] || "";
     return {
-      children: `${nombreInicial}${apellidoInicial}`,
+      children: `${nombreInicial}${apellidoInicial}`
     };
   }
 

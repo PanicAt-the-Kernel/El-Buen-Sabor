@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Modal, Box, TextField, Stack, Button, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import Empleado from "../../../../entidades/Empleado";
-import { saveEmpleado } from "../../../../servicios/EmpleadoService";
 
 interface AgregarEmpleadoModalProps {
   open: boolean;
@@ -57,18 +56,27 @@ function validateTipo(e) {
 
 //@ts-ignore
 function validateFecha(e) {
+  console.log(e.target.value);
+  console.log(new Date(e.target.value))
   if (e.target.value > Date.now()) {
-    errorTipo = true;
-  } else {
-    errorTipo = false;
+    errorFecha = true;
+  } else if (e.target.value <= Date.now()) {
+    let diferenciaMilisegundos = Date.now() - new Date(e.target.value).getTime();
+    let edadAnios = diferenciaMilisegundos / (1000 * 60 * 60 * 24 * 365);
+    console.log(edadAnios);
+    if (edadAnios < 18) {
+      errorFecha = true;
+    } else {
+      errorFecha = false;
+    }
   }
 }
 
-function AgregarEmpleadoModal({ open, onClose, iEmpleado }: AgregarEmpleadoModalProps) {
+function AgregarEmpleadoModal({ open, onClose, onSubmit, iEmpleado }: AgregarEmpleadoModalProps) {
   const [empleado, setEmpleado] = useState<Empleado>(iEmpleado);
 
   const handleSubmit = (empleado: Empleado) => {
-    saveEmpleado(empleado);
+    onSubmit(empleado);
     onClose();
   };
 
@@ -158,12 +166,13 @@ function AgregarEmpleadoModal({ open, onClose, iEmpleado }: AgregarEmpleadoModal
               variant="outlined"
               type="date"
               value={empleado.fechaNacimiento}
+              onInput={validateFecha}
               onChange={(e) => setEmpleado({ ...empleado, fechaNacimiento: e.target.value })}
               InputLabelProps={{
                 shrink: true,
               }}
               inputProps={{
-                max:new Date().toISOString().split("T")[0]
+                max: new Date().toISOString().split("T")[0]
               }}
             />
             {errorFecha && <span style={{ color: "red" }}>Ingrese una fecha posible!</span>}

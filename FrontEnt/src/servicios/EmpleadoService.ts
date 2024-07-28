@@ -56,7 +56,7 @@ export async function editEmpleado(empleado: Empleado) {
       options
     );
     if (response.ok) {
-      alert("Empleado editado correctamente");
+      alert("Empleado editado correctamente.");
     } else {
       alert("Error HTTP: " + response.status);
     }
