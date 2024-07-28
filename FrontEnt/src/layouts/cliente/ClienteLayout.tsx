@@ -99,7 +99,7 @@ export default function ClienteLayout({
           <Stack direction="row" spacing={3} marginRight={2}>
             {token != null ? (
               <>
-                {!estaEnHorario && (
+                {estaEnHorario && (
                   <Button
                     variant="text"
                     size="small"

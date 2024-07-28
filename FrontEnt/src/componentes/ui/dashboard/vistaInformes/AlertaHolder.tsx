@@ -29,7 +29,7 @@ function AlertaHolder() {
                   <Paper elevation={3}>
                     <ItemAlerta
                       nombre={item.denominacion}
-                      cantidad={item.stockActual}
+                      cantidad={item.stocksInsumo[0].stockActual}
                       unidadMedida={item.unidadMedida.denominacion}
                       estiloColor="#ffc4b3"
                       nivelAlerta="Reservas a Nivel Medio"
@@ -43,7 +43,7 @@ function AlertaHolder() {
                   <Paper elevation={5}>
                     <ItemAlerta
                       nombre={item.denominacion}
-                      cantidad={item.stockActual}
+                      cantidad={item.stocksInsumo[0].stockActual}
                       unidadMedida={item.unidadMedida.denominacion}
                       estiloColor="#fa8664"
                       nivelAlerta="Reservas a Nivel Bajo"
@@ -57,7 +57,7 @@ function AlertaHolder() {
                   <Paper elevation={10}>
                     <ItemAlerta
                       nombre={item.denominacion}
-                      cantidad={item.stockActual}
+                      cantidad={item.stocksInsumo[0].stockActual}
                       unidadMedida={item.unidadMedida.denominacion}
                       estiloColor={basil.palette.secondary.main}
                       nivelAlerta="Reservas a Nivel Muy Bajo"

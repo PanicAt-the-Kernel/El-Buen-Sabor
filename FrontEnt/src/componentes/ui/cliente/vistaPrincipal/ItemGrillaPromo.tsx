@@ -20,6 +20,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import getHora from "../../../../hooks/getHora";
 import Pedido from "../../../../entidades/Pedido";
 import { verificarStockPromo } from "../../../../servicios/PedidoService";
+import { localSession } from "../../../../servicios/localSession";
 
 interface ItemGrillaProductoTypes {
   item: Promocion;
@@ -58,8 +59,10 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     pedido.domicilio=null;
     pedido.empleado=null;
     pedido.factura=null;
-    pedido.sucursal=null;
+    pedido.sucursal=localSession.getSucursal("sucursal");
     pedido.detallePedidos=carrito;
+    console.log(JSON.stringify(pedido));
+    console.log(item.id);
     if(await verificarStockPromo(item.id, pedido)){
       addPromoCarrito(item);
     }else{
