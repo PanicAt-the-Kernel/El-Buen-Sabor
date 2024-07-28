@@ -1,23 +1,32 @@
-import { Button, Checkbox, FormControlLabel, Grid } from "@mui/material";
+import { Button, Checkbox, CircularProgress, FormControlLabel, Grid } from "@mui/material";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import { editArticuloInsumo, getInsumosPorSucursal } from "../../../../servicios/ArticuloInsumoService";
 import ItemGrillaInsumos from "./ItemGrillaInsumos";
 import { useState } from "react";
 import { Edit } from "@mui/icons-material";
 import AgregarInsumoModal from "./AgregarInsumoModal";
-import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
 import { localSession } from "../../../../servicios/localSession";
 
 interface GrillaProps {
   busqueda: string;
 }
 export default function GrillaInsumos({ busqueda }: GrillaProps) {
-  const token = getTokenAuth0();
-  const { data: insumos } = getInsumosPorSucursal(token,localSession.getSucursal('sucursal').id);
+  const { data: insumos,isLoading,error } = getInsumosPorSucursal(localSession.getSucursal('sucursal').id);
   const [editingInsumo, setEditingInsumo] = useState<ArticuloInsumo | null>(null);
   const [openEditar, setOpenEditar] = useState(false);
   const [showLowStock, setShowLowStock] = useState(false);
 
+  if(isLoading){
+    return(
+      <CircularProgress />
+    )
+  }
+  if(error){
+    return(
+      <h1>Ocurrio un error al cargar los insumos</h1>
+    )
+  }
+  console.log(insumos)
   const handleOpenEditar = (insumo: ArticuloInsumo) => {
     setEditingInsumo(insumo);
     setOpenEditar(true);
@@ -41,7 +50,7 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
 
   const insumosFiltrados = insumos?.filter((item: ArticuloInsumo) => {
     const matchesSearch = busqueda === "" || item.denominacion.toLowerCase().includes(busqueda.toLowerCase());
-    const matchesLowStock = !showLowStock || item.stockActual < item.stockMinimo;
+    const matchesLowStock = !showLowStock || item.stocksInsumo[0].stockActual < item.stocksInsumo[0].stockMinimo;
     return matchesSearch && matchesLowStock;
   });
 
@@ -63,7 +72,7 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
                   stocksInsumo[0].stockActual + " " + item.unidadMedida.denominacion.toLowerCase()}
               precioCompra={"Precio de compra: $" + item.precioCompra}
               urlImagen={item.imagenes[0].url}
-              isLowStock={item.stockActual < item.stockMinimo}
+              isLowStock={item.stocksInsumo[0].stockActual < item.stocksInsumo[0].stockMinimo+5}
             >
               <Button size="small" variant="contained" startIcon={<Edit />} onClick={() => handleOpenEditar(item)}>Ver Info / Editar</Button>
             </ItemGrillaInsumos>

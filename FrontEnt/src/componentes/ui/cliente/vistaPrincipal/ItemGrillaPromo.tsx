@@ -20,6 +20,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import getHora from "../../../../hooks/getHora";
 import Pedido from "../../../../entidades/Pedido";
 import { verificarStockPromo } from "../../../../servicios/PedidoService";
+
 import Sucursal from "../../../../entidades/Sucursal.ts";
 import {localSession} from "../../../../servicios/localSession.ts";
 
@@ -63,6 +64,8 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     pedido.factura=null;
     pedido.sucursal=sucursal;
     pedido.detallePedidos=carrito;
+    console.log(JSON.stringify(pedido));
+    console.log(item.id);
     if(await verificarStockPromo(item.id, pedido)){
       addPromoCarrito(item);
     }else{
