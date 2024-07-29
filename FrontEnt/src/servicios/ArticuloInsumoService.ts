@@ -30,24 +30,35 @@ export function getInsumosPorSucursal(idSucursal: number) {
   );
 }
 
-export function getAllArticuloInsumoElab(): SWRResponse<
+export function getAllArticuloInsumoElab(idSucursal: number): SWRResponse<
   ArticuloInsumo[],
   any,
   any
 > {
   return useSWR<ArticuloInsumo[]>(
-    `https://traza-ending.onrender.com/articuloInsumo/elaborados`,
+    `https://traza-ending.onrender.com/articuloInsumo/elaborados/sucursal/${idSucursal}`,
     fetcher
   );
 }
 
-export function getAllArticuloInsumoNoElabPorSucursal(id:number): SWRResponse<
+export function getAllArticuloInsumoNoElab(idSucursal: number): SWRResponse<
   ArticuloInsumo[],
   any,
   any
 > {
   return useSWR<ArticuloInsumo[]>(
-    `https://traza-ending.onrender.com/articuloInsumo/noElaborados/sucursal/${id}`,
+    `https://traza-ending.onrender.com/articuloInsumo/noElaborados/sucursal/${idSucursal}`,
+    fetcher
+  );
+}
+
+export function getArticuloInsumoNoElabIdSucursal(idSucursal: number): SWRResponse<
+  ArticuloInsumo[],
+  any,
+  any
+> {
+  return useSWR<ArticuloInsumo[]>(
+    `https://traza-ending.onrender.com/articuloInsumo/noElaborados/sucursal/${idSucursal}`,
     fetcher
   );
 }

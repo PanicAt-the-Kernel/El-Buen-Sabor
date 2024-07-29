@@ -4,6 +4,7 @@ import PromocionDetalle from "../../../../entidades/PromocionDetalle";
 import { getAllArticulosManufacturados } from "../../../../servicios/ArticuloManufacturadoService";
 import { getAllArticuloInsumoNoElab } from "../../../../servicios/ArticuloInsumoService";
 import Articulo from "../../../../entidades/Articulo";
+import {localSession} from "../../../../servicios/localSession.ts";
 
 interface AgregarArticuloModalProps {
   open: boolean;
@@ -20,7 +21,7 @@ function AgregarArticuloModal({
 }: AgregarArticuloModalProps) {
   const [selectedArticulos, setSelectedArticulos] = useState<PromocionDetalle[]>([]);
   const { data: articulos } = getAllArticulosManufacturados();
-  const { data: insumosNoElab } = getAllArticuloInsumoNoElab();
+  const { data: insumosNoElab } = getAllArticuloInsumoNoElab(localSession.getSucursal("sucursal").id);
   const articulosCombinados = [...(articulos || []), ...(insumosNoElab || [])];
   const detallesActivos = filasActuales.filter(fila => fila.eliminado === false);
   const articulosSinActivos = articulosCombinados.filter(articulo => !detallesActivos.map(fila => fila.articulo.id).includes(articulo.id)); //No mostrar artículos activos
