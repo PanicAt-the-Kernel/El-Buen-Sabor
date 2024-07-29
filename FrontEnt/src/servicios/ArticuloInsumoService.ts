@@ -41,13 +41,13 @@ export function getAllArticuloInsumoElab(): SWRResponse<
   );
 }
 
-export function getAllArticuloInsumoNoElab(): SWRResponse<
+export function getAllArticuloInsumoNoElabPorSucursal(id:number): SWRResponse<
   ArticuloInsumo[],
   any,
   any
 > {
   return useSWR<ArticuloInsumo[]>(
-    `https://traza-ending.onrender.com/articuloInsumo/noElaborados`,
+    `https://traza-ending.onrender.com/articuloInsumo/noElaborados/sucursal/${id}`,
     fetcher
   );
 }

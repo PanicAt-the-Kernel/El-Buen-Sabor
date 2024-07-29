@@ -4,7 +4,7 @@ import GrillaProductos from "./GrillaProductos";
 import GrillaPromo from "./GrillaPromo";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
-import { getAllArticuloInsumoNoElab } from "../../../../servicios/ArticuloInsumoService";
+import { getAllArticuloInsumoNoElabPorSucursal } from "../../../../servicios/ArticuloInsumoService";
 import { getArticulosManufacturadosIdSucursal } from "../../../../servicios/ArticuloManufacturadoService";
 import { getPromocionesIdSucursal } from "../../../../servicios/PromocionService";
 import { localSession } from "../../../../servicios/localSession";
@@ -45,7 +45,7 @@ export default function TabsCategorias() {
   const [value, setValue] = React.useState(0);
   const idSucursal = localSession.getSucursal("sucursal").id;
   const { data: articulos, isLoading, error } = getArticulosManufacturadosIdSucursal(idSucursal);
-  const { data: insumosNoElab } = getAllArticuloInsumoNoElab();
+  const { data: insumosNoElab } = getAllArticuloInsumoNoElabPorSucursal(idSucursal);
   const { data: promociones } = getPromocionesIdSucursal(idSucursal);
 
   if (error)
