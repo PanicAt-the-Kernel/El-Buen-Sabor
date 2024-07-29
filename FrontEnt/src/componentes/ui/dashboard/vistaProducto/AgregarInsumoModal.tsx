@@ -3,6 +3,7 @@ import { Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableCo
 import ArticuloManufacturadoDetalle from '../../../../entidades/ArticuloManufacturadoDetalle';
 import { getAllArticuloInsumoElab } from '../../../../servicios/ArticuloInsumoService';
 import ArticuloInsumo from '../../../../entidades/ArticuloInsumo';
+import {localSession} from "../../../../servicios/localSession.ts";
 
 interface AgregarInsumoModalProps {
     open: boolean;
@@ -13,7 +14,7 @@ interface AgregarInsumoModalProps {
 
 function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarInsumoModalProps) {
     const [selectedInsumos, setSelectedInsumos] = useState<ArticuloManufacturadoDetalle[]>([]);
-    const { data: articulosDatos } = getAllArticuloInsumoElab();
+    const { data: articulosDatos } = getAllArticuloInsumoElab(localSession.getSucursal("sucursal").id);
     const [nombreArticulo, setNombreArticulo] = useState<string>('');
     //const [nombreCategoria, setNombreCategoria] = useState<string>('');
 
