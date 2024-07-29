@@ -80,8 +80,10 @@ export async function actualizarEstadoPedido(id: number, estado: string) {
       }
       if(estado=="PAGO_REALIZADO" || estado=="PAGO_RECHAZADO"){
         console.log("Pedido actualizado correctamente.")
+      }else{
+        alert("Pedido actualizado correctamente.");
       }
-      alert("Pedido actualizado correctamente.");
+      
     } else {
       alert("Error al actualizar pedido: " + response.status);
     }

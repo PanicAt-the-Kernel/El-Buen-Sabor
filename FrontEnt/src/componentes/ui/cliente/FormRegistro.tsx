@@ -157,7 +157,6 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   sx={vistaEscritorio ? { width: 350 } : {}}
                   inputProps={{
                     maxLength:30,
-                    pattern:"^[A-Za-z\s]{0,30}$"
                   }}
                 />
                 <TextField
@@ -168,7 +167,6 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   sx={vistaEscritorio ? { width: 350 } : {}}
                   inputProps={{
                     maxLength:30,
-                    pattern:"^[A-Za-z\s]{0,30}$"
                   }}
                 />
                 <TextField
@@ -240,7 +238,6 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   onChange={(e) => setCalle(e.target.value)}
                   inputProps={{
                     maxLength:30,
-                    pattern:"^[A-Za-z\s]{0,30}$"
                   }}
                 />
                 <TextField
