@@ -44,6 +44,9 @@ export default function ItemGrillaPedido({ pedidoObj,mutador }: ItemGrillaPedido
         <Typography>
           Estado Pedido: {pedidoObj.estado}
         </Typography>
+        <Typography>
+          Tipo Entrega: {pedidoObj.tipoEnvio}
+        </Typography>
       </CardContent>
       <CardActions>
         <Stack direction="row" alignItems="center">
@@ -77,18 +80,12 @@ export default function ItemGrillaPedido({ pedidoObj,mutador }: ItemGrillaPedido
            <Button size="medium" variant="contained" color="primary" onClick={async () =>  {await actualizarEstadoPedido(pedidoObj.id, "FACTURADO"); mutador()}}>
               Facturar
             </Button>
-            <Button onClick={() => actualizarEstadoPedido(pedidoObj.id, "RECHAZADO")}>
-              RECHAZAR
-            </Button>
           </ButtonGroup>
           )}
           {((userRoles.includes("ADMIN") || userRoles.includes("COCINERO")) && pedidoObj.estado === "APROBADO") && (
              <ButtonGroup size="medium" variant="contained" color="primary">
              <Button style={{ marginRight: 2 }} onClick={async () => {await actualizarEstadoPedido(pedidoObj.id, "TERMINADO"); mutador()}}>
                Listo
-             </Button>
-             <Button onClick={async () => {await actualizarEstadoPedido(pedidoObj.id, "RECHAZADO"); mutador();}}>
-               RECHAZAR
              </Button>
            </ButtonGroup>
           )}
@@ -100,6 +97,17 @@ export default function ItemGrillaPedido({ pedidoObj,mutador }: ItemGrillaPedido
                </Button>
                 </a>
            )}
+
+          {pedidoObj.estado === "PAGO_REALIZADO" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
+              <ButtonGroup size="medium" variant="contained" color="primary">
+                <Button style={{ marginRight: 2 }} onClick={async () => {await actualizarEstadoPedido(pedidoObj.id, "APROBADO"); mutador()}}>
+                  APROBAR
+                </Button>
+                <Button onClick={() => actualizarEstadoPedido(pedidoObj.id, "RECHAZADO")}>
+                  RECHAZAR
+                </Button>
+              </ButtonGroup>
+          )}
 
           <ModalPedidos open={open} setOpen={setOpen} pedido={pedidoObj} />
         </Stack>
