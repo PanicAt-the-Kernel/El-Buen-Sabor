@@ -1,27 +1,35 @@
 import { Paper, Grid, Box, Typography, useTheme } from "@mui/material";
 import ItemAlerta from "./ItemAlerta";
-import { getAllInsumos } from "../../../../servicios/ArticuloInsumoService";
+import {getInsumosPorSucursal} from "../../../../servicios/ArticuloInsumoService";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import { controlNivelStockInsumo } from "../../../../servicios/FuncionesControl";
-import getTokenAuth0 from "../../../../hooks/getTokenAuth0";
+import {localSession} from "../../../../servicios/localSession.ts";
 
 function AlertaHolder() {
   const basil = useTheme();
-  const token=getTokenAuth0();
-  const { data,isLoading,error } = getAllInsumos(token);
+  const { data,isLoading,error } = getInsumosPorSucursal(localSession.getSucursal("sucursal").id);
   if(error){
     return(<h1>Ocurrio un error al obtener los datos</h1>)
   }
   if(isLoading){
     return(<h1>Obteniendo datos...</h1>)
   }
+
+    const insumosFiltradosConStock = data.map(insumo => {
+        const stockFiltrado = insumo.stocksInsumo.find(stock => stock.sucursal.id === localSession.getSucursal('sucursal').id);
+
+        return {
+            ...insumo,
+            stocksInsumo: stockFiltrado ? [stockFiltrado] : [] // Retorna un array con el stock filtrado o vacío si no se encuentra
+        };
+    });
   return (
     <Box component="div" sx={{width:430}}>
       <Typography variant="h5" sx={{ textAlign: "center" }}>
         Listado de Insumos con Bajo Stock
       </Typography>
       <Grid container spacing={1} >
-        {data?.map((item: ArticuloInsumo) => {
+        {insumosFiltradosConStock?.map((item: ArticuloInsumo) => {
           switch (controlNivelStockInsumo(item)) {
             case 1:
               return (

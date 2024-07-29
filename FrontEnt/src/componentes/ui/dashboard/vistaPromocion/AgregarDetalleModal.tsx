@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Modal, Box, Typography, TextField, Table, TableBody, TableCell, TableContainer, TableRow, Checkbox, Button, Paper } from "@mui/material";
 import PromocionDetalle from "../../../../entidades/PromocionDetalle";
-import { getAllArticulosManufacturados } from "../../../../servicios/ArticuloManufacturadoService";
+import {
+  getArticulosManufacturadosIdSucursal
+} from "../../../../servicios/ArticuloManufacturadoService";
 import { getAllArticuloInsumoNoElab } from "../../../../servicios/ArticuloInsumoService";
 import Articulo from "../../../../entidades/Articulo";
 import {localSession} from "../../../../servicios/localSession.ts";
@@ -20,7 +22,7 @@ function AgregarArticuloModal({
   filasActuales,
 }: AgregarArticuloModalProps) {
   const [selectedArticulos, setSelectedArticulos] = useState<PromocionDetalle[]>([]);
-  const { data: articulos } = getAllArticulosManufacturados();
+  const { data: articulos } = getArticulosManufacturadosIdSucursal(localSession.getSucursal("sucursal").id);
   const { data: insumosNoElab } = getAllArticuloInsumoNoElab(localSession.getSucursal("sucursal").id);
   const articulosCombinados = [...(articulos || []), ...(insumosNoElab || [])];
   const detallesActivos = filasActuales.filter(fila => fila.eliminado === false);

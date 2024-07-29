@@ -78,6 +78,7 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
       promocionDetalles: tablaDetalle,
     };
 
+    console.log(updatedPromocion)
     onSubmit(updatedPromocion);
   };
 
@@ -311,6 +312,7 @@ function AgregarPromocionModal({ open, onClose, onSubmit, iPromocion }: AgregarP
                             type="number"
                             value={fila.cantidad}
                             inputProps={{ min: "1", step: '1' }}
+                            required={true}
                             onChange={(e) => {
                               setTablaDetalle((prevTablaDetalle) => {
                                 return prevTablaDetalle.map((item) =>
