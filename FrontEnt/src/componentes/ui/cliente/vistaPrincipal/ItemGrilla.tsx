@@ -61,7 +61,7 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     pedido.domicilio=null;
     pedido.empleado=null;
     pedido.factura=null;
-    pedido.sucursal=localSession.getSucursal("sucursal");
+    pedido.sucursal=sucursal;
     
     if(carrito.length==0){
       //@ts-ignore
@@ -69,7 +69,6 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     }else{
       pedido.detallePedidos=carrito;
     }
-
     if(await verificarStockArticulo(item.id, pedido)){
       addArticuloCarrito(item);
     }else{

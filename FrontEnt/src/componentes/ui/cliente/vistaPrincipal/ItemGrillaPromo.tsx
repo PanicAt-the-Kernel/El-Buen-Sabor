@@ -63,9 +63,12 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     pedido.empleado=null;
     pedido.factura=null;
     pedido.sucursal=sucursal;
-    pedido.detallePedidos=carrito;
-    console.log(JSON.stringify(pedido));
-    console.log(item.id);
+    if(carrito.length==0){
+      //@ts-ignore
+      pedido.detallePedidos=[new DetallePedido()]
+    }else{
+      pedido.detallePedidos=carrito;
+    }
     if(await verificarStockPromo(item.id, pedido)){
       addPromoCarrito(item);
     }else{

@@ -13,6 +13,7 @@ import DetallePedido from "../../../../entidades/DetallePedido";
 import { Link } from "react-router-dom";
 import Pedido from "../../../../entidades/Pedido";
 import { verificarStockArticulo, verificarStockPromo } from "../../../../servicios/PedidoService";
+import { localSession } from "../../../../servicios/localSession";
 
 interface DrawerTypes {
   estado: boolean;
@@ -21,7 +22,6 @@ interface DrawerTypes {
 
 export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
   const { carrito, vaciarCarrito, totalPedido, addArticuloCarrito, removeArticuloCarrito, addPromoCarrito, removePromoCarrito, totalEnvio } = useContext(CarritoContext);
-  
   const verificarStock = async (item: DetallePedido) => {
     if(item.articuloAux){
       let pedido = new Pedido();
@@ -34,8 +34,13 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
       pedido.domicilio=null;
       pedido.empleado=null;
       pedido.factura=null;
-      pedido.sucursal=null;
-      pedido.detallePedidos=carrito;
+      pedido.sucursal=localSession.getSucursal("sucursal");
+      if(carrito.length==0){
+         //@ts-ignore
+        pedido.detallePedidos=[new DetallePedido()]
+      }else{
+        pedido.detallePedidos=carrito;
+      }
       if(await verificarStockArticulo(item.articuloAux.id, pedido)){
         addArticuloCarrito(item.articuloAux!);
       }else{
@@ -52,8 +57,13 @@ export default function SidebarCarrito({ estado, setEstado }: DrawerTypes) {
       pedido.domicilio=null;
       pedido.empleado=null;
       pedido.factura=null;
-      pedido.sucursal=null;
-      pedido.detallePedidos=carrito;
+      pedido.sucursal=localSession.getSucursal("sucursal");
+      if(carrito.length==0){
+        //@ts-ignore
+       pedido.detallePedidos=[new DetallePedido()]
+     }else{
+       pedido.detallePedidos=carrito;
+     }
       if(await verificarStockPromo(item.promocionAux?.id!, pedido)){
         addPromoCarrito(item.promocionAux!);
       }else{
