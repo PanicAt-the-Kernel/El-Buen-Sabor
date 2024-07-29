@@ -68,10 +68,6 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
 
   return (
     <>
-    <FormControlLabel
-        control={<Checkbox checked={showLowStock} onChange={handleCheckboxChange} />}
-        label="Insumos con stock bajo"
-      />
       <Grid container sx={{ marginTop: 2 }} spacing={1}>
         {insumosFiltradosConStock?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
           .map((item: ArticuloInsumo) => (

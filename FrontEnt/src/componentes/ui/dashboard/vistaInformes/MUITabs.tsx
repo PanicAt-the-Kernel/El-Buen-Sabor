@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import { useState } from "react";
+import {localSession} from "../../../../servicios/localSession.ts";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -112,7 +113,7 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://traza-ending.onrender.com/estadisticas/excelIMensual`
+                    `https://traza-ending.onrender.com/estadisticas/excelIMensual/${localSession.getSucursal("sucursal").id}?`
                   )
                 }
                 method="GET"
@@ -131,7 +132,7 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://traza-ending.onrender.com/estadisticas/excelIDiario`
+                    `https://traza-ending.onrender.com/estadisticas/excelIDiario/${localSession.getSucursal("sucursal").id}?`
                   )
                 }
                 method="GET"
@@ -150,7 +151,7 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://traza-ending.onrender.com/estadisticas/excelRanking`
+                    `https://traza-ending.onrender.com/estadisticas/excelRanking/${localSession.getSucursal("sucursal").id}?`
                   )
                 }
                 method="GET"
@@ -169,7 +170,7 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://traza-ending.onrender.com/estadisticas/excelPedidos`
+                    `https://traza-ending.onrender.com/estadisticas/excelPedidos/${localSession.getSucursal("sucursal").id}?`
                   )
                 }
                 method="GET"
@@ -188,7 +189,7 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://traza-ending.onrender.com/estadisticas/excelGanancias`
+                    `https://traza-ending.onrender.com/estadisticas/costosGanancias/${localSession.getSucursal("sucursal").id}?`
                   )
                 }
                 method="GET"

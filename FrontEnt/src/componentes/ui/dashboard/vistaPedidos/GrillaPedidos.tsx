@@ -83,7 +83,8 @@ export default function GrillaPedidos() {
             if (
               item.estado === "PENDIENTE" ||
               item.estado === "TERMINADO" ||
-              item.estado === "DELIVERY"
+              item.estado === "DELIVERY" || 
+              item.estado === "PAGO_REALIZADO"
             ) {
               return (
                 <Grid item key={item.id}>
