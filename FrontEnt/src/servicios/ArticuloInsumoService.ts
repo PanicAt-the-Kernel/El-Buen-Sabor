@@ -52,6 +52,17 @@ export function getAllArticuloInsumoNoElab(): SWRResponse<
   );
 }
 
+export function getArticuloInsumoNoElabIdSucursal(idSucursal: number): SWRResponse<
+  ArticuloInsumo[],
+  any,
+  any
+> {
+  return useSWR<ArticuloInsumo[]>(
+    `https://traza-ending.onrender.com/articuloInsumo/noElaborados/sucursal/${idSucursal}`,
+    fetcher
+  );
+}
+
 export async function saveArticuloInsumo(articulo: ArticuloInsumo) {
   //Preparar llamada api
   let options = {
