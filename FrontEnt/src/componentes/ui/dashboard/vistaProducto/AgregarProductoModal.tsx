@@ -110,7 +110,7 @@ function AgregarProductoModal({
   }
 
   const handleSubmitModal = (nuevosInsumos: ArticuloManufacturadoDetalle[]) => {
-    setTablaDetalle([...tablaDetalle, ...nuevosInsumos]);
+    setTablaDetalle(nuevosInsumos);
     setOpenInsumos(false);
   };
 
@@ -165,14 +165,7 @@ function AgregarProductoModal({
     setOpenSnackbar(false);
   };
 
-    const handleQuantityChange = (index:number, newQuantity:string) => {
-      const newTablaDetalle = [...tablaDetalle];
-      newTablaDetalle[index] = {
-        ...newTablaDetalle[index],
-        cantidad: parseFloat(newQuantity),
-      };
-      setTablaDetalle(newTablaDetalle);
-    };
+
 
 
     return (
@@ -407,7 +400,7 @@ function AgregarProductoModal({
                               b.articuloInsumo.denominacion
                           )
                       )
-                      .map((fila, index) => (
+                      .map((fila) => (
                           <TableRow key={fila.articuloInsumo.id}>
                             <TableCell>
                               {fila.articuloInsumo.denominacion +
@@ -420,8 +413,15 @@ function AgregarProductoModal({
                                   type="number"
                                   value={fila.cantidad}
                                   inputProps={{ min: 0.01, step: 0.01 }}
-                                  onChange={(e) => handleQuantityChange(index, e.target.value)}
-                              />
+                                  onChange={(e) => {
+                                    setTablaDetalle((prevTablaDetalle) => {
+                                      return prevTablaDetalle.map((item) =>
+                                          item.articuloInsumo.id === fila.articuloInsumo.id
+                                              ? { ...item, cantidad: parseFloat(e.target.value) }
+                                              : item
+                                      );
+                                    });
+                                  }}                              />
                             </TableCell>
                             <TableCell>
                               <Button
