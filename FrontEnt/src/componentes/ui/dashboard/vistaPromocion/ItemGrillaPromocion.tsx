@@ -32,7 +32,7 @@ export default function ItemGrillaPromocion({ item, children }: ItemGrillaPromoc
             {item.denominacion}
           </Typography>
           <Stack direction="column" spacing={1} sx={{ marginBottom: 3 }}>
-            <Typography color="text.secondary">{item.denominacion}</Typography>
+            <Typography color="text.secondary">{item.descripcionDescuento}</Typography>
           </Stack>
           <Stack direction="column">
             <Typography variant="body1">Precio Especial: ${item.precioPromocional}</Typography>

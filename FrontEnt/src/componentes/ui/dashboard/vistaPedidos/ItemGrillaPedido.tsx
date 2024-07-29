@@ -53,7 +53,7 @@ export default function ItemGrillaPedido({ pedidoObj,mutador }: ItemGrillaPedido
           <Button style={{ marginRight: '10px' }} size="medium" variant="contained" color="info" startIcon={<Info />} onClick={() => setOpen(!open)}>
             Mas Datos
           </Button>
-          {pedidoObj.estado === "PENDIENTE" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
+          {(pedidoObj.estado === "PENDIENTE" || pedidoObj.estado === "PAGO_REALIZADO" )&& (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
             <ButtonGroup size="medium" variant="contained" color="primary">
               <Button style={{ marginRight: 2 }} onClick={async () => {await actualizarEstadoPedido(pedidoObj.id, "APROBADO"); mutador()}}>
                 APROBAR
@@ -98,16 +98,7 @@ export default function ItemGrillaPedido({ pedidoObj,mutador }: ItemGrillaPedido
                 </a>
            )}
 
-          {pedidoObj.estado === "PAGO_REALIZADO" && (userRoles.includes("ADMIN") || userRoles.includes("CAJERO")) && (
-              <ButtonGroup size="medium" variant="contained" color="primary">
-                <Button style={{ marginRight: 2 }} onClick={async () => {await actualizarEstadoPedido(pedidoObj.id, "APROBADO"); mutador()}}>
-                  APROBAR
-                </Button>
-                <Button onClick={() => actualizarEstadoPedido(pedidoObj.id, "RECHAZADO")}>
-                  RECHAZAR
-                </Button>
-              </ButtonGroup>
-          )}
+
 
           <ModalPedidos open={open} setOpen={setOpen} pedido={pedidoObj} />
         </Stack>
