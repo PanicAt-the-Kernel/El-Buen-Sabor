@@ -64,7 +64,6 @@ export default function VistaPedidoCliente() {
         await savePedido(datosPedido, setTotalPedido, vaciarCarrito, 0);
         window.location.replace("/cliente/pedidos");
       } else {
-        console.log("LLAMADA MERCADO PAGO Y RETIRO POR SUCURSAL");
         //HACER POST Y LLAMAR MERCADOPAGO
         datosPedido = {
           ...datosPedido,
@@ -92,35 +91,41 @@ export default function VistaPedidoCliente() {
         }
       }
     } else {
-      //POST CON DOMICILIO
-      const domi=cliente.domicilios.find((item:Domicilio)=>item.id==domicilio);
-      datosPedido = {
-        ...datosPedido,
-        total: totalPedido,
-        tipoEnvio: metodoEntrega,
-        formaPago: metodoPago,
-        domicilio: domi!,
-      };
-      //HACER POST
-      let pedidoID = await savePedido(
-        datosPedido,
-        setTotalPedido,
-        vaciarCarrito,
-        20
-      );
-      if (pedidoID != undefined) {
-        let idMP = await llamarMercadoPago(pedidoID);
-        if (idMP != undefined) {
-          setPreference(idMP);
-          setOpen(!open);
+      if (domicilio != 0) {
+        //POST CON DOMICILIO
+        const domi = cliente.domicilios.find(
+          (item: Domicilio) => item.id == domicilio
+        );
+        datosPedido = {
+          ...datosPedido,
+          total: totalPedido,
+          tipoEnvio: metodoEntrega,
+          formaPago: metodoPago,
+          domicilio: domi!,
+        };
+        //HACER POST
+        let pedidoID = await savePedido(
+          datosPedido,
+          setTotalPedido,
+          vaciarCarrito,
+          20
+        );
+        if (pedidoID != undefined) {
+          let idMP = await llamarMercadoPago(pedidoID);
+          if (idMP != undefined) {
+            setPreference(idMP);
+            setOpen(!open);
+          } else {
+            return;
+          }
         } else {
+          alert("Debes seleccionar un domicilio");
           return;
         }
       }else{
-        alert("Debes seleccionar un domicilio")
+        alert("Debes seleccionar un domicilio");
         return;
       }
-      
     }
   };
 
@@ -206,7 +211,11 @@ export default function VistaPedidoCliente() {
             {generarBoton()}
           </Stack>
         </Paper>
-        <ModalMercadoPago preferenceID={preference} open={open} setOpen={()=>{}}/>
+        <ModalMercadoPago
+          preferenceID={preference}
+          open={open}
+          setOpen={() => {}}
+        />
       </Container>
     </ClienteLayout>
   );

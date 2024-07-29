@@ -11,7 +11,7 @@ export default function MercadoPagoPending() {
   const {id}=useParams();
   useEffect(()=>{
     actualizarEstadoPedido(Number(id),"PAGO_RECHAZADO");
-  })
+  },[])
   
   return (
     <ClienteLayout>

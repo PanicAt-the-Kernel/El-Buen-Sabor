@@ -17,7 +17,7 @@ export default function MercadoPagoSuccess() {
   const {id}=useParams();
   useEffect(()=>{
     actualizarEstadoPedido(Number(id),"PAGO_REALIZADO");
-  })
+  },[])
   
   return (
     <ClienteLayout>

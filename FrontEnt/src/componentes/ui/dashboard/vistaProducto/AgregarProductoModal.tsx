@@ -165,7 +165,7 @@ function AgregarProductoModal({
     setOpenSnackbar(false);
   };
 
-    const handleQuantityChange = (index, newQuantity) => {
+    const handleQuantityChange = (index:number, newQuantity:string) => {
       const newTablaDetalle = [...tablaDetalle];
       newTablaDetalle[index] = {
         ...newTablaDetalle[index],
