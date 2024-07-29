@@ -18,43 +18,58 @@ function AgregarInsumoModal({ open, onClose, onSubmit, filasActuales }: AgregarI
     const [nombreArticulo, setNombreArticulo] = useState<string>('');
     //const [nombreCategoria, setNombreCategoria] = useState<string>('');
 
+    const detallesActivos = filasActuales.filter(fila => fila.eliminado === false);
+    const articulosSinActivos = articulosDatos?.filter(articulo => !detallesActivos.map(fila => fila.articuloInsumo.id).includes(articulo.id));
+
     const handleSelectInsumo = (insumo: ArticuloInsumo) => {
-        const isAlreadySelected = filasActuales.some(fila => fila.articuloInsumo.id === insumo.id);
-        const alreadySelectedItem = filasActuales.find(fila => fila.articuloInsumo.id === insumo.id);
+        const estaEliminado = filasActuales.some(
+            (fila) => fila.articuloInsumo.id === insumo.id && fila.eliminado == true
+        );
 
-        if (isAlreadySelected) {
-            if (alreadySelectedItem && !alreadySelectedItem.eliminado) {
-                alert("El articulo ya está agregado.");
-                return;
-            } else if (alreadySelectedItem && alreadySelectedItem.eliminado) {
-                const updatedItem = { ...alreadySelectedItem, eliminado: false, fechaBaja: "9999-12-31" };
-                setSelectedInsumos([...selectedInsumos, updatedItem]);
+        const index = selectedInsumos.findIndex(
+            (selected) => selected.articuloInsumo.id === insumo.id
+        );
+
+        if (index == -1) {
+            if (!estaEliminado) {
+                const nuevoInsumo: ArticuloManufacturadoDetalle = new ArticuloManufacturadoDetalle();
+                nuevoInsumo.articuloInsumo = insumo;
+                nuevoInsumo.fechaBaja = "9999-12-31";
+                nuevoInsumo.cantidad = 1;
+                setSelectedInsumos([...selectedInsumos, nuevoInsumo]);
+            } else {
+                const filaEditada = filasActuales.find((fila) => fila.articuloInsumo.id === insumo.id);
+                if (filaEditada) {
+                    const filaEditadaCopia = { ...filaEditada, eliminado: false, fechaBaja: "9999-12-31" };
+                    setSelectedInsumos([...selectedInsumos, filaEditadaCopia]);
+                }
             }
-        }
-
-        const index = selectedInsumos.findIndex(selected => selected.articuloInsumo.id === insumo.id);
-        if (index !== -1) {
-            setSelectedInsumos(prevState => {
-                const updatedInsumos = [...prevState];
-                updatedInsumos.splice(index, 1);
-                return updatedInsumos;
-            });
         } else {
-            const nuevoInsumo: ArticuloManufacturadoDetalle = new ArticuloManufacturadoDetalle();
-            nuevoInsumo.articuloInsumo = insumo;
-            nuevoInsumo.fechaBaja = "9999-12-31";
-            nuevoInsumo.cantidad = 1;
-            setSelectedInsumos([...selectedInsumos, nuevoInsumo]);
+            setSelectedInsumos((prevState) => {
+                const updatedArticulos = [...prevState];
+                updatedArticulos.splice(index, 1);
+                return updatedArticulos;
+            });
         }
+        console.log("Despues de seleccionar")
+        console.log(selectedInsumos);
+        console.log(filasActuales);
     };
 
     const handleSubmit = () => {
-        onSubmit(selectedInsumos);
+        const selectedIds = selectedInsumos.map((detalle) => detalle.id);
+
+        const filasSinEditar = filasActuales.filter(
+            (detalle) => !selectedIds.includes(detalle.id)
+        );
+
+        const filasFinal = [...filasSinEditar, ...selectedInsumos];
+        onSubmit(filasFinal);
         setSelectedInsumos([]);
         onClose();
     };
 
-    const insumosFiltrados = articulosDatos?.filter((item: ArticuloInsumo) => {
+    const insumosFiltrados = articulosSinActivos?.filter((item: ArticuloInsumo) => {
         return (
             (nombreArticulo === '' || item.denominacion.toLowerCase().includes(nombreArticulo.toLowerCase()))
         );
