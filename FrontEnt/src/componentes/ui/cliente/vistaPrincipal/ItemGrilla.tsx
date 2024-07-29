@@ -64,7 +64,6 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     pedido.sucursal=sucursal;
     
     if(carrito.length==0){
-      //@ts-ignore
       pedido.detallePedidos=[new DetallePedido()]
     }else{
       pedido.detallePedidos=carrito;

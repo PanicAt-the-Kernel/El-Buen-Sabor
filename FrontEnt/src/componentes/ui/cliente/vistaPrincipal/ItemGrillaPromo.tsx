@@ -23,6 +23,7 @@ import { verificarStockPromo } from "../../../../servicios/PedidoService";
 
 import Sucursal from "../../../../entidades/Sucursal.ts";
 import {localSession} from "../../../../servicios/localSession.ts";
+import DetallePedido from "../../../../entidades/DetallePedido.ts";
 
 interface ItemGrillaProductoTypes {
   item: Promocion;
@@ -64,7 +65,6 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
     pedido.factura=null;
     pedido.sucursal=sucursal;
     if(carrito.length==0){
-      //@ts-ignore
       pedido.detallePedidos=[new DetallePedido()]
     }else{
       pedido.detallePedidos=carrito;

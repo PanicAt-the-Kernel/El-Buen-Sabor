@@ -44,14 +44,21 @@ function a11yProps(index: number) {
 export default function TabsCategorias() {
   const [value, setValue] = React.useState(0);
   const idSucursal = localSession.getSucursal("sucursal").id;
-  const { data: articulos, isLoading, error } = getArticulosManufacturadosIdSucursal(idSucursal);
+  const {
+    data: articulos,
+    isLoading,
+    error,
+  } = getArticulosManufacturadosIdSucursal(idSucursal);
   const { data: insumosNoElab } = getArticuloInsumoNoElabIdSucursal(idSucursal);
   const { data: promociones } = getPromocionesIdSucursal(idSucursal);
 
   if (error)
     return (
       <>
-        <h1>Ups! Ocurrio un error al obtener los menús. Reintente nuevamente en unos minutos</h1>
+        <h1>
+          Ups! Ocurrio un error al obtener los menús. Reintente nuevamente en
+          unos minutos
+        </h1>
       </>
     );
   if (isLoading)
@@ -65,9 +72,19 @@ export default function TabsCategorias() {
     setValue(newValue);
   };
 
-  const articulosPorCategoria = new Map<number, ArticuloManufacturado[] | ArticuloInsumo[]>();
+  const promocionesFiltradas = promociones?.filter((promocion) => {
+    const fechaHoy = new Date();
+    const fechaPromo = new Date(promocion.fechaHasta);
+    if (fechaPromo > fechaHoy) {
+      return promocion;
+    }
+  });
+  const articulosPorCategoria = new Map<
+    number,
+    ArticuloManufacturado[] | ArticuloInsumo[]
+  >();
 
-  articulos?.forEach(articulo => {
+  articulos?.forEach((articulo) => {
     const categoriaId = articulo.categoria.id;
 
     if (articulosPorCategoria.has(categoriaId)) {
@@ -78,7 +95,7 @@ export default function TabsCategorias() {
     }
   });
 
-  insumosNoElab?.forEach(articulo => {
+  insumosNoElab?.forEach((articulo) => {
     const categoriaId = articulo.categoria.id;
 
     if (articulosPorCategoria.has(categoriaId)) {
@@ -90,7 +107,6 @@ export default function TabsCategorias() {
   });
 
   if (articulos && insumosNoElab && promociones)
-
     return (
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -102,23 +118,29 @@ export default function TabsCategorias() {
             allowScrollButtonsMobile
           >
             <Tab key={1} label="Promociones" {...a11yProps(1)} />
-            {Array.from(articulosPorCategoria).map(([categoriaId, articulos], index) => (
-              <Tab key={categoriaId} label={`${articulos[0].categoria.denominacion}`} {...a11yProps(index + 1)} />
-            ))}
+            {Array.from(articulosPorCategoria).map(
+              ([categoriaId, articulos], index) => (
+                <Tab
+                  key={categoriaId}
+                  label={`${articulos[0].categoria.denominacion}`}
+                  {...a11yProps(index + 1)}
+                />
+              )
+            )}
           </Tabs>
         </Box>
         <CustomTabPanel key={1} value={value} index={0}>
-          <GrillaPromo
-            key={1}
-            promociones={promociones}
-          />
-          
+          {promocionesFiltradas!=undefined && (
+            <GrillaPromo key={1} promociones={promocionesFiltradas} />
+          )}
         </CustomTabPanel>
-        {Array.from(articulosPorCategoria).map(([categoriaId, articulos], index) => (
-          <CustomTabPanel key={categoriaId} value={value} index={index + 1}>
-            <GrillaProductos key={categoriaId} articulos={articulos} />
-          </CustomTabPanel>
-        ))}
+        {Array.from(articulosPorCategoria).map(
+          ([categoriaId, articulos], index) => (
+            <CustomTabPanel key={categoriaId} value={value} index={index + 1}>
+              <GrillaProductos key={categoriaId} articulos={articulos} />
+            </CustomTabPanel>
+          )
+        )}
       </Box>
     );
 }
