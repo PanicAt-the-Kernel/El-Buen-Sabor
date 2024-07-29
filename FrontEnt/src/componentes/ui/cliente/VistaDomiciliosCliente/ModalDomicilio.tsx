@@ -119,8 +119,7 @@ export default function ModalDomicilio({
                 setDomicilio({ ...domicilio, calle: e.target.value })
               }
               inputProps={{
-                maxLength:30,
-                pattern:"^[A-Za-z\s]{0,30}$"
+                maxLength:30
               }}
             />
             <TextField
@@ -162,6 +161,7 @@ export default function ModalDomicilio({
             <Box component="div" sx={check ? {} : { display: "none" }}>
               <Stack spacing={2}>
                 <TextField
+                  name="NroPiso"
                   label="Numero Piso"
                   required={check}
                   type="number"
@@ -176,6 +176,7 @@ export default function ModalDomicilio({
                   }}
                 />
                 <TextField
+                  name="NroDepto"
                   label="Numero Departamento"
                   required={check}
                   type="number"
@@ -187,7 +188,7 @@ export default function ModalDomicilio({
                     })
                   }
                   inputProps={{
-                    min:1,
+                    min:0,
                     max:99,
                     step:1
                   }}
