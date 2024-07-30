@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import ItemGrilla from "./ItemGrilla";
 import ArticuloInsumo from "../../../../entidades/ArticuloInsumo";
 import ArticuloManufacturado from "../../../../entidades/ArticuloManufacturado";
@@ -10,7 +10,7 @@ interface GrillaProductosProps {
 export default function GrillaProductos({ articulos }: GrillaProductosProps) {
 
   if (articulos.length === 0) {
-    return null;
+    return <Typography>No hay articulos disponibles</Typography>;
   }
 
   return (
