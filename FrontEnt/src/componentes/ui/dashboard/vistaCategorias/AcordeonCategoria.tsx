@@ -20,7 +20,7 @@ interface AcordeonCategoriaTypes {
   categoria: Categoria;
 }
 
-export default function AcordeonCategoria({ categoria,
+export default function AcordeonCategoria({ categoria
 }: AcordeonCategoriaTypes) {
   const { data: subCategorias } = getSubCategoriasPadreIdSucursal(categoria.id, localSession.getSucursal("sucursal").id);
   if (subCategorias) categoria.subCategorias = subCategorias;
@@ -37,9 +37,10 @@ export default function AcordeonCategoria({ categoria,
     setOpenSucursales(false);
   };
 
-  const handleSubmit = (categoria: Categoria) => { 
+  const handleSubmit = async (categoria: Categoria) => { 
     console.log(categoria);
-    editCategoria(categoria);
+    await editCategoria(categoria);
+    window.location.reload();
     handleClose();
   };
 
