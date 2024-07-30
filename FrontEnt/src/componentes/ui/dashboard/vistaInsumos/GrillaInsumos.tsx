@@ -56,7 +56,7 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
     return matchesSearch && matchesLowStock;
   });
 
-
+  //@ts-ignore
   const insumosFiltradosConStock = insumosFiltrados.map(insumo => {
     const stockFiltrado = insumo.stocksInsumo.find(stock => stock.sucursal.id === localSession.getSucursal('sucursal').id);
 
@@ -68,7 +68,7 @@ export default function GrillaInsumos({ busqueda }: GrillaProps) {
 
   return (
     <>
-      <Grid container sx={{ marginTop: 2 }} spacing={1}>
+      <Grid container sx={{ marginTop: 2,overflow:"hidden",maxHeight:640,overflowY:"scroll" }} spacing={1}>
         {insumosFiltradosConStock?.sort((a, b) => a.denominacion.localeCompare(b.denominacion))
           .map((item: ArticuloInsumo) => (
             <ItemGrillaInsumos

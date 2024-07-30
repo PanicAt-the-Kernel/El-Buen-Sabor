@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Promocion from "../../../../entidades/Promocion";
 import ItemGrillaPromo from "./ItemGrillaPromo";
 
@@ -9,7 +9,7 @@ interface GrillaProductosProps {
 export default function GrillaProductos({ promociones }: GrillaProductosProps) {
 
   if (promociones.length === 0) {
-    return null;
+    return <Typography>No hay promociones disponibles</Typography>;
   }
 
   return (
