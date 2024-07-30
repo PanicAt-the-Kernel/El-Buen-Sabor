@@ -37,7 +37,6 @@ export async function saveCliente(cliente: Cliente) {
     },
     body: JSON.stringify(cliente),
   };
-  console.log(options.body);
   try {
     let response = await fetch(
       "https://traza-ending.onrender.com/cliente",
