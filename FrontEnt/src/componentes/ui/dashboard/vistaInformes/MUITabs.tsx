@@ -189,7 +189,7 @@ export default function MUITabs() {
                 onSubmit={(e) =>
                   onSubmit(
                     e,
-                    `https://traza-ending.onrender.com/estadisticas/costosGanancias/${localSession.getSucursal("sucursal").id}?`
+                    `https://traza-ending.onrender.com/estadisticas/excelGanancias/${localSession.getSucursal("sucursal").id}?`
                   )
                 }
                 method="GET"

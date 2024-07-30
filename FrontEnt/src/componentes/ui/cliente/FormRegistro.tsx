@@ -156,7 +156,7 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   onChange={(e) => setNombre(e.target.value)}
                   sx={vistaEscritorio ? { width: 350 } : {}}
                   inputProps={{
-                    maxLength:30,
+                    maxLength:30
                   }}
                 />
                 <TextField
@@ -166,7 +166,7 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   onChange={(e) => setApellido(e.target.value)}
                   sx={vistaEscritorio ? { width: 350 } : {}}
                   inputProps={{
-                    maxLength:30,
+                    maxLength:30
                   }}
                 />
                 <TextField
@@ -188,7 +188,7 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                     <>
                       <img
                         src={imagen}
-                        alt="imagenEmpleado"
+                        alt="imagenCliente"
                         style={{ maxWidth: 200, maxHeight: 300 }}
                       />
                       <IconButton
@@ -237,7 +237,7 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   value={calle}
                   onChange={(e) => setCalle(e.target.value)}
                   inputProps={{
-                    maxLength:30,
+                    maxLength:30
                   }}
                 />
                 <TextField
@@ -291,7 +291,7 @@ export default function FormRegistro({ userEmail }: FormRegistroTypes) {
                   value={nroDepto}
                   onChange={(e) => setNroDepto(Number(e.target.value))}
                   inputProps={{
-                    min:1,
+                    min:0,
                     max:99,
                     step:1
                   }}

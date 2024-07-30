@@ -29,7 +29,8 @@ export default function ListContainerCliente({
   const clientesFiltrados = clientes?.filter((item: Cliente) => {
     return (
       busqueda == "" ||
-      item.userName.toLowerCase().includes(busqueda.toLowerCase())
+      item.userName.toLowerCase().includes(busqueda.toLowerCase()) ||
+      item.nombre.toLowerCase().includes(busqueda.toLowerCase())
     );
   });
   return (

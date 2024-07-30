@@ -14,7 +14,7 @@ interface ListContainerCategoriaTypes {
 export default function ListContainerCategoria({
   busqueda,
 }: ListContainerCategoriaTypes) {
-  const { data: categoriasSuc } = getCategoriasPadreIdSucursal(localSession.getSucursal("sucursal").id);
+  const { data: categoriasSuc} = getCategoriasPadreIdSucursal(localSession.getSucursal("sucursal").id);
   const { data: allCategorias } = getAllCategoriasPadre();
 
   const categoriasNoSuc = allCategorias?.filter(
