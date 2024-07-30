@@ -79,7 +79,7 @@ function AgregarArticuloModal({
     const selectedIds = selectedArticulos.map((detalle) => detalle.id);
 
     const filasSinEditar = filasActuales.filter(
-      (detalle) => !selectedIds.includes(detalle.id)
+      (detalle) => !selectedIds.includes(detalle.id) || detalle.id === 0
     );
 
     const filasFinal = [...filasSinEditar, ...selectedArticulos];
