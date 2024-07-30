@@ -1,7 +1,7 @@
 import useSWR, { SWRResponse } from "swr";
 import Pedido from "../entidades/Pedido";
 import PreferenceMP from "../entidades/PreferenceMP";
-import {localSession} from "./localSession.ts";
+
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 export function getAllPedidos(): SWRResponse<Pedido[], any, any> {
@@ -17,7 +17,7 @@ export function getPedidosCliente(
 ): SWRResponse<Pedido[], any, any> {
   return useSWR<Pedido[]>(
     `https://traza-ending.onrender.com/pedidos/cliente?userName=${clienteEmail}`,
-    fetcher
+    fetcher,{refreshInterval:7000}
   );
 }
 
@@ -78,10 +78,12 @@ export async function actualizarEstadoPedido(id: number, estado: string) {
       if (estado === "FACTURADO") {
         sendFactura(id);
       }
-      if(estado=="PAGO_REALIZADO" || estado=="PAGO_RECHAZADO"){
+      if(estado==="PAGO_REALIZADO" || estado==="PAGO_RECHAZADO"){
         console.log("Pedido actualizado correctamente.")
+      }else{
+        alert("Pedido actualizado correctamente.");
       }
-      alert("Pedido actualizado correctamente.");
+      
     } else {
       alert("Error al actualizar pedido: " + response.status);
     }

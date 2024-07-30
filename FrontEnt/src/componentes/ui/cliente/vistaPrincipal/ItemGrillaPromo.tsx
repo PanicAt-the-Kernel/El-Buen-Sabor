@@ -93,7 +93,6 @@ export default function ItemGrilla({ item }: ItemGrillaProductoTypes) {
         <Stack spacing={2} alignItems={"center"}>
           <Button
             size="small"
-            //disabled={(usuario == null)}
             variant="contained"
             color="info"
             startIcon={<Info />}
