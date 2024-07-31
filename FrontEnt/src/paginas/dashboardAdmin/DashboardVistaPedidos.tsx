@@ -1,10 +1,10 @@
-import GrillaPedidos from "../../componentes/ui/dashboard/vistaPedidos/GrillaPedidos";
+import BuscarPedido from "../../componentes/ui/dashboard/vistaPedidos/BuscarPedido";
 import DashboardSidebar from "../../layouts/dashboard/DashboardSidebar";
 
 export default function DashboardVistaPedidos(){
     return(
         <DashboardSidebar>
-            <GrillaPedidos />
+            <BuscarPedido />
         </DashboardSidebar>
     )
 }

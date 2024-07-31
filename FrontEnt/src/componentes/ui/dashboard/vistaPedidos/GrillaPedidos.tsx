@@ -4,10 +4,32 @@ import ItemGrillaPedido from "./ItemGrillaPedido";
 import { getPedidosPorSucursal } from "../../../../servicios/PedidoService";
 import { localSession } from "../../../../servicios/localSession";
 
-export default function GrillaPedidos() {
+interface GrillaPedidosTypes {
+  fechaDesde: Date;
+  fechaHasta: Date;
+  estado: string;
+}
+
+export default function GrillaPedidos({
+  fechaDesde,
+  fechaHasta,
+  estado,
+}: GrillaPedidosTypes) {
   const { data, isLoading, error, mutate } = getPedidosPorSucursal(
     localSession.getSucursal("sucursal").id
   );
+
+  const pedidosFiltrados = data?.filter((item) => {
+    return (
+      (estado === "TODOS" ||
+        item.estado?.toLowerCase().includes(estado.toLowerCase())) &&
+      new Date(item.fechaPedido!) >= fechaDesde &&
+      new Date(item.fechaPedido!) <= fechaHasta
+    );
+  });
+
+  const pedidosInvertidos = pedidosFiltrados?.slice().reverse();
+
   const userRoles: string[] = localSession.getRol("userRoles") || [""];
   if (isLoading) {
     return (
@@ -115,12 +137,12 @@ export default function GrillaPedidos() {
   }
   return (
     <Grid container spacing={3} sx={{ marginTop: 3 }}>
-      {data && data.length === 0 ? (
+      {pedidosFiltrados && pedidosFiltrados.length === 0 ? (
         <Grid item xs={12}>
           <p>No hay pedidos que administrar</p>
         </Grid>
       ) : (
-        data?.map((item: Pedido, index: number) => (
+        pedidosInvertidos?.map((item: Pedido, index: number) => (
           <Grid item key={item.id}>
             <ItemGrillaPedido key={index} pedidoObj={item} mutador={mutate} />
           </Grid>
